@@ -6,7 +6,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:columnCount="7"
-        android:rowCount="7">
+        android:rowCount="8">
 
         <ImageButton
             android:id="@+id/imageButton2"
@@ -15,7 +15,7 @@
             android:layout_column="1"
             android:layout_row="1"
             app:srcCompat="@drawable/ic_help_outline_black_36dp"
-            android:tag="1" />
+            android:tag="0" />
 
         <ImageButton
             android:layout_width="50dp"
@@ -24,7 +24,7 @@
             android:layout_row="1"
             android:layout_column="2"
             app:srcCompat="@drawable/ic_help_outline_black_36dp"
-            android:tag="2"/>
+            android:tag="1"/>
 
         <ImageButton
             android:layout_width="50dp"
@@ -33,7 +33,7 @@
             android:layout_row="1"
             android:layout_column="3"
             app:srcCompat="@drawable/ic_help_outline_black_36dp"
-            android:tag="3"/>
+            android:tag="2"/>
 
         <ImageButton
             android:layout_width="50dp"
@@ -42,7 +42,7 @@
             android:layout_row="1"
             android:layout_column="4"
             app:srcCompat="@drawable/ic_help_outline_black_36dp"
-            android:tag="4"/>
+            android:tag="3"/>
 
         <ImageButton
             android:layout_width="50dp"
@@ -51,7 +51,7 @@
             android:layout_row="1"
             android:layout_column="5"
             app:srcCompat="@drawable/ic_help_outline_black_36dp"
-            android:tag="5"/>
+            android:tag="4"/>
 
         <ImageButton
             android:layout_width="50dp"
@@ -60,7 +60,7 @@
             android:layout_row="1"
             android:layout_column="6"
             app:srcCompat="@drawable/ic_help_outline_black_36dp"
-            android:tag="6"/>
+            android:tag="5"/>
 
         <ImageButton
             android:layout_width="50dp"
@@ -69,7 +69,7 @@
             android:layout_row="2"
             android:layout_column="1"
             app:srcCompat="@drawable/ic_help_outline_black_36dp"
-            android:tag="7"/>
+            android:tag="6"/>
 
         <ImageButton
             android:layout_width="50dp"
@@ -78,7 +78,7 @@
             android:layout_row="2"
             android:layout_column="2"
             app:srcCompat="@drawable/ic_help_outline_black_36dp"
-            android:tag="8"/>
+            android:tag="7"/>
 
         <ImageButton
             android:layout_width="50dp"
@@ -87,7 +87,7 @@
             android:layout_row="2"
             android:layout_column="3"
             app:srcCompat="@drawable/ic_help_outline_black_36dp"
-            android:tag="9"/>
+            android:tag="8"/>
 
         <ImageButton
             android:layout_width="50dp"
@@ -96,7 +96,7 @@
             android:layout_row="2"
             android:layout_column="4"
             app:srcCompat="@drawable/ic_help_outline_black_36dp"
-            android:tag="10"/>
+            android:tag="9"/>
 
         <ImageButton
             android:layout_width="50dp"
@@ -105,7 +105,7 @@
             android:layout_row="2"
             android:layout_column="5"
             app:srcCompat="@drawable/ic_help_outline_black_36dp"
-            android:tag="11"/>
+            android:tag="10"/>
 
         <ImageButton
             android:layout_width="50dp"
@@ -114,7 +114,7 @@
             android:layout_row="2"
             android:layout_column="6"
             app:srcCompat="@drawable/ic_help_outline_black_36dp"
-            android:tag="12"/>
+            android:tag="11"/>
 
         <ImageButton
             android:layout_width="50dp"
@@ -123,7 +123,7 @@
             android:layout_row="3"
             android:layout_column="1"
             app:srcCompat="@drawable/ic_help_outline_black_36dp"
-            android:tag="13"/>
+            android:tag="12"/>
 
         <ImageButton
             android:layout_width="50dp"
@@ -132,7 +132,7 @@
             android:layout_row="3"
             android:layout_column="2"
             app:srcCompat="@drawable/ic_help_outline_black_36dp"
-            android:tag="14"/>
+            android:tag="13"/>
 
         <ImageButton
             android:layout_width="50dp"
@@ -141,7 +141,7 @@
             android:layout_row="3"
             android:layout_column="3"
             app:srcCompat="@drawable/ic_help_outline_black_36dp"
-            android:tag="15"/>
+            android:tag="14"/>
 
         <ImageButton
             android:layout_width="50dp"
@@ -150,7 +150,7 @@
             android:layout_row="3"
             android:layout_column="4"
             app:srcCompat="@drawable/ic_help_outline_black_36dp"
-            android:tag="16"/>
+            android:tag="15"/>
 
         <ImageButton
             android:layout_width="50dp"
@@ -159,7 +159,7 @@
             android:layout_row="3"
             android:layout_column="5"
             app:srcCompat="@drawable/ic_help_outline_black_36dp"
-            android:tag="17"/>
+            android:tag="16"/>
 
         <ImageButton
             android:layout_width="50dp"
@@ -168,7 +168,7 @@
             android:layout_row="3"
             android:layout_column="6"
             app:srcCompat="@drawable/ic_help_outline_black_36dp"
-            android:tag="18"/>
+            android:tag="17"/>
 
         <ImageButton
             android:layout_width="50dp"
@@ -177,7 +177,7 @@
             android:layout_row="4"
             android:layout_column="1"
             app:srcCompat="@drawable/ic_help_outline_black_36dp"
-            android:tag="19"/>
+            android:tag="18"/>
 
         <ImageButton
             android:layout_width="50dp"
@@ -186,7 +186,7 @@
             android:layout_row="4"
             android:layout_column="2"
             app:srcCompat="@drawable/ic_help_outline_black_36dp"
-            android:tag="20"/>
+            android:tag="19"/>
 
         <ImageButton
             android:layout_width="50dp"
@@ -195,7 +195,7 @@
             android:layout_row="4"
             android:layout_column="3"
             app:srcCompat="@drawable/ic_help_outline_black_36dp"
-            android:tag="21"/>
+            android:tag="20"/>
 
         <ImageButton
             android:layout_width="50dp"
@@ -204,7 +204,7 @@
             android:layout_row="4"
             android:layout_column="4"
             app:srcCompat="@drawable/ic_help_outline_black_36dp"
-            android:tag="22"/>
+            android:tag="21"/>
 
         <ImageButton
             android:layout_width="50dp"
@@ -213,7 +213,7 @@
             android:layout_row="4"
             android:layout_column="5"
             app:srcCompat="@drawable/ic_help_outline_black_36dp"
-            android:tag="23"/>
+            android:tag="22"/>
 
         <ImageButton
             android:layout_width="50dp"
@@ -222,7 +222,7 @@
             android:layout_row="4"
             android:layout_column="6"
             app:srcCompat="@drawable/ic_help_outline_black_36dp"
-            android:tag="24"/>
+            android:tag="23"/>
 
         <ImageButton
             android:layout_width="50dp"
@@ -231,7 +231,7 @@
             android:layout_row="5"
             android:layout_column="1"
             app:srcCompat="@drawable/ic_help_outline_black_36dp"
-            android:tag="25"/>
+            android:tag="24"/>
 
         <ImageButton
             android:layout_width="50dp"
@@ -240,7 +240,7 @@
             android:layout_row="5"
             android:layout_column="2"
             app:srcCompat="@drawable/ic_help_outline_black_36dp"
-            android:tag="26"/>
+            android:tag="25"/>
 
         <ImageButton
             android:layout_width="50dp"
@@ -249,7 +249,7 @@
             android:layout_row="5"
             android:layout_column="3"
             app:srcCompat="@drawable/ic_help_outline_black_36dp"
-            android:tag="27"/>
+            android:tag="26"/>
 
         <ImageButton
             android:layout_width="50dp"
@@ -258,7 +258,7 @@
             android:layout_row="5"
             android:layout_column="4"
             app:srcCompat="@drawable/ic_help_outline_black_36dp"
-            android:tag="28"/>
+            android:tag="27"/>
 
         <ImageButton
             android:layout_width="50dp"
@@ -267,7 +267,7 @@
             android:layout_row="5"
             android:layout_column="5"
             app:srcCompat="@drawable/ic_help_outline_black_36dp"
-            android:tag="29"/>
+            android:tag="28"/>
 
         <ImageButton
             android:layout_width="50dp"
@@ -276,7 +276,7 @@
             android:layout_row="5"
             android:layout_column="6"
             app:srcCompat="@drawable/ic_help_outline_black_36dp"
-            android:tag="30"/>
+            android:tag="29"/>
 
         <ImageButton
             android:layout_width="50dp"
@@ -285,7 +285,7 @@
             android:layout_row="6"
             android:layout_column="1"
             app:srcCompat="@drawable/ic_help_outline_black_36dp"
-            android:tag="31"/>
+            android:tag="30"/>
 
         <ImageButton
             android:layout_width="50dp"
@@ -294,7 +294,7 @@
             android:layout_row="6"
             android:layout_column="2"
             app:srcCompat="@drawable/ic_help_outline_black_36dp"
-            android:tag="32"/>
+            android:tag="31"/>
 
         <ImageButton
             android:layout_width="50dp"
@@ -303,7 +303,7 @@
             android:layout_row="6"
             android:layout_column="3"
             app:srcCompat="@drawable/ic_help_outline_black_36dp"
-            android:tag="33"/>
+            android:tag="32"/>
 
         <ImageButton
             android:layout_width="50dp"
@@ -312,7 +312,7 @@
             android:layout_row="6"
             android:layout_column="4"
             app:srcCompat="@drawable/ic_help_outline_black_36dp"
-            android:tag="34"/>
+            android:tag="33"/>
 
         <ImageButton
             android:layout_width="50dp"
@@ -321,7 +321,7 @@
             android:layout_row="6"
             android:layout_column="5"
             app:srcCompat="@drawable/ic_help_outline_black_36dp"
-            android:tag="35"/>
+            android:tag="34"/>
 
         <ImageButton
             android:layout_width="50dp"
@@ -330,5 +330,14 @@
             android:layout_row="6"
             android:layout_column="6"
             app:srcCompat="@drawable/ic_help_outline_black_36dp"
-            android:tag="36"/>
-    </GridLayout>
+            android:tag="35"/>
+
+    <TextView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Small Text"
+        android:id="@+id/result"
+        android:layout_row="7"
+        android:layout_column="1" />
+</GridLayout>
