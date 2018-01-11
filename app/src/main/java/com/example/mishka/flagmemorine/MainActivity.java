@@ -1,5 +1,6 @@
 package com.example.mishka.flagmemorine;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,10 +14,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -245,6 +251,26 @@ public class MainActivity extends AppCompatActivity
                         case R.id.imageButton37:
                             Log.d(LOG_TAG, "click imageButton" + view.getId());
                             result.setText(indexCalc(view.getTag().toString()));
+                        case R.id.buttonSend:
+//                            try{
+//                            Log.d(LOG_TAG, "send Get request" + doGet("http://google.com"));}
+//                            catch (Exception e){
+//                                e.printStackTrace();
+//                            }
+                            Log.d(LOG_TAG, "Button send pressed!");
+                            new AsyncTask<Void, String, String>() {
+                                @Override
+                                protected String doInBackground(Void... voids) {
+                                    String s = "";
+                                    try {
+                                        Log.d(LOG_TAG, "send Get request" + doGet(customURL));
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                        Log.d(LOG_TAG, "Exception occured " + e.getMessage());
+                                    }
+                                    return s;
+                                }
+                            }.execute();
                             break;
                     }
                 }
@@ -291,6 +317,8 @@ public class MainActivity extends AppCompatActivity
 //                imageButtonArrayList.add((ImageButton) view.findViewWithTag((Integer) (i + 1)));
 //            }
 //            ImageButton im
+            Button send = (Button) view.findViewById(R.id.buttonSend);
+            send.setOnClickListener(onClickListener);
             for (int i = 0; i < capacity6x6; i++) {
                 imageButtonArrayList.get(i).setOnClickListener(onClickListener);
             }
@@ -335,9 +363,38 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    public String doGet(String url)
+            throws Exception {
+
+        URL obj = new URL(url);
+        HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
+
+        //add reuqest header
+        connection.setRequestMethod("GET");
+        connection.setRequestProperty("User-Agent", "Mozilla/5.0" );
+        connection.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+        connection.setRequestProperty("Content-Type", "application/json");
+
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+
+        while ((inputLine = bufferedReader.readLine()) != null) {
+            response.append(inputLine);
+        }
+        bufferedReader.close();
+
+//      print result
+        Log.d(LOG_TAG,"Response string: " + response.toString());
+
+
+        return response.toString();
+    }
+
     private RelativeLayout relativeLayout;
     private String LOG_TAG = "flagmemorine";
     private ArrayList<ImageButton> imageButtonArrayList;
     private int capacity6x6 = 36;
     private String[][] flags = new String[6][6];
+    private String customURL = "http://google.com";
 }
