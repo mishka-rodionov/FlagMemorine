@@ -1,7 +1,9 @@
 package com.example.mishka.flagmemorine;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -21,12 +23,19 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
+
+import okhttp3.Headers;
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -270,7 +279,20 @@ public class MainActivity extends AppCompatActivity
 //                            }.execute();
 //                            break;
 //                    }
-                    indexCalc(view.getTag().toString());
+//                    indexCalc(view.getTag().toString());
+                    Log.d(LOG_TAG, "press button");
+                        new AsyncTask<Void, String, String>(){
+                            @Override
+                            protected String doInBackground(Void... params) {
+                                try {
+                                    doGet(customURL);
+                                }catch (Exception e){
+                                    e.printStackTrace(System.out);
+                                    Log.d(LOG_TAG, "exception");
+                                }
+                                return null;
+                            }
+                        }.execute();
                 }
             };
             imageButtonArrayList = new ArrayList<>(capacity6x6);
@@ -346,10 +368,10 @@ public class MainActivity extends AppCompatActivity
                 try{
                     if(tag < 6){
                         //            return getFlag(tag/6, tag);
-                        doGet(customURL, Integer.toString(tag/6), Integer.toString(tag));
+//                        doGet(customURL, Integer.toString(tag/6), Integer.toString(tag));
                     } else {
                         //            return getFlag(tag/6, tag%6);
-                        doGet(customURL, Integer.toString(tag/6), Integer.toString(tag%6));
+//                        doGet(customURL, Integer.toString(tag/6), Integer.toString(tag%6));
                     }
                 }catch(Exception e){
                     e.printStackTrace();
@@ -375,38 +397,33 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public String doGet(String url, String rowIndex, String columnIndex)
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    public void doGet(String url/*, String rowIndex, String columnIndex*/)
             throws Exception {
 
-        URL obj = new URL(url);
-        HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
+        HttpUrl httpUrl = new HttpUrl.Builder()
+                .scheme("http")
+                .host(customURL)
+                .port(8080)
+                .addPathSegments("/TestGet/hello")
+                .addQueryParameter("size","2")
+                .build();
 
-        //add reuqest header
-        connection.setRequestMethod("GET");
-        connection.setRequestProperty("User-Agent", "Mozilla/5.0" );
-        connection.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-        connection.setRequestProperty("Content-Type", "application/json");
-        connection.setRequestProperty("row", rowIndex);
-        connection.setRequestProperty("column", columnIndex);
+        Request request = new Request.Builder()
+                .url(httpUrl)
+                .header("User-Agent", "OkHttp Headers.java")
+                .build();
 
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
 
-        Log.d(LOG_TAG, "Send message to " + url);
-        Log.d(LOG_TAG, "Send message to real URL = " + connection.getURL().toString());
+            Headers responseHeaders = response.headers();
+            for (int i = 0; i < responseHeaders.size(); i++) {
+                Log.d(LOG_TAG, responseHeaders.name(i) + ": " + responseHeaders.value(i));
+            }
 
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        String inputLine;
-        StringBuffer response = new StringBuffer();
-
-        while ((inputLine = bufferedReader.readLine()) != null) {
-            response.append(inputLine);
+            Log.d(LOG_TAG, response.body().string());
         }
-        bufferedReader.close();
-
-//      print result
-        Log.d(LOG_TAG,"Response string: " + response.toString());
-
-
-        return response.toString();
     }
 
     private RelativeLayout relativeLayout;
@@ -414,5 +431,6 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<ImageButton> imageButtonArrayList;
     private int capacity6x6 = 36;
     private String[][] flags = new String[6][6];
-    private String customURL = "http://169.254.162.83:8080/TestGet/hello";
+    private String customURL = "82.202.246.170";
+    private final OkHttpClient client = new OkHttpClient();
 }
