@@ -1,5 +1,6 @@
 package com.example.mishka.flagmemorine;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
@@ -107,172 +109,168 @@ public class MainActivity extends AppCompatActivity
             View.OnClickListener onClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    switch(view.getId()){
-                        case R.id.imageButton2:
-                            Log.d(LOG_TAG, "click imageButton" + view.getTag());
-                            result.setText(indexCalc(view.getTag().toString()));
-                            break;
-                        case R.id.imageButton3:
-                            Log.d(LOG_TAG, "click imageButton" + view.getTag());
-                            result.setText(indexCalc(view.getTag().toString()));
-                            break;
-                        case R.id.imageButton4:
-                            Log.d(LOG_TAG, "click imageButton" + view.getTag());
-                            result.setText(indexCalc(view.getTag().toString()));
-                            break;
-                        case R.id.imageButton5:
-                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-                            result.setText(indexCalc(view.getTag().toString()));
-                            break;
-                        case R.id.imageButton6:
-                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-                            result.setText(indexCalc(view.getTag().toString()));
-                            break;
-                        case R.id.imageButton7:
-                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-                            result.setText(indexCalc(view.getTag().toString()));
-                            break;
-                        case R.id.imageButton8:
-                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-                            result.setText(indexCalc(view.getTag().toString()));
-                            break;
-                        case R.id.imageButton9:
-                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-                            result.setText(indexCalc(view.getTag().toString()));
-                            break;
-                        case R.id.imageButton10:
-                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-                            result.setText(indexCalc(view.getTag().toString()));
-                            break;
-                        case R.id.imageButton11:
-                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-                            result.setText(indexCalc(view.getTag().toString()));
-                            break;
-                        case R.id.imageButton12:
-                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-                            result.setText(indexCalc(view.getTag().toString()));
-                            break;
-                        case R.id.imageButton13:
-                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-                            result.setText(indexCalc(view.getTag().toString()));
-                            break;
-                        case R.id.imageButton14:
-                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-                            result.setText(indexCalc(view.getTag().toString()));
-                            break;
-                        case R.id.imageButton15:
-                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-                            result.setText(indexCalc(view.getTag().toString()));
-                            break;
-                        case R.id.imageButton16:
-                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-                            result.setText(indexCalc(view.getTag().toString()));
-                            break;
-                        case R.id.imageButton17:
-                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-                            result.setText(indexCalc(view.getTag().toString()));
-                            break;
-                        case R.id.imageButton18:
-                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-                            result.setText(indexCalc(view.getTag().toString()));
-                            break;
-                        case R.id.imageButton19:
-                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-                            result.setText(indexCalc(view.getTag().toString()));
-                            break;
-                        case R.id.imageButton20:
-                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-                            result.setText(indexCalc(view.getTag().toString()));
-                            break;
-                        case R.id.imageButton21:
-                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-                            result.setText(indexCalc(view.getTag().toString()));
-                            break;
-                        case R.id.imageButton22:
-                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-                            result.setText(indexCalc(view.getTag().toString()));
-                            break;
-                        case R.id.imageButton23:
-                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-                            result.setText(indexCalc(view.getTag().toString()));
-                            break;
-                        case R.id.imageButton24:
-                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-                            result.setText(indexCalc(view.getTag().toString()));
-                            break;
-                        case R.id.imageButton25:
-                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-                            result.setText(indexCalc(view.getTag().toString()));
-                            break;
-                        case R.id.imageButton26:
-                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-                            result.setText(indexCalc(view.getTag().toString()));
-                            break;
-                        case R.id.imageButton27:
-                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-                            result.setText(indexCalc(view.getTag().toString()));
-                            break;
-                        case R.id.imageButton28:
-                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-                            result.setText(indexCalc(view.getTag().toString()));
-                            break;
-                        case R.id.imageButton29:
-                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-                            result.setText(indexCalc(view.getTag().toString()));
-                            break;
-                        case R.id.imageButton30:
-                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-                            result.setText(indexCalc(view.getTag().toString()));
-                            break;
-                        case R.id.imageButton31:
-                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-                            result.setText(indexCalc(view.getTag().toString()));
-                            break;
-                        case R.id.imageButton32:
-                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-                            result.setText(indexCalc(view.getTag().toString()));
-                            break;
-                        case R.id.imageButton33:
-                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-                            result.setText(indexCalc(view.getTag().toString()));
-                            break;
-                        case R.id.imageButton34:
-                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-                            result.setText(indexCalc(view.getTag().toString()));
-                            break;
-                        case R.id.imageButton35:
-                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-                            result.setText(indexCalc(view.getTag().toString()));
-                            break;
-                        case R.id.imageButton36:
-                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-                            result.setText(indexCalc(view.getTag().toString()));
-                            break;
-                        case R.id.imageButton37:
-                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-                            result.setText(indexCalc(view.getTag().toString()));
-                        case R.id.buttonSend:
-//                            try{
-//                            Log.d(LOG_TAG, "send Get request" + doGet("http://google.com"));}
-//                            catch (Exception e){
-//                                e.printStackTrace();
-//                            }
-                            Log.d(LOG_TAG, "Button send pressed!");
-                            new AsyncTask<Void, String, String>() {
-                                @Override
-                                protected String doInBackground(Void... voids) {
-                                    String s = "";
-                                    try {
-                                        Log.d(LOG_TAG, "send Get request" + doGet(customURL));
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                        Log.d(LOG_TAG, "Exception occured " + e.getMessage());
-                                    }
-                                    return s;
-                                }
-                            }.execute();
-                            break;
-                    }
+//                    switch(view.getId()){
+//                        case R.id.imageButton2:
+//                            Log.d(LOG_TAG, "click imageButton" + view.getTag());
+//                            result.setText(indexCalc(view.getTag().toString()));
+//                            break;
+//                        case R.id.imageButton3:
+//                            Log.d(LOG_TAG, "click imageButton" + view.getTag());
+//                            result.setText(indexCalc(view.getTag().toString()));
+//                            break;
+//                        case R.id.imageButton4:
+//                            Log.d(LOG_TAG, "click imageButton" + view.getTag());
+//                            result.setText(indexCalc(view.getTag().toString()));
+//                            break;
+//                        case R.id.imageButton5:
+//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
+//                            result.setText(indexCalc(view.getTag().toString()));
+//                            break;
+//                        case R.id.imageButton6:
+//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
+//                            result.setText(indexCalc(view.getTag().toString()));
+//                            break;
+//                        case R.id.imageButton7:
+//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
+//                            result.setText(indexCalc(view.getTag().toString()));
+//                            break;
+//                        case R.id.imageButton8:
+//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
+//                            result.setText(indexCalc(view.getTag().toString()));
+//                            break;
+//                        case R.id.imageButton9:
+//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
+//                            result.setText(indexCalc(view.getTag().toString()));
+//                            break;
+//                        case R.id.imageButton10:
+//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
+//                            result.setText(indexCalc(view.getTag().toString()));
+//                            break;
+//                        case R.id.imageButton11:
+//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
+//                            result.setText(indexCalc(view.getTag().toString()));
+//                            break;
+//                        case R.id.imageButton12:
+//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
+//                            result.setText(indexCalc(view.getTag().toString()));
+//                            break;
+//                        case R.id.imageButton13:
+//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
+//                            result.setText(indexCalc(view.getTag().toString()));
+//                            break;
+//                        case R.id.imageButton14:
+//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
+//                            result.setText(indexCalc(view.getTag().toString()));
+//                            break;
+//                        case R.id.imageButton15:
+//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
+//                            result.setText(indexCalc(view.getTag().toString()));
+//                            break;
+//                        case R.id.imageButton16:
+//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
+//                            result.setText(indexCalc(view.getTag().toString()));
+//                            break;
+//                        case R.id.imageButton17:
+//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
+//                            result.setText(indexCalc(view.getTag().toString()));
+//                            break;
+//                        case R.id.imageButton18:
+//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
+//                            result.setText(indexCalc(view.getTag().toString()));
+//                            break;
+//                        case R.id.imageButton19:
+//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
+//                            result.setText(indexCalc(view.getTag().toString()));
+//                            break;
+//                        case R.id.imageButton20:
+//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
+//                            result.setText(indexCalc(view.getTag().toString()));
+//                            break;
+//                        case R.id.imageButton21:
+//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
+//                            result.setText(indexCalc(view.getTag().toString()));
+//                            break;
+//                        case R.id.imageButton22:
+//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
+//                            result.setText(indexCalc(view.getTag().toString()));
+//                            break;
+//                        case R.id.imageButton23:
+//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
+//                            result.setText(indexCalc(view.getTag().toString()));
+//                            break;
+//                        case R.id.imageButton24:
+//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
+//                            result.setText(indexCalc(view.getTag().toString()));
+//                            break;
+//                        case R.id.imageButton25:
+//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
+//                            result.setText(indexCalc(view.getTag().toString()));
+//                            break;
+//                        case R.id.imageButton26:
+//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
+//                            result.setText(indexCalc(view.getTag().toString()));
+//                            break;
+//                        case R.id.imageButton27:
+//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
+//                            result.setText(indexCalc(view.getTag().toString()));
+//                            break;
+//                        case R.id.imageButton28:
+//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
+//                            result.setText(indexCalc(view.getTag().toString()));
+//                            break;
+//                        case R.id.imageButton29:
+//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
+//                            result.setText(indexCalc(view.getTag().toString()));
+//                            break;
+//                        case R.id.imageButton30:
+//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
+//                            result.setText(indexCalc(view.getTag().toString()));
+//                            break;
+//                        case R.id.imageButton31:
+//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
+//                            result.setText(indexCalc(view.getTag().toString()));
+//                            break;
+//                        case R.id.imageButton32:
+//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
+//                            result.setText(indexCalc(view.getTag().toString()));
+//                            break;
+//                        case R.id.imageButton33:
+//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
+//                            result.setText(indexCalc(view.getTag().toString()));
+//                            break;
+//                        case R.id.imageButton34:
+//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
+//                            result.setText(indexCalc(view.getTag().toString()));
+//                            break;
+//                        case R.id.imageButton35:
+//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
+//                            result.setText(indexCalc(view.getTag().toString()));
+//                            break;
+//                        case R.id.imageButton36:
+//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
+//                            result.setText(indexCalc(view.getTag().toString()));
+//                            break;
+//                        case R.id.imageButton37:
+//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
+//                            result.setText(indexCalc(view.getTag().toString()));
+//                        case R.id.buttonSend:
+//                            Log.d(LOG_TAG, "Button send pressed!");
+//                            new AsyncTask<Void, String, String>() {
+//                                @Override
+//                                protected String doInBackground(Void... voids) {
+//                                    String s = "";
+//                                    try {
+//                                        Log.d(LOG_TAG, "send Get request" + doGet(customURL));
+//                                    } catch (Exception e) {
+//                                        e.printStackTrace();
+//                                        Log.d(LOG_TAG, "Exception occured " + e.getMessage());
+//                                    }
+//                                    return s;
+//                                }
+//                            }.execute();
+//                            break;
+//                    }
+                    indexCalc(view.getTag().toString());
                 }
             };
             imageButtonArrayList = new ArrayList<>(capacity6x6);
@@ -339,13 +337,27 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public String indexCalc(String imageButtonTag){
-        int tag = Integer.parseInt(imageButtonTag);
-        if(tag < 6){
-            return getFlag(tag/6, tag);
-        } else {
-            return getFlag(tag/6, tag%6);
-        }
+    //Вычисление индекса в матрице элементов на сервере.
+    public void indexCalc(String imageButtonTag){
+        final int tag = Integer.parseInt(imageButtonTag);
+        new AsyncTask<Void, String, String>(){
+            @Override
+            protected String doInBackground(Void... voids) {
+                try{
+                    if(tag < 6){
+                        //            return getFlag(tag/6, tag);
+                        doGet(customURL, Integer.toString(tag/6), Integer.toString(tag));
+                    } else {
+                        //            return getFlag(tag/6, tag%6);
+                        doGet(customURL, Integer.toString(tag/6), Integer.toString(tag%6));
+                    }
+                }catch(Exception e){
+                    e.printStackTrace();
+                    Log.d(LOG_TAG, "Connect exception " + e.toString());
+                }
+                return null;
+            }
+        }.execute();
     }
 
     public String getFlag(int i, int j){
@@ -363,7 +375,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public String doGet(String url)
+    public String doGet(String url, String rowIndex, String columnIndex)
             throws Exception {
 
         URL obj = new URL(url);
@@ -374,6 +386,12 @@ public class MainActivity extends AppCompatActivity
         connection.setRequestProperty("User-Agent", "Mozilla/5.0" );
         connection.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
         connection.setRequestProperty("Content-Type", "application/json");
+        connection.setRequestProperty("row", rowIndex);
+        connection.setRequestProperty("column", columnIndex);
+
+
+        Log.d(LOG_TAG, "Send message to " + url);
+        Log.d(LOG_TAG, "Send message to real URL = " + connection.getURL().toString());
 
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         String inputLine;
@@ -396,5 +414,5 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<ImageButton> imageButtonArrayList;
     private int capacity6x6 = 36;
     private String[][] flags = new String[6][6];
-    private String customURL = "http://google.com";
+    private String customURL = "http://169.254.162.83:8080/TestGet/hello";
 }
