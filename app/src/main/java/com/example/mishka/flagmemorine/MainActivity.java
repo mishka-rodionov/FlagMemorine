@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         //************************
         relativeLayout = (RelativeLayout) findViewById(R.id.relativelayout);
-        initFlags();
         //************************
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -112,190 +111,66 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
+            //При нажатии на кнопку Play на сервер отправляется get запрос на создание игрового
+            // поля размером 6*6. Сервер возвращает индекс хранения текущего игрового поля в
+            // контейнере игровых полей.
+            new AsyncTask<Void, String, Integer>(){
+                @Override
+                protected Integer doInBackground(Void... params) {
+                    int result = 0;
+                    try {
+                        result = doGet(battleFieldSize);
+                        Log.d(LOG_TAG, "result is = " + result);
+                    }catch (Exception e){
+                        e.printStackTrace(System.out);
+                        Log.d(LOG_TAG, "exception");
+                    }
+                    return result;
+                }
+
+                @Override
+                protected void onPostExecute(Integer integer) {
+                    super.onPostExecute(integer);
+                    Log.d(LOG_TAG, "integer is = " + integer);
+                    battleFieldIndex = integer;
+                }
+            }.execute();
+
+            Log.d(LOG_TAG, "index of container battle field = " + battleFieldIndex);
+
             View view  = getLayoutInflater().inflate(R.layout.layout_6_6, null);
             final TextView result = (TextView) view.findViewById(R.id.result);
             relativeLayout.addView(view);
             View.OnClickListener onClickListener = new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
-//                    switch(view.getId()){
-//                        case R.id.imageButton2:
-//                            Log.d(LOG_TAG, "click imageButton" + view.getTag());
-//                            result.setText(indexCalc(view.getTag().toString()));
-//                            break;
-//                        case R.id.imageButton3:
-//                            Log.d(LOG_TAG, "click imageButton" + view.getTag());
-//                            result.setText(indexCalc(view.getTag().toString()));
-//                            break;
-//                        case R.id.imageButton4:
-//                            Log.d(LOG_TAG, "click imageButton" + view.getTag());
-//                            result.setText(indexCalc(view.getTag().toString()));
-//                            break;
-//                        case R.id.imageButton5:
-//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-//                            result.setText(indexCalc(view.getTag().toString()));
-//                            break;
-//                        case R.id.imageButton6:
-//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-//                            result.setText(indexCalc(view.getTag().toString()));
-//                            break;
-//                        case R.id.imageButton7:
-//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-//                            result.setText(indexCalc(view.getTag().toString()));
-//                            break;
-//                        case R.id.imageButton8:
-//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-//                            result.setText(indexCalc(view.getTag().toString()));
-//                            break;
-//                        case R.id.imageButton9:
-//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-//                            result.setText(indexCalc(view.getTag().toString()));
-//                            break;
-//                        case R.id.imageButton10:
-//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-//                            result.setText(indexCalc(view.getTag().toString()));
-//                            break;
-//                        case R.id.imageButton11:
-//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-//                            result.setText(indexCalc(view.getTag().toString()));
-//                            break;
-//                        case R.id.imageButton12:
-//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-//                            result.setText(indexCalc(view.getTag().toString()));
-//                            break;
-//                        case R.id.imageButton13:
-//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-//                            result.setText(indexCalc(view.getTag().toString()));
-//                            break;
-//                        case R.id.imageButton14:
-//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-//                            result.setText(indexCalc(view.getTag().toString()));
-//                            break;
-//                        case R.id.imageButton15:
-//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-//                            result.setText(indexCalc(view.getTag().toString()));
-//                            break;
-//                        case R.id.imageButton16:
-//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-//                            result.setText(indexCalc(view.getTag().toString()));
-//                            break;
-//                        case R.id.imageButton17:
-//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-//                            result.setText(indexCalc(view.getTag().toString()));
-//                            break;
-//                        case R.id.imageButton18:
-//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-//                            result.setText(indexCalc(view.getTag().toString()));
-//                            break;
-//                        case R.id.imageButton19:
-//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-//                            result.setText(indexCalc(view.getTag().toString()));
-//                            break;
-//                        case R.id.imageButton20:
-//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-//                            result.setText(indexCalc(view.getTag().toString()));
-//                            break;
-//                        case R.id.imageButton21:
-//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-//                            result.setText(indexCalc(view.getTag().toString()));
-//                            break;
-//                        case R.id.imageButton22:
-//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-//                            result.setText(indexCalc(view.getTag().toString()));
-//                            break;
-//                        case R.id.imageButton23:
-//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-//                            result.setText(indexCalc(view.getTag().toString()));
-//                            break;
-//                        case R.id.imageButton24:
-//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-//                            result.setText(indexCalc(view.getTag().toString()));
-//                            break;
-//                        case R.id.imageButton25:
-//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-//                            result.setText(indexCalc(view.getTag().toString()));
-//                            break;
-//                        case R.id.imageButton26:
-//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-//                            result.setText(indexCalc(view.getTag().toString()));
-//                            break;
-//                        case R.id.imageButton27:
-//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-//                            result.setText(indexCalc(view.getTag().toString()));
-//                            break;
-//                        case R.id.imageButton28:
-//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-//                            result.setText(indexCalc(view.getTag().toString()));
-//                            break;
-//                        case R.id.imageButton29:
-//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-//                            result.setText(indexCalc(view.getTag().toString()));
-//                            break;
-//                        case R.id.imageButton30:
-//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-//                            result.setText(indexCalc(view.getTag().toString()));
-//                            break;
-//                        case R.id.imageButton31:
-//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-//                            result.setText(indexCalc(view.getTag().toString()));
-//                            break;
-//                        case R.id.imageButton32:
-//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-//                            result.setText(indexCalc(view.getTag().toString()));
-//                            break;
-//                        case R.id.imageButton33:
-//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-//                            result.setText(indexCalc(view.getTag().toString()));
-//                            break;
-//                        case R.id.imageButton34:
-//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-//                            result.setText(indexCalc(view.getTag().toString()));
-//                            break;
-//                        case R.id.imageButton35:
-//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-//                            result.setText(indexCalc(view.getTag().toString()));
-//                            break;
-//                        case R.id.imageButton36:
-//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-//                            result.setText(indexCalc(view.getTag().toString()));
-//                            break;
-//                        case R.id.imageButton37:
-//                            Log.d(LOG_TAG, "click imageButton" + view.getId());
-//                            result.setText(indexCalc(view.getTag().toString()));
-//                        case R.id.buttonSend:
-//                            Log.d(LOG_TAG, "Button send pressed!");
-//                            new AsyncTask<Void, String, String>() {
-//                                @Override
-//                                protected String doInBackground(Void... voids) {
-//                                    String s = "";
-//                                    try {
-//                                        Log.d(LOG_TAG, "send Get request" + doGet(customURL));
-//                                    } catch (Exception e) {
-//                                        e.printStackTrace();
-//                                        Log.d(LOG_TAG, "Exception occured " + e.getMessage());
-//                                    }
-//                                    return s;
-//                                }
-//                            }.execute();
-//                            break;
-//                    }
-//                    indexCalc(view.getTag().toString());
+                public void onClick(final View view) {
                     Log.d(LOG_TAG, "press button");
+                    final int rowIndex = rowIndexCalc(view.getTag().toString());
+                    final int columnIndex = columnIndexCalc(view.getTag().toString());
+                    String[] country = new String[1];
                         new AsyncTask<Void, String, String>(){
+                            String temp = "";
                             @Override
                             protected String doInBackground(Void... params) {
                                 try {
-                                    doGet(customURL);
+                                     temp = doGet(rowIndex, columnIndex, battleFieldIndex);
                                 }catch (Exception e){
                                     e.printStackTrace(System.out);
                                     Log.d(LOG_TAG, "exception");
                                 }
-                                return null;
+                                return temp;
+                            }
+
+                            @Override
+                            protected void onPostExecute(String s) {
+                                super.onPostExecute(s);
+                                result.setText(s);
                             }
                         }.execute();
                 }
             };
-            imageButtonArrayList = new ArrayList<>(capacity6x6);
+
+            imageButtonArrayList = new ArrayList<>(battleFieldSize*battleFieldSize);
             imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton2));
             imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton3));
             imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton4));
@@ -332,14 +207,9 @@ public class MainActivity extends AppCompatActivity
             imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton35));
             imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton36));
             imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton37));
-//            ImageButton im = (ImageButton) view.findViewWithTag(1);
-//            for (int i = 0; i < capacity6x6; i++) {
-//                imageButtonArrayList.add((ImageButton) view.findViewWithTag((Integer) (i + 1)));
-//            }
-//            ImageButton im
             Button send = (Button) view.findViewById(R.id.buttonSend);
             send.setOnClickListener(onClickListener);
-            for (int i = 0; i < capacity6x6; i++) {
+            for (int i = 0; i < battleFieldSize*battleFieldSize; i++) {
                 imageButtonArrayList.get(i).setOnClickListener(onClickListener);
             }
 
@@ -359,54 +229,40 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    //Вычисление индекса в матрице элементов на сервере.
-    public void indexCalc(String imageButtonTag){
-        final int tag = Integer.parseInt(imageButtonTag);
-        new AsyncTask<Void, String, String>(){
-            @Override
-            protected String doInBackground(Void... voids) {
-                try{
-                    if(tag < 6){
-                        //            return getFlag(tag/6, tag);
-//                        doGet(customURL, Integer.toString(tag/6), Integer.toString(tag));
-                    } else {
-                        //            return getFlag(tag/6, tag%6);
-//                        doGet(customURL, Integer.toString(tag/6), Integer.toString(tag%6));
-                    }
-                }catch(Exception e){
-                    e.printStackTrace();
-                    Log.d(LOG_TAG, "Connect exception " + e.toString());
-                }
-                return null;
-            }
-        }.execute();
+    //Вычисление индекса столбца по тэгу нажатой кнопки.
+    public int rowIndexCalc(String viewTag){
+        int tag = Integer.parseInt(viewTag);
+        Log.d(LOG_TAG, "input tag = " + viewTag);
+        Log.d(LOG_TAG, "row index = " + tag/battleFieldSize);
+        return tag/battleFieldSize;
     }
 
-    public String getFlag(int i, int j){
-        return flags[i][j];
-    }
-
-    public void initFlags(){
-        int count = 0;
-        Random rnd = new Random();
-        int rand = rnd.nextInt(36);
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 6; j++) {
-                flags[i][j] = "" + rand;
-            }
+    //Вычисление индекса столбца по тэгу нажатой кнопки.
+    public int columnIndexCalc(String viewTag){
+        int tag = Integer.parseInt(viewTag);
+        if (tag < battleFieldSize){
+            Log.d(LOG_TAG, "input tag = " + viewTag);
+            Log.d(LOG_TAG, "column index = " + tag);
+            return tag;
+        }else{
+            Log.d(LOG_TAG, "input tag = " + viewTag);
+            Log.d(LOG_TAG, "column index = " + tag%battleFieldSize);
+            return tag%battleFieldSize;
         }
     }
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
-    public void doGet(String url/*, String rowIndex, String columnIndex*/)
+    public int doGet(int size)
             throws Exception {
+
+        int index;
 
         HttpUrl httpUrl = new HttpUrl.Builder()
                 .scheme("http")
                 .host(customURL)
                 .port(8080)
-                .addPathSegments("/TestGet/hello")
-                .addQueryParameter("size","2")
+                .addPathSegments("TestGet/hello")
+                .addQueryParameter("size",Integer.toString(size))
                 .build();
 
         Request request = new Request.Builder()
@@ -421,16 +277,53 @@ public class MainActivity extends AppCompatActivity
             for (int i = 0; i < responseHeaders.size(); i++) {
                 Log.d(LOG_TAG, responseHeaders.name(i) + ": " + responseHeaders.value(i));
             }
-
-            Log.d(LOG_TAG, response.body().string());
+            index = Integer.parseInt(response.body().string());
+            Log.d(LOG_TAG, "" + index);
+            return index;
         }
+
+//        return Integer.parseInt(index);
+    }
+
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    public String doGet(int rowIndex, int columnIndex, int battleFieldIndex)
+            throws Exception {
+
+        String resp = "";
+
+        HttpUrl httpUrl = new HttpUrl.Builder()
+                .scheme("http")
+                .host(customURL)
+                .port(8080)
+                .addPathSegments("TestGet/getElement")
+                .addQueryParameter("rowIndex",Integer.toString(rowIndex))
+                .addQueryParameter("columnIndex",Integer.toString(columnIndex))
+                .addQueryParameter("battleFieldIndex",Integer.toString(battleFieldIndex))
+                .build();
+
+        Request request = new Request.Builder()
+                .url(httpUrl)
+                .header("User-Agent", "OkHttp Headers.java")
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+            Headers responseHeaders = response.headers();
+            for (int i = 0; i < responseHeaders.size(); i++) {
+                Log.d(LOG_TAG, responseHeaders.name(i) + ": " + responseHeaders.value(i));
+            }
+            resp = response.body().string();
+            Log.d(LOG_TAG, resp);
+        }
+        return resp;
     }
 
     private RelativeLayout relativeLayout;
     private String LOG_TAG = "flagmemorine";
     private ArrayList<ImageButton> imageButtonArrayList;
-    private int capacity6x6 = 36;
-    private String[][] flags = new String[6][6];
-    private String customURL = "82.202.246.170";
+    private String customURL = "169.254.162.83";
     private final OkHttpClient client = new OkHttpClient();
+    private int battleFieldSize = 6;
+    private int battleFieldIndex = 0;
 }
