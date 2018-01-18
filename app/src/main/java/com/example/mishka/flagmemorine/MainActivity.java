@@ -2,6 +2,9 @@ package com.example.mishka.flagmemorine;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.Icon;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -212,6 +216,7 @@ public class MainActivity extends AppCompatActivity
             for (int i = 0; i < battleFieldSize*battleFieldSize; i++) {
                 imageButtonArrayList.get(i).setOnClickListener(onClickListener);
             }
+            imageButtonArrayList.get(1).setImageResource(R.drawable.bangladesh_l);
 
 
         } else if (id == R.id.nav_slideshow) {
