@@ -50,6 +50,8 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         //************************
         relativeLayout = (RelativeLayout) findViewById(R.id.relativelayout);
+        userChoice = new ArrayList<>(2);
+        CountryList.loadCountryMap();
         //************************
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -169,6 +171,10 @@ public class MainActivity extends AppCompatActivity
                             protected void onPostExecute(String s) {
                                 super.onPostExecute(s);
                                 result.setText(s);
+                                int resource = CountryList.getCountry(s);
+                                imageButtonArrayList.get(Integer.parseInt(view.getTag().toString()))
+                                        .setImageResource(resource);
+                                userChoice.add(s);
                             }
                         }.execute();
                 }
@@ -216,7 +222,7 @@ public class MainActivity extends AppCompatActivity
             for (int i = 0; i < battleFieldSize*battleFieldSize; i++) {
                 imageButtonArrayList.get(i).setOnClickListener(onClickListener);
             }
-            imageButtonArrayList.get(1).setImageResource(R.drawable.bangladesh_l);
+            imageButtonArrayList.get(1).setImageResource(R.drawable.denmark);
 
 
         } else if (id == R.id.nav_slideshow) {
@@ -327,8 +333,9 @@ public class MainActivity extends AppCompatActivity
     private RelativeLayout relativeLayout;
     private String LOG_TAG = "flagmemorine";
     private ArrayList<ImageButton> imageButtonArrayList;
-    private String customURL = "169.254.162.83";
+    private String customURL = "82.202.246.170";
     private final OkHttpClient client = new OkHttpClient();
     private int battleFieldSize = 6;
     private int battleFieldIndex = 0;
+    private ArrayList<String> userChoice;
 }
