@@ -1,10 +1,7 @@
 package com.example.mishka.flagmemorine;
 
 import android.annotation.TargetApi;
-import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.Icon;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,18 +19,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Headers;
 import okhttp3.HttpUrl;
@@ -51,6 +43,7 @@ public class MainActivity extends AppCompatActivity
         //************************
         relativeLayout = (RelativeLayout) findViewById(R.id.relativelayout);
         userChoice = new ArrayList<>(2);
+        viewTag = new ArrayList<>(2);
         CountryList.loadCountryMap();
         //************************
 
@@ -120,6 +113,7 @@ public class MainActivity extends AppCompatActivity
             //При нажатии на кнопку Play на сервер отправляется get запрос на создание игрового
             // поля размером 6*6. Сервер возвращает индекс хранения текущего игрового поля в
             // контейнере игровых полей.
+
             new AsyncTask<Void, String, Integer>(){
                 @Override
                 protected Integer doInBackground(Void... params) {
@@ -145,6 +139,10 @@ public class MainActivity extends AppCompatActivity
             Log.d(LOG_TAG, "index of container battle field = " + battleFieldIndex);
 
             View view  = getLayoutInflater().inflate(R.layout.layout_6_6, null);
+            initImageButton(view);
+            for (int i = 0; i < imageButtonArrayList.size(); i++) {
+                imageButtonArrayList.get(i).setBackgroundColor(Color.WHITE);
+            }
             final TextView result = (TextView) view.findViewById(R.id.result);
             relativeLayout.addView(view);
             View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -153,77 +151,57 @@ public class MainActivity extends AppCompatActivity
                     Log.d(LOG_TAG, "press button");
                     final int rowIndex = rowIndexCalc(view.getTag().toString());
                     final int columnIndex = columnIndexCalc(view.getTag().toString());
-                    String[] country = new String[1];
-                        new AsyncTask<Void, String, String>(){
-                            String temp = "";
-                            @Override
-                            protected String doInBackground(Void... params) {
-                                try {
-                                     temp = doGet(rowIndex, columnIndex, battleFieldIndex);
-                                }catch (Exception e){
-                                    e.printStackTrace(System.out);
-                                    Log.d(LOG_TAG, "exception");
-                                }
-                                return temp;
-                            }
+                    CountryName countryName = new CountryName();
+                    countryName.execute(rowIndex,columnIndex,battleFieldIndex);
+                    try {
+                        TimeUnit.SECONDS.sleep(1);
+                        Log.d(LOG_TAG, "Try to get result");
+                        String country  = countryName.get();
+                        result.setText(country);
+                        int resource = CountryList.getCountry(country);
+                        imageButtonArrayList.get(Integer.parseInt(view.getTag().toString()))
+                                .setBackgroundColor(Color.WHITE);
+                        imageButtonArrayList.get(Integer.parseInt(view.getTag().toString()))
+                                .setImageResource(resource);
+                        userChoice.add(country);
+                        viewTag.add(view.getTag().toString());
+                        Log.d(LOG_TAG, "userCoice size = " + userChoice.size());
+                        Log.d(LOG_TAG, "userCoice 1 = " + userChoice.get(0));
 
-                            @Override
-                            protected void onPostExecute(String s) {
-                                super.onPostExecute(s);
-                                result.setText(s);
-                                int resource = CountryList.getCountry(s);
-                                imageButtonArrayList.get(Integer.parseInt(view.getTag().toString()))
-                                        .setImageResource(resource);
-                                userChoice.add(s);
-                            }
-                        }.execute();
+                        if(userChoice.size() == 2 && !userChoice.get(0).equals(userChoice.get(1))){
+                            Log.d(LOG_TAG, "country not equals");
+                            Log.d(LOG_TAG, "tag first img = " + viewTag.get(0));
+                            Log.d(LOG_TAG, "tag second img = " + viewTag.get(1));
+                            userChoice.clear();
+//                            TimeUnit.SECONDS.sleep(1);
+                            imageButtonArrayList.get(Integer.parseInt(viewTag.get(0)))
+                                    .setBackgroundColor(Color.WHITE);
+                            imageButtonArrayList.get(Integer.parseInt(viewTag.get(0)))
+                                    .setImageResource(R.drawable.ic_help_outline_black_36dp);
+                            imageButtonArrayList.get(Integer.parseInt(viewTag.get(1)))
+                                    .setBackgroundColor(Color.WHITE);
+                            imageButtonArrayList.get(Integer.parseInt(viewTag.get(1)))
+                                    .setImageResource(R.drawable.ic_help_outline_black_36dp);
+                            viewTag.clear();
+                        }else if(userChoice.size() == 2 && userChoice.get(0).equals(userChoice.get(1))){
+                            Log.d(LOG_TAG, "country equals");
+                            userChoice.clear();
+                            viewTag.clear();
+                        }
+                        Log.d(LOG_TAG, "get returns " + result.getText());
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
                 }
             };
 
-            imageButtonArrayList = new ArrayList<>(battleFieldSize*battleFieldSize);
-            imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton2));
-            imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton3));
-            imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton4));
-            imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton5));
-            imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton6));
-            imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton7));
-            imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton8));
-            imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton9));
-            imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton10));
-            imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton11));
-            imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton12));
-            imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton13));
-            imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton14));
-            imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton15));
-            imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton16));
-            imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton17));
-            imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton18));
-            imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton19));
-            imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton20));
-            imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton21));
-            imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton22));
-            imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton23));
-            imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton24));
-            imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton25));
-            imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton26));
-            imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton27));
-            imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton28));
-            imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton29));
-            imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton30));
-            imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton31));
-            imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton32));
-            imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton33));
-            imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton34));
-            imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton35));
-            imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton36));
-            imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton37));
             Button send = (Button) view.findViewById(R.id.buttonSend);
             send.setOnClickListener(onClickListener);
             for (int i = 0; i < battleFieldSize*battleFieldSize; i++) {
                 imageButtonArrayList.get(i).setOnClickListener(onClickListener);
             }
-            imageButtonArrayList.get(1).setImageResource(R.drawable.denmark);
-
 
         } else if (id == R.id.nav_slideshow) {
 
@@ -238,6 +216,46 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void initImageButton(View view){
+        imageButtonArrayList = new ArrayList<>(battleFieldSize*battleFieldSize);
+        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton2));
+        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton3));
+        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton4));
+        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton5));
+        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton6));
+        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton7));
+        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton8));
+        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton9));
+        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton10));
+        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton11));
+        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton12));
+        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton13));
+        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton14));
+        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton15));
+        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton16));
+        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton17));
+        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton18));
+        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton19));
+        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton20));
+        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton21));
+        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton22));
+        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton23));
+        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton24));
+        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton25));
+        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton26));
+        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton27));
+        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton28));
+        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton29));
+        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton30));
+        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton31));
+        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton32));
+        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton33));
+        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton34));
+        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton35));
+        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton36));
+        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton37));
     }
 
     //Вычисление индекса столбца по тэгу нажатой кнопки.
@@ -338,4 +356,6 @@ public class MainActivity extends AppCompatActivity
     private int battleFieldSize = 6;
     private int battleFieldIndex = 0;
     private ArrayList<String> userChoice;
+    private ArrayList<String> viewTag;
+
 }
