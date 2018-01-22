@@ -341,6 +341,31 @@
         android:layout_row="7"
         android:layout_column="1" />
 
+    <TextView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Small Text"
+        android:id="@+id/test1"
+        android:layout_row="7"
+        android:layout_column="2" />
+
+    <TextView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Small Text"
+        android:id="@+id/test2"
+        android:layout_row="7"
+        android:layout_column="3" />
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:layout_row="7"
+        android:layout_column="4" />
+
     <Button
         android:layout_width="50dp"
         android:layout_height="50dp"

@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
@@ -45,6 +47,26 @@ public class MainActivity extends AppCompatActivity
         userChoice = new ArrayList<>(2);
         viewTag = new ArrayList<>(2);
         CountryList.loadCountryMap();
+        view  = getLayoutInflater().inflate(R.layout.layout_6_6, null);
+        initImageButton(view);
+        for (int i = 0; i < imageButtonArrayList.size(); i++) {
+            imageButtonArrayList.get(i).setBackgroundColor(Color.WHITE);
+        }
+        result = (TextView) view.findViewById(R.id.result);
+        test1 = (TextView) view.findViewById(R.id.test1);
+        test2 = (TextView) view.findViewById(R.id.test2);
+
+        handler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+//                super.handleMessage(msg);
+                imageButtonArrayList.get(msg.arg1)
+                        .setBackgroundColor(Color.WHITE);
+                imageButtonArrayList.get(msg.arg1)
+                        .setImageResource(msg.arg2);
+
+            }
+        };
         //************************
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -113,7 +135,6 @@ public class MainActivity extends AppCompatActivity
             //При нажатии на кнопку Play на сервер отправляется get запрос на создание игрового
             // поля размером 6*6. Сервер возвращает индекс хранения текущего игрового поля в
             // контейнере игровых полей.
-
             new AsyncTask<Void, String, Integer>(){
                 @Override
                 protected Integer doInBackground(Void... params) {
@@ -135,15 +156,11 @@ public class MainActivity extends AppCompatActivity
                     battleFieldIndex = integer;
                 }
             }.execute();
+            //*****************************************************************************
 
             Log.d(LOG_TAG, "index of container battle field = " + battleFieldIndex);
 
-            final View view  = getLayoutInflater().inflate(R.layout.layout_6_6, null);
-            initImageButton(view);
-            for (int i = 0; i < imageButtonArrayList.size(); i++) {
-                imageButtonArrayList.get(i).setBackgroundColor(Color.WHITE);
-            }
-            final TextView result = (TextView) view.findViewById(R.id.result);
+
             relativeLayout.addView(view);
 
             View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -161,47 +178,81 @@ public class MainActivity extends AppCompatActivity
 
                         result.setText(country);
                         final int resource = CountryList.getCountry(country);
-                            imageButtonArrayList.get(Integer.parseInt(view.getTag().toString()))
-                                    .setBackgroundColor(Color.WHITE);
-                        Log.d(LOG_TAG, "background is = " + imageButtonArrayList.get(Integer.parseInt(view.getTag().toString()))
-                                .getBackground().toString());
-                            imageButtonArrayList.get(Integer.parseInt(view.getTag().toString()))
-                                    .setImageResource(resource);
-                        Log.d(LOG_TAG, "resoureces is = " + imageButtonArrayList.get(Integer.parseInt(view.getTag().toString()))
-                                .getResources().toString());
+//                            imageButtonArrayList.get(Integer.parseInt(view.getTag().toString()))
+//                                    .setBackgroundColor(Color.WHITE);
+//                            imageButtonArrayList.get(Integer.parseInt(view.getTag().toString()))
+//                                    .setImageResource(resource);
+                        final int index = Integer.parseInt(view.getTag().toString());
+                        Thread t = new Thread(new Runnable() {
+                            Message msg;
+                            @Override
+                            public void run() {
+                                msg = handler.obtainMessage(1, index, resource);
+                                handler.sendMessage(msg);
+                                try {
+                                    TimeUnit.SECONDS.sleep(1);
+                                }catch (InterruptedException e){
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        });
+                        t.start();
 
                         userChoice.add(country);
+                        if(userChoice.size() == 1){
+                            test1.setText("blank");
+                            test1.setText(country);
+                        }
+                        if (userChoice.size() == 2){
+                            test2.setText("blank");
+                            test2.setText(country);
+                        }
                         viewTag.add(view.getTag().toString());
                         Log.d(LOG_TAG, "userCoice size = " + userChoice.size());
                         Log.d(LOG_TAG, "userCoice 1 = " + userChoice.get(0));
+//                        Thread.sleep(1000);
 
-                        if(userChoice.size() == 2 && !userChoice.get(0).equals(userChoice.get(1))){
-                            Log.d(LOG_TAG, "start sleep");
-
-                            Log.d(LOG_TAG, "end sleep");
-                            Log.d(LOG_TAG, "country not equals");
-                            Log.d(LOG_TAG, "tag first img = " + viewTag.get(0));
-                            Log.d(LOG_TAG, "tag second img = " + viewTag.get(1));
-                            userChoice.clear();
-//                            TimeUnit.SECONDS.sleep(1);
-                            imageButtonArrayList.get(Integer.parseInt(viewTag.get(0)))
-                                    .setBackgroundColor(Color.WHITE);
-                            Log.d(LOG_TAG, "background is = " + imageButtonArrayList.get(Integer.parseInt(viewTag.get(0)))
-                                    .getBackground().toString());
-                            imageButtonArrayList.get(Integer.parseInt(viewTag.get(0)))
-                                    .setImageResource(R.drawable.ic_help_outline_black_36dp);
-                            Log.d(LOG_TAG, "resoureces is = " + imageButtonArrayList.get(Integer.parseInt(viewTag.get(0)))
-                                    .getResources().toString());
-                            imageButtonArrayList.get(Integer.parseInt(viewTag.get(1)))
-                                    .setBackgroundColor(Color.WHITE);
-                            imageButtonArrayList.get(Integer.parseInt(viewTag.get(1)))
-                                    .setImageResource(R.drawable.ic_help_outline_black_36dp);
-                            viewTag.clear();
-                        }
-                        else if(userChoice.size() == 2 && userChoice.get(0).equals(userChoice.get(1))){
-                            Log.d(LOG_TAG, "country equals");
-                            userChoice.clear();
-                            viewTag.clear();
+                        if(userChoice.size() == 2 ){
+                            if(!userChoice.get(0).equals(userChoice.get(1))){
+                                userChoice.clear();
+                                final int but0 = Integer.parseInt(viewTag.get(0));
+                                final int but1 = Integer.parseInt(viewTag.get(1));
+    //                            TimeUnit.SECONDS.sleep(1);
+                                final int paint = R.drawable.ic_help_outline_black_36dp;
+                                Thread t1 = new Thread(new Runnable() {
+                                    Message msg;
+                                    @Override
+                                    public void run() {
+                                        msg = handler.obtainMessage(1, but0, paint);
+                                        handler.sendMessage(msg);
+                                    }
+                                });
+                                t1.start();
+                                Thread t2 = new Thread(new Runnable() {
+                                    Message msg;
+                                    @Override
+                                    public void run() {
+                                        msg = handler.obtainMessage(1, but1, paint);
+                                        handler.sendMessage(msg);
+                                    }
+                                });
+                                t2.start();
+//                                imageButtonArrayList.get(Integer.parseInt(viewTag.get(0)))
+//                                        .setBackgroundColor(Color.WHITE);
+//                                imageButtonArrayList.get(Integer.parseInt(viewTag.get(0)))
+//                                        .setImageResource(R.drawable.ic_help_outline_black_36dp);
+//                                imageButtonArrayList.get(Integer.parseInt(viewTag.get(1)))
+//                                        .setBackgroundColor(Color.WHITE);
+//                                imageButtonArrayList.get(Integer.parseInt(viewTag.get(1)))
+//                                        .setImageResource(R.drawable.ic_help_outline_black_36dp);
+                                viewTag.clear();
+                            }else
+                            if(userChoice.get(0).equals(userChoice.get(1))){
+                                Log.d(LOG_TAG, "country equals");
+                                userChoice.clear();
+                                viewTag.clear();
+                            }
                         }
 //            Log.d(LOG_TAG, "get returns " + result.getText());
                     }catch (InterruptedException e){
@@ -345,5 +396,10 @@ public class MainActivity extends AppCompatActivity
     private int battleFieldIndex = 0;
     private ArrayList<String> userChoice;
     private ArrayList<String> viewTag;
+    private Handler handler;
+    private View view;
+    private TextView result;
+    private TextView test1;
+    private TextView test2;
 
 }
