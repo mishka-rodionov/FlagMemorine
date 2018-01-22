@@ -34,7 +34,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,37 +138,47 @@ public class MainActivity extends AppCompatActivity
 
             Log.d(LOG_TAG, "index of container battle field = " + battleFieldIndex);
 
-            View view  = getLayoutInflater().inflate(R.layout.layout_6_6, null);
+            final View view  = getLayoutInflater().inflate(R.layout.layout_6_6, null);
             initImageButton(view);
             for (int i = 0; i < imageButtonArrayList.size(); i++) {
                 imageButtonArrayList.get(i).setBackgroundColor(Color.WHITE);
             }
             final TextView result = (TextView) view.findViewById(R.id.result);
             relativeLayout.addView(view);
+
             View.OnClickListener onClickListener = new View.OnClickListener() {
                 @Override
-                public void onClick(final View view) {
+                public void onClick(View view) {
                     Log.d(LOG_TAG, "press button");
                     final int rowIndex = rowIndexCalc(view.getTag().toString());
                     final int columnIndex = columnIndexCalc(view.getTag().toString());
                     CountryName countryName = new CountryName();
                     countryName.execute(rowIndex,columnIndex,battleFieldIndex);
-                    try {
-                        TimeUnit.SECONDS.sleep(1);
-                        Log.d(LOG_TAG, "Try to get result");
+                    try{
                         String country  = countryName.get();
+//                                TimeUnit.SECONDS.sleep(1);
+                        Log.d(LOG_TAG, "Try to get result");
+
                         result.setText(country);
-                        int resource = CountryList.getCountry(country);
-                        imageButtonArrayList.get(Integer.parseInt(view.getTag().toString()))
-                                .setBackgroundColor(Color.WHITE);
-                        imageButtonArrayList.get(Integer.parseInt(view.getTag().toString()))
-                                .setImageResource(resource);
+                        final int resource = CountryList.getCountry(country);
+                            imageButtonArrayList.get(Integer.parseInt(view.getTag().toString()))
+                                    .setBackgroundColor(Color.WHITE);
+                        Log.d(LOG_TAG, "background is = " + imageButtonArrayList.get(Integer.parseInt(view.getTag().toString()))
+                                .getBackground().toString());
+                            imageButtonArrayList.get(Integer.parseInt(view.getTag().toString()))
+                                    .setImageResource(resource);
+                        Log.d(LOG_TAG, "resoureces is = " + imageButtonArrayList.get(Integer.parseInt(view.getTag().toString()))
+                                .getResources().toString());
+
                         userChoice.add(country);
                         viewTag.add(view.getTag().toString());
                         Log.d(LOG_TAG, "userCoice size = " + userChoice.size());
                         Log.d(LOG_TAG, "userCoice 1 = " + userChoice.get(0));
 
                         if(userChoice.size() == 2 && !userChoice.get(0).equals(userChoice.get(1))){
+                            Log.d(LOG_TAG, "start sleep");
+
+                            Log.d(LOG_TAG, "end sleep");
                             Log.d(LOG_TAG, "country not equals");
                             Log.d(LOG_TAG, "tag first img = " + viewTag.get(0));
                             Log.d(LOG_TAG, "tag second img = " + viewTag.get(1));
@@ -176,25 +186,31 @@ public class MainActivity extends AppCompatActivity
 //                            TimeUnit.SECONDS.sleep(1);
                             imageButtonArrayList.get(Integer.parseInt(viewTag.get(0)))
                                     .setBackgroundColor(Color.WHITE);
+                            Log.d(LOG_TAG, "background is = " + imageButtonArrayList.get(Integer.parseInt(viewTag.get(0)))
+                                    .getBackground().toString());
                             imageButtonArrayList.get(Integer.parseInt(viewTag.get(0)))
                                     .setImageResource(R.drawable.ic_help_outline_black_36dp);
+                            Log.d(LOG_TAG, "resoureces is = " + imageButtonArrayList.get(Integer.parseInt(viewTag.get(0)))
+                                    .getResources().toString());
                             imageButtonArrayList.get(Integer.parseInt(viewTag.get(1)))
                                     .setBackgroundColor(Color.WHITE);
                             imageButtonArrayList.get(Integer.parseInt(viewTag.get(1)))
                                     .setImageResource(R.drawable.ic_help_outline_black_36dp);
                             viewTag.clear();
-                        }else if(userChoice.size() == 2 && userChoice.get(0).equals(userChoice.get(1))){
+                        }
+                        else if(userChoice.size() == 2 && userChoice.get(0).equals(userChoice.get(1))){
                             Log.d(LOG_TAG, "country equals");
                             userChoice.clear();
                             viewTag.clear();
                         }
-                        Log.d(LOG_TAG, "get returns " + result.getText());
-                    } catch (InterruptedException e) {
+//            Log.d(LOG_TAG, "get returns " + result.getText());
+                    }catch (InterruptedException e){
                         e.printStackTrace();
-                    } catch (ExecutionException e) {
+                    }catch (ExecutionException e){
                         e.printStackTrace();
                     }
                 }
+
             };
 
             Button send = (Button) view.findViewById(R.id.buttonSend);
@@ -258,6 +274,12 @@ public class MainActivity extends AppCompatActivity
         imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton37));
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(LOG_TAG, "onResume");
+    }
+
     //Вычисление индекса столбца по тэгу нажатой кнопки.
     public int rowIndexCalc(String viewTag){
         int tag = Integer.parseInt(viewTag);
@@ -314,44 +336,10 @@ public class MainActivity extends AppCompatActivity
 //        return Integer.parseInt(index);
     }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    public String doGet(int rowIndex, int columnIndex, int battleFieldIndex)
-            throws Exception {
-
-        String resp = "";
-
-        HttpUrl httpUrl = new HttpUrl.Builder()
-                .scheme("http")
-                .host(customURL)
-                .port(8080)
-                .addPathSegments("TestGet/getElement")
-                .addQueryParameter("rowIndex",Integer.toString(rowIndex))
-                .addQueryParameter("columnIndex",Integer.toString(columnIndex))
-                .addQueryParameter("battleFieldIndex",Integer.toString(battleFieldIndex))
-                .build();
-
-        Request request = new Request.Builder()
-                .url(httpUrl)
-                .header("User-Agent", "OkHttp Headers.java")
-                .build();
-
-        try (Response response = client.newCall(request).execute()) {
-            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-
-            Headers responseHeaders = response.headers();
-            for (int i = 0; i < responseHeaders.size(); i++) {
-                Log.d(LOG_TAG, responseHeaders.name(i) + ": " + responseHeaders.value(i));
-            }
-            resp = response.body().string();
-            Log.d(LOG_TAG, resp);
-        }
-        return resp;
-    }
-
     private RelativeLayout relativeLayout;
     private String LOG_TAG = "flagmemorine";
     private ArrayList<ImageButton> imageButtonArrayList;
-    private String customURL = "82.202.246.170";
+    private String customURL = Data.customURL;
     private final OkHttpClient client = new OkHttpClient();
     private int battleFieldSize = 6;
     private int battleFieldIndex = 0;

@@ -1,11 +1,15 @@
 package com.example.mishka.flagmemorine;
 
 import android.annotation.TargetApi;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import okhttp3.Headers;
 import okhttp3.HttpUrl;
@@ -14,40 +18,44 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 /**
- * Created by mishka on 21/01/18.
+ * Created by Lab1 on 22.01.2018.
  */
-public class CountryName extends AsyncTask<Integer, Void, String> {
+
+public class TestAsyncTask extends AsyncTask<ArrayList<String>, Void, ArrayList<String>>{
     @Override
-    protected String doInBackground(Integer... params) {
-        String temp = "";
+    protected ArrayList<String> doInBackground(ArrayList<String>... strings) {
+        String temp;
         try {
-            temp = doGet(params[0], params[1], params[2]);
+            if(strings[0].get(0).equals(strings[0].get(1))){
+                temp = doGet("true");
+            }else{
+                temp = doGet("false");
+            }
+
         }catch (Exception e){
             e.printStackTrace(System.out);
             Log.d(LOG_TAG, "exception");
         }
-        return temp;
+        return null;
     }
 
     @Override
-    protected void onPostExecute(String s) {
+    protected void onPostExecute(ArrayList<String> s) {
         super.onPostExecute(s);
     }
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
-    public String doGet(int rowIndex, int columnIndex, int battleFieldIndex)
+    public String doGet(String result)
             throws Exception {
 
-        String resp = "";
+        String answer;
 
         HttpUrl httpUrl = new HttpUrl.Builder()
                 .scheme("http")
                 .host(customURL)
                 .port(8080)
-                .addPathSegments("TestGet/getElement")
-                .addQueryParameter("rowIndex",Integer.toString(rowIndex))
-                .addQueryParameter("columnIndex",Integer.toString(columnIndex))
-                .addQueryParameter("battleFieldIndex",Integer.toString(battleFieldIndex))
+                .addPathSegments("TestGet/result")
+                .addQueryParameter("choice",result)
                 .build();
 
         Request request = new Request.Builder()
@@ -62,14 +70,15 @@ public class CountryName extends AsyncTask<Integer, Void, String> {
             for (int i = 0; i < responseHeaders.size(); i++) {
                 Log.d(LOG_TAG, responseHeaders.name(i) + ": " + responseHeaders.value(i));
             }
-            resp = response.body().string();
-            Log.d(LOG_TAG, resp);
+            answer = response.body().string();
+            Log.d(LOG_TAG, "" + answer);
+            return answer;
         }
-        return resp;
+
+//        return Integer.parseInt(index);
     }
 
     private String LOG_TAG = "flagmemorine";
-    private OkHttpClient client = new OkHttpClient();
+    private final OkHttpClient client = new OkHttpClient();
     private String customURL = Data.customURL;
 }
-
