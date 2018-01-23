@@ -132,6 +132,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
+            relativeLayout.removeAllViewsInLayout();
             //При нажатии на кнопку Play на сервер отправляется get запрос на создание игрового
             // поля размером 6*6. Сервер возвращает индекс хранения текущего игрового поля в
             // контейнере игровых полей.
@@ -189,11 +190,11 @@ public class MainActivity extends AppCompatActivity
                             public void run() {
                                 msg = handler.obtainMessage(1, index, resource);
                                 handler.sendMessage(msg);
-                                try {
-                                    TimeUnit.SECONDS.sleep(1);
-                                }catch (InterruptedException e){
-                                    e.printStackTrace();
-                                }
+//                                try {
+//                                    TimeUnit.SECONDS.sleep(1);
+//                                }catch (InterruptedException e){
+//                                    e.printStackTrace();
+//                                }
 
                             }
                         });
@@ -211,7 +212,7 @@ public class MainActivity extends AppCompatActivity
                         viewTag.add(view.getTag().toString());
                         Log.d(LOG_TAG, "userCoice size = " + userChoice.size());
                         Log.d(LOG_TAG, "userCoice 1 = " + userChoice.get(0));
-//                        Thread.sleep(1000);
+//                        Thread.sleep(5000);
 
                         if(userChoice.size() == 2 ){
                             if(!userChoice.get(0).equals(userChoice.get(1))){
@@ -225,7 +226,7 @@ public class MainActivity extends AppCompatActivity
                                     @Override
                                     public void run() {
                                         msg = handler.obtainMessage(1, but0, paint);
-                                        handler.sendMessage(msg);
+                                        handler.sendMessageDelayed(msg, 2000);
                                     }
                                 });
                                 t1.start();
@@ -234,7 +235,7 @@ public class MainActivity extends AppCompatActivity
                                     @Override
                                     public void run() {
                                         msg = handler.obtainMessage(1, but1, paint);
-                                        handler.sendMessage(msg);
+                                        handler.sendMessageDelayed(msg, 2000);
                                     }
                                 });
                                 t2.start();
