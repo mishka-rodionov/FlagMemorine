@@ -74,7 +74,6 @@ public class MainActivity extends AppCompatActivity
                         imageButtonArrayList.get(i).setClickable(true);
                     }
                 }
-
             }
         };
         //************************
@@ -143,6 +142,7 @@ public class MainActivity extends AppCompatActivity
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
             relativeLayout.removeAllViewsInLayout();
+            stepCounter = 0;
             // При нажатии на кнопку Play на сервер отправляется get запрос на создание игрового
             // поля размером 6*6. Сервер возвращает индекс хранения текущего игрового поля в
             // контейнере игровых полей.
@@ -171,6 +171,11 @@ public class MainActivity extends AppCompatActivity
 
             Log.d(LOG_TAG, "index of container battle field = " + battleFieldIndex);
             relativeLayout.addView(view);
+            for (int i = 0; i < imageButtonArrayList.size(); i++) {
+                imageButtonArrayList.get(i).setBackgroundColor(Color.WHITE);
+                imageButtonArrayList.get(i).setImageResource(R.drawable.ic_help_outline_black_36dp);
+                imageButtonArrayList.get(i).setClickable(true);
+            }
             // Метод обработки нажатий на кнопки на игровом поле. При нажатии на кнопку происходит
             // отправка данных на сервер (индекс строки и столбца (два целочисленных значения)).
             // По этим данным возвращается запращиваемое значение (название страны).Используя это
@@ -208,7 +213,9 @@ public class MainActivity extends AppCompatActivity
                         Log.d(LOG_TAG, "userCoice 1 = " + userChoice.get(0));
 
                         if(userChoice.size() == 2 ){                                                // Проверка количества элементов в контейнере пользовательского выбора.
-                            view.setClickable(false);
+                            stepCounter++;
+                            test1.setText("" + stepCounter);
+//                            view.setClickable(false);
                             if(!userChoice.get(0).equals(userChoice.get(1))){                       // Если значения пользовательского выбора не равны, то
                                 userChoice.clear();                                                 // очищаем контейнер
                                 final int but0 = Integer.parseInt(viewTag.get(0));                  // вычисляем тег первой нажатой кнопки
@@ -398,5 +405,6 @@ public class MainActivity extends AppCompatActivity
     private TextView test1;
     private TextView test2;
     private HashMap<Integer, Boolean> clickable;
+    private int stepCounter = 0;
 
 }
