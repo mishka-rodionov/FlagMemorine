@@ -22,9 +22,9 @@ public class CountryList {
         countryMap.put("Belarus", R.drawable.belarus);
         countryMap.put("Belgium", R.drawable.belgium);
         countryMap.put("Bosnia and Herzegovina", R.drawable.bosnia_and_herzegovina);
-        countryMap.put("Bulgaria", R.drawable.bolgaria);
+        countryMap.put("Bulgaria", R.drawable.bulgaria);
         countryMap.put("Croatia", R.drawable.croatia);
-        countryMap.put("Czech Republic", R.drawable.chezh_republic);
+        countryMap.put("Czech Republic", R.drawable.czech_republic);
         countryMap.put("Denmark", R.drawable.denmark);
         countryMap.put("Estonia", R.drawable.estonia);
         countryMap.put("Finland", R.drawable.finland);
@@ -39,11 +39,11 @@ public class CountryList {
         countryMap.put("Latvia", R.drawable.latvia);
         countryMap.put("Liechtenstein", R.drawable.lihtenstein);
         countryMap.put("Lithuania", R.drawable.lithuania);
-        countryMap.put("Luxembourg", R.drawable.luxembourge);
+        countryMap.put("Luxembourg", R.drawable.luxembourg);
         countryMap.put("Macedonia", R.drawable.macedonia);
         countryMap.put("Malta", R.drawable.malta);
         countryMap.put("Moldova", R.drawable.moldavia);
-        countryMap.put("Monaco", R.drawable.monako);
+        countryMap.put("Monaco", R.drawable.monaco);
         countryMap.put("Montenegro", R.drawable.montenegro);
         countryMap.put("Netherlands", R.drawable.netherlands);
         countryMap.put("Norway", R.drawable.norway);
@@ -57,16 +57,16 @@ public class CountryList {
         countryMap.put("Slovenia", R.drawable.slovenia);
         countryMap.put("Spain", R.drawable.spain);
         countryMap.put("Sweden", R.drawable.sweden);
-        countryMap.put("Switzerland", R.drawable.swizertchland);
-        countryMap.put("Turkey", R.drawable.turkie);
+        countryMap.put("Switzerland", R.drawable.switzerland);
+        countryMap.put("Turkey", R.drawable.turkey);
         countryMap.put("Ukraine", R.drawable.ukraine);
         countryMap.put("United Kingdom", R.drawable.united_kingdom);
         countryMap.put("Vatican", R.drawable.vatikan);
-        countryMap.put("Armenia", R.drawable.kosovo);
-        countryMap.put("Azerbaijan", R.drawable.kosovo);
-        countryMap.put("Cyprus", R.drawable.kosovo);
-        countryMap.put("Georgia", R.drawable.kosovo);
-        countryMap.put("Kazakhstan", R.drawable.kosovo);
+        countryMap.put("Armenia", R.drawable.armenia);
+        countryMap.put("Azerbaijan", R.drawable.azerbaijan);
+        countryMap.put("Cyprus", R.drawable.cyprus);
+        countryMap.put("Georgia", R.drawable.georgia);
+        countryMap.put("Kazakhstan", R.drawable.kazakhstan);
 //        countryMap.put("Armenia", R.drawable.armenia);
 
     }

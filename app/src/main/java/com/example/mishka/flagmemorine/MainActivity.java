@@ -26,6 +26,7 @@ import android.widget.TextView;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
@@ -52,6 +53,10 @@ public class MainActivity extends AppCompatActivity
         for (int i = 0; i < imageButtonArrayList.size(); i++) {
             imageButtonArrayList.get(i).setBackgroundColor(Color.WHITE);
         }
+        clickable = new HashMap<Integer, Boolean>();
+        for (int i = 0; i < battleFieldSize*battleFieldSize; i++) {
+            clickable.put(i, true);
+        }
         result = (TextView) view.findViewById(R.id.result);
         test1 = (TextView) view.findViewById(R.id.test1);
         test2 = (TextView) view.findViewById(R.id.test2);
@@ -59,11 +64,16 @@ public class MainActivity extends AppCompatActivity
         handler = new Handler(){
             @Override
             public void handleMessage(Message msg) {
-//                super.handleMessage(msg);
                 imageButtonArrayList.get(msg.arg1)
                         .setBackgroundColor(Color.WHITE);
                 imageButtonArrayList.get(msg.arg1)
                         .setImageResource(msg.arg2);
+                view.setClickable(true);
+                for (int i = 0; i < clickable.size(); i++) {
+                    if(clickable.get(i)){
+                        imageButtonArrayList.get(i).setClickable(true);
+                    }
+                }
 
             }
         };
@@ -133,7 +143,7 @@ public class MainActivity extends AppCompatActivity
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
             relativeLayout.removeAllViewsInLayout();
-            //При нажатии на кнопку Play на сервер отправляется get запрос на создание игрового
+            // При нажатии на кнопку Play на сервер отправляется get запрос на создание игрового
             // поля размером 6*6. Сервер возвращает индекс хранения текущего игрового поля в
             // контейнере игровых полей.
             new AsyncTask<Void, String, Integer>(){
@@ -160,102 +170,87 @@ public class MainActivity extends AppCompatActivity
             //*****************************************************************************
 
             Log.d(LOG_TAG, "index of container battle field = " + battleFieldIndex);
-
-
             relativeLayout.addView(view);
-
+            // Метод обработки нажатий на кнопки на игровом поле. При нажатии на кнопку происходит
+            // отправка данных на сервер (индекс строки и столбца (два целочисленных значения)).
+            // По этим данным возвращается запращиваемое значение (название страны).Используя это
+            // значение, из контейнера выбирается необходимый ресурс для отображения на кнопке и
+            // отображается на ней. Если происходит второй подряд клик на кнопке, то определяется,
+            // совпадают ли флаги на этих кнопка. Если флаги совпадают, то кнопки становятся
+            // некликабельными, дальше происходит обычная работа. Если флаги несовпадют, то они
+            // отображаются секунду, после чего закрываются.
             View.OnClickListener onClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Log.d(LOG_TAG, "press button");
-                    final int rowIndex = rowIndexCalc(view.getTag().toString());
-                    final int columnIndex = columnIndexCalc(view.getTag().toString());
+                    final int rowIndex = rowIndexCalc(view.getTag().toString());                    // Вычисление индекса строки.
+                    final int columnIndex = columnIndexCalc(view.getTag().toString());              // Вычисление индекса столбца.
                     CountryName countryName = new CountryName();
-                    countryName.execute(rowIndex,columnIndex,battleFieldIndex);
+                    countryName.execute(rowIndex,columnIndex,battleFieldIndex);                     // GET-запрос на сервер. Создается новый поток (AsyncTask).
                     try{
-                        String country  = countryName.get();
-//                                TimeUnit.SECONDS.sleep(1);
+                        String country  = countryName.get();                                        // Получение ответа от AsynkTask
                         Log.d(LOG_TAG, "Try to get result");
-
-                        result.setText(country);
-                        final int resource = CountryList.getCountry(country);
-//                            imageButtonArrayList.get(Integer.parseInt(view.getTag().toString()))
-//                                    .setBackgroundColor(Color.WHITE);
-//                            imageButtonArrayList.get(Integer.parseInt(view.getTag().toString()))
-//                                    .setImageResource(resource);
-                        final int index = Integer.parseInt(view.getTag().toString());
-                        Thread t = new Thread(new Runnable() {
+                        result.setText(country);                                                    // Отображение значения в тестовом текстовом поле
+                        final int resource = CountryList.getCountry(country);                       // Получение целочисленного значения сооветствующего ресурсу с флагом
+                        final int index = Integer.parseInt(view.getTag().toString());               // Вычисление индекса кнопки в контейнере кнопок по тэгу кнопки
+                        Thread t = new Thread(new Runnable() {                                      // Создание нового потока для отображения флага на кнопке.
                             Message msg;
                             @Override
                             public void run() {
-                                msg = handler.obtainMessage(1, index, resource);
-                                handler.sendMessage(msg);
-//                                try {
-//                                    TimeUnit.SECONDS.sleep(1);
-//                                }catch (InterruptedException e){
-//                                    e.printStackTrace();
-//                                }
-
+                                msg = handler.obtainMessage(1, index, resource);                    // Формирование сообщения для хэндлера.
+                                handler.sendMessage(msg);                                           // Отправка сообщения хэндлеру.
                             }
                         });
                         t.start();
-
-                        userChoice.add(country);
-                        if(userChoice.size() == 1){
-                            test1.setText("blank");
-                            test1.setText(country);
-                        }
-                        if (userChoice.size() == 2){
-                            test2.setText("blank");
-                            test2.setText(country);
-                        }
-                        viewTag.add(view.getTag().toString());
+                        userChoice.add(country);                                                    // Добавление выбранного значения в контейнер пользовательского выбора.
+                        viewTag.add(view.getTag().toString());                                      // Добавление тега выбранной кнопки в контейнер пользовательского выбора.
                         Log.d(LOG_TAG, "userCoice size = " + userChoice.size());
                         Log.d(LOG_TAG, "userCoice 1 = " + userChoice.get(0));
-//                        Thread.sleep(5000);
 
-                        if(userChoice.size() == 2 ){
-                            if(!userChoice.get(0).equals(userChoice.get(1))){
-                                userChoice.clear();
-                                final int but0 = Integer.parseInt(viewTag.get(0));
-                                final int but1 = Integer.parseInt(viewTag.get(1));
-    //                            TimeUnit.SECONDS.sleep(1);
-                                final int paint = R.drawable.ic_help_outline_black_36dp;
-                                Thread t1 = new Thread(new Runnable() {
+                        if(userChoice.size() == 2 ){                                                // Проверка количества элементов в контейнере пользовательского выбора.
+                            view.setClickable(false);
+                            if(!userChoice.get(0).equals(userChoice.get(1))){                       // Если значения пользовательского выбора не равны, то
+                                userChoice.clear();                                                 // очищаем контейнер
+                                final int but0 = Integer.parseInt(viewTag.get(0));                  // вычисляем тег первой нажатой кнопки
+                                final int but1 = Integer.parseInt(viewTag.get(1));                  // вычисляем тег второй нажатой кнопки
+                                for (int i = 0; i < clickable.size(); i++) {
+                                    if(clickable.get(i)){
+                                        imageButtonArrayList.get(i).setClickable(false);
+                                    }
+                                }
+                                final int paint = R.drawable.ic_help_outline_black_36dp;            // вычисляем целочисленное значение файла ресурса с флагом
+                                Thread t1 = new Thread(new Runnable() {                             // создаем новый поток для закрытия первого, из выбранных пользователем флагов, рубашкой
                                     Message msg;
                                     @Override
                                     public void run() {
-                                        msg = handler.obtainMessage(1, but0, paint);
-                                        handler.sendMessageDelayed(msg, 2000);
+                                        msg = handler.obtainMessage(1, but0, paint);                // подготавливаем сообщение
+                                        handler.sendMessageDelayed(msg, 1000);                      // помещаем в очередь хэндлера отложенное на секунду сообщение
                                     }
                                 });
                                 t1.start();
-                                Thread t2 = new Thread(new Runnable() {
+                                Thread t2 = new Thread(new Runnable() {                             // то же самое делаем для второй кнопки
                                     Message msg;
                                     @Override
                                     public void run() {
                                         msg = handler.obtainMessage(1, but1, paint);
-                                        handler.sendMessageDelayed(msg, 2000);
+                                        handler.sendMessageDelayed(msg, 1000);
                                     }
                                 });
                                 t2.start();
-//                                imageButtonArrayList.get(Integer.parseInt(viewTag.get(0)))
-//                                        .setBackgroundColor(Color.WHITE);
-//                                imageButtonArrayList.get(Integer.parseInt(viewTag.get(0)))
-//                                        .setImageResource(R.drawable.ic_help_outline_black_36dp);
-//                                imageButtonArrayList.get(Integer.parseInt(viewTag.get(1)))
-//                                        .setBackgroundColor(Color.WHITE);
-//                                imageButtonArrayList.get(Integer.parseInt(viewTag.get(1)))
-//                                        .setImageResource(R.drawable.ic_help_outline_black_36dp);
-                                viewTag.clear();
-                            }else
-                            if(userChoice.get(0).equals(userChoice.get(1))){
+                                viewTag.clear();                                                    // очищаем контейнер тегов
+                            }else                                                                   // иначе
+                            if(userChoice.get(0).equals(userChoice.get(1))){                        // Если значения пользовательского выбора равны, то
                                 Log.d(LOG_TAG, "country equals");
-                                userChoice.clear();
+                                imageButtonArrayList.get(Integer.parseInt(viewTag.get(0)))
+                                        .setClickable(false);                                       // делаем выбранные кнопки не кликабельными
+                                imageButtonArrayList.get(Integer.parseInt(viewTag.get(1)))
+                                        .setClickable(false);
+                                clickable.put(Integer.parseInt(viewTag.get(0)), false);
+                                clickable.put(Integer.parseInt(viewTag.get(1)), false);
+                                userChoice.clear();                                                 // очищаем контейнеры пользовательского выбора
                                 viewTag.clear();
                             }
                         }
-//            Log.d(LOG_TAG, "get returns " + result.getText());
                     }catch (InterruptedException e){
                         e.printStackTrace();
                     }catch (ExecutionException e){
@@ -402,5 +397,6 @@ public class MainActivity extends AppCompatActivity
     private TextView result;
     private TextView test1;
     private TextView test2;
+    private HashMap<Integer, Boolean> clickable;
 
 }
