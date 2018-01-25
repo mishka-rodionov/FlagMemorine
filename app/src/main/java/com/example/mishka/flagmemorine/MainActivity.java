@@ -1,6 +1,7 @@
 package com.example.mishka.flagmemorine;
 
 import android.annotation.TargetApi;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -44,6 +45,8 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //************************
+        record = getPreferences(MODE_PRIVATE);
+        topRecord = Integer.parseInt(record.getString("REC", "10000"));
         relativeLayout = (RelativeLayout) findViewById(R.id.relativelayout);
         userChoice = new ArrayList<>(2);
         viewTag = new ArrayList<>(2);
@@ -60,6 +63,10 @@ public class MainActivity extends AppCompatActivity
         result = (TextView) view.findViewById(R.id.result);
         test1 = (TextView) view.findViewById(R.id.test1);
         test2 = (TextView) view.findViewById(R.id.test2);
+        if(topRecord == 10000)
+            test2.setText("" + 0);
+        else
+            test2.setText("" + topRecord);
 
         handler = new Handler(){
             @Override
@@ -68,12 +75,12 @@ public class MainActivity extends AppCompatActivity
                         .setBackgroundColor(Color.WHITE);
                 imageButtonArrayList.get(msg.arg1)
                         .setImageResource(msg.arg2);
-                view.setClickable(true);
-                for (int i = 0; i < clickable.size(); i++) {
-                    if(clickable.get(i)){
-                        imageButtonArrayList.get(i).setClickable(true);
-                    }
-                }
+//                view.setClickable(true);
+//                for (int i = 0; i < clickable.size(); i++) {
+//                    if(clickable.get(i)){
+//                        imageButtonArrayList.get(i).setClickable(true);
+//                    }
+//                }
             }
         };
         //************************
@@ -169,6 +176,9 @@ public class MainActivity extends AppCompatActivity
             }.execute();
             //*****************************************************************************
 
+            for (int i = 0; i < battleFieldSize*battleFieldSize; i++) {
+                clickable.put(i, true);
+            }
             Log.d(LOG_TAG, "index of container battle field = " + battleFieldIndex);
             relativeLayout.addView(view);
             for (int i = 0; i < imageButtonArrayList.size(); i++) {
@@ -209,6 +219,8 @@ public class MainActivity extends AppCompatActivity
                         t.start();
                         userChoice.add(country);                                                    // Добавление выбранного значения в контейнер пользовательского выбора.
                         viewTag.add(view.getTag().toString());                                      // Добавление тега выбранной кнопки в контейнер пользовательского выбора.
+                        imageButtonArrayList.get(Integer.parseInt(view.getTag().toString()))
+                                .setClickable(false);
                         Log.d(LOG_TAG, "userCoice size = " + userChoice.size());
                         Log.d(LOG_TAG, "userCoice 1 = " + userChoice.get(0));
 
@@ -220,11 +232,13 @@ public class MainActivity extends AppCompatActivity
                                 userChoice.clear();                                                 // очищаем контейнер
                                 final int but0 = Integer.parseInt(viewTag.get(0));                  // вычисляем тег первой нажатой кнопки
                                 final int but1 = Integer.parseInt(viewTag.get(1));                  // вычисляем тег второй нажатой кнопки
-                                for (int i = 0; i < clickable.size(); i++) {
-                                    if(clickable.get(i)){
-                                        imageButtonArrayList.get(i).setClickable(false);
-                                    }
-                                }
+//                                for (int i = 0; i < clickable.size(); i++) {
+//                                    if(clickable.get(i)){
+//                                        imageButtonArrayList.get(i).setClickable(false);
+//                                    }
+//                                }
+                                imageButtonArrayList.get(but0).setClickable(true);
+                                imageButtonArrayList.get(but1).setClickable(true);
                                 final int paint = R.drawable.ic_help_outline_black_36dp;            // вычисляем целочисленное значение файла ресурса с флагом
                                 Thread t1 = new Thread(new Runnable() {                             // создаем новый поток для закрытия первого, из выбранных пользователем флагов, рубашкой
                                     Message msg;
@@ -256,6 +270,17 @@ public class MainActivity extends AppCompatActivity
                                 clickable.put(Integer.parseInt(viewTag.get(1)), false);
                                 userChoice.clear();                                                 // очищаем контейнеры пользовательского выбора
                                 viewTag.clear();
+                                if(!clickable.containsValue(true)){
+                                    clickable.clear();
+                                    userRecord = Integer.parseInt(test1.getText().toString());
+                                    Log.d(LOG_TAG, "user record = " + userRecord);
+                                    if(userRecord < topRecord){
+                                        test2.setText("" + userRecord);
+                                        SharedPreferences.Editor editor = record.edit();
+                                        editor.putString("REC", test1.getText().toString());
+                                        editor.commit();
+                                    }
+                                }
                             }
                         }
                     }catch (InterruptedException e){
@@ -406,5 +431,7 @@ public class MainActivity extends AppCompatActivity
     private TextView test2;
     private HashMap<Integer, Boolean> clickable;
     private int stepCounter = 0;
-
+    private int userRecord = 0;
+    private int topRecord = 0;
+    private SharedPreferences record;
 }
