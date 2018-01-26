@@ -1,7 +1,9 @@
-package com.example.mishka.flagmemorine;
+package com.example.mishka.flagmemorine.logic;
 
 import android.util.Log;
 import android.view.View;
+
+import com.example.mishka.flagmemorine.R;
 
 /**
  * Created by Lab1 on 10.01.2018.

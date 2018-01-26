@@ -1,4 +1,4 @@
-package com.example.mishka.flagmemorine;
+package com.example.mishka.flagmemorine.logic;
 
 /**
  * Created by Lab1 on 22.01.2018.

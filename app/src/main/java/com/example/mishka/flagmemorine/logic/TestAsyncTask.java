@@ -1,12 +1,9 @@
-package com.example.mishka.flagmemorine;
+package com.example.mishka.flagmemorine.logic;
 
 import android.annotation.TargetApi;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
-import android.view.View;
-import android.widget.ImageButton;
 
 import java.io.IOException;
 import java.util.ArrayList;

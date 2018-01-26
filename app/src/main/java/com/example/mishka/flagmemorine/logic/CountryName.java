@@ -1,4 +1,4 @@
-package com.example.mishka.flagmemorine;
+package com.example.mishka.flagmemorine.logic;
 
 import android.annotation.TargetApi;
 import android.os.AsyncTask;

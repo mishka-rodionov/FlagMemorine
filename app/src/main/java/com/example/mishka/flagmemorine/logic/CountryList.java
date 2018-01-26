@@ -1,7 +1,9 @@
-package com.example.mishka.flagmemorine;
+package com.example.mishka.flagmemorine.logic;
 
 import android.media.Image;
 import android.widget.ImageView;
+
+import com.example.mishka.flagmemorine.R;
 
 import java.util.HashMap;
 
