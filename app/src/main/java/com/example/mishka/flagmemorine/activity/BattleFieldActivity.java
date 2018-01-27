@@ -403,7 +403,8 @@ public class BattleFieldActivity extends AppCompatActivity
                 .scheme("http")
                 .host(customURL)
                 .port(8080)
-                .addPathSegments("TestGet/hello")
+                .addPathSegment(Data.getServerAppName())
+                .addPathSegment(Data.getMainServlet())
                 .addQueryParameter("size",Integer.toString(size))
                 .build();
 
@@ -430,7 +431,7 @@ public class BattleFieldActivity extends AppCompatActivity
     private RelativeLayout relativeLayout;
     private String LOG_TAG = "flagmemorine";
     private ArrayList<ImageButton> imageButtonArrayList;
-    private String customURL = Data.customURL;
+    private String customURL = Data.getCustomURL();
     private final OkHttpClient client = new OkHttpClient();
     private int battleFieldSize = 6;
     private int battleFieldIndex = 0;

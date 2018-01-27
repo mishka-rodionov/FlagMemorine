@@ -70,6 +70,6 @@ public class CountryName extends AsyncTask<Integer, Void, String> {
 
     private String LOG_TAG = "flagmemorine";
     private OkHttpClient client = new OkHttpClient();
-    private String customURL = Data.customURL;
+    private String customURL = Data.getCustomURL();
 }
 

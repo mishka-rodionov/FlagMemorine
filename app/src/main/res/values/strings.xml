@@ -7,4 +7,8 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_battle_field">BattleFieldActivity</string>
     <string name="title_activity_rooms">RoomsActivity</string>
+    <string name="your_name">Your name</string>
+    <string name="_4x4">4x4</string>
+    <string name="_6x6">6x6</string>
+    <string name="create">create</string>
 </resources>

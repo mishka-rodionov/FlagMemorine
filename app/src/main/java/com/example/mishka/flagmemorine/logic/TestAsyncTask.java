@@ -77,5 +77,5 @@ public class TestAsyncTask extends AsyncTask<ArrayList<String>, Void, ArrayList<
 
     private String LOG_TAG = "flagmemorine";
     private final OkHttpClient client = new OkHttpClient();
-    private String customURL = Data.customURL;
+    private String customURL = Data.getCustomURL();
 }
