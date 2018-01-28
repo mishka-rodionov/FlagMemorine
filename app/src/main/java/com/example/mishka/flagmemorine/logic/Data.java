@@ -51,10 +51,20 @@ public class Data {
         Data.battleFieldServlet = battleFieldServlet;
     }
 
+    public static String getBattleFieldServletParameter() {
+        return battleFieldServletParameter;
+    }
+
+    public static void setBattleFieldServletParameter(String battleFieldServletParameter) {
+        Data.battleFieldServletParameter = battleFieldServletParameter;
+    }
+
     private static String customURL = "82.202.246.170";
     private static String LOG_TAG = "flagmemorine";
     private static String serverAppName = "TestGet";
     private static String mainServlet = "hello";
     private static String roomServlet = "rooms";
     private static String battleFieldServlet = "getElement";
+    private static String battleFieldServletParameter = "size";
+
 }

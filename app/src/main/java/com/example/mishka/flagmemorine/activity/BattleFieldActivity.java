@@ -1,11 +1,7 @@
 package com.example.mishka.flagmemorine.activity;
 
-import android.annotation.TargetApi;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -28,19 +24,14 @@ import android.widget.TextView;
 
 import com.example.mishka.flagmemorine.R;
 import com.example.mishka.flagmemorine.logic.CountryList;
-import com.example.mishka.flagmemorine.logic.CountryName;
 import com.example.mishka.flagmemorine.logic.Data;
+import com.example.mishka.flagmemorine.logic.HttpClient;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 
-import okhttp3.Headers;
-import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class BattleFieldActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -50,7 +41,8 @@ public class BattleFieldActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_battle_field);
 
-        //************************
+        //******************************************************************************************
+        httpClient = new HttpClient();
         record = getPreferences(MODE_PRIVATE);
         topRecord = Integer.parseInt(record.getString("REC", "10000"));
         relativeLayout = (RelativeLayout) findViewById(R.id.relativelayoutbattlefield);
@@ -99,28 +91,15 @@ public class BattleFieldActivity extends AppCompatActivity
         // При нажатии на кнопку Play на сервер отправляется get запрос на создание игрового
         // поля размером 6*6. Сервер возвращает индекс хранения текущего игрового поля в
         // контейнере игровых полей.
-        new AsyncTask<Void, String, Integer>(){
-            @Override
-            protected Integer doInBackground(Void... params) {
-                int result = 0;
-                try {
-                    result = doGet(battleFieldSize);
-                    Log.d(LOG_TAG, "result is = " + result);
-                }catch (Exception e){
-                    e.printStackTrace(System.out);
-                    Log.d(LOG_TAG, "exception");
-                }
-                return result;
-            }
-
-            @Override
-            protected void onPostExecute(Integer integer) {
-                super.onPostExecute(integer);
-                Log.d(LOG_TAG, "integer is = " + integer);
-                battleFieldIndex = integer;
-            }
-        }.execute();
-        //*****************************************************************************
+        httpClient.execute(Integer.toString(battleFieldSize));
+        try{
+            battleFieldIndex = Integer.parseInt(httpClient.get());
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }catch (ExecutionException e){
+            e.printStackTrace();
+        }
+        //******************************************************************************************
 
         for (int i = 0; i < battleFieldSize*battleFieldSize; i++) {
             clickable.put(i, true);
@@ -146,10 +125,12 @@ public class BattleFieldActivity extends AppCompatActivity
                 Log.d(LOG_TAG, "press button");
                 final int rowIndex = rowIndexCalc(view.getTag().toString());                    // Вычисление индекса строки.
                 final int columnIndex = columnIndexCalc(view.getTag().toString());              // Вычисление индекса столбца.
-                CountryName countryName = new CountryName();
-                countryName.execute(rowIndex,columnIndex,battleFieldIndex);                     // GET-запрос на сервер. Создается новый поток (AsyncTask).
+                httpClient = new HttpClient();
+                httpClient.execute(Integer.toString(rowIndex), Integer.toString(columnIndex),   // GET-запрос на сервер. Создается новый поток (AsyncTask).
+                        Integer.toString(battleFieldIndex));
                 try{
-                    String country  = countryName.get();                                        // Получение ответа от AsynkTask
+//                    String country  = countryName.get();                                        // Получение ответа от AsynkTask
+                    String country  = httpClient.get();                                        // Получение ответа от AsynkTask
                     Log.d(LOG_TAG, "Try to get result");
                     result.setText(country);                                                    // Отображение значения в тестовом текстовом поле
                     final int resource = CountryList.getCountry(country);                       // Получение целочисленного значения сооветствующего ресурсу с флагом
@@ -244,7 +225,7 @@ public class BattleFieldActivity extends AppCompatActivity
             imageButtonArrayList.get(i).setOnClickListener(onClickListener);
         }
 
-        //************************
+        //******************************************************************************************
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -393,41 +374,6 @@ public class BattleFieldActivity extends AppCompatActivity
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    public int doGet(int size)
-            throws Exception {
-
-        int index;
-
-        HttpUrl httpUrl = new HttpUrl.Builder()
-                .scheme("http")
-                .host(customURL)
-                .port(8080)
-                .addPathSegment(Data.getServerAppName())
-                .addPathSegment(Data.getMainServlet())
-                .addQueryParameter("size",Integer.toString(size))
-                .build();
-
-        Request request = new Request.Builder()
-                .url(httpUrl)
-                .header("User-Agent", "OkHttp Headers.java")
-                .build();
-
-        try (Response response = client.newCall(request).execute()) {
-            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-
-            Headers responseHeaders = response.headers();
-            for (int i = 0; i < responseHeaders.size(); i++) {
-                Log.d(LOG_TAG, responseHeaders.name(i) + ": " + responseHeaders.value(i));
-            }
-            index = Integer.parseInt(response.body().string());
-            Log.d(LOG_TAG, "" + index);
-            return index;
-        }
-
-//        return Integer.parseInt(index);
-    }
-
     private RelativeLayout relativeLayout;
     private String LOG_TAG = "flagmemorine";
     private ArrayList<ImageButton> imageButtonArrayList;
@@ -447,4 +393,5 @@ public class BattleFieldActivity extends AppCompatActivity
     private int userRecord = 0;
     private int topRecord = 0;
     private SharedPreferences record;
+    private HttpClient httpClient;
 }
