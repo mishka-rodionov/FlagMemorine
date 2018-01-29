@@ -27,6 +27,8 @@ import com.example.mishka.flagmemorine.logic.HttpClient;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
 
 import okhttp3.Headers;
 import okhttp3.HttpUrl;
@@ -49,8 +51,23 @@ public class RoomsActivity extends AppCompatActivity
         roomList = (ListView) findViewById(R.id.roomList);
         roomListAdapter = new ArrayAdapter<String>(RoomsActivity.this, android.R.layout.simple_list_item_1);
         roomList.setAdapter(roomListAdapter);
-        roomName = new ArrayList<String>();
+        roomName = new HashMap<>();
         httpClient = new HttpClient();
+        httpClient.execute();
+        String[] recievingRoomList = {};
+        try{
+            recievingRoomList = httpClient.get().split(" ");
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }catch (ExecutionException e){
+            e.printStackTrace();
+        }
+        if(recievingRoomList.length > 1) {
+            for (int i = 0; i < recievingRoomList.length; i += 2) {
+                roomName.put(recievingRoomList[i], recievingRoomList[i + 1]);
+            }
+        }
+        roomListAdapter.addAll(roomName.values());
 //        for (int i = 0; i < 5; i++) {
 //            roomName.add("room" + i);
 //        }
@@ -68,7 +85,8 @@ public class RoomsActivity extends AppCompatActivity
             public void onClick(View view) {
                 //**********************************************************************************
                 Log.d(Data.getLOG_TAG(), "onClick fab" + battleFieldSize6x6.getText().toString());
-                httpClient.execute(userNameET.getText().toString(), battleFieldSize6x6.getText().toString());
+                httpClient = new HttpClient();
+                httpClient.execute(userNameET.getText().toString(), "6" /*battleFieldSize6x6.getText().toString()*/);
 
                 //**********************************************************************************
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -151,6 +169,6 @@ public class RoomsActivity extends AppCompatActivity
     private int battleFieldIndex;
     private ListView roomList;
     private ArrayAdapter<String> roomListAdapter;
-    private ArrayList<String> roomName;
+    private HashMap<String, String> roomName;
     private HttpClient httpClient;
 }

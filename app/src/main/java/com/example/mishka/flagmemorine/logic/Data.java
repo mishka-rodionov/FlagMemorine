@@ -35,12 +35,12 @@ public class Data {
         Data.mainServlet = mainServlet;
     }
 
-    public static String getRoomServlet() {
-        return roomServlet;
+    public static String getCreateRoomServlet() {
+        return createRoomServlet;
     }
 
-    public static void setRoomServlet(String roomServlet) {
-        Data.roomServlet = roomServlet;
+    public static void setCreateRoomServlet(String createRoomServlet) {
+        Data.createRoomServlet = createRoomServlet;
     }
 
     public static String getBattleFieldServlet() {
@@ -59,11 +59,20 @@ public class Data {
         Data.battleFieldServletParameter = battleFieldServletParameter;
     }
 
+    public static String getRoomListRequestServlet() {
+        return roomListRequestServlet;
+    }
+
+    public static void setRoomListRequestServlet(String roomListRequestServlet) {
+        Data.roomListRequestServlet = roomListRequestServlet;
+    }
+
     private static String customURL = "82.202.246.170";
     private static String LOG_TAG = "flagmemorine";
     private static String serverAppName = "TestGet";
     private static String mainServlet = "hello";
-    private static String roomServlet = "rooms";
+    private static String createRoomServlet = "createRoom";
+    private static String roomListRequestServlet = "rooms";
     private static String battleFieldServlet = "getElement";
     private static String battleFieldServletParameter = "size";
 
