@@ -23,6 +23,7 @@ import android.widget.RadioButton;
 
 import com.example.mishka.flagmemorine.R;
 import com.example.mishka.flagmemorine.logic.Data;
+import com.example.mishka.flagmemorine.logic.HttpClient;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -49,7 +50,7 @@ public class RoomsActivity extends AppCompatActivity
         roomListAdapter = new ArrayAdapter<String>(RoomsActivity.this, android.R.layout.simple_list_item_1);
         roomList.setAdapter(roomListAdapter);
         roomName = new ArrayList<String>();
-        client = new OkHttpClient();
+        httpClient = new HttpClient();
 //        for (int i = 0; i < 5; i++) {
 //            roomName.add("room" + i);
 //        }
@@ -66,26 +67,9 @@ public class RoomsActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 //**********************************************************************************
-                String name = userNameET.getText().toString();
-                new AsyncTask<String, String, Integer>(){
-                    @Override
-                    protected Integer doInBackground(String... params) {
-                        Integer index = null;
-                        try{
-                            index = doGet(params[0]);
-                        }
-                        catch (Exception e){
-                            e.printStackTrace();
-                        }
-                        return index;
-                    }
+                Log.d(Data.getLOG_TAG(), "onClick fab" + battleFieldSize6x6.getText().toString());
+                httpClient.execute(userNameET.getText().toString(), battleFieldSize6x6.getText().toString());
 
-                    @Override
-                    protected void onPostExecute(Integer index) {
-                        super.onPostExecute(index);
-                        battleFieldIndex = index;
-                    }
-                }.execute(name);
                 //**********************************************************************************
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
@@ -159,41 +143,6 @@ public class RoomsActivity extends AppCompatActivity
         return true;
     }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    public int doGet(String name)
-            throws Exception {
-
-        int index;
-
-        HttpUrl httpUrl = new HttpUrl.Builder()
-                .scheme("http")
-                .host(Data.getCustomURL())
-                .port(8080)
-                .addPathSegment(Data.getServerAppName())
-                .addPathSegment(Data.getRoomServlet())
-                .addQueryParameter("roomName", name)
-                .build();
-
-        Request request = new Request.Builder()
-                .url(httpUrl)
-                .header("User-Agent", "OkHttp Headers.java")
-                .build();
-
-        try (Response response = client.newCall(request).execute()) {
-            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-
-            Headers responseHeaders = response.headers();
-            for (int i = 0; i < responseHeaders.size(); i++) {
-                Log.d(Data.getLOG_TAG(), responseHeaders.name(i) + ": " + responseHeaders.value(i));
-            }
-            index = Integer.parseInt(response.body().string());
-            Log.d(Data.getLOG_TAG(), "" + index);
-            return index;
-        }
-
-//        return Integer.parseInt(index);
-    }
-
     private EditText userNameET;
     private RadioButton battleFieldSize6x6;
     private RadioButton battleFieldSize4x4;
@@ -203,5 +152,5 @@ public class RoomsActivity extends AppCompatActivity
     private ListView roomList;
     private ArrayAdapter<String> roomListAdapter;
     private ArrayList<String> roomName;
-    private OkHttpClient client;
+    private HttpClient httpClient;
 }

@@ -378,7 +378,6 @@ public class BattleFieldActivity extends AppCompatActivity
     private String LOG_TAG = "flagmemorine";
     private ArrayList<ImageButton> imageButtonArrayList;
     private String customURL = Data.getCustomURL();
-    private final OkHttpClient client = new OkHttpClient();
     private int battleFieldSize = 6;
     private int battleFieldIndex = 0;
     private ArrayList<String> userChoice;

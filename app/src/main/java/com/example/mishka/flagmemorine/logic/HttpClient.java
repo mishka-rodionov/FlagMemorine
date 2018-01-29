@@ -24,8 +24,10 @@ public class HttpClient extends AsyncTask<String, Void, String>{
         try {
             if (strings.length == 1)
                 temp = createBattleField(strings[0]);
+            else if (strings.length == 2)
+                temp = createRoom(strings[0], strings[1]);
             else
-                temp = doGet(strings[0], strings[1], strings[2]);
+                temp = getElement(strings[0], strings[1], strings[2]);
         }catch (Exception e){
             e.printStackTrace(System.out);
             Log.d(LOG_TAG, "exception");
@@ -74,7 +76,7 @@ public class HttpClient extends AsyncTask<String, Void, String>{
     }
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
-    public String doGet(String rowIndex, String columnIndex, String battleFieldIndex)
+    public String getElement(String rowIndex, String columnIndex, String battleFieldIndex)
             throws Exception {
 
         String resp = "";
@@ -106,6 +108,44 @@ public class HttpClient extends AsyncTask<String, Void, String>{
             Log.d(LOG_TAG, resp);
         }
         return resp;
+    }
+
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    public String createRoom(String name, String battleFieldSize)
+            throws Exception {
+
+        String index = "";
+
+        HttpUrl httpUrl = new HttpUrl.Builder()
+                .scheme("http")
+                .host(Data.getCustomURL())
+                .port(8080)
+                .addPathSegment(Data.getServerAppName())
+                .addPathSegment(Data.getRoomServlet())
+                .addQueryParameter("roomName", name)
+                .addQueryParameter("battleFieldSize", battleFieldSize)
+                .build();
+
+        Request request = new Request.Builder()
+                .url(httpUrl)
+                .header("User-Agent", "OkHttp Headers.java")
+                .build();
+
+        Log.d(LOG_TAG, "room name URL = " + httpUrl.toString());
+
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+            Headers responseHeaders = response.headers();
+            for (int i = 0; i < responseHeaders.size(); i++) {
+                Log.d(Data.getLOG_TAG(), responseHeaders.name(i) + ": " + responseHeaders.value(i));
+            }
+            index = response.body().string();
+            Log.d(Data.getLOG_TAG(), "" + index);
+            return index;
+        }
+
+//        return Integer.parseInt(index);
     }
 
     private String LOG_TAG = "flagmemorine";
