@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -50,7 +51,6 @@ public class RoomsActivity extends AppCompatActivity
         battleFieldSize6x6 = (RadioButton) findViewById(R.id.radioButton6x6);
         roomList = (ListView) findViewById(R.id.roomList);
         roomListAdapter = new ArrayAdapter<String>(RoomsActivity.this, android.R.layout.simple_list_item_1);
-        roomList.setAdapter(roomListAdapter);
         roomName = new HashMap<>();
         httpClient = new HttpClient();
         httpClient.execute();
@@ -67,7 +67,16 @@ public class RoomsActivity extends AppCompatActivity
                 roomName.put(recievingRoomList[i], recievingRoomList[i + 1]);
             }
         }
-        roomListAdapter.addAll(roomName.values());
+        roomListAdapter.addAll(roomName.keySet());
+        roomList.setAdapter(roomListAdapter);
+        roomList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d(Data.getLOG_TAG(), " position = " + position);
+                Log.d(Data.getLOG_TAG(), " id = " + id);
+
+            }
+        });
 //        for (int i = 0; i < 5; i++) {
 //            roomName.add("room" + i);
 //        }
@@ -86,7 +95,7 @@ public class RoomsActivity extends AppCompatActivity
                 //**********************************************************************************
                 Log.d(Data.getLOG_TAG(), "onClick fab" + battleFieldSize6x6.getText().toString());
                 httpClient = new HttpClient();
-                httpClient.execute(userNameET.getText().toString(), "6" /*battleFieldSize6x6.getText().toString()*/);
+                httpClient.execute(userNameET.getText().toString(), "36" /*battleFieldSize6x6.getText().toString()*/);
 
                 //**********************************************************************************
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)

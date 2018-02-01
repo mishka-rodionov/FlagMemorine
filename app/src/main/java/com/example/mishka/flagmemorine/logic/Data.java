@@ -72,7 +72,11 @@ public class Data {
     private static String serverAppName = "TestGet";
     private static String mainServlet = "hello";
     private static String createRoomServlet = "createRoom";
-    private static String roomListRequestServlet = "rooms";
+    private static String roomListRequestServlet = "getRoomList";
+    private static String testAnotherPlayerChoiceServlet = "testAnotherPlayerChoice";
+    private static String waitSecondPlayerServlet = "waitSecondPlayer";
+    private static String connectToRoomServlet = "connectToRoom";
+    private static String getElementRoomServlet = "getElementRoom";
     private static String battleFieldServlet = "getElement";
     private static String battleFieldServletParameter = "size";
 
