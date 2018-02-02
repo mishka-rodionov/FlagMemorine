@@ -28,6 +28,10 @@
         <activity
             android:name=".activity.RoomsActivity"
             android:label="@string/title_activity_rooms"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.RoomBattleFieldActivity"
+            android:label="@string/title_activity_room_battle_field"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

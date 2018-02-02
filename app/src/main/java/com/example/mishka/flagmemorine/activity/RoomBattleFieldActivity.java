@@ -1,5 +1,6 @@
 package com.example.mishka.flagmemorine.activity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -24,16 +25,13 @@ import android.widget.TextView;
 
 import com.example.mishka.flagmemorine.R;
 import com.example.mishka.flagmemorine.logic.CountryList;
-import com.example.mishka.flagmemorine.logic.Data;
 import com.example.mishka.flagmemorine.logic.HttpClient;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 
-import okhttp3.OkHttpClient;
-
-public class BattleFieldActivity extends AppCompatActivity
+public class RoomBattleFieldActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
@@ -42,6 +40,9 @@ public class BattleFieldActivity extends AppCompatActivity
         setContentView(R.layout.activity_battle_field);
 
         //******************************************************************************************
+        Intent intent = getIntent();
+        roomName = intent.getStringExtra("roomName");
+        roomIndex = Integer.parseInt(intent.getStringExtra("roomIndex"));
         httpClient = new HttpClient();
         record = getPreferences(MODE_PRIVATE);
         topRecord = Integer.parseInt(record.getString("REC", "10000"));
@@ -91,20 +92,20 @@ public class BattleFieldActivity extends AppCompatActivity
         // При нажатии на кнопку Play на сервер отправляется get запрос на создание игрового
         // поля размером 6*6. Сервер возвращает индекс хранения текущего игрового поля в
         // контейнере игровых полей.
-        httpClient.execute("createBattleField", Integer.toString(battleFieldSize));
-        try{
-            battleFieldIndex = Integer.parseInt(httpClient.get());
-        }catch (InterruptedException e){
-            e.printStackTrace();
-        }catch (ExecutionException e){
-            e.printStackTrace();
-        }
+//        httpClient.execute(Integer.toString(battleFieldSize));
+//        try{
+//            roomIndex = Integer.parseInt(httpClient.get());
+//        }catch (InterruptedException e){
+//            e.printStackTrace();
+//        }catch (ExecutionException e){
+//            e.printStackTrace();
+//        }
         //******************************************************************************************
 
         for (int i = 0; i < battleFieldSize*battleFieldSize; i++) {
             clickable.put(i, true);
         }
-        Log.d(LOG_TAG, "index of container battle field = " + battleFieldIndex);
+        Log.d(LOG_TAG, "index of container battle field = " + roomIndex);
         relativeLayout.addView(view);
         for (int i = 0; i < imageButtonArrayList.size(); i++) {
             imageButtonArrayList.get(i).setBackgroundColor(Color.WHITE);
@@ -126,8 +127,8 @@ public class BattleFieldActivity extends AppCompatActivity
                 final int rowIndex = rowIndexCalc(view.getTag().toString());                    // Вычисление индекса строки.
                 final int columnIndex = columnIndexCalc(view.getTag().toString());              // Вычисление индекса столбца.
                 httpClient = new HttpClient();
-                httpClient.execute("getElement", Integer.toString(rowIndex), Integer.toString(columnIndex),   // GET-запрос на сервер. Создается новый поток (AsyncTask).
-                        Integer.toString(battleFieldIndex));
+                httpClient.execute("getElementRoom", Integer.toString(rowIndex), Integer.toString(columnIndex),   // GET-запрос на сервер. Создается новый поток (AsyncTask).
+                        Integer.toString(roomIndex));
                 try{
 //                    String country  = countryName.get();                                        // Получение ответа от AsynkTask
                     String country  = httpClient.get();                                        // Получение ответа от AsynkTask
@@ -377,9 +378,8 @@ public class BattleFieldActivity extends AppCompatActivity
     private RelativeLayout relativeLayout;
     private String LOG_TAG = "flagmemorine";
     private ArrayList<ImageButton> imageButtonArrayList;
-    private String customURL = Data.getCustomURL();
     private int battleFieldSize = 6;
-    private int battleFieldIndex = 0;
+    private int roomIndex = 0;
     private ArrayList<String> userChoice;
     private ArrayList<String> viewTag;
     private Handler handler;
@@ -393,4 +393,5 @@ public class BattleFieldActivity extends AppCompatActivity
     private int topRecord = 0;
     private SharedPreferences record;
     private HttpClient httpClient;
+    private String roomName;
 }

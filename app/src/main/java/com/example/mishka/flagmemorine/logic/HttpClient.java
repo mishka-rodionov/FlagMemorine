@@ -22,14 +22,35 @@ public class HttpClient extends AsyncTask<String, Void, String>{
     protected String doInBackground(String... strings) {
         String temp = "";
         try {
-            if (strings.length == 0)
-                temp = roomListRequest();
-            else if (strings.length == 1)
-                temp = createBattleField(strings[0]);
-            else if (strings.length == 2)
-                temp = createRoom(strings[0], strings[1]);
-            else if (strings.length == 3)
-                temp = getElement(strings[0], strings[1], strings[2]);
+//            if (strings.length == 0)
+//                temp = roomListRequest();
+//            else if (strings.length == 1)
+//                temp = createBattleField(strings[0]);
+//            else if (strings.length == 2)
+//                temp = createRoom(strings[0], strings[1]);
+//            else if (strings.length == 3)
+//                temp = getElement(strings[0], strings[1], strings[2]);
+
+            switch(strings[0]){
+                case "roomListRequest":
+                    temp = roomListRequest();
+                    break;
+                case "createBattleField":
+                    temp = createBattleField(strings[1]);
+                    break;
+                case "createRoom":
+                    temp = createRoom(strings[1], strings[2]);
+                    break;
+                case "getElement":
+                    temp = getElement(strings[1], strings[2], strings[3]);
+                    break;
+                case "connectToRoom":
+                    temp = connectToRoom(strings[1], strings[2]);
+                    break;
+                case "getElementRoom":
+                    break;
+            }
+
         }catch (Exception e){
             e.printStackTrace(System.out);
             Log.d(LOG_TAG, "exception");
@@ -185,6 +206,79 @@ public class HttpClient extends AsyncTask<String, Void, String>{
         }
 
 //        return Integer.parseInt(index);
+    }
+
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    public String connectToRoom(String secondPlayer, String roomIndex)
+            throws Exception {
+
+        String roomList = "";
+
+        HttpUrl httpUrl = new HttpUrl.Builder()
+                .scheme("http")
+                .host(Data.getCustomURL())
+                .port(8080)
+                .addPathSegment(Data.getServerAppName())
+                .addPathSegment(Data.getConnectToRoomServlet())
+                .addQueryParameter("secondPlayer", secondPlayer)
+                .addQueryParameter("roomIndex", roomIndex)
+                .build();
+
+        Request request = new Request.Builder()
+                .url(httpUrl)
+                .header("User-Agent", "OkHttp Headers.java")
+                .build();
+
+        Log.d(LOG_TAG, "room name URL = " + httpUrl.toString());
+
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+            Headers responseHeaders = response.headers();
+            for (int i = 0; i < responseHeaders.size(); i++) {
+                Log.d(Data.getLOG_TAG(), responseHeaders.name(i) + ": " + responseHeaders.value(i));
+            }
+            roomList = response.body().string();
+            Log.d(Data.getLOG_TAG(), "" + roomList);
+            return roomList;
+        }
+
+//        return Integer.parseInt(index);
+    }
+
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    public String getElementRoom(String rowIndex, String columnIndex, String roomIndex)
+            throws Exception {
+
+        String resp = "";
+
+        HttpUrl httpUrl = new HttpUrl.Builder()
+                .scheme("http")
+                .host(Data.getCustomURL())
+                .port(8080)
+                .addPathSegment(Data.getServerAppName())
+                .addPathSegment(Data.getGetElementRoomServlet())
+                .addQueryParameter("rowIndex",rowIndex)
+                .addQueryParameter("columnIndex",columnIndex)
+                .addQueryParameter("battleFieldIndex",roomIndex)
+                .build();
+
+        Request request = new Request.Builder()
+                .url(httpUrl)
+                .header("User-Agent", "OkHttp Headers.java")
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+            Headers responseHeaders = response.headers();
+            for (int i = 0; i < responseHeaders.size(); i++) {
+                Log.d(LOG_TAG, responseHeaders.name(i) + ": " + responseHeaders.value(i));
+            }
+            resp = response.body().string();
+            Log.d(LOG_TAG, resp);
+        }
+        return resp;
     }
 
     private String LOG_TAG = "flagmemorine";

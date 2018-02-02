@@ -67,6 +67,38 @@ public class Data {
         Data.roomListRequestServlet = roomListRequestServlet;
     }
 
+    public static String getTestAnotherPlayerChoiceServlet() {
+        return testAnotherPlayerChoiceServlet;
+    }
+
+    public static void setTestAnotherPlayerChoiceServlet(String testAnotherPlayerChoiceServlet) {
+        Data.testAnotherPlayerChoiceServlet = testAnotherPlayerChoiceServlet;
+    }
+
+    public static String getWaitSecondPlayerServlet() {
+        return waitSecondPlayerServlet;
+    }
+
+    public static void setWaitSecondPlayerServlet(String waitSecondPlayerServlet) {
+        Data.waitSecondPlayerServlet = waitSecondPlayerServlet;
+    }
+
+    public static String getConnectToRoomServlet() {
+        return connectToRoomServlet;
+    }
+
+    public static void setConnectToRoomServlet(String connectToRoomServlet) {
+        Data.connectToRoomServlet = connectToRoomServlet;
+    }
+
+    public static String getGetElementRoomServlet() {
+        return getElementRoomServlet;
+    }
+
+    public static void setGetElementRoomServlet(String getElementRoomServlet) {
+        Data.getElementRoomServlet = getElementRoomServlet;
+    }
+
     private static String customURL = "82.202.246.170";
     private static String LOG_TAG = "flagmemorine";
     private static String serverAppName = "TestGet";

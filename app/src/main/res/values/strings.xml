@@ -11,4 +11,5 @@
     <string name="_4x4">4x4</string>
     <string name="_6x6">6x6</string>
     <string name="create">create</string>
+    <string name="title_activity_room_battle_field">RoomBattleFieldActivity</string>
 </resources>

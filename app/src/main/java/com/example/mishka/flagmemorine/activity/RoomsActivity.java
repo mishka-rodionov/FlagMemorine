@@ -1,6 +1,7 @@
 package com.example.mishka.flagmemorine.activity;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -53,7 +54,7 @@ public class RoomsActivity extends AppCompatActivity
         roomListAdapter = new ArrayAdapter<String>(RoomsActivity.this, android.R.layout.simple_list_item_1);
         roomName = new HashMap<>();
         httpClient = new HttpClient();
-        httpClient.execute();
+        httpClient.execute("roomListRequest");
         String[] recievingRoomList = {};
         try{
             recievingRoomList = httpClient.get().split(" ");
@@ -74,7 +75,13 @@ public class RoomsActivity extends AppCompatActivity
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d(Data.getLOG_TAG(), " position = " + position);
                 Log.d(Data.getLOG_TAG(), " id = " + id);
-
+                String name = parent.getItemAtPosition(position).toString();
+                Log.d(Data.getLOG_TAG(), "room name = " + name);
+                Intent intent = new Intent(RoomsActivity.this, RoomBattleFieldActivity.class);
+                //ConnectToRoomServlet
+                intent.putExtra("roomName", name);
+                intent.putExtra("roomIndex", roomName.get(name));
+                startActivity(intent);
             }
         });
 //        for (int i = 0; i < 5; i++) {
@@ -95,7 +102,7 @@ public class RoomsActivity extends AppCompatActivity
                 //**********************************************************************************
                 Log.d(Data.getLOG_TAG(), "onClick fab" + battleFieldSize6x6.getText().toString());
                 httpClient = new HttpClient();
-                httpClient.execute(userNameET.getText().toString(), "36" /*battleFieldSize6x6.getText().toString()*/);
+                httpClient.execute("createRoom", userNameET.getText().toString(), "36" /*battleFieldSize6x6.getText().toString()*/);
 
                 //**********************************************************************************
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
