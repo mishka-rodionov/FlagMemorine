@@ -77,10 +77,23 @@ public class RoomsActivity extends AppCompatActivity
                 Log.d(Data.getLOG_TAG(), " id = " + id);
                 String name = parent.getItemAtPosition(position).toString();
                 Log.d(Data.getLOG_TAG(), "room name = " + name);
+                httpClient = new HttpClient();
+                httpClient.execute("connectToRoom", userNameET.getText().toString(), roomName.get(name));
+                String connectToRoom = "";
+                try{
+                    connectToRoom = httpClient.get();
+                }catch (InterruptedException e){
+                    e.printStackTrace(System.out);
+                }catch (ExecutionException e){
+                    e.printStackTrace(System.out);
+                }
+                Log.d(Data.getLOG_TAG(), "connectToRoom answer = " + connectToRoom);
                 Intent intent = new Intent(RoomsActivity.this, RoomBattleFieldActivity.class);
                 //ConnectToRoomServlet
                 intent.putExtra("roomName", name);
                 intent.putExtra("roomIndex", roomName.get(name));
+                Log.d(Data.getLOG_TAG(), "room index = " + roomName.get(name).toString());
+                intent.putExtra("playerName", userNameET.getText().toString());
                 startActivity(intent);
             }
         });
@@ -102,8 +115,21 @@ public class RoomsActivity extends AppCompatActivity
                 //**********************************************************************************
                 Log.d(Data.getLOG_TAG(), "onClick fab" + battleFieldSize6x6.getText().toString());
                 httpClient = new HttpClient();
-                httpClient.execute("createRoom", userNameET.getText().toString(), "36" /*battleFieldSize6x6.getText().toString()*/);
-
+                httpClient.execute("createRoom", userNameET.getText().toString(), "6" /*battleFieldSize6x6.getText().toString()*/);
+                String roomIndex = "";
+                try{
+                    roomIndex = httpClient.get();
+                }catch (InterruptedException e){
+                    e.printStackTrace(System.out);
+                }catch (ExecutionException e){
+                    e.printStackTrace(System.out);
+                }
+                Intent intent = new Intent(RoomsActivity.this, RoomBattleFieldActivity.class);
+                //ConnectToRoomServlet
+                intent.putExtra("roomName", userNameET.getText().toString());
+                intent.putExtra("roomIndex", roomIndex);
+                intent.putExtra("playerName", userNameET.getText().toString());
+                startActivity(intent);
                 //**********************************************************************************
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();

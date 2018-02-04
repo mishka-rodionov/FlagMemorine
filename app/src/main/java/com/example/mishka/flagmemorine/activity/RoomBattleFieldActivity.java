@@ -25,10 +25,13 @@ import android.widget.TextView;
 
 import com.example.mishka.flagmemorine.R;
 import com.example.mishka.flagmemorine.logic.CountryList;
+import com.example.mishka.flagmemorine.logic.Data;
 import com.example.mishka.flagmemorine.logic.HttpClient;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
 public class RoomBattleFieldActivity extends AppCompatActivity
@@ -41,8 +44,10 @@ public class RoomBattleFieldActivity extends AppCompatActivity
 
         //******************************************************************************************
         Intent intent = getIntent();
+        timer = new Timer();
         roomName = intent.getStringExtra("roomName");
         roomIndex = Integer.parseInt(intent.getStringExtra("roomIndex"));
+        playerName = intent.getStringExtra("playerName");
         httpClient = new HttpClient();
         record = getPreferences(MODE_PRIVATE);
         topRecord = Integer.parseInt(record.getString("REC", "10000"));
@@ -85,21 +90,34 @@ public class RoomBattleFieldActivity extends AppCompatActivity
 
         relativeLayout.removeAllViewsInLayout();
         stepCounter = 0;
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                httpClient = new HttpClient();
+                httpClient.execute("testAnotherPlayerChoice", Integer.toString(roomIndex), playerName);
+                String[] temp;
+                try{
+                    temp = httpClient.get().split(" ");
+                    Log.d(Data.getLOG_TAG(), " country is before if=" + temp[3] + "abc " + temp.length);
+                    if (!temp[3].equals("dummy")) {
+                        Log.d(Data.getLOG_TAG(), " country is = " + temp[3]);
+                        int tag = Integer.parseInt(temp[1]) * 6 + Integer.parseInt(temp[2]);
+                        int resource = CountryList.getCountry(temp[3]);
+                        Message msg;
+                        msg = handler.obtainMessage(1, tag, resource);
+                        handler.sendMessage(msg);
+                    }
 
-//        Intent intent = new Intent(MainActivity.this, BattleFieldActivity.class);
-//        startActivity(intent);
+                }catch (InterruptedException e){
+                    e.printStackTrace();
+                }catch (ExecutionException e){
+                    e.printStackTrace();
+                }catch (ArrayIndexOutOfBoundsException ar){
+                    ar.printStackTrace(System.out);
+                }
+            }
+        }, 0, 1000);
 
-        // При нажатии на кнопку Play на сервер отправляется get запрос на создание игрового
-        // поля размером 6*6. Сервер возвращает индекс хранения текущего игрового поля в
-        // контейнере игровых полей.
-//        httpClient.execute(Integer.toString(battleFieldSize));
-//        try{
-//            roomIndex = Integer.parseInt(httpClient.get());
-//        }catch (InterruptedException e){
-//            e.printStackTrace();
-//        }catch (ExecutionException e){
-//            e.printStackTrace();
-//        }
         //******************************************************************************************
 
         for (int i = 0; i < battleFieldSize*battleFieldSize; i++) {
@@ -128,7 +146,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity
                 final int columnIndex = columnIndexCalc(view.getTag().toString());              // Вычисление индекса столбца.
                 httpClient = new HttpClient();
                 httpClient.execute("getElementRoom", Integer.toString(rowIndex), Integer.toString(columnIndex),   // GET-запрос на сервер. Создается новый поток (AsyncTask).
-                        Integer.toString(roomIndex));
+                        Integer.toString(roomIndex), playerName);
                 try{
 //                    String country  = countryName.get();                                        // Получение ответа от AsynkTask
                     String country  = httpClient.get();                                        // Получение ответа от AsynkTask
@@ -394,4 +412,6 @@ public class RoomBattleFieldActivity extends AppCompatActivity
     private SharedPreferences record;
     private HttpClient httpClient;
     private String roomName;
+    private String playerName;
+    private Timer timer;
 }
