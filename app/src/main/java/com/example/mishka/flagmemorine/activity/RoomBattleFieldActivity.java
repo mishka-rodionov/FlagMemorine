@@ -143,11 +143,11 @@ public class RoomBattleFieldActivity extends AppCompatActivity
                             //Если соперник уже ходил и страны не совпали, то очищаем выбранные элементы
                             if (countStart == 0 && countStop > 0 && (!country1.equals(country2))){
                                 Message msg;
-//                                msg = handler.obtainMessage(1, tag1, R.drawable.ic_help_outline_black_36dp);
+//                                msg = handler.obtainMessage(1, tag1, R.drawable.unknown);
 //                                handler.sendMessage(msg);
-//                                msg = handler.obtainMessage(1, tag2, R.drawable.ic_help_outline_black_36dp);
+//                                msg = handler.obtainMessage(1, tag2, R.drawable.unknown);
 //                                handler.sendMessage(msg);
-                                final int paint = R.drawable.ic_help_outline_black_36dp;
+                                final int paint = R.drawable.unknown;
                                 Thread t1 = new Thread(new Runnable() {                             // то же самое делаем для второй кнопки
                                     Message msg;
                                     @Override
@@ -197,7 +197,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity
         relativeLayout.addView(view);
         for (int i = 0; i < imageButtonArrayList.size(); i++) {
             imageButtonArrayList.get(i).setBackgroundColor(Color.WHITE);
-            imageButtonArrayList.get(i).setImageResource(R.drawable.ic_help_outline_black_36dp);
+            imageButtonArrayList.get(i).setImageResource(R.drawable.unknown);
             imageButtonArrayList.get(i).setClickable(true);
         }
         // Метод обработки нажатий на кнопки на игровом поле. При нажатии на кнопку происходит
@@ -255,7 +255,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity
 //                                }
                             imageButtonArrayList.get(but0).setClickable(true);
                             imageButtonArrayList.get(but1).setClickable(true);
-                            final int paint = R.drawable.ic_help_outline_black_36dp;            // вычисляем целочисленное значение файла ресурса с флагом
+                            final int paint = R.drawable.unknown;            // вычисляем целочисленное значение файла ресурса с флагом
                             Thread t1 = new Thread(new Runnable() {                             // создаем новый поток для закрытия первого, из выбранных пользователем флагов, рубашкой
                                 Message msg;
                                 @Override

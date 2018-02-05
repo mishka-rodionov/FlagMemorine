@@ -6,4 +6,9 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="fv_normal">52dp</dimen>
+    <dimen name="fv_mini">40dp</dimen>
+    <dimen name="fv_normal_elevated">60dp</dimen>
+    <dimen name="fv_mini_elevated">48dp</dimen>
+
 </resources>

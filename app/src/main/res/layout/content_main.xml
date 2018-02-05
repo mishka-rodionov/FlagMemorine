@@ -13,4 +13,39 @@
     tools:context="com.example.mishka.flagmemorine.activity.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
+    <eu.davidea.flipview.FlipView
+        android:id="@+id/flip_horizontal_oval_view_big"
+        android:layout_width="@dimen/fv_mini"
+        android:layout_height="@dimen/fv_mini"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_gravity="center_horizontal"
+        android:padding="4dp"
+        android:clipToPadding="false"
+        android:clickable="true"
+        app:checked="false"
+        app:enableInitialAnimation="true"
+        app:frontLayout="@layout/flip_front_custom"
+        app:frontImage="@drawable/unknown"
+        app:rearLayout="@layout/flip_rear_custom"
+        app:rearImage="@drawable/russia"
+        app:rearImageAnimationDelay="0"/>
+
+    <eu.davidea.flipview.FlipView
+        android:id="@+id/slide_left_square_view"
+        android:layout_width="@dimen/fv_mini"
+        android:layout_height="@dimen/fv_mini"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:clickable="true"
+        app:checked="true"
+        app:enableInitialAnimation="true"
+        app:initialLayoutAnimationDuration="400"
+        app:animationDuration="500"
+        app:anticipateInAnimationTime="150"
+        app:frontImage="@drawable/unknown"
+        app:rearImage="@drawable/russia"
+        app:animateRearImage="false"/>
+
+
 </RelativeLayout>
