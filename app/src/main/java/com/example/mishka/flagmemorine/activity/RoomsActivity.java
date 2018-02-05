@@ -54,33 +54,42 @@ public class RoomsActivity extends AppCompatActivity
         roomListAdapter = new ArrayAdapter<String>(RoomsActivity.this, android.R.layout.simple_list_item_1);
         roomName = new HashMap<>();
         httpClient = new HttpClient();
+        // Запрос на сервер для составления списка комнат. Возвращаемый ответ - это строка, в
+        // которой через пробел перечислены все существующие на сервере комнаты и их индексы в
+        // контейнере комнат. Строка начинается с имени комнаты. Например: "room 1 newRoom 2"
         httpClient.execute("roomListRequest");
         String[] recievingRoomList = {};
         try{
+        // Получение ответа от сервер и его размещение в массиве строк.
             recievingRoomList = httpClient.get().split(" ");
         }catch (InterruptedException e){
             e.printStackTrace();
         }catch (ExecutionException e){
             e.printStackTrace();
         }
+        // Заполение мэпа для хранения комнат и их индексов в контейнере комнат
         if(recievingRoomList.length > 1) {
             for (int i = 0; i < recievingRoomList.length; i += 2) {
                 roomName.put(recievingRoomList[i], recievingRoomList[i + 1]);
             }
         }
+        // Формирование адаптера для списка комнат на основе набора ключей из мэпа.
         roomListAdapter.addAll(roomName.keySet());
         roomList.setAdapter(roomListAdapter);
+        // Обработчик нажатия на комнату из списка. При нажатии отправляется запрос серверу на
+        // подключение к выбранной комнате. В запросе отправляется имя игрока (должно быть введено
+        // заранее в поле ввода) и индекс комнаты. В ответе сервера приходит имя соперника и индекс
+        // комнаты.
         roomList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d(Data.getLOG_TAG(), " position = " + position);
-                Log.d(Data.getLOG_TAG(), " id = " + id);
                 String name = parent.getItemAtPosition(position).toString();
-                Log.d(Data.getLOG_TAG(), "room name = " + name);
                 httpClient = new HttpClient();
+                //Запрос на подключение.
                 httpClient.execute("connectToRoom", userNameET.getText().toString(), roomName.get(name));
                 String connectToRoom = "";
                 try{
+                    // Получение ответа сервера.
                     connectToRoom = httpClient.get();
                 }catch (InterruptedException e){
                     e.printStackTrace(System.out);
@@ -88,26 +97,23 @@ public class RoomsActivity extends AppCompatActivity
                     e.printStackTrace(System.out);
                 }
                 Log.d(Data.getLOG_TAG(), "connectToRoom answer = " + connectToRoom);
+                // Переход на активити с игровым полем комнаты. В интенте на новое активити
+                // передается имя комнаты, индекс комнаты и имя игрока.
                 Intent intent = new Intent(RoomsActivity.this, RoomBattleFieldActivity.class);
-                //ConnectToRoomServlet
                 intent.putExtra("roomName", name);
                 intent.putExtra("roomIndex", roomName.get(name));
-                Log.d(Data.getLOG_TAG(), "room index = " + roomName.get(name).toString());
                 intent.putExtra("playerName", userNameET.getText().toString());
                 startActivity(intent);
             }
         });
-//        for (int i = 0; i < 5; i++) {
-//            roomName.add("room" + i);
-//        }
-//        roomListAdapter.clear();
-//        roomListAdapter.addAll(roomName);
-
         //******************************************************************************************
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // При нажатии на данную кнопку происходит создание новой комнаты для игры с соперником.
+        // Перед нажатием на эту кнопку должно быть заполнено поле ввода имени игрока. После нажатия
+        // игрок перенаправляется на активити с игровым полем комнаты.
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,17 +121,22 @@ public class RoomsActivity extends AppCompatActivity
                 //**********************************************************************************
                 Log.d(Data.getLOG_TAG(), "onClick fab" + battleFieldSize6x6.getText().toString());
                 httpClient = new HttpClient();
+                // Запрос на создание комнаты. В параметрах запроса передается имя игрока и размер
+                // игрового поля. Имя комнаты соответствует имени игрока. Размер игрового поля
+                // определяется как квадрат передаваемого значения.
                 httpClient.execute("createRoom", userNameET.getText().toString(), "6" /*battleFieldSize6x6.getText().toString()*/);
                 String roomIndex = "";
                 try{
+                // В ответе на запрос возвращается индекс комнаты в контейнере комнат
                     roomIndex = httpClient.get();
                 }catch (InterruptedException e){
                     e.printStackTrace(System.out);
                 }catch (ExecutionException e){
                     e.printStackTrace(System.out);
                 }
+                // Переход на активити с игровым полем для игры с соперником в комнате. В интенте
+                // передается имя комнаты, индекс комнаты в контейнере комнат и имя игрока.
                 Intent intent = new Intent(RoomsActivity.this, RoomBattleFieldActivity.class);
-                //ConnectToRoomServlet
                 intent.putExtra("roomName", userNameET.getText().toString());
                 intent.putExtra("roomIndex", roomIndex);
                 intent.putExtra("playerName", userNameET.getText().toString());
@@ -203,14 +214,14 @@ public class RoomsActivity extends AppCompatActivity
         return true;
     }
 
-    private EditText userNameET;
+    private EditText userNameET;                    // Поле ввода для имени игрока
     private RadioButton battleFieldSize6x6;
     private RadioButton battleFieldSize4x4;
     private String userName;
     private int battleFieldSize;
     private int battleFieldIndex;
-    private ListView roomList;
-    private ArrayAdapter<String> roomListAdapter;
-    private HashMap<String, String> roomName;
-    private HttpClient httpClient;
+    private ListView roomList;                      // Список комнат
+    private ArrayAdapter<String> roomListAdapter;   // Адаптер для списка комнат
+    private HashMap<String, String> roomName;       // Мэп для хранения имен комнат и их индексов в контейнере комнат на сервере
+    private HttpClient httpClient;                  // Клиент для работы с сервером
 }

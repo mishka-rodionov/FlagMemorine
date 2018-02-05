@@ -22,15 +22,6 @@ public class HttpClient extends AsyncTask<String, Void, String>{
     protected String doInBackground(String... strings) {
         String temp = "";
         try {
-//            if (strings.length == 0)
-//                temp = roomListRequest();
-//            else if (strings.length == 1)
-//                temp = createBattleField(strings[0]);
-//            else if (strings.length == 2)
-//                temp = createRoom(strings[0], strings[1]);
-//            else if (strings.length == 3)
-//                temp = getElement(strings[0], strings[1], strings[2]);
-
             switch(strings[0]){
                 case "roomListRequest":
                     temp = roomListRequest();

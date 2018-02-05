@@ -43,18 +43,21 @@ public class RoomBattleFieldActivity extends AppCompatActivity
         setContentView(R.layout.activity_battle_field);
 
         //******************************************************************************************
+        // Интент для получения информации о рабочей комнате.
         Intent intent = getIntent();
-        timer = new Timer();
         roomName = intent.getStringExtra("roomName");
         roomIndex = Integer.parseInt(intent.getStringExtra("roomIndex"));
         playerName = intent.getStringExtra("playerName");
+
+        timer = new Timer();
         httpClient = new HttpClient();
         record = getPreferences(MODE_PRIVATE);
         topRecord = Integer.parseInt(record.getString("REC", "10000"));
-        relativeLayout = (RelativeLayout) findViewById(R.id.relativelayoutbattlefield);
+
         userChoice = new ArrayList<>(2);
         viewTag = new ArrayList<>(2);
         CountryList.loadCountryMap();
+        relativeLayout = (RelativeLayout) findViewById(R.id.relativelayoutbattlefield);
         view  = getLayoutInflater().inflate(R.layout.layout_6_6, null);
         initImageButton(view);
         for (int i = 0; i < imageButtonArrayList.size(); i++) {
@@ -90,24 +93,91 @@ public class RoomBattleFieldActivity extends AppCompatActivity
 
         relativeLayout.removeAllViewsInLayout();
         stepCounter = 0;
+        // Таймер для периодических запросов к серверу для определения выбора соперника и состояния
+        // игрового поля.
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 httpClient = new HttpClient();
+                // В параметрах запроса отправляются индекс комнаты в контейнере комнат и имя игрока.
+                // В ответе от сервера приходит статус игрока (если ход игрока то первый элемент
+                // строки равен "start", если ход соперника, то - "stop"). Последующие 3 элемента -
+                // это индекс строки, индекс столбца (на игровом поле) и страна, соответсвующая
+                // выбранному элементу. Если не происходило ни одного хода соперника, то вместо
+                // страны присылается значение по умлчанию "dummy".
                 httpClient.execute("testAnotherPlayerChoice", Integer.toString(roomIndex), playerName);
                 String[] temp;
                 try{
+                    // Получение ответа сервера.
                     temp = httpClient.get().split(" ");
-                    Log.d(Data.getLOG_TAG(), " country is before if=" + temp[3] + "abc " + temp.length);
-                    if (!temp[3].equals("dummy")) {
-                        Log.d(Data.getLOG_TAG(), " country is = " + temp[3]);
-                        int tag = Integer.parseInt(temp[1]) * 6 + Integer.parseInt(temp[2]);
-                        int resource = CountryList.getCountry(temp[3]);
-                        Message msg;
-                        msg = handler.obtainMessage(1, tag, resource);
-                        handler.sendMessage(msg);
+                    // Если ход соперника
+                    if(temp[0].equals("stop")) {
+                        // Если присланные данные имеют смысл, то есть не дефолтные.
+                        if (!temp[3].equals("dummy")) {
+                            countStart = 0;
+                            Log.d(Data.getLOG_TAG(), " country is = " + temp[3]);
+                            // Вычисляем тэг кнопки по полученным индексам
+                            int tag = Integer.parseInt(temp[1]) * 6 + Integer.parseInt(temp[2]);
+                            // При первом выборе соперника сохраняем тэг первого элемента в
+                            // переменную tag1.
+                            if (countStop == 0){
+                                tag1 = tag;
+                                country1 = temp[3];
+                            // Если выбор соперника уже не первый, то сохраняем тэг второго элемента
+                            // в переменную tag2.
+                            }else if (countStop > 0 && tag1 != tag){
+                                tag2 = tag;
+                                country2 = temp[3];
+                            }
+                            // Получаем ресурс выбранного соперником элемента.
+                            int resource = CountryList.getCountry(temp[3]);
+                            Message msg;
+                            msg = handler.obtainMessage(1, tag, resource);
+                            handler.sendMessage(msg);
+                            countStop++;
+                        }
+                    // Если ход игрока
+                    }else if(temp[0].equals("start")){
+                        // Если присланные данные имеют смысл, то есть не дефолтные.
+                        if (!temp[3].equals("dummy")) {
+                            //Если соперник уже ходил и страны не совпали, то очищаем выбранные элементы
+                            if (countStart == 0 && countStop > 0 && (!country1.equals(country2))){
+                                Message msg;
+//                                msg = handler.obtainMessage(1, tag1, R.drawable.ic_help_outline_black_36dp);
+//                                handler.sendMessage(msg);
+//                                msg = handler.obtainMessage(1, tag2, R.drawable.ic_help_outline_black_36dp);
+//                                handler.sendMessage(msg);
+                                final int paint = R.drawable.ic_help_outline_black_36dp;
+                                Thread t1 = new Thread(new Runnable() {                             // то же самое делаем для второй кнопки
+                                    Message msg;
+                                    @Override
+                                    public void run() {
+                                        msg = handler.obtainMessage(1, tag1, paint);
+                                        handler.sendMessageDelayed(msg, 1000);
+                                    }
+                                });
+                                t1.start();
+                                Thread t2 = new Thread(new Runnable() {                             // то же самое делаем для второй кнопки
+                                    Message msg;
+                                    @Override
+                                    public void run() {
+                                        msg = handler.obtainMessage(1, tag2, paint);
+                                        handler.sendMessageDelayed(msg, 1000);
+                                    }
+                                });
+                                t2.start();
+                            }else if (countStart == 0 && countStop > 0 && (country1.equals(country2))){
+                                imageButtonArrayList.get(tag1)
+                                        .setClickable(false);                                       // делаем выбранные кнопки не кликабельными
+                                imageButtonArrayList.get(tag2)
+                                        .setClickable(false);
+                                clickable.put(tag1, false);
+                                clickable.put(tag2, false);
+                            }
+                            countStart++;
+                        }
+                        countStop = 0;
                     }
-
                 }catch (InterruptedException e){
                     e.printStackTrace();
                 }catch (ExecutionException e){
@@ -123,7 +193,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity
         for (int i = 0; i < battleFieldSize*battleFieldSize; i++) {
             clickable.put(i, true);
         }
-        Log.d(LOG_TAG, "index of container battle field = " + roomIndex);
+        Log.d(Data.getLOG_TAG(), "index of container battle field = " + roomIndex);
         relativeLayout.addView(view);
         for (int i = 0; i < imageButtonArrayList.size(); i++) {
             imageButtonArrayList.get(i).setBackgroundColor(Color.WHITE);
@@ -141,7 +211,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(LOG_TAG, "press button");
+                Log.d(Data.getLOG_TAG(), "press button");
                 final int rowIndex = rowIndexCalc(view.getTag().toString());                    // Вычисление индекса строки.
                 final int columnIndex = columnIndexCalc(view.getTag().toString());              // Вычисление индекса столбца.
                 httpClient = new HttpClient();
@@ -150,7 +220,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity
                 try{
 //                    String country  = countryName.get();                                        // Получение ответа от AsynkTask
                     String country  = httpClient.get();                                        // Получение ответа от AsynkTask
-                    Log.d(LOG_TAG, "Try to get result");
+                    Log.d(Data.getLOG_TAG(), "Try to get result");
                     result.setText(country);                                                    // Отображение значения в тестовом текстовом поле
                     final int resource = CountryList.getCountry(country);                       // Получение целочисленного значения сооветствующего ресурсу с флагом
                     final int index = Integer.parseInt(view.getTag().toString());               // Вычисление индекса кнопки в контейнере кнопок по тэгу кнопки
@@ -167,8 +237,8 @@ public class RoomBattleFieldActivity extends AppCompatActivity
                     viewTag.add(view.getTag().toString());                                      // Добавление тега выбранной кнопки в контейнер пользовательского выбора.
                     imageButtonArrayList.get(Integer.parseInt(view.getTag().toString()))
                             .setClickable(false);
-                    Log.d(LOG_TAG, "userCoice size = " + userChoice.size());
-                    Log.d(LOG_TAG, "userCoice 1 = " + userChoice.get(0));
+                    Log.d(Data.getLOG_TAG(), "userCoice size = " + userChoice.size());
+                    Log.d(Data.getLOG_TAG(), "userCoice 1 = " + userChoice.get(0));
 
                     if(userChoice.size() == 2 ){                                                // Проверка количества элементов в контейнере пользовательского выбора.
                         stepCounter++;
@@ -207,7 +277,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity
                             viewTag.clear();                                                    // очищаем контейнер тегов
                         }else                                                                   // иначе
                             if(userChoice.get(0).equals(userChoice.get(1))){                        // Если значения пользовательского выбора равны, то
-                                Log.d(LOG_TAG, "country equals");
+                                Log.d(Data.getLOG_TAG(), "country equals");
                                 imageButtonArrayList.get(Integer.parseInt(viewTag.get(0)))
                                         .setClickable(false);                                       // делаем выбранные кнопки не кликабельными
                                 imageButtonArrayList.get(Integer.parseInt(viewTag.get(1)))
@@ -219,7 +289,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity
                                 if(!clickable.containsValue(true)){
                                     clickable.clear();
                                     userRecord = Integer.parseInt(test1.getText().toString());
-                                    Log.d(LOG_TAG, "user record = " + userRecord);
+                                    Log.d(Data.getLOG_TAG(), "user record = " + userRecord);
                                     if(userRecord < topRecord){
                                         test2.setText("" + userRecord);
                                         SharedPreferences.Editor editor = record.edit();
@@ -374,8 +444,8 @@ public class RoomBattleFieldActivity extends AppCompatActivity
     //Вычисление индекса столбца по тэгу нажатой кнопки.
     public int rowIndexCalc(String viewTag){
         int tag = Integer.parseInt(viewTag);
-        Log.d(LOG_TAG, "input tag = " + viewTag);
-        Log.d(LOG_TAG, "row index = " + tag/battleFieldSize);
+        Log.d(Data.getLOG_TAG(), "input tag = " + viewTag);
+        Log.d(Data.getLOG_TAG(), "row index = " + tag/battleFieldSize);
         return tag/battleFieldSize;
     }
 
@@ -383,35 +453,41 @@ public class RoomBattleFieldActivity extends AppCompatActivity
     public int columnIndexCalc(String viewTag){
         int tag = Integer.parseInt(viewTag);
         if (tag < battleFieldSize){
-            Log.d(LOG_TAG, "input tag = " + viewTag);
-            Log.d(LOG_TAG, "column index = " + tag);
+            Log.d(Data.getLOG_TAG(), "input tag = " + viewTag);
+            Log.d(Data.getLOG_TAG(), "column index = " + tag);
             return tag;
         }else{
-            Log.d(LOG_TAG, "input tag = " + viewTag);
-            Log.d(LOG_TAG, "column index = " + tag%battleFieldSize);
+            Log.d(Data.getLOG_TAG(), "input tag = " + viewTag);
+            Log.d(Data.getLOG_TAG(), "column index = " + tag%battleFieldSize);
             return tag%battleFieldSize;
         }
     }
 
-    private RelativeLayout relativeLayout;
-    private String LOG_TAG = "flagmemorine";
     private ArrayList<ImageButton> imageButtonArrayList;
-    private int battleFieldSize = 6;
-    private int roomIndex = 0;
     private ArrayList<String> userChoice;
     private ArrayList<String> viewTag;
     private Handler handler;
-    private View view;
+    private HashMap<Integer, Boolean> clickable;
+    private HttpClient httpClient;
+    private RelativeLayout relativeLayout;
+    private SharedPreferences record;
+    private String roomName;
+    private String playerName;
+    private String country1;
+    private String country2;
     private TextView result;
     private TextView test1;
     private TextView test2;
-    private HashMap<Integer, Boolean> clickable;
+    private Timer timer;
+    private View view;
+
+    private int battleFieldSize = 6;
+    private int roomIndex = 0;
     private int stepCounter = 0;
     private int userRecord = 0;
     private int topRecord = 0;
-    private SharedPreferences record;
-    private HttpClient httpClient;
-    private String roomName;
-    private String playerName;
-    private Timer timer;
+    private int tag1 = 10000;
+    private int tag2;
+    private int countStop = 0;
+    private int countStart = 0;
 }
