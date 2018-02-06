@@ -14,7 +14,10 @@
     tools:showIn="@layout/app_bar_main">
 
     <eu.davidea.flipview.FlipView
-        android:id="@+id/flip_horizontal_oval_view_big"
+        android:id="@+id/image"
+        android:tag="0"
+        android:layout_row="1"
+        android:layout_column="1"
         android:layout_width="@dimen/fv_mini"
         android:layout_height="@dimen/fv_mini"
         android:layout_gravity="center_horizontal"
@@ -23,29 +26,20 @@
         android:clickable="true"
         android:clipToPadding="false"
         android:padding="4dp"
+        app:frontBackgroundColor="@android:color/white"
+        app:frontBackground="@drawable/unknown"
+        app:rearBackgroundColor="@android:color/white"
+        app:rearBackground="@drawable/unknown"
         app:checked="false"
         app:enableInitialAnimation="true"
+        app:animationDuration="400"
         app:frontImage="@drawable/unknown"
         app:frontLayout="@layout/flip_front_custom"
         app:rearImage="@drawable/russia"
         app:rearImageAnimationDelay="0"
         app:rearLayout="@layout/flip_rear_custom" />
 
-    <eu.davidea.flipview.FlipView
-        android:id="@+id/slide_left_square_view"
-        android:layout_width="@dimen/fv_mini"
-        android:layout_height="@dimen/fv_mini"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:clickable="true"
-        app:checked="true"
-        app:enableInitialAnimation="true"
-        app:initialLayoutAnimationDuration="400"
-        app:animationDuration="500"
-        app:anticipateInAnimationTime="150"
-        app:frontImage="@drawable/unknown"
-        app:rearImage="@drawable/russia"
-        app:animateRearImage="false"/>
+
 
 
 </RelativeLayout>
