@@ -16,6 +16,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.mishka.flagmemorine.R;
+import com.example.mishka.flagmemorine.logic.Data;
+
+import eu.davidea.flipview.FlipView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -24,6 +27,25 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        flipView = (FlipView) findViewById(R.id.image);
+        flipView.setFlipInterval(3000);
+        int i = 0;
+        FlipView.OnFlippingListener onFlippingListener = new FlipView.OnFlippingListener() {
+            @Override
+            public void onFlipped(FlipView flipView, boolean checked) {
+                flipView.setRearImage(R.drawable.albania);
+                Log.d(Data.getLOG_TAG(), "flip = ");
+                Log.d(Data.getLOG_TAG(), "flip = " + flipView.isFlipped() + " " + flipView.isFlipping() + " checked is = " + checked);
+            }
+        };
+
+        View.OnClickListener onClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(Data.getLOG_TAG(), " click");
+            }
+        };
+        flipView.setOnFlippingListener(onFlippingListener);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -115,4 +137,5 @@ public class MainActivity extends AppCompatActivity
     }
 
     private String LOG_TAG = "flagmemorine";
+    private FlipView flipView;
 }
