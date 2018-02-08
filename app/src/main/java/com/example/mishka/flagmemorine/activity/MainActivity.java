@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -34,6 +35,14 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onFlipped(FlipView flipView, boolean checked) {
                 flipView.setRearImage(R.drawable.albania);
+                flipView.setFrontImage(R.drawable.unknown);
+
+                DisplayMetrics displayMetrics = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+                double x = Math.pow(displayMetrics.widthPixels / displayMetrics.xdpi, 2);
+                double y = Math.pow(displayMetrics.heightPixels / displayMetrics.ydpi, 2);
+                double screen = Math.sqrt(x + y);
+                Log.d(Data.getLOG_TAG(), "Diagonal = " + screen);
                 Log.d(Data.getLOG_TAG(), "flip = ");
                 Log.d(Data.getLOG_TAG(), "flip = " + flipView.isFlipped() + " " + flipView.isFlipping() + " checked is = " + checked);
             }
