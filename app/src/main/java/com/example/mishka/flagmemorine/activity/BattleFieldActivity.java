@@ -309,7 +309,7 @@ public class BattleFieldActivity extends AppCompatActivity
 
         };
 
-        Button send = (Button) view.findViewById(R.id.buttonSend);
+//        Button send = (Button) view.findViewById(R.id.buttonSend);
 //        send.setOnClickListener(onFlippingListener);
         for (int i = 0; i < battleFieldSize*battleFieldSize; i++) {
 //            imageButtonArrayList.get(i).setOnClickListener(onClickListener);
