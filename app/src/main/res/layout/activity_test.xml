@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    >
+    android:background="@drawable/politicheskaya_karta_europe"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -1054,6 +1054,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="bottom"
         android:orientation="horizontal">
 
         <Space
@@ -1065,7 +1066,7 @@
             android:id="@+id/result"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Simple text"/>
+            android:text="Simple text" />
 
         <Space
             android:layout_width="wrap_content"
@@ -1075,8 +1076,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="invisible"
-            android:text="Simple text"/>
+            android:text="Simple text"
+            android:visibility="invisible" />
 
         <Space
             android:layout_width="wrap_content"
@@ -1087,7 +1088,7 @@
             android:id="@+id/step"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Simple text"/>
+            android:text="Step" />
 
         <Space
             android:layout_width="wrap_content"
@@ -1098,7 +1099,7 @@
             android:id="@+id/test1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Simple text"/>
+            android:text="" />
 
         <Space
             android:layout_width="wrap_content"
@@ -1110,6 +1111,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="end"
         android:orientation="horizontal">
 
         <Space
@@ -1120,8 +1122,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="invisible"
-            android:text="Simple text"/>
+            android:text="Simple text"
+            android:visibility="invisible" />
 
         <Space
             android:layout_width="wrap_content"
@@ -1131,8 +1133,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="invisible"
-            android:text="Simple text"/>
+            android:text="Simple text"
+            android:visibility="invisible" />
 
         <Space
             android:layout_width="wrap_content"
@@ -1143,7 +1145,7 @@
             android:id="@+id/userRecord"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Simple text"/>
+            android:text="Record" />
 
         <Space
             android:layout_width="wrap_content"
@@ -1154,7 +1156,64 @@
             android:id="@+id/test2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Simple text"/>
+            android:text="" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="end"
+        android:orientation="horizontal">
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Simple text"
+            android:visibility="invisible" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Simple text"
+            android:visibility="invisible" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/timeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Time" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/timeValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="" />
 
         <Space
             android:layout_width="wrap_content"

@@ -3,25 +3,23 @@ package com.example.mishka.flagmemorine.activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.mishka.flagmemorine.R;
@@ -31,46 +29,48 @@ import com.example.mishka.flagmemorine.logic.HttpClient;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
 import eu.davidea.flipview.FlipView;
-import okhttp3.OkHttpClient;
 
-public class BattleFieldActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
-
+public class TestActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_battle_field);
+        setContentView(R.layout.activity_test);
 
         //******************************************************************************************
         httpClient = new HttpClient();
         record = getPreferences(MODE_PRIVATE);
+        timer = new Timer();
         topRecord = Integer.parseInt(record.getString("REC", "10000"));
-        relativeLayout = (LinearLayout) findViewById(R.id.relativelayoutbattlefield);
+//        relativeLayout = (LinearLayout) findViewById(R.id.relativelayoutbattlefield);
         userChoice = new ArrayList<>(2);
         viewTag = new ArrayList<>(2);
         CountryList.loadCountryMap();
-        view  = getLayoutInflater().inflate(R.layout.layout_4x4, null);
+        view = getLayoutInflater().inflate(R.layout.layout_4x4, null);
 //        initImageButton(view);
         initFlipView(view);
 //        for (int i = 0; i < imageButtonArrayList.size(); i++) {
 //            imageButtonArrayList.get(i).setBackgroundColor(Color.WHITE);
 //        }
         clickable = new HashMap<Integer, Boolean>();
-        for (int i = 0; i < battleFieldSize*battleFieldSize; i++) {
+        for (int i = 0; i < battleFieldSize * battleFieldSize; i++) {
             clickable.put(i, true);
         }
-        result = (TextView) view.findViewById(R.id.result);
-        test1 = (TextView) view.findViewById(R.id.test1);
-        test2 = (TextView) view.findViewById(R.id.test2);
-        if(topRecord == 10000)
+        result = (TextView) findViewById(R.id.result);
+        test1 = (TextView) findViewById(R.id.test1);
+        test2 = (TextView) findViewById(R.id.test2);
+        time = (TextView) findViewById(R.id.timeValue);
+
+        if (topRecord == 10000)
             test2.setText("" + 0);
         else
             test2.setText("" + topRecord);
 
-        handler = new Handler(){
+        handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
 //                imageButtonArrayList.get(msg.arg1)
@@ -80,10 +80,10 @@ public class BattleFieldActivity extends AppCompatActivity
 //                flipViews.get(msg.arg1).setRearImage(msg.arg2);
 //                flipViews.get(msg.arg1).flip(true);
 //                flipViews.get(msg.arg1).getRearImageView();
-                if (flipViews.get(msg.arg1).isFlipped()){
+                if (flipViews.get(msg.arg1).isFlipped()) {
                     flipViews.get(msg.arg1).flip(false);
                     Log.d(Data.getLOG_TAG(), "flip = false " + flipViews.get(msg.arg1).isClickable());
-                }else {
+                } else {
 //                    flipViews.get(msg.arg1).flip(true);
                     Log.d(Data.getLOG_TAG(), "flip = true " + flipViews.get(msg.arg1).isClickable());
                 }
@@ -97,7 +97,27 @@ public class BattleFieldActivity extends AppCompatActivity
             }
         };
 
-        relativeLayout.removeAllViewsInLayout();
+        handlerTime = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                time.setText("" + msg.arg1 + ":" + msg.arg2);
+            }
+        };
+
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                seconds++;
+                if (seconds == 60){
+                    minutes++;
+                    seconds = 0;
+                }
+                Message msg = handlerTime.obtainMessage(1, minutes, seconds);
+                handlerTime.sendMessage(msg);
+            }
+        }, 0, 1000);
+
+//        relativeLayout.removeAllViewsInLayout();
         stepCounter = 0;
 
 //        Intent intent = new Intent(MainActivity.this, BattleFieldActivity.class);
@@ -107,16 +127,16 @@ public class BattleFieldActivity extends AppCompatActivity
         // поля размером 6*6. Сервер возвращает индекс хранения текущего игрового поля в
         // контейнере игровых полей.
         httpClient.execute("createBattleField", Integer.toString(battleFieldSize));
-        try{
+        try {
             battleFieldIndex = Integer.parseInt(httpClient.get());
-        }catch (InterruptedException e){
+        } catch (InterruptedException e) {
             e.printStackTrace();
-        }catch (ExecutionException e){
+        } catch (ExecutionException e) {
             e.printStackTrace();
         }
         //******************************************************************************************
 
-        for (int i = 0; i < battleFieldSize*battleFieldSize; i++) {
+        for (int i = 0; i < battleFieldSize * battleFieldSize; i++) {
             clickable.put(i, true);
         }
         Log.d(Data.getLOG_TAG(), "index of container battle field = " + battleFieldIndex);
@@ -125,7 +145,7 @@ public class BattleFieldActivity extends AppCompatActivity
             flipViews.get(i).setFrontImage(R.drawable.unknown);
             flipViews.get(i).setClickable(true);
         }
-        relativeLayout.addView(view);
+//        relativeLayout.addView(view);
 
 //        for (int i = 0; i < imageButtonArrayList.size(); i++) {
 //            imageButtonArrayList.get(i).setBackgroundColor(Color.WHITE);
@@ -151,8 +171,8 @@ public class BattleFieldActivity extends AppCompatActivity
                 httpClient = new HttpClient();
                 httpClient.execute("getElement", Integer.toString(rowIndex), Integer.toString(columnIndex),   // GET-запрос на сервер. Создается новый поток (AsyncTask).
                         Integer.toString(battleFieldIndex));
-                try{
-                    String country  = httpClient.get();                                        // Получение ответа от AsynkTask
+                try {
+                    String country = httpClient.get();                                        // Получение ответа от AsynkTask
                     Log.d(Data.getLOG_TAG(), "Try to get result");
                     result.setText(country);                                                    // Отображение значения в тестовом текстовом поле
                     final int resource = CountryList.getCountry(country);                       // Получение целочисленного значения сооветствующего ресурсу с флагом
@@ -165,21 +185,21 @@ public class BattleFieldActivity extends AppCompatActivity
                     Log.d(Data.getLOG_TAG(), "userCoice size = " + userChoice.size());
                     Log.d(Data.getLOG_TAG(), "userCoice 1 = " + userChoice.get(0));
 
-                    if(userChoice.size() == 2 && flipFlag){                                                // Проверка количества элементов в контейнере пользовательского выбора.
+                    if (userChoice.size() == 2 && flipFlag) {                                                // Проверка количества элементов в контейнере пользовательского выбора.
                         stepCounter++;
                         flipFlag = false;
                         Log.d(Data.getLOG_TAG(), "flipFlag = " + flipFlag);
                         test1.setText("" + stepCounter);
 //                            view.setClickable(false);
-                        if(!userChoice.get(0).equals(userChoice.get(1))){                       // Если значения пользовательского выбора не равны, то
+                        if (!userChoice.get(0).equals(userChoice.get(1))) {                       // Если значения пользовательского выбора не равны, то
                             userChoice.clear();                                                 // очищаем контейнер
                             final int but0 = Integer.parseInt(viewTag.get(0));                  // вычисляем тег первой нажатой кнопки
                             final int but1 = Integer.parseInt(viewTag.get(1));                  // вычисляем тег второй нажатой кнопки
-                                for (int i = 0; i < clickable.size(); i++) {
-                                    if(clickable.get(i)){
-                                        flipViews.get(i).setClickable(false);
-                                    }
+                            for (int i = 0; i < clickable.size(); i++) {
+                                if (clickable.get(i)) {
+                                    flipViews.get(i).setClickable(false);
                                 }
+                            }
                             flipViews.get(but0).setClickable(true);
                             flipViews.get(but1).setClickable(true);
 
@@ -189,6 +209,7 @@ public class BattleFieldActivity extends AppCompatActivity
                             final int paint = R.drawable.unknown;            // вычисляем целочисленное значение файла ресурса с флагом
                             Thread t1 = new Thread(new Runnable() {                             // создаем новый поток для закрытия первого, из выбранных пользователем флагов, рубашкой
                                 Message msg;
+
                                 @Override
                                 public void run() {
                                     msg = handler.obtainMessage(1, but0, paint);                // подготавливаем сообщение
@@ -198,6 +219,7 @@ public class BattleFieldActivity extends AppCompatActivity
                             t1.start();
                             Thread t2 = new Thread(new Runnable() {                             // то же самое делаем для второй кнопки
                                 Message msg;
+
                                 @Override
                                 public void run() {
                                     msg = handler.obtainMessage(1, but1, paint);
@@ -206,8 +228,8 @@ public class BattleFieldActivity extends AppCompatActivity
                             });
                             t2.start();
                             viewTag.clear();                                                    // очищаем контейнер тегов
-                        }else                                                                   // иначе
-                            if(userChoice.get(0).equals(userChoice.get(1))){                        // Если значения пользовательского выбора равны, то
+                        } else                                                                   // иначе
+                            if (userChoice.get(0).equals(userChoice.get(1))) {                        // Если значения пользовательского выбора равны, то
                                 Log.d(Data.getLOG_TAG(), "country equals");
                                 flipFlag = true;
                                 flipViews.get(Integer.parseInt(viewTag.get(0)))
@@ -222,11 +244,11 @@ public class BattleFieldActivity extends AppCompatActivity
                                 clickable.put(Integer.parseInt(viewTag.get(1)), false);
                                 userChoice.clear();                                                 // очищаем контейнеры пользовательского выбора
                                 viewTag.clear();
-                                if(!clickable.containsValue(true)){
+                                if (!clickable.containsValue(true)) {
                                     clickable.clear();
                                     userRecord = Integer.parseInt(test1.getText().toString());
                                     Log.d(Data.getLOG_TAG(), "user record = " + userRecord);
-                                    if(userRecord < topRecord){
+                                    if (userRecord < topRecord) {
                                         test2.setText("" + userRecord);
                                         SharedPreferences.Editor editor = record.edit();
                                         editor.putString("REC", test1.getText().toString());
@@ -234,20 +256,20 @@ public class BattleFieldActivity extends AppCompatActivity
                                     }
                                 }
                             }
-                    }else if(userChoice.size() == 2 && !flipFlag){
+                    } else if (userChoice.size() == 2 && !flipFlag) {
                         flipFlag = true;
                         Log.d(Data.getLOG_TAG(), "flipFlag = " + flipFlag);
                         test1.setText("" + stepCounter);
 //                            view.setClickable(false);
-                        if(!userChoice.get(0).equals(userChoice.get(1))){                       // Если значения пользовательского выбора не равны, то
+                        if (!userChoice.get(0).equals(userChoice.get(1))) {                       // Если значения пользовательского выбора не равны, то
                             userChoice.clear();                                                 // очищаем контейнер
                             final int but0 = Integer.parseInt(viewTag.get(0));                  // вычисляем тег первой нажатой кнопки
                             final int but1 = Integer.parseInt(viewTag.get(1));                  // вычисляем тег второй нажатой кнопки
-                                for (int i = 0; i < clickable.size(); i++) {
-                                    if(clickable.get(i)){
-                                        flipViews.get(i).setClickable(true);
-                                    }
+                            for (int i = 0; i < clickable.size(); i++) {
+                                if (clickable.get(i)) {
+                                    flipViews.get(i).setClickable(true);
                                 }
+                            }
 //                            imageButtonArrayList.get(but0).setClickable(true);
 //                            imageButtonArrayList.get(but1).setClickable(true);
 
@@ -257,6 +279,7 @@ public class BattleFieldActivity extends AppCompatActivity
                             final int paint = R.drawable.unknown;            // вычисляем целочисленное значение файла ресурса с флагом
                             Thread t1 = new Thread(new Runnable() {                             // создаем новый поток для закрытия первого, из выбранных пользователем флагов, рубашкой
                                 Message msg;
+
                                 @Override
                                 public void run() {
                                     msg = handler.obtainMessage(1, but0, paint);                // подготавливаем сообщение
@@ -266,6 +289,7 @@ public class BattleFieldActivity extends AppCompatActivity
                             t1.start();
                             Thread t2 = new Thread(new Runnable() {                             // то же самое делаем для второй кнопки
                                 Message msg;
+
                                 @Override
                                 public void run() {
                                     msg = handler.obtainMessage(1, but1, paint);
@@ -274,8 +298,8 @@ public class BattleFieldActivity extends AppCompatActivity
                             });
                             t2.start();
                             viewTag.clear();                                                    // очищаем контейнер тегов
-                        }else                                                                   // иначе
-                            if(userChoice.get(0).equals(userChoice.get(1))){                        // Если значения пользовательского выбора равны, то
+                        } else                                                                   // иначе
+                            if (userChoice.get(0).equals(userChoice.get(1))) {                        // Если значения пользовательского выбора равны, то
                                 Log.d(Data.getLOG_TAG(), "country equals");
                                 flipViews.get(Integer.parseInt(viewTag.get(0)))
                                         .setClickable(false);                                       // делаем выбранные кнопки не кликабельными
@@ -289,11 +313,11 @@ public class BattleFieldActivity extends AppCompatActivity
                                 clickable.put(Integer.parseInt(viewTag.get(1)), false);
                                 userChoice.clear();                                                 // очищаем контейнеры пользовательского выбора
                                 viewTag.clear();
-                                if(!clickable.containsValue(true)){
+                                if (!clickable.containsValue(true)) {
                                     clickable.clear();
                                     userRecord = Integer.parseInt(test1.getText().toString());
                                     Log.d(Data.getLOG_TAG(), "user record = " + userRecord);
-                                    if(userRecord < topRecord){
+                                    if (userRecord < topRecord) {
                                         test2.setText("" + userRecord);
                                         SharedPreferences.Editor editor = record.edit();
                                         editor.putString("REC", test1.getText().toString());
@@ -302,9 +326,9 @@ public class BattleFieldActivity extends AppCompatActivity
                                 }
                             }
                     }
-                }catch (InterruptedException e){
+                } catch (InterruptedException e) {
                     e.printStackTrace();
-                }catch (ExecutionException e){
+                } catch (ExecutionException e) {
                     e.printStackTrace();
                 }
             }
@@ -313,7 +337,7 @@ public class BattleFieldActivity extends AppCompatActivity
 
 //        Button send = (Button) view.findViewById(R.id.buttonSend);
 //        send.setOnClickListener(onFlippingListener);
-        for (int i = 0; i < battleFieldSize*battleFieldSize; i++) {
+        for (int i = 0; i < battleFieldSize * battleFieldSize; i++) {
 //            imageButtonArrayList.get(i).setOnClickListener(onClickListener);
 //            flipViews.get(i).setOnClickListener(onClickListener);
             flipViews.get(i).setOnFlippingListener(onFlippingListener);
@@ -321,85 +345,6 @@ public class BattleFieldActivity extends AppCompatActivity
 
         //******************************************************************************************
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                Intent intent = new Intent(BattleFieldActivity.this, BattleFieldActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-    }
-
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.battle_field, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 
     @Override
@@ -410,42 +355,42 @@ public class BattleFieldActivity extends AppCompatActivity
 
     public void initFlipView(View view){
         flipViews = new ArrayList<>(battleFieldSize*battleFieldSize);
-        flipViews.add((FlipView) view.findViewById(R.id.image1));
-        flipViews.add((FlipView) view.findViewById(R.id.image2));
-        flipViews.add((FlipView) view.findViewById(R.id.image3));
-        flipViews.add((FlipView) view.findViewById(R.id.image4));
-        flipViews.add((FlipView) view.findViewById(R.id.image5));
-        flipViews.add((FlipView) view.findViewById(R.id.image6));
-        flipViews.add((FlipView) view.findViewById(R.id.image7));
-        flipViews.add((FlipView) view.findViewById(R.id.image8));
-        flipViews.add((FlipView) view.findViewById(R.id.image9));
-        flipViews.add((FlipView) view.findViewById(R.id.image10));
-        flipViews.add((FlipView) view.findViewById(R.id.image11));
-        flipViews.add((FlipView) view.findViewById(R.id.image12));
-        flipViews.add((FlipView) view.findViewById(R.id.image13));
-        flipViews.add((FlipView) view.findViewById(R.id.image14));
-        flipViews.add((FlipView) view.findViewById(R.id.image15));
-        flipViews.add((FlipView) view.findViewById(R.id.image16));
-        flipViews.add((FlipView) view.findViewById(R.id.image17));
-        flipViews.add((FlipView) view.findViewById(R.id.image18));
-        flipViews.add((FlipView) view.findViewById(R.id.image19));
-        flipViews.add((FlipView) view.findViewById(R.id.image20));
-        flipViews.add((FlipView) view.findViewById(R.id.image21));
-        flipViews.add((FlipView) view.findViewById(R.id.image22));
-        flipViews.add((FlipView) view.findViewById(R.id.image23));
-        flipViews.add((FlipView) view.findViewById(R.id.image24));
-        flipViews.add((FlipView) view.findViewById(R.id.image25));
-        flipViews.add((FlipView) view.findViewById(R.id.image26));
-        flipViews.add((FlipView) view.findViewById(R.id.image27));
-        flipViews.add((FlipView) view.findViewById(R.id.image28));
-        flipViews.add((FlipView) view.findViewById(R.id.image29));
-        flipViews.add((FlipView) view.findViewById(R.id.image30));
-        flipViews.add((FlipView) view.findViewById(R.id.image31));
-        flipViews.add((FlipView) view.findViewById(R.id.image32));
-        flipViews.add((FlipView) view.findViewById(R.id.image33));
-        flipViews.add((FlipView) view.findViewById(R.id.image34));
-        flipViews.add((FlipView) view.findViewById(R.id.image35));
-        flipViews.add((FlipView) view.findViewById(R.id.image36));
+        flipViews.add((FlipView) findViewById(R.id.image1));
+        flipViews.add((FlipView) findViewById(R.id.image2));
+        flipViews.add((FlipView) findViewById(R.id.image3));
+        flipViews.add((FlipView) findViewById(R.id.image4));
+        flipViews.add((FlipView) findViewById(R.id.image5));
+        flipViews.add((FlipView) findViewById(R.id.image6));
+        flipViews.add((FlipView) findViewById(R.id.image7));
+        flipViews.add((FlipView) findViewById(R.id.image8));
+        flipViews.add((FlipView) findViewById(R.id.image9));
+        flipViews.add((FlipView) findViewById(R.id.image10));
+        flipViews.add((FlipView) findViewById(R.id.image11));
+        flipViews.add((FlipView) findViewById(R.id.image12));
+        flipViews.add((FlipView) findViewById(R.id.image13));
+        flipViews.add((FlipView) findViewById(R.id.image14));
+        flipViews.add((FlipView) findViewById(R.id.image15));
+        flipViews.add((FlipView) findViewById(R.id.image16));
+        flipViews.add((FlipView) findViewById(R.id.image17));
+        flipViews.add((FlipView) findViewById(R.id.image18));
+        flipViews.add((FlipView) findViewById(R.id.image19));
+        flipViews.add((FlipView) findViewById(R.id.image20));
+        flipViews.add((FlipView) findViewById(R.id.image21));
+        flipViews.add((FlipView) findViewById(R.id.image22));
+        flipViews.add((FlipView) findViewById(R.id.image23));
+        flipViews.add((FlipView) findViewById(R.id.image24));
+        flipViews.add((FlipView) findViewById(R.id.image25));
+        flipViews.add((FlipView) findViewById(R.id.image26));
+        flipViews.add((FlipView) findViewById(R.id.image27));
+        flipViews.add((FlipView) findViewById(R.id.image28));
+        flipViews.add((FlipView) findViewById(R.id.image29));
+        flipViews.add((FlipView) findViewById(R.id.image30));
+        flipViews.add((FlipView) findViewById(R.id.image31));
+        flipViews.add((FlipView) findViewById(R.id.image32));
+        flipViews.add((FlipView) findViewById(R.id.image33));
+        flipViews.add((FlipView) findViewById(R.id.image34));
+        flipViews.add((FlipView) findViewById(R.id.image35));
+        flipViews.add((FlipView) findViewById(R.id.image36));
     }
 
     public void initImageButton(View view){
@@ -517,6 +462,7 @@ public class BattleFieldActivity extends AppCompatActivity
 
     private HttpClient httpClient;
     private Handler handler;
+    private Handler handlerTime;
     private HashMap<Integer, Boolean> clickable;
 
     private LinearLayout relativeLayout;
@@ -526,6 +472,8 @@ public class BattleFieldActivity extends AppCompatActivity
     private TextView result;
     private TextView test1;
     private TextView test2;
+    private TextView time;
+    private Timer timer;
     private View view;
 
     private int battleFieldSize = 6;
@@ -533,6 +481,8 @@ public class BattleFieldActivity extends AppCompatActivity
     private int stepCounter = 0;
     private int userRecord = 0;
     private int topRecord = 0;
+    private int seconds = 0;
+    private int minutes = 0;
     private boolean flipFlag = true;
 
 }

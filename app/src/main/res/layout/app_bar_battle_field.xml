@@ -31,6 +31,6 @@
     <include
         layout="@layout/content_battle_field"
         android:layout_width="match_parent"
-        />
+         />
 
 </android.support.design.widget.CoordinatorLayout>
