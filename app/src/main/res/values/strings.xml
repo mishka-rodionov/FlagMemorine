@@ -12,4 +12,15 @@
     <string name="_6x6">6x6</string>
     <string name="create">create</string>
     <string name="title_activity_room_battle_field">RoomBattleFieldActivity</string>
+    <string name="play">Play</string>
+    <string name="multiplayer">Multiplayer</string>
+    <string name="statistic">Statistic</string>
+    <string name="stopAds">Stop ads</string>
+    <string name="xsmall">xS</string>
+    <string name="small">S</string>
+    <string name="medium">M</string>
+    <string name="large">L</string>
+    <string name="xlarge">XL</string>
+    <string name="xxlarge">XXL</string>
+    <string name="userInfo">User info</string>
 </resources>
