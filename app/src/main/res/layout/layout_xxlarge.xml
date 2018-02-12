@@ -1087,7 +1087,8 @@
             android:id="@+id/step"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Simple text"/>
+            android:text="@string/score"
+            android:gravity="left" />
 
         <Space
             android:layout_width="wrap_content"
@@ -1098,7 +1099,7 @@
             android:id="@+id/test1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Simple text"/>
+            android:text=""/>
 
         <Space
             android:layout_width="wrap_content"
@@ -1143,7 +1144,8 @@
             android:id="@+id/userRecord"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Simple text"/>
+            android:text="@string/record"
+            android:gravity="left" />
 
         <Space
             android:layout_width="wrap_content"
@@ -1154,12 +1156,69 @@
             android:id="@+id/test2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Simple text"/>
+            android:text=""/>
 
         <Space
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="end"
+    android:orientation="horizontal">
+
+    <Space
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_weight="1" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/restart"
+            android:id="@+id/restart" />
+
+        <Space
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_weight="1" />
+
+    <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Simple text"
+    android:visibility="invisible" />
+
+    <Space
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_weight="1" />
+
+    <TextView
+    android:id="@+id/timeText"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/time" />
+
+    <Space
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_weight="1" />
+
+    <TextView
+    android:id="@+id/timeValue"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="" />
+
+    <Space
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_weight="1" />
 
     </LinearLayout>
 

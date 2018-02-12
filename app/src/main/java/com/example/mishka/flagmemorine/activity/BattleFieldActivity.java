@@ -7,8 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.mishka.flagmemorine.R;
@@ -27,16 +29,20 @@ import eu.davidea.flipview.FlipView;
 public class BattleFieldActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        time1 = System.currentTimeMillis();
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_test);
         //******************************************************************************************
-        httpClient = new HttpClient();
+
+
         record = getPreferences(MODE_PRIVATE);
         timer = new Timer();
         topRecord = Integer.parseInt(record.getString("REC", "10000"));
         userChoice = new ArrayList<>(2);
         viewTag = new ArrayList<>(2);
         CountryList.loadCountryMap();
+        relativeLayout = (LinearLayout) findViewById(R.id.relativelayout);
         battleFieldSize = Integer.parseInt(getIntent().getStringExtra("size"));
         battleField = new BattleField(battleFieldSize);
         view = getLayoutInflater().inflate(R.layout.layout_xxlarge, null);
@@ -45,10 +51,22 @@ public class BattleFieldActivity extends AppCompatActivity {
         for (int i = 0; i < battleFieldSize * battleFieldSize; i++) {
             clickable.put(i, true);
         }
-        result = (TextView) findViewById(R.id.result);
-        test1 = (TextView) findViewById(R.id.test1);
-        test2 = (TextView) findViewById(R.id.test2);
-        time = (TextView) findViewById(R.id.timeValue);
+
+        result = (TextView) view.findViewById(R.id.result);
+        test1 = (TextView) view.findViewById(R.id.test1);
+        test2 = (TextView) view.findViewById(R.id.test2);
+        time = (TextView) view.findViewById(R.id.timeValue);
+        restart = (Button) view.findViewById(R.id.restart);
+
+        View.OnClickListener restartListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                finish();
+                recreate();
+            }
+        };
+
+        restart.setOnClickListener(restartListener);
 
         if (topRecord == 10000)
             test2.setText("" + 0);
@@ -92,8 +110,9 @@ public class BattleFieldActivity extends AppCompatActivity {
             }
         }, 0, 1000);
 
-//        relativeLayout.removeAllViewsInLayout();
+        relativeLayout.removeAllViewsInLayout();
         stepCounter = 0;
+        relativeLayout.addView(view);
 
         //******************************************************************************************
 
@@ -105,6 +124,7 @@ public class BattleFieldActivity extends AppCompatActivity {
             flipViews.get(i).setFrontImage(R.drawable.unknown);
             flipViews.get(i).setClickable(true);
         }
+
 
         // Метод обработки нажатий на кнопки на игровом поле. При нажатии на кнопку происходит
         // отправка данных на сервер (индекс строки и столбца (два целочисленных значения)).
@@ -280,65 +300,61 @@ public class BattleFieldActivity extends AppCompatActivity {
 
         for (int i = 0; i < flipViews.size(); i++) {
             flipViews.get(i).setOnFlippingListener(onFlippingListener);
-            Log.d(Data.getLOG_TAG(), "add onFlipListener " + i + " " + flipViews.get(i).getId() + " xxlarge1 = " + R.id.xxlarge1);
+//            Log.d(Data.getLOG_TAG(), "add onFlipListener " + i + " " + flipViews.get(i).getId() + " xxlarge1 = " + R.id.xxlarge1);
         }
+        time2 = System.currentTimeMillis();
+        Log.d(Data.getLOG_TAG(), "loading time is = " + (time2 - time1));
         //******************************************************************************************
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
 
     }
 
     public void initFlipView(View view, int battleFieldSize){
         flipViews = new ArrayList<>(battleFieldSize);
-//        if (battleFieldSize == Data.getXsmallSize()){
-//            for (int i = 0; i < Data.getXsmallSize(); i++) {
-//                flipViews.add((FlipView) view.findViewById(Data.getIdxsmall(i)));
-//            }
-//        }else if (battleFieldSize == Data.getXxlargeSize()){
-//            for (int i = 0; i < Data.getXxlargeSize(); i++) {
-//                flipViews.add((FlipView) view.findViewById(Data.getIdxxlarge(i)));
-//            }
-//        }
-        flipViews.add((FlipView) view.findViewById(R.id.xxlarge1));
-        flipViews.add((FlipView) view.findViewById(R.id.xxlarge2));
-        flipViews.add((FlipView) view.findViewById(R.id.xxlarge3));
-        flipViews.add((FlipView) view.findViewById(R.id.xxlarge4));
-        flipViews.add((FlipView) view.findViewById(R.id.xxlarge5));
-        flipViews.add((FlipView) view.findViewById(R.id.xxlarge6));
-        flipViews.add((FlipView) view.findViewById(R.id.xxlarge7));
-        flipViews.add((FlipView) view.findViewById(R.id.xxlarge8));
-        flipViews.add((FlipView) view.findViewById(R.id.xxlarge9));
-        flipViews.add((FlipView) view.findViewById(R.id.xxlarge10));
-        flipViews.add((FlipView) view.findViewById(R.id.xxlarge11));
-        flipViews.add((FlipView) view.findViewById(R.id.xxlarge12));
-        flipViews.add((FlipView) view.findViewById(R.id.xxlarge13));
-        flipViews.add((FlipView) view.findViewById(R.id.xxlarge14));
-        flipViews.add((FlipView) view.findViewById(R.id.xxlarge15));
-        flipViews.add((FlipView) view.findViewById(R.id.xxlarge16));
-        flipViews.add((FlipView) view.findViewById(R.id.xxlarge17));
-        flipViews.add((FlipView) view.findViewById(R.id.xxlarge18));
-        flipViews.add((FlipView) view.findViewById(R.id.xxlarge19));
-        flipViews.add((FlipView) view.findViewById(R.id.xxlarge20));
-        flipViews.add((FlipView) view.findViewById(R.id.xxlarge21));
-        flipViews.add((FlipView) view.findViewById(R.id.xxlarge22));
-        flipViews.add((FlipView) view.findViewById(R.id.xxlarge23));
-        flipViews.add((FlipView) view.findViewById(R.id.xxlarge24));
-        flipViews.add((FlipView) view.findViewById(R.id.xxlarge25));
-        flipViews.add((FlipView) view.findViewById(R.id.xxlarge26));
-        flipViews.add((FlipView) view.findViewById(R.id.xxlarge27));
-        flipViews.add((FlipView) view.findViewById(R.id.xxlarge28));
-        flipViews.add((FlipView) view.findViewById(R.id.xxlarge29));
-        flipViews.add((FlipView) view.findViewById(R.id.xxlarge30));
-        flipViews.add((FlipView) view.findViewById(R.id.xxlarge31));
-        flipViews.add((FlipView) view.findViewById(R.id.xxlarge32));
-        flipViews.add((FlipView) view.findViewById(R.id.xxlarge33));
-        flipViews.add((FlipView) view.findViewById(R.id.xxlarge34));
-        flipViews.add((FlipView) view.findViewById(R.id.xxlarge35));
-        flipViews.add((FlipView) view.findViewById(R.id.xxlarge36));
+        if (battleFieldSize == Data.getXsmallSize()){
+            for (int i = 0; i < Data.getXsmallSize(); i++) {
+                flipViews.add((FlipView) view.findViewById(Data.getIdxsmall(i)));
+            }
+        }else if (battleFieldSize == Data.getXxlargeSize()){
+            for (int i = 0; i < Data.getXxlargeSize(); i++) {
+                flipViews.add((FlipView) view.findViewById(Data.getIdxxlarge(i)));
+            }
+        }
+//        flipViews.add((FlipView) findViewById(R.id.xxlarge1));
+//        flipViews.add((FlipView) findViewById(R.id.xxlarge2));
+//        flipViews.add((FlipView) findViewById(R.id.xxlarge3));
+//        flipViews.add((FlipView) findViewById(R.id.xxlarge4));
+//        flipViews.add((FlipView) findViewById(R.id.xxlarge5));
+//        flipViews.add((FlipView) findViewById(R.id.xxlarge6));
+//        flipViews.add((FlipView) findViewById(R.id.xxlarge7));
+//        flipViews.add((FlipView) findViewById(R.id.xxlarge8));
+//        flipViews.add((FlipView) findViewById(R.id.xxlarge9));
+//        flipViews.add((FlipView) findViewById(R.id.xxlarge10));
+//        flipViews.add((FlipView) findViewById(R.id.xxlarge11));
+//        flipViews.add((FlipView) findViewById(R.id.xxlarge12));
+//        flipViews.add((FlipView) findViewById(R.id.xxlarge13));
+//        flipViews.add((FlipView) findViewById(R.id.xxlarge14));
+//        flipViews.add((FlipView) findViewById(R.id.xxlarge15));
+//        flipViews.add((FlipView) findViewById(R.id.xxlarge16));
+//        flipViews.add((FlipView) findViewById(R.id.xxlarge17));
+//        flipViews.add((FlipView) findViewById(R.id.xxlarge18));
+//        flipViews.add((FlipView) findViewById(R.id.xxlarge19));
+//        flipViews.add((FlipView) findViewById(R.id.xxlarge20));
+//        flipViews.add((FlipView) findViewById(R.id.xxlarge21));
+//        flipViews.add((FlipView) findViewById(R.id.xxlarge22));
+//        flipViews.add((FlipView) findViewById(R.id.xxlarge23));
+//        flipViews.add((FlipView) findViewById(R.id.xxlarge24));
+//        flipViews.add((FlipView) findViewById(R.id.xxlarge25));
+//        flipViews.add((FlipView) findViewById(R.id.xxlarge26));
+//        flipViews.add((FlipView) findViewById(R.id.xxlarge27));
+//        flipViews.add((FlipView) findViewById(R.id.xxlarge28));
+//        flipViews.add((FlipView) findViewById(R.id.xxlarge29));
+//        flipViews.add((FlipView) findViewById(R.id.xxlarge30));
+//        flipViews.add((FlipView) findViewById(R.id.xxlarge31));
+//        flipViews.add((FlipView) findViewById(R.id.xxlarge32));
+//        flipViews.add((FlipView) findViewById(R.id.xxlarge33));
+//        flipViews.add((FlipView) findViewById(R.id.xxlarge34));
+//        flipViews.add((FlipView) findViewById(R.id.xxlarge35));
+//        flipViews.add((FlipView) findViewById(R.id.xxlarge36));
 
         Log.d(Data.getLOG_TAG(), "flipview size = " + flipViews.size());
     }
@@ -372,7 +388,7 @@ public class BattleFieldActivity extends AppCompatActivity {
 
     private BattleField battleField;
 
-    private HttpClient httpClient;
+
     private Handler handler;
     private Handler handlerTime;
     private HashMap<Integer, Boolean> clickable;
@@ -381,6 +397,7 @@ public class BattleFieldActivity extends AppCompatActivity {
 
     private SharedPreferences record;
 
+    private Button restart;
     private TextView result;
     private TextView test1;
     private TextView test2;
@@ -395,6 +412,8 @@ public class BattleFieldActivity extends AppCompatActivity {
     private int topRecord = 0;
     private int seconds = 0;
     private int minutes = 0;
+    private long time1 = 0;
+    private long time2 = 0;
     private boolean flipFlag = true;
 
 }
