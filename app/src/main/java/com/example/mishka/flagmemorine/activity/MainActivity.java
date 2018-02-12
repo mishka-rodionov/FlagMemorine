@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_gallery) {
 //            Intent battleFieldIntent = new Intent(MainActivity.this, BattleFieldActivity.class);
 //            startActivity(battleFieldIntent);
-            Intent testActivityIntent = new Intent(MainActivity.this, TestActivity.class);
+            Intent testActivityIntent = new Intent(MainActivity.this, BattleFieldActivity.class);
             startActivity(testActivityIntent);
 
         } else if (id == R.id.nav_slideshow) {

@@ -40,7 +40,7 @@
             app:rearLayout="@layout/flip_rear_custom" />
 
         <include
-            layout="@layout/layout_4x4"
+            layout="@layout/layout_xxlarge"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 

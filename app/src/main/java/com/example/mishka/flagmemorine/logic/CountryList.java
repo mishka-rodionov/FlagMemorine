@@ -5,7 +5,10 @@ import android.widget.ImageView;
 
 import com.example.mishka.flagmemorine.R;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Random;
 
 /**
  * Created by Lab1 on 18.01.2018.
@@ -69,14 +72,35 @@ public class CountryList {
         countryMap.put("Cyprus", R.drawable.cyprus);
         countryMap.put("Georgia", R.drawable.georgia);
         countryMap.put("Kazakhstan", R.drawable.kazakhstan);
-//        countryMap.put("Armenia", R.drawable.armenia);
-
     }
 
     public static Integer getCountry(String name){
         return countryMap.get(name);
     }
 
+    public static String getCountry(int index){return country.get(index);}
+
+    public static void loading(int size){
+        country = new ArrayList<String>(size*size);
+        Random rnd = new Random();
+        int index = rnd.nextInt(countryList.length);
+        for (int i = 0; i < size*size; i++) {
+            if(i % 2 != 0){
+                country.add(i, countryList[index]);
+                index++;
+                if(index == countryList.length)
+                    index = 0;
+            }
+            else
+                country.add(i, countryList[index]);
+        }
+    }
+
+    public static void shuffle(){
+        Collections.shuffle(country);
+    }
+
+    private static ArrayList<String> country;
     private static HashMap<String, Integer> countryMap;
     private static String[] countryList = {
             "Albania",

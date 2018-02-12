@@ -18,7 +18,7 @@
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
-            android:id="@+id/image1"
+            android:id="@+id/xxlarge1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -45,7 +45,7 @@
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
-            android:id="@+id/image2"
+            android:id="@+id/xxlarge2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -72,7 +72,7 @@
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
-            android:id="@+id/image3"
+            android:id="@+id/xxlarge3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -99,7 +99,7 @@
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
-            android:id="@+id/image4"
+            android:id="@+id/xxlarge4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -126,7 +126,7 @@
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
-            android:id="@+id/image5"
+            android:id="@+id/xxlarge5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -153,7 +153,7 @@
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
-            android:id="@+id/image6"
+            android:id="@+id/xxlarge6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -192,7 +192,7 @@
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
-            android:id="@+id/image7"
+            android:id="@+id/xxlarge7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -219,7 +219,7 @@
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
-            android:id="@+id/image8"
+            android:id="@+id/xxlarge8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -246,7 +246,7 @@
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
-            android:id="@+id/image9"
+            android:id="@+id/xxlarge9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -273,7 +273,7 @@
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
-            android:id="@+id/image10"
+            android:id="@+id/xxlarge10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -300,7 +300,7 @@
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
-            android:id="@+id/image11"
+            android:id="@+id/xxlarge11"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -327,7 +327,7 @@
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
-            android:id="@+id/image12"
+            android:id="@+id/xxlarge12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -366,7 +366,7 @@
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
-            android:id="@+id/image13"
+            android:id="@+id/xxlarge13"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -393,7 +393,7 @@
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
-            android:id="@+id/image14"
+            android:id="@+id/xxlarge14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -420,7 +420,7 @@
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
-            android:id="@+id/image15"
+            android:id="@+id/xxlarge15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -447,7 +447,7 @@
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
-            android:id="@+id/image16"
+            android:id="@+id/xxlarge16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -474,7 +474,7 @@
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
-            android:id="@+id/image17"
+            android:id="@+id/xxlarge17"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -501,7 +501,7 @@
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
-            android:id="@+id/image18"
+            android:id="@+id/xxlarge18"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -540,7 +540,7 @@
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
-            android:id="@+id/image19"
+            android:id="@+id/xxlarge19"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -567,7 +567,7 @@
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
-            android:id="@+id/image20"
+            android:id="@+id/xxlarge20"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -594,7 +594,7 @@
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
-            android:id="@+id/image21"
+            android:id="@+id/xxlarge21"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -621,7 +621,7 @@
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
-            android:id="@+id/image22"
+            android:id="@+id/xxlarge22"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -648,7 +648,7 @@
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
-            android:id="@+id/image23"
+            android:id="@+id/xxlarge23"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -675,7 +675,7 @@
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
-            android:id="@+id/image24"
+            android:id="@+id/xxlarge24"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -714,7 +714,7 @@
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
-            android:id="@+id/image25"
+            android:id="@+id/xxlarge25"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -741,7 +741,7 @@
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
-            android:id="@+id/image26"
+            android:id="@+id/xxlarge26"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -768,7 +768,7 @@
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
-            android:id="@+id/image27"
+            android:id="@+id/xxlarge27"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -795,7 +795,7 @@
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
-            android:id="@+id/image28"
+            android:id="@+id/xxlarge28"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -822,7 +822,7 @@
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
-            android:id="@+id/image29"
+            android:id="@+id/xxlarge29"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -849,7 +849,7 @@
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
-            android:id="@+id/image30"
+            android:id="@+id/xxlarge30"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -888,7 +888,7 @@
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
-            android:id="@+id/image31"
+            android:id="@+id/xxlarge31"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -915,7 +915,7 @@
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
-            android:id="@+id/image32"
+            android:id="@+id/xxlarge32"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -942,7 +942,7 @@
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
-            android:id="@+id/image33"
+            android:id="@+id/xxlarge33"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -969,7 +969,7 @@
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
-            android:id="@+id/image34"
+            android:id="@+id/xxlarge34"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -996,7 +996,7 @@
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
-            android:id="@+id/image35"
+            android:id="@+id/xxlarge35"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -1023,7 +1023,7 @@
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
-            android:id="@+id/image36"
+            android:id="@+id/xxlarge36"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"

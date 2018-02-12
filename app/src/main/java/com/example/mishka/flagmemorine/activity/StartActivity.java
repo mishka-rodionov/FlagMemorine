@@ -1,14 +1,14 @@
 package com.example.mishka.flagmemorine.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.example.mishka.flagmemorine.R;
-import com.example.mishka.flagmemorine.logic.Data;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -33,24 +33,59 @@ public class StartActivity extends AppCompatActivity {
         stopAds = (Button) findViewById(R.id.stopAds);
         userInfo = (Button) findViewById(R.id.userInfo);
 
-        RadioGroup.OnCheckedChangeListener onCheckedChangeListener = new RadioGroup.OnCheckedChangeListener() {
+        View.OnClickListener onClickListenerRB = new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (group.getId()){
-                    case R.id.rg1:
-//                        rg2.clearCheck();
-                        Log.d(Data.getLOG_TAG(), "rg1");
+            public void onClick(View view) {
+                switch (view.getId()){
+                    case R.id.xsmall:
+                        rg2.clearCheck();
+                        size = "1";
                         break;
-                    case R.id.rg2:
-//                        rg1.clearCheck();
-                        Log.d(Data.getLOG_TAG(), "rg2");
+                    case R.id.small:
+                        rg2.clearCheck();
+                        size = "2";
+                        break;
+                    case R.id.medium:
+                        rg2.clearCheck();
+                        size = "3";
+                        break;
+                    case R.id.large:
+                        rg1.clearCheck();
+                        size = "4";
+                        break;
+                    case R.id.xlarge:
+                        rg1.clearCheck();
+                        size = "5";
+                        break;
+                    case R.id.xxlarge:
+                        rg1.clearCheck();
+                        size = "6";
                         break;
                 }
             }
         };
 
-        rg1.setOnCheckedChangeListener(onCheckedChangeListener);
-        rg2.setOnCheckedChangeListener(onCheckedChangeListener);
+        xSmall.setOnClickListener(onClickListenerRB);
+        small.setOnClickListener(onClickListenerRB);
+        medium.setOnClickListener(onClickListenerRB);
+        large.setOnClickListener(onClickListenerRB);
+        xLarge.setOnClickListener(onClickListenerRB);
+        xxLarge.setOnClickListener(onClickListenerRB);
+
+        View.OnClickListener onClickListenerButton = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (view.getId()){
+                    case R.id.play:
+                        Intent intent = new Intent(StartActivity.this, BattleFieldActivity.class);
+                        intent.putExtra("size", size);
+                        startActivity(intent);
+                        break;
+                }
+            }
+        };
+
+        play.setOnClickListener(onClickListenerButton);
 
     }
 
@@ -69,4 +104,6 @@ public class StartActivity extends AppCompatActivity {
     private Button statistic;
     private Button stopAds;
     private Button userInfo;
+
+    private String size = "6";
 }

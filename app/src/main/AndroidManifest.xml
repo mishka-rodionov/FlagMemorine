@@ -23,10 +23,6 @@
             <!--</intent-filter>-->
         </activity>
         <activity
-            android:name=".activity.BattleFieldActivity"
-            android:label="@string/title_activity_battle_field"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".activity.RoomsActivity"
             android:label="@string/title_activity_rooms"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -34,7 +30,7 @@
             android:name=".activity.RoomBattleFieldActivity"
             android:label="@string/title_activity_room_battle_field"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.TestActivity" />
+        <activity android:name=".activity.BattleFieldActivity" />
         <activity android:name=".activity.StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
