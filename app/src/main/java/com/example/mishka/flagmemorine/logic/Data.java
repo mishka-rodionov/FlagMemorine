@@ -133,6 +133,22 @@ public class Data {
         return idxxlarge[index];
     }
 
+    public static int getIdsmall(int index) {
+        return idsmall[index];
+    }
+
+    public static int getIdmedium(int index) {
+        return idmedium[index];
+    }
+
+    public static int getIdlarge(int index) {
+        return idlarge[index];
+    }
+
+    public static int getIdxlarge(int index) {
+        return idxlarge[index];
+    }
+
     private static String customURL = "82.202.246.170";
     private static String LOG_TAG = "flagmemorine";
     private static String serverAppName = "TestGet";
@@ -159,6 +175,21 @@ public class Data {
         R.id.xxlarge33,R.id.xxlarge34,R.id.xxlarge35,R.id.xxlarge36};
     private static int[] idxsmall = {R.id.xsmall1,R.id.xsmall2,R.id.xsmall3,R.id.xsmall4,
             R.id.xsmall5,R.id.xsmall6,R.id.xsmall7,R.id.xsmall8};
+    private static int[] idsmall = {R.id.small1,R.id.small2,R.id.small3,R.id.small4,
+            R.id.small5,R.id.small6,R.id.small7,R.id.small8,R.id.small9,R.id.small10,R.id.small11,R.id.small12};
+    private static int[] idmedium = {R.id.medium1,
+            R.id.medium2,R.id.medium3,R.id.medium4,R.id.medium5,R.id.medium6,R.id.medium7,R.id.medium8,
+            R.id.medium9,R.id.medium10,R.id.medium11,R.id.medium12,R.id.medium13,R.id.medium14,R.id.medium15,
+            R.id.medium16};
+    private static int[] idlarge = {R.id.large1,R.id.large2,R.id.large3,R.id.large4,
+            R.id.large5,R.id.large6,R.id.large7,R.id.large8,R.id.large9,R.id.large10,R.id.large11,
+            R.id.large12,R.id.large13,R.id.large14,R.id.large15,R.id.large16,R.id.large17,R.id.large18,
+            R.id.large19,R.id.large20,R.id.large21,R.id.large22,R.id.large23,R.id.large24};
+    private static int[] idxlarge = {R.id.xlarge1,R.id.xlarge2,R.id.xlarge3,R.id.xlarge4,
+            R.id.xlarge5,R.id.xlarge6,R.id.xlarge7,R.id.xlarge8,R.id.xlarge9,R.id.xlarge10,R.id.xlarge11,
+            R.id.xlarge12,R.id.xlarge13,R.id.xlarge14,R.id.xlarge15,R.id.xlarge16,R.id.xlarge17,R.id.xlarge18,
+            R.id.xlarge19,R.id.xlarge20,R.id.xlarge21,R.id.xlarge22,R.id.xlarge23,R.id.xlarge24,R.id.xlarge25,
+            R.id.xlarge26,R.id.xlarge27,R.id.xlarge28,R.id.xlarge29,R.id.xlarge30};
 
 
 }

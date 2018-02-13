@@ -39,27 +39,27 @@ public class StartActivity extends AppCompatActivity {
                 switch (view.getId()){
                     case R.id.xsmall:
                         rg2.clearCheck();
-                        size = "1";
+                        size = "8";
                         break;
                     case R.id.small:
                         rg2.clearCheck();
-                        size = "2";
+                        size = "12";
                         break;
                     case R.id.medium:
                         rg2.clearCheck();
-                        size = "3";
+                        size = "16";
                         break;
                     case R.id.large:
                         rg1.clearCheck();
-                        size = "4";
+                        size = "24";
                         break;
                     case R.id.xlarge:
                         rg1.clearCheck();
-                        size = "5";
+                        size = "30";
                         break;
                     case R.id.xxlarge:
                         rg1.clearCheck();
-                        size = "6";
+                        size = "36";
                         break;
                 }
             }
@@ -105,5 +105,5 @@ public class StartActivity extends AppCompatActivity {
     private Button stopAds;
     private Button userInfo;
 
-    private String size = "6";
+    private String size = "36";
 }

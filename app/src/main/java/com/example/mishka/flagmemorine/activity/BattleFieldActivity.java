@@ -31,11 +31,8 @@ public class BattleFieldActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         time1 = System.currentTimeMillis();
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_test);
         //******************************************************************************************
-
-
         record = getPreferences(MODE_PRIVATE);
         timer = new Timer();
         topRecord = Integer.parseInt(record.getString("REC", "10000"));
@@ -45,18 +42,18 @@ public class BattleFieldActivity extends AppCompatActivity {
         relativeLayout = (LinearLayout) findViewById(R.id.relativelayout);
         battleFieldSize = Integer.parseInt(getIntent().getStringExtra("size"));
         battleField = new BattleField(battleFieldSize);
-        view = getLayoutInflater().inflate(R.layout.layout_xxlarge, null);
-        initFlipView(view, battleFieldSize*battleFieldSize);
+        getView(battleFieldSize);
+        initFlipView(view, battleFieldSize);
         clickable = new HashMap<Integer, Boolean>();
-        for (int i = 0; i < battleFieldSize * battleFieldSize; i++) {
+        for (int i = 0; i < battleFieldSize; i++) {
             clickable.put(i, true);
         }
 
-        result = (TextView) view.findViewById(R.id.result);
-        test1 = (TextView) view.findViewById(R.id.test1);
-        test2 = (TextView) view.findViewById(R.id.test2);
-        time = (TextView) view.findViewById(R.id.timeValue);
-        restart = (Button) view.findViewById(R.id.restart);
+        result =    (TextView)  findViewById(R.id.result);
+        test1 =     (TextView)  findViewById(R.id.test1);
+        test2 =     (TextView)  findViewById(R.id.test2);
+        time =      (TextView)  findViewById(R.id.timeValue);
+        restart =   (Button)    findViewById(R.id.restart);
 
         View.OnClickListener restartListener = new View.OnClickListener() {
             @Override
@@ -110,13 +107,13 @@ public class BattleFieldActivity extends AppCompatActivity {
             }
         }, 0, 1000);
 
-        relativeLayout.removeAllViewsInLayout();
+//        relativeLayout.removeAllViewsInLayout();
         stepCounter = 0;
         relativeLayout.addView(view);
 
         //******************************************************************************************
 
-        for (int i = 0; i < battleFieldSize * battleFieldSize; i++) {
+        for (int i = 0; i < battleFieldSize; i++) {
             clickable.put(i, true);
         }
 
@@ -141,7 +138,7 @@ public class BattleFieldActivity extends AppCompatActivity {
                 Log.d(Data.getLOG_TAG(), "press button");
                 final int rowIndex = rowIndexCalc(view.getTag().toString());                    // Вычисление индекса строки.
                 final int columnIndex = columnIndexCalc(view.getTag().toString());              // Вычисление индекса столбца.
-                    String country  = battleField.getElement(rowIndex, columnIndex);                                        // Получение ответа от AsynkTask
+                    String country  = battleField.getElement(Integer.parseInt(view.getTag().toString()));                                        // Получение ответа от AsynkTask
                     Log.d(Data.getLOG_TAG(), "Try to get result");
                     result.setText(country);                                                    // Отображение значения в тестовом текстовом поле
                     final int resource = CountryList.getCountry(country);                       // Получение целочисленного значения сооветствующего ресурсу с флагом
@@ -314,6 +311,22 @@ public class BattleFieldActivity extends AppCompatActivity {
             for (int i = 0; i < Data.getXsmallSize(); i++) {
                 flipViews.add((FlipView) view.findViewById(Data.getIdxsmall(i)));
             }
+        }else if (battleFieldSize == Data.getSmallSize()){
+            for (int i = 0; i < Data.getSmallSize(); i++) {
+                flipViews.add((FlipView) view.findViewById(Data.getIdsmall(i)));
+            }
+        }else if (battleFieldSize == Data.getMediumSize()){
+            for (int i = 0; i < Data.getMediumSize(); i++) {
+                flipViews.add((FlipView) view.findViewById(Data.getIdmedium(i)));
+            }
+        }else if (battleFieldSize == Data.getLargeSize()){
+            for (int i = 0; i < Data.getLargeSize(); i++) {
+                flipViews.add((FlipView) view.findViewById(Data.getIdlarge(i)));
+            }
+        }else if (battleFieldSize == Data.getXlargeSize()){
+            for (int i = 0; i < Data.getXlargeSize(); i++) {
+                flipViews.add((FlipView) view.findViewById(Data.getIdxlarge(i)));
+            }
         }else if (battleFieldSize == Data.getXxlargeSize()){
             for (int i = 0; i < Data.getXxlargeSize(); i++) {
                 flipViews.add((FlipView) view.findViewById(Data.getIdxxlarge(i)));
@@ -365,6 +378,22 @@ public class BattleFieldActivity extends AppCompatActivity {
         Log.d(Data.getLOG_TAG(), "input tag = " + viewTag);
         Log.d(Data.getLOG_TAG(), "row index = " + tag/battleFieldSize);
         return tag/battleFieldSize;
+    }
+
+    public void getView(int size){
+        if(size == Data.getXsmallSize()){
+            view = getLayoutInflater().inflate(R.layout.layout_xsmall, null);
+        }else if (size == Data.getSmallSize()){
+            view = getLayoutInflater().inflate(R.layout.layout_small, null);
+        }else if (size == Data.getMediumSize()){
+            view = getLayoutInflater().inflate(R.layout.layout_medium, null);
+        }else if (size == Data.getLargeSize()){
+            view = getLayoutInflater().inflate(R.layout.layout_large, null);
+        }else if (size == Data.getXlargeSize()){
+            view = getLayoutInflater().inflate(R.layout.layout_xlarge, null);
+        }else if (size == Data.getXxlargeSize()){
+            view = getLayoutInflater().inflate(R.layout.layout_xxlarge, null);
+        }
     }
 
     //Вычисление индекса столбца по тэгу нажатой кнопки.

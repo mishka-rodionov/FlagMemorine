@@ -15,18 +15,19 @@ public class BattleField {
         int index = 0;
         CountryList.loading(size);
         CountryList.shuffle();
-        try {
-            for (int i = 0; i < size; i++) {
-                ArrayList<String> temp = new ArrayList<String>(size);
-                field.add(temp);
-                for (int j = 0; j < size; j++) {
-                    field.get(i).add(CountryList.getCountry(index++));
-                }
-            }
-        }catch (IndexOutOfBoundsException e){
-            e.printStackTrace();
-//            out.println();
-        }
+        country = CountryList.getCountryList();
+//        try {
+//            for (int i = 0; i < size; i++) {
+//                ArrayList<String> temp = new ArrayList<String>(size);
+//                field.add(temp);
+//                for (int j = 0; j < size; j++) {
+//                    field.get(i).add(CountryList.getCountry(index++));
+//                }
+//            }
+//        }catch (IndexOutOfBoundsException e){
+//            e.printStackTrace();
+////            out.println();
+//        }
     }
 
     public static int addBattleField(BattleField battleField){
@@ -42,9 +43,14 @@ public class BattleField {
         return field.get(firstIndex).get(secondIndex);
     }
 
+    public String getElement(int index){
+        return country.get(index);
+    }
+
     private final int size6 = 6;
     private final int size8 = 8;
     private String[][] field6x6 = new String[size6][size6];
     private ArrayList<ArrayList<String>> field;
+    private ArrayList<String> country;
     private static ArrayList<BattleField> battleFields = new ArrayList<BattleField>();
 }

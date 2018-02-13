@@ -81,10 +81,10 @@ public class CountryList {
     public static String getCountry(int index){return country.get(index);}
 
     public static void loading(int size){
-        country = new ArrayList<String>(size*size);
+        country = new ArrayList<String>(size);
         Random rnd = new Random();
         int index = rnd.nextInt(countryList.length);
-        for (int i = 0; i < size*size; i++) {
+        for (int i = 0; i < size; i++) {
             if(i % 2 != 0){
                 country.add(i, countryList[index]);
                 index++;
@@ -99,6 +99,8 @@ public class CountryList {
     public static void shuffle(){
         Collections.shuffle(country);
     }
+
+    public static ArrayList getCountryList(){return country;}
 
     private static ArrayList<String> country;
     private static HashMap<String, Integer> countryMap;
