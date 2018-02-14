@@ -18,9 +18,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.mishka.flagmemorine.R;
@@ -40,7 +39,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_battle_field);
+        setContentView(R.layout.activity_test);
 
         //******************************************************************************************
         // Интент для получения информации о рабочей комнате.
@@ -57,9 +56,8 @@ public class RoomBattleFieldActivity extends AppCompatActivity
         userChoice = new ArrayList<>(2);
         viewTag = new ArrayList<>(2);
         CountryList.loadCountryMap();
-        relativeLayout = (RelativeLayout) findViewById(R.id.relativelayoutbattlefield);
-        view  = getLayoutInflater().inflate(R.layout.layout_6_6, null);
-        initImageButton(view);
+        relativeLayout = (LinearLayout) findViewById(R.id.basicLayout);
+        view  = getLayoutInflater().inflate(R.layout.layout_large, null);
         for (int i = 0; i < imageButtonArrayList.size(); i++) {
             imageButtonArrayList.get(i).setBackgroundColor(Color.WHITE);
         }
@@ -308,8 +306,8 @@ public class RoomBattleFieldActivity extends AppCompatActivity
 
         };
 
-        Button send = (Button) view.findViewById(R.id.buttonSend);
-        send.setOnClickListener(onClickListener);
+//        Button send = (Button) view.findViewById(R.id.buttonSend);
+//        send.setOnClickListener(onClickListener);
         for (int i = 0; i < battleFieldSize*battleFieldSize; i++) {
             imageButtonArrayList.get(i).setOnClickListener(onClickListener);
         }
@@ -401,45 +399,45 @@ public class RoomBattleFieldActivity extends AppCompatActivity
 
     }
 
-    public void initImageButton(View view){
-        imageButtonArrayList = new ArrayList<>(battleFieldSize*battleFieldSize);
-        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton2));
-        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton3));
-        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton4));
-        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton5));
-        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton6));
-        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton7));
-        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton8));
-        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton9));
-        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton10));
-        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton11));
-        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton12));
-        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton13));
-        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton14));
-        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton15));
-        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton16));
-        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton17));
-        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton18));
-        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton19));
-        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton20));
-        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton21));
-        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton22));
-        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton23));
-        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton24));
-        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton25));
-        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton26));
-        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton27));
-        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton28));
-        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton29));
-        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton30));
-        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton31));
-        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton32));
-        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton33));
-        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton34));
-        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton35));
-        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton36));
-        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton37));
-    }
+//    public void initImageButton(View view){
+//        imageButtonArrayList = new ArrayList<>(battleFieldSize*battleFieldSize);
+//        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton2));
+//        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton3));
+//        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton4));
+//        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton5));
+//        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton6));
+//        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton7));
+//        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton8));
+//        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton9));
+//        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton10));
+//        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton11));
+//        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton12));
+//        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton13));
+//        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton14));
+//        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton15));
+//        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton16));
+//        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton17));
+//        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton18));
+//        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton19));
+//        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton20));
+//        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton21));
+//        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton22));
+//        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton23));
+//        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton24));
+//        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton25));
+//        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton26));
+//        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton27));
+//        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton28));
+//        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton29));
+//        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton30));
+//        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton31));
+//        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton32));
+//        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton33));
+//        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton34));
+//        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton35));
+//        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton36));
+//        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton37));
+//    }
 
     //Вычисление индекса столбца по тэгу нажатой кнопки.
     public int rowIndexCalc(String viewTag){
@@ -469,7 +467,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity
     private Handler handler;
     private HashMap<Integer, Boolean> clickable;
     private HttpClient httpClient;
-    private RelativeLayout relativeLayout;
+    private LinearLayout relativeLayout;
     private SharedPreferences record;
     private String roomName;
     private String playerName;

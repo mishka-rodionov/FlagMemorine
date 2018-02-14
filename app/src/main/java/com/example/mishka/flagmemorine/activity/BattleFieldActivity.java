@@ -10,14 +10,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.mishka.flagmemorine.R;
 import com.example.mishka.flagmemorine.logic.BattleField;
 import com.example.mishka.flagmemorine.logic.CountryList;
 import com.example.mishka.flagmemorine.logic.Data;
-import com.example.mishka.flagmemorine.logic.HttpClient;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,7 +37,7 @@ public class BattleFieldActivity extends AppCompatActivity {
         userChoice = new ArrayList<>(2);
         viewTag = new ArrayList<>(2);
         CountryList.loadCountryMap();
-        relativeLayout = (LinearLayout) findViewById(R.id.relativelayout);
+        basicLayout = (LinearLayout) findViewById(R.id.basicLayout);
         battleFieldSize = Integer.parseInt(getIntent().getStringExtra("size"));
         battleField = new BattleField(battleFieldSize);
         getView(battleFieldSize);
@@ -58,7 +56,6 @@ public class BattleFieldActivity extends AppCompatActivity {
         View.OnClickListener restartListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                finish();
                 recreate();
             }
         };
@@ -77,7 +74,6 @@ public class BattleFieldActivity extends AppCompatActivity {
                     flipViews.get(msg.arg1).flip(false);
                     Log.d(Data.getLOG_TAG(), "flip = false " + flipViews.get(msg.arg1).isClickable());
                 } else {
-//                    flipViews.get(msg.arg1).flip(true);
                     Log.d(Data.getLOG_TAG(), "flip = true " + flipViews.get(msg.arg1).isClickable());
                 }
             }
@@ -107,9 +103,9 @@ public class BattleFieldActivity extends AppCompatActivity {
             }
         }, 0, 1000);
 
-//        relativeLayout.removeAllViewsInLayout();
+//        basicLayout.removeAllViewsInLayout();
         stepCounter = 0;
-        relativeLayout.addView(view);
+        basicLayout.addView(view);
 
         //******************************************************************************************
 
@@ -213,6 +209,8 @@ public class BattleFieldActivity extends AppCompatActivity {
                                 if (!clickable.containsValue(true)) {
                                     clickable.clear();
                                     userRecord = Integer.parseInt(test1.getText().toString());
+                                    Log.d(Data.getLOG_TAG(), "All flags is plipped");
+                                    timer.cancel();
                                     Log.d(Data.getLOG_TAG(), "user record = " + userRecord);
                                     if (userRecord < topRecord) {
                                         test2.setText("" + userRecord);
@@ -280,6 +278,7 @@ public class BattleFieldActivity extends AppCompatActivity {
                                 if (!clickable.containsValue(true)) {
                                     clickable.clear();
                                     userRecord = Integer.parseInt(test1.getText().toString());
+                                    Log.d(Data.getLOG_TAG(), "All flags is flipped");
                                     timer.cancel();
                                     Log.d(Data.getLOG_TAG(), "user record = " + userRecord);
                                     if (userRecord < topRecord) {
@@ -332,43 +331,6 @@ public class BattleFieldActivity extends AppCompatActivity {
                 flipViews.add((FlipView) view.findViewById(Data.getIdxxlarge(i)));
             }
         }
-//        flipViews.add((FlipView) findViewById(R.id.xxlarge1));
-//        flipViews.add((FlipView) findViewById(R.id.xxlarge2));
-//        flipViews.add((FlipView) findViewById(R.id.xxlarge3));
-//        flipViews.add((FlipView) findViewById(R.id.xxlarge4));
-//        flipViews.add((FlipView) findViewById(R.id.xxlarge5));
-//        flipViews.add((FlipView) findViewById(R.id.xxlarge6));
-//        flipViews.add((FlipView) findViewById(R.id.xxlarge7));
-//        flipViews.add((FlipView) findViewById(R.id.xxlarge8));
-//        flipViews.add((FlipView) findViewById(R.id.xxlarge9));
-//        flipViews.add((FlipView) findViewById(R.id.xxlarge10));
-//        flipViews.add((FlipView) findViewById(R.id.xxlarge11));
-//        flipViews.add((FlipView) findViewById(R.id.xxlarge12));
-//        flipViews.add((FlipView) findViewById(R.id.xxlarge13));
-//        flipViews.add((FlipView) findViewById(R.id.xxlarge14));
-//        flipViews.add((FlipView) findViewById(R.id.xxlarge15));
-//        flipViews.add((FlipView) findViewById(R.id.xxlarge16));
-//        flipViews.add((FlipView) findViewById(R.id.xxlarge17));
-//        flipViews.add((FlipView) findViewById(R.id.xxlarge18));
-//        flipViews.add((FlipView) findViewById(R.id.xxlarge19));
-//        flipViews.add((FlipView) findViewById(R.id.xxlarge20));
-//        flipViews.add((FlipView) findViewById(R.id.xxlarge21));
-//        flipViews.add((FlipView) findViewById(R.id.xxlarge22));
-//        flipViews.add((FlipView) findViewById(R.id.xxlarge23));
-//        flipViews.add((FlipView) findViewById(R.id.xxlarge24));
-//        flipViews.add((FlipView) findViewById(R.id.xxlarge25));
-//        flipViews.add((FlipView) findViewById(R.id.xxlarge26));
-//        flipViews.add((FlipView) findViewById(R.id.xxlarge27));
-//        flipViews.add((FlipView) findViewById(R.id.xxlarge28));
-//        flipViews.add((FlipView) findViewById(R.id.xxlarge29));
-//        flipViews.add((FlipView) findViewById(R.id.xxlarge30));
-//        flipViews.add((FlipView) findViewById(R.id.xxlarge31));
-//        flipViews.add((FlipView) findViewById(R.id.xxlarge32));
-//        flipViews.add((FlipView) findViewById(R.id.xxlarge33));
-//        flipViews.add((FlipView) findViewById(R.id.xxlarge34));
-//        flipViews.add((FlipView) findViewById(R.id.xxlarge35));
-//        flipViews.add((FlipView) findViewById(R.id.xxlarge36));
-
         Log.d(Data.getLOG_TAG(), "flipview size = " + flipViews.size());
     }
 
@@ -422,7 +384,7 @@ public class BattleFieldActivity extends AppCompatActivity {
     private Handler handlerTime;
     private HashMap<Integer, Boolean> clickable;
 
-    private LinearLayout relativeLayout;
+    private LinearLayout basicLayout;
 
     private SharedPreferences record;
 
