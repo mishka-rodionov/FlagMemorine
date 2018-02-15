@@ -3,6 +3,7 @@ package com.example.mishka.flagmemorine.activity;
 import android.content.ContentValues;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -103,13 +104,11 @@ public class BattleFieldActivity extends AppCompatActivity {
                     minutes++;
                     seconds = 0;
                 }
-//                Log.d(Data.getLOG_TAG(), "timer");
                 Message msg = handlerTime.obtainMessage(1, minutes, seconds);
                 handlerTime.sendMessage(msg);
             }
         }, 0, 1000);
 
-//        basicLayout.removeAllViewsInLayout();
         stepCounter = 0;
         basicLayout.addView(view);
 
@@ -138,6 +137,12 @@ public class BattleFieldActivity extends AppCompatActivity {
             @Override
             public void onFlipped(FlipView view, boolean checked) {
                 Log.d(Data.getLOG_TAG(), "press button");
+                new Thread(){
+                    public void run(){
+                        mp = MediaPlayer.create(BattleFieldActivity.this, R.raw.flip_click);
+                        mp.start();
+                    }
+                }.start();
                 final int rowIndex = rowIndexCalc(view.getTag().toString());                    // Вычисление индекса строки.
                 final int columnIndex = columnIndexCalc(view.getTag().toString());              // Вычисление индекса столбца.
                     String country  = battleField.getElement(Integer.parseInt(view.getTag().toString()));                                        // Получение ответа от AsynkTask
@@ -397,6 +402,8 @@ public class BattleFieldActivity extends AppCompatActivity {
     private HashMap<Integer, Boolean> clickable;
 
     private LinearLayout basicLayout;
+
+    private MediaPlayer mp;
 
     private SharedPreferences record;
 

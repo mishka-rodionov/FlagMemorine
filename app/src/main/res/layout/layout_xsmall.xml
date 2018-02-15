@@ -27,6 +27,7 @@
             android:clipToPadding="false"
             android:padding="@dimen/default_padding"
             android:tag="0"
+            android:soundEffectsEnabled="true"
             app:animationDuration="300"
             app:checked="false"
             app:enableInitialAnimation="false"
