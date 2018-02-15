@@ -1,6 +1,8 @@
 package com.example.mishka.flagmemorine.activity;
 
+import android.content.ContentValues;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +18,7 @@ import com.example.mishka.flagmemorine.R;
 import com.example.mishka.flagmemorine.logic.BattleField;
 import com.example.mishka.flagmemorine.logic.CountryList;
 import com.example.mishka.flagmemorine.logic.Data;
+import com.example.mishka.flagmemorine.service.DBHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,6 +34,9 @@ public class BattleFieldActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
         //******************************************************************************************
+        DBHelper dbHelper = new DBHelper(BattleFieldActivity.this);
+        sqLiteDatabase = dbHelper.getWritableDatabase();
+        contentValues = new ContentValues();
         record = getPreferences(MODE_PRIVATE);
         timer = new Timer();
         topRecord = Integer.parseInt(record.getString("REC", "10000"));
@@ -211,6 +217,11 @@ public class BattleFieldActivity extends AppCompatActivity {
                                     userRecord = Integer.parseInt(test1.getText().toString());
                                     Log.d(Data.getLOG_TAG(), "All flags is plipped");
                                     timer.cancel();
+                                    contentValues.put("BF", BF);
+                                    contentValues.put("Step", userRecord);
+                                    contentValues.put("Datetime", Data.getTime());
+                                    sqLiteDatabase.insert("Statistic", null, contentValues);
+                                    contentValues.clear();
                                     Log.d(Data.getLOG_TAG(), "user record = " + userRecord);
                                     if (userRecord < topRecord) {
                                         test2.setText("" + userRecord);
@@ -379,6 +390,7 @@ public class BattleFieldActivity extends AppCompatActivity {
 
     private BattleField battleField;
 
+    private ContentValues contentValues;
 
     private Handler handler;
     private Handler handlerTime;
@@ -388,6 +400,8 @@ public class BattleFieldActivity extends AppCompatActivity {
 
     private SharedPreferences record;
 
+    private SQLiteDatabase sqLiteDatabase;
+
     private Button restart;
     private TextView result;
     private TextView test1;
@@ -396,6 +410,7 @@ public class BattleFieldActivity extends AppCompatActivity {
     private Timer timer;
     private View view;
 
+    private String BF;
     private int battleFieldSize = 6;
     private int battleFieldIndex = 0;
     private int stepCounter = 0;

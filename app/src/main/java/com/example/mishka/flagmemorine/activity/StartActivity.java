@@ -1,6 +1,7 @@
 package com.example.mishka.flagmemorine.activity;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.example.mishka.flagmemorine.R;
+import com.example.mishka.flagmemorine.service.DBHelper;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -16,6 +18,24 @@ public class StartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+
+        DBHelper dbHelper = new DBHelper(StartActivity.this);
+        sqLiteDatabase = dbHelper.getWritableDatabase();
+        sqLiteDatabase.execSQL("create table if not exists Record"
+                + " ("
+                + "id integer primary key autoincrement,"
+                + "BF text,"
+                + "Step text,"
+                + "Date text"
+                + ");");
+
+        sqLiteDatabase.execSQL("create table if not exists Statistic"
+                + " ("
+                + "id integer primary key autoincrement,"
+                + "BF text,"
+                + "Step text,"
+                + "Date text"
+                + ");");
 
         xSmall = (RadioButton) findViewById(R.id.xsmall);
         small = (RadioButton) findViewById(R.id.small);
@@ -104,6 +124,8 @@ public class StartActivity extends AppCompatActivity {
     private Button statistic;
     private Button stopAds;
     private Button userInfo;
+
+    private SQLiteDatabase sqLiteDatabase;
 
     private String size = "36";
 }

@@ -2,6 +2,8 @@ package com.example.mishka.flagmemorine.logic;
 
 import com.example.mishka.flagmemorine.R;
 
+import java.util.Calendar;
+
 /**
  * Created by Lab1 on 22.01.2018.
  */
@@ -149,6 +151,23 @@ public class Data {
         return idxlarge[index];
     }
 
+    public static String getDbName() {
+        return dbName;
+    }
+
+    public static int getDbVersion() {
+        return dbVersion;
+    }
+
+    public static String getTime(){
+        return "" + Calendar.getInstance().get(Calendar.YEAR) + ":"
+                + Calendar.getInstance().get(Calendar.MONTH)+ ":"
+                + Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + ":"
+                + Calendar.getInstance().get(Calendar.HOUR_OF_DAY) + ":"
+                + Calendar.getInstance().get(Calendar.MINUTE) + ":"
+                + Calendar.getInstance().get(Calendar.SECOND);
+    }
+
     private static String customURL = "82.202.246.170";
     private static String LOG_TAG = "flagmemorine";
     private static String serverAppName = "TestGet";
@@ -161,6 +180,9 @@ public class Data {
     private static String getElementRoomServlet = "getElementRoom";
     private static String battleFieldServlet = "getElement";
     private static String battleFieldServletParameter = "size";
+    private static String dbName  = "FlagMem";
+
+    private static int dbVersion = 1;
     private static int xsmallSize = 8;
     private static int smallSize = 12;
     private static int mediumSize = 16;
