@@ -1,15 +1,19 @@
 package com.example.mishka.flagmemorine.activity;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.example.mishka.flagmemorine.R;
+import com.example.mishka.flagmemorine.logic.Data;
 import com.example.mishka.flagmemorine.service.DBHelper;
 
 public class StartActivity extends AppCompatActivity {
@@ -19,23 +23,34 @@ public class StartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
-        DBHelper dbHelper = new DBHelper(StartActivity.this);
+        contentValues = new ContentValues();
+
         sqLiteDatabase = dbHelper.getWritableDatabase();
-        sqLiteDatabase.execSQL("create table if not exists Record"
+        sqLiteDatabase.execSQL("create table if not exists " + Data.getDbRecordTable()
                 + " ("
                 + "id integer primary key autoincrement,"
-                + "BF text,"
-                + "Step text,"
-                + "Date text"
+                + Data.getDbUserNameColumn() + " text,"
+                + Data.getDbLoginColumn() + " text,"
+                + Data.getDbCountryColumn() + " text,"
+                + Data.getDbBFColumn() + " text,"
+                + Data.getDbDateColumn() + " text,"
+                + Data.getDbStepColumn() + " text,"
+                + Data.getDbScoreColumn() + " text"
                 + ");");
 
-        sqLiteDatabase.execSQL("create table if not exists Statistic"
+        sqLiteDatabase.execSQL("create table if not exists " + Data.getDbStatisticTable()
                 + " ("
                 + "id integer primary key autoincrement,"
-                + "BF text,"
-                + "Step text,"
-                + "Date text"
+                + Data.getDbUserNameColumn() + " text,"
+                + Data.getDbLoginColumn() + " text,"
+                + Data.getDbCountryColumn() + " text,"
+                + Data.getDbBFColumn() + " text,"
+                + Data.getDbDateColumn() + " text,"
+                + Data.getDbStepColumn() + " text,"
+                + Data.getDbScoreColumn() + " text"
                 + ");");
+
+        sqLiteDatabase.insert(Data.getDbRecordTable(), null, contentValues);
 
         xSmall = (RadioButton) findViewById(R.id.xsmall);
         small = (RadioButton) findViewById(R.id.small);
@@ -101,12 +116,50 @@ public class StartActivity extends AppCompatActivity {
                         intent.putExtra("size", size);
                         startActivity(intent);
                         break;
+                    case R.id.statistic:
+                        statisticCursor();
+                        break;
                 }
             }
         };
 
         play.setOnClickListener(onClickListenerButton);
+        statistic.setOnClickListener(onClickListenerButton);
 
+    }
+
+    private void statisticCursor() {
+        Cursor c = sqLiteDatabase.query(Data.getDbStatisticTable(), null, null, null, null, null, null);
+
+        // ставим позицию курсора на первую строку выборки
+        // если в выборке нет строк, вернется false
+        if (c.moveToFirst()) {
+
+            // определяем номера столбцов по имени в выборке
+//            int idColIndex = c.getColumnIndex("id");
+//            int nameColIndex = c.getColumnIndex("name");
+//            int stateColIndex = c.getColumnIndex("state");
+//            int stateOSColIndex = c.getColumnIndex("stateOS");
+//            int temperatureColIndex = c.getColumnIndex("temperature");
+//            int date_timeColIndex = c.getColumnIndex("date_time");
+
+            do {
+                // получаем значения по номерам столбцов и пишем все в лог
+                Log.d(Data.getLOG_TAG(),
+                        "ID = " + c.getInt(c.getColumnIndex("id")) +
+                                ", user name = " + c.getString(c.getColumnIndex(Data.getDbUserNameColumn())) +
+                                ", login = " + c.getString(c.getColumnIndex(Data.getDbLoginColumn())) +
+                                ", country = " + c.getString(c.getColumnIndex(Data.getDbCountryColumn())) +
+                                ", BF = " + c.getString(c.getColumnIndex(Data.getDbBFColumn())) +
+                                ", Date = " + c.getString(c.getColumnIndex(Data.getDbDateColumn())) +
+                                ", Step = " + c.getString(c.getColumnIndex(Data.getDbStepColumn())) +
+                                ", Score = " + c.getString(c.getColumnIndex(Data.getDbScoreColumn())));
+                // переход на следующую строку
+                // а если следующей нет (текущая - последняя), то false - выходим из цикла
+            } while (c.moveToNext());
+        } else
+            Log.d(Data.getLOG_TAG(), "0 rows");
+        c.close();
     }
 
     private RadioButton xSmall;
@@ -125,7 +178,10 @@ public class StartActivity extends AppCompatActivity {
     private Button stopAds;
     private Button userInfo;
 
+    private ContentValues contentValues;
+
     private SQLiteDatabase sqLiteDatabase;
+    private DBHelper dbHelper = new DBHelper(StartActivity.this);
 
     private String size = "36";
 }

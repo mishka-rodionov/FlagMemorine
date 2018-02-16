@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="left"
-            android:text="@string/score"
+            android:text="@string/stepCount"
             android:layout_alignParentTop="true"
             android:layout_toEndOf="@+id/restart"
             android:layout_marginStart="97dp" />
@@ -83,7 +83,7 @@
             android:layout_toEndOf="@+id/userRecord" />
 
         <TextView
-            android:id="@+id/test1"
+            android:id="@+id/currentStepCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -92,13 +92,13 @@
             android:text="test" />
 
         <TextView
-            android:id="@+id/test2"
+            android:id="@+id/recordStepCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="test"
-            android:layout_below="@+id/test1"
-            android:layout_alignStart="@+id/test1" />
+            android:layout_below="@+id/currentStepCount"
+            android:layout_alignStart="@+id/currentStepCount" />
 
     </RelativeLayout>
 

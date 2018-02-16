@@ -66,8 +66,8 @@ public class RoomBattleFieldActivity extends AppCompatActivity
             clickable.put(i, true);
         }
         result = (TextView) view.findViewById(R.id.result);
-        test1 = (TextView) view.findViewById(R.id.test1);
-        test2 = (TextView) view.findViewById(R.id.test2);
+        test1 = (TextView) view.findViewById(R.id.currentStepCount);
+        test2 = (TextView) view.findViewById(R.id.recordStepCount);
         if(topRecord == 10000)
             test2.setText("" + 0);
         else

@@ -9,70 +9,34 @@ import java.util.Calendar;
  */
 
 public class Data {
-    public static String getCustomURL(){
-        return customURL;
-    }
 
-    public static String getLOG_TAG() {
-        return LOG_TAG;
-    }
-
+    //region Setters
     public static void setLOG_TAG(String LOG) {
         LOG_TAG = LOG;
-    }
-
-
-
-    public static String getServerAppName() {
-        return serverAppName;
     }
 
     public static void setServerAppName(String serverAppName) {
         Data.serverAppName = serverAppName;
     }
 
-    public static String getMainServlet() {
-        return mainServlet;
-    }
-
     public static void setMainServlet(String mainServlet) {
         Data.mainServlet = mainServlet;
-    }
-
-    public static String getCreateRoomServlet() {
-        return createRoomServlet;
     }
 
     public static void setCreateRoomServlet(String createRoomServlet) {
         Data.createRoomServlet = createRoomServlet;
     }
 
-    public static String getBattleFieldServlet() {
-        return battleFieldServlet;
-    }
-
     public static void setBattleFieldServlet(String battleFieldServlet) {
         Data.battleFieldServlet = battleFieldServlet;
-    }
-
-    public static String getBattleFieldServletParameter() {
-        return battleFieldServletParameter;
     }
 
     public static void setBattleFieldServletParameter(String battleFieldServletParameter) {
         Data.battleFieldServletParameter = battleFieldServletParameter;
     }
 
-    public static String getRoomListRequestServlet() {
-        return roomListRequestServlet;
-    }
-
     public static void setRoomListRequestServlet(String roomListRequestServlet) {
         Data.roomListRequestServlet = roomListRequestServlet;
-    }
-
-    public static String getTestAnotherPlayerChoiceServlet() {
-        return testAnotherPlayerChoiceServlet;
     }
 
     public static void setTestAnotherPlayerChoiceServlet(String testAnotherPlayerChoiceServlet) {
@@ -87,20 +51,60 @@ public class Data {
         Data.waitSecondPlayerServlet = waitSecondPlayerServlet;
     }
 
-    public static String getConnectToRoomServlet() {
-        return connectToRoomServlet;
-    }
-
     public static void setConnectToRoomServlet(String connectToRoomServlet) {
         Data.connectToRoomServlet = connectToRoomServlet;
     }
 
-    public static String getGetElementRoomServlet() {
-        return getElementRoomServlet;
-    }
-
     public static void setGetElementRoomServlet(String getElementRoomServlet) {
         Data.getElementRoomServlet = getElementRoomServlet;
+    }
+    //endregion
+
+
+
+    //region Getters
+    public static String getCustomURL(){
+        return customURL;
+    }
+
+    public static String getLOG_TAG() {
+        return LOG_TAG;
+    }
+
+    public static String getServerAppName() {
+        return serverAppName;
+    }
+
+    public static String getMainServlet() {
+        return mainServlet;
+    }
+
+    public static String getCreateRoomServlet() {
+        return createRoomServlet;
+    }
+
+    public static String getBattleFieldServlet() {
+        return battleFieldServlet;
+    }
+
+    public static String getBattleFieldServletParameter() {
+        return battleFieldServletParameter;
+    }
+
+    public static String getRoomListRequestServlet() {
+        return roomListRequestServlet;
+    }
+
+    public static String getTestAnotherPlayerChoiceServlet() {
+        return testAnotherPlayerChoiceServlet;
+    }
+
+    public static String getConnectToRoomServlet() {
+        return connectToRoomServlet;
+    }
+
+    public static String getGetElementRoomServlet() {
+        return getElementRoomServlet;
     }
 
     public static int getXsmallSize() {
@@ -159,6 +163,56 @@ public class Data {
         return dbVersion;
     }
 
+    public static String getDbUserNameColumn() {
+        return dbUserNameColumn;
+    }
+
+    public static String getDbLoginColumn() {
+        return dbLoginColumn;
+    }
+
+    public static String getDbCountryColumn() {
+        return dbCountryColumn;
+    }
+
+    public static String getDbBFColumn() {
+        return dbBFColumn;
+    }
+
+    public static String getDbDateColumn() {
+        return dbDateColumn;
+    }
+
+    public static String getDbStepColumn() {
+        return dbStepColumn;
+    }
+
+    public static String getDbScoreColumn() {
+        return dbScoreColumn;
+    }
+
+    public static String getUserName() {
+        return userName;
+    }
+
+    public static String getLogin() {
+        return login;
+    }
+
+    public static String getUserCountry() {
+        return userCountry;
+    }
+
+    public static String getDbStatisticTable() {
+        return dbStatisticTable;
+    }
+
+    public static String getDbRecordTable() {
+        return dbRecordTable;
+    }
+
+    //endregion
+
     public static String getTime(){
         return "" + Calendar.getInstance().get(Calendar.YEAR) + ":"
                 + Calendar.getInstance().get(Calendar.MONTH)+ ":"
@@ -168,6 +222,7 @@ public class Data {
                 + Calendar.getInstance().get(Calendar.SECOND);
     }
 
+    //region Private static fields
     private static String customURL = "82.202.246.170";
     private static String LOG_TAG = "flagmemorine";
     private static String serverAppName = "TestGet";
@@ -181,6 +236,18 @@ public class Data {
     private static String battleFieldServlet = "getElement";
     private static String battleFieldServletParameter = "size";
     private static String dbName  = "FlagMem";
+    private static String dbStatisticTable  = "Statistic";
+    private static String dbRecordTable  = "Record";
+    private static String dbUserNameColumn = "UserName text";
+    private static String dbLoginColumn = "Login";
+    private static String dbCountryColumn = "Country";
+    private static String dbBFColumn = "BF";
+    private static String dbDateColumn = "Date";
+    private static String dbStepColumn = "Step";
+    private static String dbScoreColumn = "Score";
+    private static String userName = "User001";
+    private static String login = "Login001";
+    private static String userCountry = "Russia";
 
     private static int dbVersion = 1;
     private static int xsmallSize = 8;
@@ -212,6 +279,7 @@ public class Data {
             R.id.xlarge12,R.id.xlarge13,R.id.xlarge14,R.id.xlarge15,R.id.xlarge16,R.id.xlarge17,R.id.xlarge18,
             R.id.xlarge19,R.id.xlarge20,R.id.xlarge21,R.id.xlarge22,R.id.xlarge23,R.id.xlarge24,R.id.xlarge25,
             R.id.xlarge26,R.id.xlarge27,R.id.xlarge28,R.id.xlarge29,R.id.xlarge30};
+    //endregion
 
 
 }

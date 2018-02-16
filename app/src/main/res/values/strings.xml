@@ -12,6 +12,7 @@
     <string name="_6x6">6x6</string>
     <string name="create">create</string>
     <string name="title_activity_room_battle_field">RoomBattleFieldActivity</string>
+    <string name="stepCount">Step</string>
     <string name="score">Score</string>
     <string name="record">Record</string>
     <string name="time">Time</string>
