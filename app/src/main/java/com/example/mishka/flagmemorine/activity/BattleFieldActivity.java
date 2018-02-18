@@ -2,6 +2,7 @@ package com.example.mishka.flagmemorine.activity;
 
 import android.content.ContentValues;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
 import android.os.Handler;
@@ -40,18 +41,18 @@ public class BattleFieldActivity extends AppCompatActivity {
         contentValues = new ContentValues();
         record = getPreferences(MODE_PRIVATE);
         timer = new Timer();
-        topRecord = Integer.parseInt(record.getString("REC", "10000"));
+
         userChoice = new ArrayList<>(2);
         viewTag = new ArrayList<>(2);
         CountryList.loadCountryMap();
         basicLayout = (LinearLayout) findViewById(R.id.basicLayout);
         battleFieldSize = Integer.parseInt(getIntent().getStringExtra("size"));
+        topRecord = topRecord(battleFieldSize);
         score = battleFieldSize * 2;
         battleField = new BattleField(battleFieldSize);
         getView(battleFieldSize);
         initFlipView(view, battleFieldSize);
         clickable = new HashMap<Integer, Boolean>();
-
         for (int i = 0; i < battleFieldSize; i++) {
             clickable.put(i, true);
         }
@@ -230,10 +231,11 @@ public class BattleFieldActivity extends AppCompatActivity {
                         userRecord = Integer.parseInt(test1.getText().toString());
                         Log.d(Data.getLOG_TAG(), "All flags is plipped");
                         timer.cancel();
-                        pushToDB();
+                        pushToDB(Data.getDbStatisticTable());
                         Log.d(Data.getLOG_TAG(), "user record = " + userRecord);
                         if (userRecord < topRecord) {
                             test2.setText("" + userRecord);
+                            pushRecordToDB(userRecord, score);
                             SharedPreferences.Editor editor = record.edit();
                             editor.putString("REC", test1.getText().toString());
                             editor.commit();
@@ -308,18 +310,52 @@ public class BattleFieldActivity extends AppCompatActivity {
         }
     }
 
-    private void pushToDB() {
+    private void pushToDB(String tableName) {
         Log.d(Data.getLOG_TAG(), " params = " + Data.getDbUserNameColumn()+ " " + Data.getUserName());
         contentValues.put(Data.getDbUserNameColumn(), Data.getUserName());
         contentValues.put(Data.getDbLoginColumn(), Data.getLogin());
         contentValues.put(Data.getDbCountryColumn(), Data.getUserCountry());
-        contentValues.put(Data.getDbBFColumn(), BF);
-        Log.d(Data.getLOG_TAG(), " params = " + Data.getDbBFColumn()+ " " + BF);
+        contentValues.put(Data.getDbBFColumn(), battleFieldSize);
+        Log.d(Data.getLOG_TAG(), " params = " + Data.getDbBFColumn()+ " " + battleFieldSize);
         Log.d(Data.getLOG_TAG(), " params = " + Data.getDbDateColumn()+ " " + Data.getTime());
         contentValues.put(Data.getDbDateColumn(), Data.getTime());
         contentValues.put(Data.getDbStepColumn(), userRecord);
         contentValues.put(Data.getDbScoreColumn(), score);
-        sqLiteDatabase.insert(Data.getDbStatisticTable(), null, contentValues);
+        sqLiteDatabase.insert(tableName, null, contentValues);
+        contentValues.clear();
+    }
+
+    private void pushRecordToDB(int newRecord, int newScore){
+        contentValues.put(Data.getDbUserNameColumn(), Data.getUserName());
+        contentValues.put(Data.getDbLoginColumn(), Data.getLogin());
+        contentValues.put(Data.getDbCountryColumn(), Data.getUserCountry());
+        contentValues.put(Data.getDbBFColumn(), battleFieldSize);
+        contentValues.put(Data.getDbDateColumn(), Data.getTime());
+        contentValues.put(Data.getDbStepColumn(), newRecord);
+        contentValues.put(Data.getDbScoreColumn(), newScore);
+        int row = sqLiteDatabase.update(Data.getDbRecordTable(), contentValues, Data.getDbBFColumn() +
+        "=" + battleFieldSize, null);
+        Log.d(Data.getLOG_TAG(), "rows affected = " + row);
+        Log.d(Data.getLOG_TAG(), "SQL clause = " + Data.getDbBFColumn() +
+                "=" + battleFieldSize);
+        contentValues.clear();
+    }
+
+    private int topRecord(int BF){
+        Cursor cursor = sqLiteDatabase.query(Data.getDbRecordTable(), null, Data.getDbBFColumn()
+        + " = " + BF, null, null, null, null);
+        Log.d(Data.getLOG_TAG(), Data.getDbRecordTable() + " where " + Data.getDbBFColumn()
+                + " = " + BF);
+        int topRecord = 10000;
+        if (cursor.moveToFirst()){
+            int recIndex = cursor.getColumnIndex(Data.getDbStepColumn());
+            topRecord = Integer.parseInt(cursor.getString(recIndex));
+            Log.d(Data.getLOG_TAG(), "record table DB = " + topRecord);
+        }else{
+            Log.d(Data.getLOG_TAG(), "in table " + Data.getDbRecordTable() + " 0 rows in order.");
+        }
+        cursor.close();
+        return topRecord;
     }
 
     public void initFlipView(View view, int battleFieldSize){

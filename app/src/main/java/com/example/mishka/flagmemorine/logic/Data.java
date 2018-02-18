@@ -238,7 +238,7 @@ public class Data {
     private static String dbName  = "FlagMem";
     private static String dbStatisticTable  = "Statistic";
     private static String dbRecordTable  = "Record";
-    private static String dbUserNameColumn = "UserName text";
+    private static String dbUserNameColumn = "UserName";
     private static String dbLoginColumn = "Login";
     private static String dbCountryColumn = "Country";
     private static String dbBFColumn = "BF";

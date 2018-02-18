@@ -344,17 +344,25 @@ public class CountryList {
     public static void loading(int size){
         country = new ArrayList<String>(size);
         Random rnd = new Random();
-        int index = rnd.nextInt(countryList.length);
-        for (int i = 0; i < size; i++) {
-            if(i % 2 != 0){
-                country.add(i, countryList[index]);
-                index++;
+//        int index = rnd.nextInt(countryList.length);
+//        for (int i = 0; i < size; i++) {
+//            if(i % 2 != 0){
+//                country.add(i, countryList[index]);
+//                index++;
+//                if(index == countryList.length)
+//                    index = 0;
+//            }
+//            else
+//                country.add(i, countryList[index]);
+//        }
+            int index;
+            for (int i = 0; i < size; i+=2) {
+                index = rnd.nextInt(countryList.length);
                 if(index == countryList.length)
                     index = 0;
-            }
-            else
                 country.add(i, countryList[index]);
-        }
+                country.add(i+1, countryList[index]);
+            }
     }
 
     public static void shuffle(){

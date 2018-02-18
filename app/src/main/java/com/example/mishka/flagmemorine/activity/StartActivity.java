@@ -26,6 +26,7 @@ public class StartActivity extends AppCompatActivity {
         contentValues = new ContentValues();
 
         sqLiteDatabase = dbHelper.getWritableDatabase();
+
         sqLiteDatabase.execSQL("create table if not exists " + Data.getDbRecordTable()
                 + " ("
                 + "id integer primary key autoincrement,"
@@ -37,6 +38,12 @@ public class StartActivity extends AppCompatActivity {
                 + Data.getDbStepColumn() + " text,"
                 + Data.getDbScoreColumn() + " text"
                 + ");");
+
+        sqLiteDatabase.execSQL("create table if not exists test " +
+                "(" +
+                "temp text," +
+                "second text" +
+                ");");
 
         sqLiteDatabase.execSQL("create table if not exists " + Data.getDbStatisticTable()
                 + " ("
@@ -50,7 +57,6 @@ public class StartActivity extends AppCompatActivity {
                 + Data.getDbScoreColumn() + " text"
                 + ");");
 
-        sqLiteDatabase.insert(Data.getDbRecordTable(), null, contentValues);
 
         xSmall = (RadioButton) findViewById(R.id.xsmall);
         small = (RadioButton) findViewById(R.id.small);
@@ -117,7 +123,29 @@ public class StartActivity extends AppCompatActivity {
                         startActivity(intent);
                         break;
                     case R.id.statistic:
-                        statisticCursor();
+                        Log.d(Data.getLOG_TAG(), "create table if not exists " + Data.getDbRecordTable()
+                                + " ("
+                                + "id integer primary key autoincrement,"
+                                + Data.getDbUserNameColumn() + " text,"
+                                + Data.getDbLoginColumn() + " text,"
+                                + Data.getDbCountryColumn() + " text,"
+                                + Data.getDbBFColumn() + " text,"
+                                + Data.getDbDateColumn() + " text,"
+                                + Data.getDbStepColumn() + " text,"
+                                + Data.getDbScoreColumn() + " text"
+                                + ");");
+//                        contentValues.put(Data.getDbUserNameColumn(), Data.getUserName());
+//                        contentValues.put(Data.getDbLoginColumn(), Data.getLogin());
+//                        contentValues.put(Data.getDbCountryColumn(), Data.getUserCountry());
+//                        sqLiteDatabase.insert("Record", null, contentValues);
+//                        contentValues.clear();
+                        contentValues.put("temp", Data.getUserName());
+                        contentValues.put("second", Data.getLogin());
+                        sqLiteDatabase.insert("test", null, contentValues);
+                        contentValues.clear();
+                        statisticCursor(Data.getDbStatisticTable());
+                        statisticCursor(Data.getDbRecordTable());
+//                        statisticCursor("test");
                         break;
                 }
             }
@@ -128,8 +156,8 @@ public class StartActivity extends AppCompatActivity {
 
     }
 
-    private void statisticCursor() {
-        Cursor c = sqLiteDatabase.query(Data.getDbStatisticTable(), null, null, null, null, null, null);
+    private void statisticCursor(String tableName) {
+        Cursor c = sqLiteDatabase.query(tableName, null, null, null, null, null, null);
 
         // ставим позицию курсора на первую строку выборки
         // если в выборке нет строк, вернется false
@@ -142,10 +170,14 @@ public class StartActivity extends AppCompatActivity {
 //            int stateOSColIndex = c.getColumnIndex("stateOS");
 //            int temperatureColIndex = c.getColumnIndex("temperature");
 //            int date_timeColIndex = c.getColumnIndex("date_time");
+//            int idTemp = c.getColumnIndex("temp");
+//            int idSecond = c.getColumnIndex("second");
 
             do {
                 // получаем значения по номерам столбцов и пишем все в лог
                 Log.d(Data.getLOG_TAG(),
+//                        "temp = " + c.getString(idTemp) +
+//                                " second = " + c.getString(idSecond)
                         "ID = " + c.getInt(c.getColumnIndex("id")) +
                                 ", user name = " + c.getString(c.getColumnIndex(Data.getDbUserNameColumn())) +
                                 ", login = " + c.getString(c.getColumnIndex(Data.getDbLoginColumn())) +
@@ -153,12 +185,13 @@ public class StartActivity extends AppCompatActivity {
                                 ", BF = " + c.getString(c.getColumnIndex(Data.getDbBFColumn())) +
                                 ", Date = " + c.getString(c.getColumnIndex(Data.getDbDateColumn())) +
                                 ", Step = " + c.getString(c.getColumnIndex(Data.getDbStepColumn())) +
-                                ", Score = " + c.getString(c.getColumnIndex(Data.getDbScoreColumn())));
+                                ", Score = " + c.getString(c.getColumnIndex(Data.getDbScoreColumn()))
+                );
                 // переход на следующую строку
                 // а если следующей нет (текущая - последняя), то false - выходим из цикла
             } while (c.moveToNext());
         } else
-            Log.d(Data.getLOG_TAG(), "0 rows");
+            Log.d(Data.getLOG_TAG(), "0 rows in " + tableName);
         c.close();
     }
 

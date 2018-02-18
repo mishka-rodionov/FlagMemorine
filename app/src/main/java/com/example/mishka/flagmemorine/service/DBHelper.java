@@ -13,7 +13,7 @@ import com.example.mishka.flagmemorine.logic.Data;
 public class DBHelper extends SQLiteOpenHelper {
 
     public DBHelper(Context context){
-        super(context, Data.getDbName(), null, Data.getDbVersion());
+        super(context, "FM", null, 1);
     }
 
     @Override
