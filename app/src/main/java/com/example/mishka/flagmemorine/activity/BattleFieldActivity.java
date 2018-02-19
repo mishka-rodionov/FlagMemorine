@@ -1,6 +1,7 @@
 package com.example.mishka.flagmemorine.activity;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -41,7 +42,6 @@ public class BattleFieldActivity extends AppCompatActivity {
         contentValues = new ContentValues();
         record = getPreferences(MODE_PRIVATE);
         timer = new Timer();
-
         userChoice = new ArrayList<>(2);
         viewTag = new ArrayList<>(2);
         CountryList.loadCountryMap();
@@ -63,6 +63,17 @@ public class BattleFieldActivity extends AppCompatActivity {
         time =      (TextView)  findViewById(R.id.timeValue);
         restart =   (Button)    findViewById(R.id.restart);
         scoreTV =   (TextView)  findViewById(R.id.currentScore);
+        back =      (Button)    findViewById(R.id.backBtn);
+
+        back.setVisibility(View.INVISIBLE);
+
+        View.OnClickListener backListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(BattleFieldActivity.this, StartActivity.class);
+                startActivity(intent);
+            }
+        };
 
         View.OnClickListener restartListener = new View.OnClickListener() {
             @Override
@@ -71,6 +82,7 @@ public class BattleFieldActivity extends AppCompatActivity {
             }
         };
 
+        back.setOnClickListener(backListener);
         restart.setOnClickListener(restartListener);
         scoreTV.setText(Integer.toString(score));
         if (topRecord == 10000)
@@ -230,6 +242,7 @@ public class BattleFieldActivity extends AppCompatActivity {
                         clickable.clear();
                         userRecord = Integer.parseInt(test1.getText().toString());
                         Log.d(Data.getLOG_TAG(), "All flags is plipped");
+                        back.setVisibility(View.VISIBLE);
                         timer.cancel();
                         pushToDB(Data.getDbStatisticTable());
                         Log.d(Data.getLOG_TAG(), "user record = " + userRecord);
@@ -321,24 +334,48 @@ public class BattleFieldActivity extends AppCompatActivity {
         contentValues.put(Data.getDbDateColumn(), Data.getTime());
         contentValues.put(Data.getDbStepColumn(), userRecord);
         contentValues.put(Data.getDbScoreColumn(), score);
+        contentValues.put(Data.getDbGameTimeColumn(), "" + minutes + ":" + seconds);
         sqLiteDatabase.insert(tableName, null, contentValues);
         contentValues.clear();
     }
 
     private void pushRecordToDB(int newRecord, int newScore){
-        contentValues.put(Data.getDbUserNameColumn(), Data.getUserName());
-        contentValues.put(Data.getDbLoginColumn(), Data.getLogin());
-        contentValues.put(Data.getDbCountryColumn(), Data.getUserCountry());
-        contentValues.put(Data.getDbBFColumn(), battleFieldSize);
-        contentValues.put(Data.getDbDateColumn(), Data.getTime());
-        contentValues.put(Data.getDbStepColumn(), newRecord);
-        contentValues.put(Data.getDbScoreColumn(), newScore);
-        int row = sqLiteDatabase.update(Data.getDbRecordTable(), contentValues, Data.getDbBFColumn() +
-        "=" + battleFieldSize, null);
-        Log.d(Data.getLOG_TAG(), "rows affected = " + row);
-        Log.d(Data.getLOG_TAG(), "SQL clause = " + Data.getDbBFColumn() +
-                "=" + battleFieldSize);
-        contentValues.clear();
+        Cursor cursor = sqLiteDatabase.query(Data.getDbRecordTable(), null, Data.getDbBFColumn()
+                + " = " + battleFieldSize, null, null, null, null);
+        Log.d(Data.getLOG_TAG(), Data.getDbRecordTable() + " where " + Data.getDbBFColumn()
+                + " = " + battleFieldSize);
+        if (cursor.moveToFirst()){
+            contentValues.put(Data.getDbUserNameColumn(), Data.getUserName());
+            contentValues.put(Data.getDbLoginColumn(), Data.getLogin());
+            contentValues.put(Data.getDbCountryColumn(), Data.getUserCountry());
+            contentValues.put(Data.getDbBFColumn(), battleFieldSize);
+            contentValues.put(Data.getDbDateColumn(), Data.getTime());
+            contentValues.put(Data.getDbStepColumn(), newRecord);
+            contentValues.put(Data.getDbScoreColumn(), newScore);
+            contentValues.put(Data.getDbGameTimeColumn(), "" + minutes + ":" + seconds);
+            int row = sqLiteDatabase.update(Data.getDbRecordTable(), contentValues, Data.getDbBFColumn() +
+                    "=" + battleFieldSize, null);
+            Log.d(Data.getLOG_TAG(), "rows update affected = " + row);
+            Log.d(Data.getLOG_TAG(), "SQL clause = " + Data.getDbBFColumn() +
+                    "=" + battleFieldSize);
+            contentValues.clear();
+        }else{
+            contentValues.put(Data.getDbUserNameColumn(), Data.getUserName());
+            contentValues.put(Data.getDbLoginColumn(), Data.getLogin());
+            contentValues.put(Data.getDbCountryColumn(), Data.getUserCountry());
+            contentValues.put(Data.getDbBFColumn(), battleFieldSize);
+            contentValues.put(Data.getDbDateColumn(), Data.getTime());
+            contentValues.put(Data.getDbStepColumn(), newRecord);
+            contentValues.put(Data.getDbScoreColumn(), newScore);
+            contentValues.put(Data.getDbGameTimeColumn(), "" + minutes + ":" + seconds);
+            long row = sqLiteDatabase.insert(Data.getDbRecordTable(), null, contentValues);
+            Log.d(Data.getLOG_TAG(), "rows insert affected = " + row);
+            Log.d(Data.getLOG_TAG(), "SQL clause = " + Data.getDbBFColumn() +
+                    "=" + battleFieldSize);
+            contentValues.clear();
+            Log.d(Data.getLOG_TAG(), "in table " + Data.getDbRecordTable() + " 0 rows in order.");
+        }
+        cursor.close();
     }
 
     private int topRecord(int BF){
@@ -449,6 +486,7 @@ public class BattleFieldActivity extends AppCompatActivity {
     private SQLiteDatabase sqLiteDatabase;
 
     private Button restart;
+    private Button back;
     private TextView result;
     private TextView test1;
     private TextView test2;

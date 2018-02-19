@@ -28,4 +28,5 @@
     <string name="xlarge">XL</string>
     <string name="xxlarge">XXL</string>
     <string name="userInfo">User info</string>
+    <string name="back">Back</string>
 </resources>

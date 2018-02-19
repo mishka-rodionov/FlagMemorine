@@ -211,6 +211,10 @@ public class Data {
         return dbRecordTable;
     }
 
+    public static String getDbGameTimeColumn() {
+        return dbGameTimeColumn;
+    }
+
     //endregion
 
     public static String getTime(){
@@ -245,6 +249,7 @@ public class Data {
     private static String dbDateColumn = "Date";
     private static String dbStepColumn = "Step";
     private static String dbScoreColumn = "Score";
+    private static String dbGameTimeColumn = "GameTime";
     private static String userName = "User001";
     private static String login = "Login001";
     private static String userCountry = "Russia";
