@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.mishka.flagmemorine.activity.StatisticActivity">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/hourTB"
+            android:layout_weight="1"
+            android:checked="false"
+            android:textOn="@string/hour"
+            android:textOff="@string/hour" />
+
+        <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/dayTB"
+            android:layout_weight="1"
+            android:textOff="@string/day"
+            android:textOn="@string/day" />
+
+        <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/allTB"
+            android:layout_weight="1"
+            android:textOff="@string/all"
+            android:textOn="@string/all" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ToggleButton
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/xsTB"
+            android:layout_weight="1"
+            android:textOff="@string/xsmall"
+            android:textOn="@string/xsmall" />
+
+        <ToggleButton
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sTB"
+            android:layout_weight="1"
+            android:textOff="@string/small"
+            android:textOn="@string/small" />
+
+        <ToggleButton
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/mTB"
+            android:layout_weight="1"
+            android:textOff="@string/medium"
+            android:textOn="@string/medium" />
+
+        <ToggleButton
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/lTB"
+            android:layout_weight="1"
+            android:textOff="@string/large"
+            android:textOn="@string/large" />
+
+        <ToggleButton
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/xlTB"
+            android:layout_weight="1"
+            android:textOff="@string/xlarge"
+            android:textOn="@string/xlarge" />
+
+        <ToggleButton
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/xxlTB"
+            android:layout_weight="1"
+            android:textOff="@string/xxlarge"
+            android:textOn="@string/xxlarge" />
+    </LinearLayout>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/statisticLV" />
+</LinearLayout>

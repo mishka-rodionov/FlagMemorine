@@ -149,6 +149,9 @@ public class StartActivity extends AppCompatActivity {
                         contentValues.clear();
                         statisticCursor(Data.getDbStatisticTable());
                         statisticCursor(Data.getDbRecordTable());
+
+                        Intent statisticActivityIntent = new Intent(StartActivity.this, StatisticActivity.class);
+                        startActivity(statisticActivityIntent);
 //                        statisticCursor("test");
                         break;
                 }
