@@ -181,6 +181,7 @@ public class BattleFieldActivity extends AppCompatActivity {
         //******************************************************************************************
     }
 
+
     private void clickHandler() {
         if (userChoice.size() == 2 && flipFlag) {                                                // Проверка количества элементов в контейнере пользовательского выбора.
             stepCounter++;

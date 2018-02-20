@@ -77,6 +77,13 @@ public class StartActivity extends AppCompatActivity {
         stopAds = (Button) findViewById(R.id.stopAds);
         userInfo = (Button) findViewById(R.id.userInfo);
 
+//        rg1.addView(xSmall);
+//        rg1.addView(small);
+//        rg1.addView(medium);
+//        rg2.addView(large);
+//        rg2.addView(xLarge);
+//        rg2.addView(xxLarge);
+
         View.OnClickListener onClickListenerRB = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
