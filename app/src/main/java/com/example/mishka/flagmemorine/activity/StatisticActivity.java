@@ -4,7 +4,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -23,6 +26,10 @@ public class StatisticActivity extends AppCompatActivity {
 
         DBHelper dbHelper = new DBHelper(this);
         sqLiteDatabase = dbHelper.getWritableDatabase();
+
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        LinearLayoutManager llm = new LinearLayoutManager(StatisticActivity.this);
+        recyclerView.setLayoutManager(llm);
 
         statisticLV = (ListView) findViewById(R.id.statisticLV);
         statisticAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
@@ -58,4 +65,5 @@ public class StatisticActivity extends AppCompatActivity {
     private ArrayAdapter<String> statisticAdapter;
     private SQLiteDatabase sqLiteDatabase;
     private ArrayList<String> contentLV;
+    private RecyclerView recyclerView;
 }
