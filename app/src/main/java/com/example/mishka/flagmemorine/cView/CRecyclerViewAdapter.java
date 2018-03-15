@@ -22,7 +22,7 @@ public class CRecyclerViewAdapter extends RecyclerView.Adapter<CRecyclerViewAdap
         public TextView mTextView;
         public ViewHolder(View v) {
             super(v);
-            mTextView = v;
+//            mTextView = v;
         }
     }
 
