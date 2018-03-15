@@ -1,61 +1,61 @@
 package com.example.mishka.flagmemorine.cView;
 
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.mishka.flagmemorine.R;
+import com.example.mishka.flagmemorine.logic.Player;
+
+import java.util.List;
 
 /**
  * Created by mishka on 04/03/18.
  */
-public class CRecyclerViewAdapter extends RecyclerView.Adapter<CRecyclerViewAdapter.ViewHolder> {
-    private String[] mDataset;
+public class CRecyclerViewAdapter extends RecyclerView.Adapter<CRecyclerViewAdapter.PlayerViewHolder> {
 
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
-        public TextView mTextView;
-        public ViewHolder(View v) {
-            super(v);
-//            mTextView = v;
+    public static class PlayerViewHolder extends RecyclerView.ViewHolder {
+        CardView cv;
+        TextView personName;
+        TextView personAge;
+        ImageView personPhoto;
+        PlayerViewHolder(View itemView) {
+            super(itemView);
+            cv = (CardView)itemView.findViewById(R.id.cardview);
+            personName = (TextView)itemView.findViewById(R.id.person_name);
+            personAge = (TextView)itemView.findViewById(R.id.person_age);
+            personPhoto = (ImageView)itemView.findViewById(R.id.person_photo);
         }
     }
 
-    // Provide a suitable constructor (depends on the kind of dataset)
-    public CRecyclerViewAdapter(String[] myDataset) {
-        mDataset = myDataset;
+
+    CRecyclerViewAdapter(List<Player> persons){
+        this.persons = persons;
     }
 
-    // Create new views (invoked by the layout manager)
     @Override
-    public CRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                   int viewType) {
-        // create a new view
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.recycler_statistic_view, parent, false);
-        // set the view's size, margins, paddings and layout parameters
-
-        ViewHolder vh = new ViewHolder(v);
-        return vh;
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
-        holder.mTextView.setText(mDataset[position]);
+    public void onBindViewHolder(CRecyclerViewAdapter.PlayerViewHolder holder, int position) {
 
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
+    @Override
+    public CRecyclerViewAdapter.PlayerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return null;
+    }
+
     @Override
     public int getItemCount() {
-        return mDataset.length;
+        return persons.size();
     }
+
+    private List<Player> persons;
 }
