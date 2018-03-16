@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.mishka.flagmemorine.R;
+import com.example.mishka.flagmemorine.logic.CountryList;
 import com.example.mishka.flagmemorine.logic.Player;
 
 import java.util.List;
@@ -33,8 +34,8 @@ public class CRecyclerViewAdapter extends RecyclerView.Adapter<CRecyclerViewAdap
     }
 
 
-    CRecyclerViewAdapter(List<Player> persons){
-        this.persons = persons;
+    public CRecyclerViewAdapter(List<Player> players){
+        this.players = players;
     }
 
     @Override
@@ -44,18 +45,23 @@ public class CRecyclerViewAdapter extends RecyclerView.Adapter<CRecyclerViewAdap
 
     @Override
     public void onBindViewHolder(CRecyclerViewAdapter.PlayerViewHolder holder, int position) {
+        holder.personName.setText(players.get(position).getName());
+        holder.personAge.setText(Integer.toString(players.get(position).getTotalScore()));
+        holder.personPhoto.setImageResource(CountryList.getCountry(players.get(position).getCountry()));
 
     }
 
     @Override
     public CRecyclerViewAdapter.PlayerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view, parent, false);
+        PlayerViewHolder pvh = new PlayerViewHolder(v);
+        return pvh;
     }
 
     @Override
     public int getItemCount() {
-        return persons.size();
+        return players.size();
     }
 
-    private List<Player> persons;
+    private List<Player> players;
 }

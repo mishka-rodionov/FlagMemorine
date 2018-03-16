@@ -104,8 +104,8 @@
 
     </android.support.v7.widget.RecyclerView>
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/statisticLV" />
+    <!--<ListView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/statisticLV" />-->
 </LinearLayout>

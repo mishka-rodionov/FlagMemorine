@@ -1,0 +1,15 @@
+Structure of statistic table
+
+    | id | Name | Login | Country | BF   | Time | Step  | Score | Date |
+    |____|______|_______|_________|______|______|_______|_______|______|
+    |int |String|String |String   |String|String|Integer|Integer|String|
+    Primary
+    Key
+
+Structure of user table
+
+    | id | Name | Login | Country | Date |
+    |____|______|_______|_________|______|
+    |int |String|String |String   |String|
+    Primary
+    Key

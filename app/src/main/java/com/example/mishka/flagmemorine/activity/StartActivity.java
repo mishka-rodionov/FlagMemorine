@@ -150,12 +150,12 @@ public class StartActivity extends AppCompatActivity {
 //                        contentValues.put(Data.getDbCountryColumn(), Data.getUserCountry());
 //                        sqLiteDatabase.insert("Record", null, contentValues);
 //                        contentValues.clear();
-                        contentValues.put("temp", Data.getUserName());
-                        contentValues.put("second", Data.getLogin());
-                        sqLiteDatabase.insert("test", null, contentValues);
-                        contentValues.clear();
-                        statisticCursor(Data.getDbStatisticTable());
-                        statisticCursor(Data.getDbRecordTable());
+//                        contentValues.put("temp", Data.getUserName());
+//                        contentValues.put("second", Data.getLogin());
+//                        sqLiteDatabase.insert(Data.getDbRecordTable(), null, contentValues);
+//                        contentValues.clear();
+//                        statisticCursor(Data.getDbStatisticTable());
+//                        statisticCursor(Data.getDbRecordTable());
 
                         Intent statisticActivityIntent = new Intent(StartActivity.this, StatisticActivity.class);
                         startActivity(statisticActivityIntent);
