@@ -29,6 +29,7 @@ public class StartActivity extends AppCompatActivity {
 
         createTable(Data.getDbStatisticTable());
         createTable(Data.getDbRecordTable());
+        createTableUserInfo();
 
 //        sqLiteDatabase.execSQL("create table if not exists " + Data.getDbRecordTable()
 //                + " ("
@@ -161,12 +162,18 @@ public class StartActivity extends AppCompatActivity {
                         startActivity(statisticActivityIntent);
 //                        statisticCursor("test");
                         break;
+                    case R.id.userInfo:
+                        Intent userInfoActivityIntent = new Intent(StartActivity.this, UserInfoActivity.class);
+                        userInfoActivityIntent.putExtra("login", "User1");
+                        startActivity(userInfoActivityIntent);
+                        break;
                 }
             }
         };
 
         play.setOnClickListener(onClickListenerButton);
         statistic.setOnClickListener(onClickListenerButton);
+        userInfo.setOnClickListener(onClickListenerButton);
 
     }
 
@@ -184,6 +191,18 @@ public class StartActivity extends AppCompatActivity {
                 + Data.getDbDateColumn() + " text"
                 + ");");
     }
+
+    private void createTableUserInfo(){
+        sqLiteDatabase.execSQL("create table if not exists UserInfo"
+                + " ("
+                + "id integer primary key autoincrement,"
+                + Data.getDbUserNameColumn() + " text,"
+                + Data.getDbLoginColumn() + " text,"
+                + Data.getDbCountryColumn() + " text,"
+                + Data.getDbDateColumn() + " text"
+                + ");");
+    }
+
 
     private void statisticCursor(String tableName) {
         Cursor c = sqLiteDatabase.query(tableName, null, null, null, null, null, null);
