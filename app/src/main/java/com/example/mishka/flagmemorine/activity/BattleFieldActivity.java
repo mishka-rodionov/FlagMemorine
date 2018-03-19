@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.IntegerRes;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +22,7 @@ import com.example.mishka.flagmemorine.logic.BattleField;
 import com.example.mishka.flagmemorine.logic.CountryList;
 import com.example.mishka.flagmemorine.logic.Data;
 import com.example.mishka.flagmemorine.service.DBHelper;
+import com.example.mishka.flagmemorine.service.SqLiteTableManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,9 +38,10 @@ public class BattleFieldActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
         //******************************************************************************************
-        DBHelper dbHelper = new DBHelper(BattleFieldActivity.this);
-        sqLiteDatabase = dbHelper.getWritableDatabase();                                            // Экземпляр БД для работы
-        contentValues = new ContentValues();                                                        // Инициализация контейнера для работы с таблицами БД
+//        DBHelper dbHelper = new DBHelper(BattleFieldActivity.this);
+//        sqLiteDatabase = dbHelper.getWritableDatabase();                                            // Экземпляр БД для работы
+//        contentValues = new ContentValues();                                                        // Инициализация контейнера для работы с таблицами БД
+        sqLiteTableManager = new SqLiteTableManager(BattleFieldActivity.this);
 
         record = getPreferences(MODE_PRIVATE);                                                      //
         timer = new Timer();                                                                        // Инициализация таймера для задержки переворота табличек
@@ -240,6 +241,7 @@ public class BattleFieldActivity extends AppCompatActivity {
                         back.setVisibility(View.VISIBLE);
                         timer.cancel();
                         pushToDB(Data.getDbStatisticTable());
+                        sqLiteTableManager.insertIntoStatisticTable();
                         Log.d(Data.getLOG_TAG(), "user record = " + userRecord);
                         if (userRecord < topRecord) {
                             test2.setText("" + userRecord);
@@ -302,60 +304,60 @@ public class BattleFieldActivity extends AppCompatActivity {
         }
     }
 
-    private void pushToDB(String tableName) {
-        Log.d(Data.getLOG_TAG(), " params = " + Data.getDbUserNameColumn()+ " " + Data.getUserName());
-        contentValues.put(Data.getDbUserNameColumn(), Data.getUserName());
-        contentValues.put(Data.getDbLoginColumn(), Data.getLogin());
-        contentValues.put(Data.getDbCountryColumn(), Data.getUserCountry());
-        contentValues.put(Data.getDbBFColumn(), battleFieldSize);
-        Log.d(Data.getLOG_TAG(), " params = " + Data.getDbBFColumn()+ " " + battleFieldSize);
-        Log.d(Data.getLOG_TAG(), " params = " + Data.getDbDateColumn()+ " " + Data.getTime());
-        contentValues.put(Data.getDbDateColumn(), Data.getTime());
-        contentValues.put(Data.getDbStepColumn(), userRecord);
-        contentValues.put(Data.getDbScoreColumn(), score);
-        contentValues.put(Data.getDbGameTimeColumn(), "" + minutes + ":" + seconds);
-        sqLiteDatabase.insert(tableName, null, contentValues);
-        contentValues.clear();
-    }
-
-    private void pushRecordToDB(int newRecord, int newScore){
-        Cursor cursor = sqLiteDatabase.query(Data.getDbRecordTable(), null, Data.getDbBFColumn()
-                + " = " + battleFieldSize, null, null, null, null);
-        Log.d(Data.getLOG_TAG(), Data.getDbRecordTable() + " where " + Data.getDbBFColumn()
-                + " = " + battleFieldSize);
-        if (cursor.moveToFirst()){
-            contentValues.put(Data.getDbUserNameColumn(), Data.getUserName());
-            contentValues.put(Data.getDbLoginColumn(), Data.getLogin());
-            contentValues.put(Data.getDbCountryColumn(), Data.getUserCountry());
-            contentValues.put(Data.getDbBFColumn(), battleFieldSize);
-            contentValues.put(Data.getDbDateColumn(), Data.getTime());
-            contentValues.put(Data.getDbStepColumn(), newRecord);
-            contentValues.put(Data.getDbScoreColumn(), newScore);
-            contentValues.put(Data.getDbGameTimeColumn(), "" + minutes + ":" + seconds);
-            int row = sqLiteDatabase.update(Data.getDbRecordTable(), contentValues, Data.getDbBFColumn() +
-                    "=" + battleFieldSize, null);
-            Log.d(Data.getLOG_TAG(), "rows update affected = " + row);
-            Log.d(Data.getLOG_TAG(), "SQL clause = " + Data.getDbBFColumn() +
-                    "=" + battleFieldSize);
-            contentValues.clear();
-        }else{
-            contentValues.put(Data.getDbUserNameColumn(), Data.getUserName());
-            contentValues.put(Data.getDbLoginColumn(), Data.getLogin());
-            contentValues.put(Data.getDbCountryColumn(), Data.getUserCountry());
-            contentValues.put(Data.getDbBFColumn(), battleFieldSize);
-            contentValues.put(Data.getDbDateColumn(), Data.getTime());
-            contentValues.put(Data.getDbStepColumn(), newRecord);
-            contentValues.put(Data.getDbScoreColumn(), newScore);
-            contentValues.put(Data.getDbGameTimeColumn(), "" + minutes + ":" + seconds);
-            long row = sqLiteDatabase.insert(Data.getDbRecordTable(), null, contentValues);
-            Log.d(Data.getLOG_TAG(), "rows insert affected = " + row);
-            Log.d(Data.getLOG_TAG(), "SQL clause = " + Data.getDbBFColumn() +
-                    "=" + battleFieldSize);
-            contentValues.clear();
-            Log.d(Data.getLOG_TAG(), "in table " + Data.getDbRecordTable() + " 0 rows in order.");
-        }
-        cursor.close();
-    }
+//    private void pushToDB(String tableName) {
+//        Log.d(Data.getLOG_TAG(), " params = " + Data.getDbUserNameColumn()+ " " + Data.getUserName());
+//        contentValues.put(Data.getDbUserNameColumn(), Data.getUserName());
+//        contentValues.put(Data.getDbLoginColumn(), Data.getLogin());
+//        contentValues.put(Data.getDbCountryColumn(), Data.getUserCountry());
+//        contentValues.put(Data.getDbBFColumn(), battleFieldSize);
+//        Log.d(Data.getLOG_TAG(), " params = " + Data.getDbBFColumn()+ " " + battleFieldSize);
+//        Log.d(Data.getLOG_TAG(), " params = " + Data.getDbDateColumn()+ " " + Data.getCurrentDate());
+//        contentValues.put(Data.getDbDateColumn(), Data.getCurrentDate());
+//        contentValues.put(Data.getDbStepColumn(), userRecord);
+//        contentValues.put(Data.getDbScoreColumn(), score);
+//        contentValues.put(Data.getDbGameTimeColumn(), "" + minutes + ":" + seconds);
+//        sqLiteDatabase.insert(tableName, null, contentValues);
+//        contentValues.clear();
+//    }
+//
+//    private void pushRecordToDB(int newRecord, int newScore){
+//        Cursor cursor = sqLiteDatabase.query(Data.getDbRecordTable(), null, Data.getDbBFColumn()
+//                + " = " + battleFieldSize, null, null, null, null);
+//        Log.d(Data.getLOG_TAG(), Data.getDbRecordTable() + " where " + Data.getDbBFColumn()
+//                + " = " + battleFieldSize);
+//        if (cursor.moveToFirst()){
+//            contentValues.put(Data.getDbUserNameColumn(), Data.getUserName());
+//            contentValues.put(Data.getDbLoginColumn(), Data.getLogin());
+//            contentValues.put(Data.getDbCountryColumn(), Data.getUserCountry());
+//            contentValues.put(Data.getDbBFColumn(), battleFieldSize);
+//            contentValues.put(Data.getDbDateColumn(), Data.getCurrentDate());
+//            contentValues.put(Data.getDbStepColumn(), newRecord);
+//            contentValues.put(Data.getDbScoreColumn(), newScore);
+//            contentValues.put(Data.getDbGameTimeColumn(), "" + minutes + ":" + seconds);
+//            int row = sqLiteDatabase.update(Data.getDbRecordTable(), contentValues, Data.getDbBFColumn() +
+//                    "=" + battleFieldSize, null);
+//            Log.d(Data.getLOG_TAG(), "rows update affected = " + row);
+//            Log.d(Data.getLOG_TAG(), "SQL clause = " + Data.getDbBFColumn() +
+//                    "=" + battleFieldSize);
+//            contentValues.clear();
+//        }else{
+//            contentValues.put(Data.getDbUserNameColumn(), Data.getUserName());
+//            contentValues.put(Data.getDbLoginColumn(), Data.getLogin());
+//            contentValues.put(Data.getDbCountryColumn(), Data.getUserCountry());
+//            contentValues.put(Data.getDbBFColumn(), battleFieldSize);
+//            contentValues.put(Data.getDbDateColumn(), Data.getCurrentDate());
+//            contentValues.put(Data.getDbStepColumn(), newRecord);
+//            contentValues.put(Data.getDbScoreColumn(), newScore);
+//            contentValues.put(Data.getDbGameTimeColumn(), "" + minutes + ":" + seconds);
+//            long row = sqLiteDatabase.insert(Data.getDbRecordTable(), null, contentValues);
+//            Log.d(Data.getLOG_TAG(), "rows insert affected = " + row);
+//            Log.d(Data.getLOG_TAG(), "SQL clause = " + Data.getDbBFColumn() +
+//                    "=" + battleFieldSize);
+//            contentValues.clear();
+//            Log.d(Data.getLOG_TAG(), "in table " + Data.getDbRecordTable() + " 0 rows in order.");
+//        }
+//        cursor.close();
+//    }
 
     private int topRecord(int BF){
         Cursor cursor = sqLiteDatabase.query(Data.getDbRecordTable(), null, Data.getDbBFColumn()
@@ -457,7 +459,7 @@ public class BattleFieldActivity extends AppCompatActivity {
 
     private BattleField battleField;
 
-    private ContentValues contentValues;
+//    private ContentValues contentValues;
 
     private Handler handler;
     private Handler handlerTime;
@@ -469,7 +471,8 @@ public class BattleFieldActivity extends AppCompatActivity {
 
     private SharedPreferences record;
 
-    private SQLiteDatabase sqLiteDatabase;
+//    private SQLiteDatabase sqLiteDatabase;
+    private SqLiteTableManager sqLiteTableManager;
 
     private Button restart;
     private Button back;
@@ -494,6 +497,11 @@ public class BattleFieldActivity extends AppCompatActivity {
     private long time1 = 0;
     private long time2 = 0;
     private boolean flipFlag = true;
+
+    private String username;
+    private String login;
+    private String country;
+
     //endregion
 
 }

@@ -18,6 +18,7 @@ public class SqLiteTableManager {
     public SqLiteTableManager(Context c){
         context = c;
         dbHelper = new DBHelper(context);
+        sqLiteDatabase = dbHelper.getWritableDatabase();
     }
 
     public void createTableStatistic(){
@@ -59,6 +60,45 @@ public class SqLiteTableManager {
                 + Data.getDbCountryColumn() + " text,"
                 + Data.getDbDateColumn() + " text"
                 + ");");
+    }
+
+    public void insertIntoUserInfoTable(String name, String login, String country, String date){
+        contentValues = new ContentValues();
+
+        cursor = sqLiteDatabase.query(Data.getDbUserInfoTable(), null, null, null, null, null, null);
+        if (cursor.moveToLast()){
+            this.name = cursor.getString(cursor.getColumnIndex(Data.getDbUserNameColumn()));
+            this.login = cursor.getString(cursor.getColumnIndex(Data.getDbLoginColumn()));
+            this.country = cursor.getString(cursor.getColumnIndex(Data.getDbCountryColumn()));
+            this.date = cursor.getString(cursor.getColumnIndex(Data.getDbDateColumn()));
+        }
+
+        if (name == null)
+        {
+            contentValues.put(Data.getDbUserNameColumn(), this.name);
+        }else{
+            contentValues.put(Data.getDbUserNameColumn(), name);
+        }
+        if (login == null){
+            contentValues.put(Data.getDbLoginColumn(), this.login);
+        }else{
+            contentValues.put(Data.getDbLoginColumn(), login);
+        }
+        if(country == null)
+        {
+            contentValues.put(Data.getDbCountryColumn(), this.country);
+        }else{
+            contentValues.put(Data.getDbCountryColumn(), country);
+        }
+        if (date == null)
+        {
+            contentValues.put(Data.getDbDateColumn(), this.date);
+        }else{
+            contentValues.put(Data.getDbDateColumn(), date);
+        }
+
+        sqLiteDatabase.insert(Data.getDbUserInfoTable(), null, contentValues);
+        contentValues.clear();
     }
 
     public void insertIntoStatisticTable(String name, String login, String country, String BFsize,
@@ -125,14 +165,76 @@ public class SqLiteTableManager {
             contentValues.put(Data.getDbDateColumn(), date);
         }
 
-        sqLiteDatabase.insert("Record", null, contentValues);
+        sqLiteDatabase.insert(Data.getDbStatisticTable(), null, contentValues);
         contentValues.clear();
-        contentValues.put("temp", Data.getUserName());
-        contentValues.put("second", Data.getLogin());
+    }
+
+    public void insertIntoRecordTable(String name, String login, String country, String BFsize,
+                                         String time, Integer step, Integer score, String date){
+        contentValues = new ContentValues();
+
+        cursor = sqLiteDatabase.query(Data.getDbRecordTable(), null, null, null, null, null, null);
+        if (cursor.moveToLast()){
+            this.name = cursor.getString(cursor.getColumnIndex(Data.getDbUserNameColumn()));
+            this.login = cursor.getString(cursor.getColumnIndex(Data.getDbLoginColumn()));
+            this.country = cursor.getString(cursor.getColumnIndex(Data.getDbCountryColumn()));
+            this.BFsize = cursor.getString(cursor.getColumnIndex(Data.getDbBFColumn()));
+            this.time = cursor.getString(cursor.getColumnIndex(Data.getDbGameTimeColumn()));
+            this.step = cursor.getInt(cursor.getColumnIndex(Data.getDbStepColumn()));
+            this.score = cursor.getInt(cursor.getColumnIndex(Data.getDbScoreColumn()));
+            this.date = cursor.getString(cursor.getColumnIndex(Data.getDbDateColumn()));
+        }
+
+        if (name == null)
+        {
+            contentValues.put(Data.getDbUserNameColumn(), this.name);
+        }else{
+            contentValues.put(Data.getDbUserNameColumn(), name);
+        }
+        if (login == null){
+            contentValues.put(Data.getDbLoginColumn(), this.login);
+        }else{
+            contentValues.put(Data.getDbLoginColumn(), login);
+        }
+        if(country == null)
+        {
+            contentValues.put(Data.getDbCountryColumn(), this.country);
+        }else{
+            contentValues.put(Data.getDbCountryColumn(), country);
+        }
+        if (BFsize == null)
+        {
+            contentValues.put(Data.getDbBFColumn(), this.BFsize);
+        }else{
+            contentValues.put(Data.getDbBFColumn(), BFsize);
+        }
+        if (time == null)
+        {
+            contentValues.put(Data.getDbGameTimeColumn(), this.time);
+        }else{
+            contentValues.put(Data.getDbGameTimeColumn(), time);
+        }
+        if (step == null)
+        {
+            contentValues.put(Data.getDbStepColumn(), this.step);
+        }else{
+            contentValues.put(Data.getDbStepColumn(), step);
+        }
+        if (score == null)
+        {
+            contentValues.put(Data.getDbScoreColumn(), this.score);
+        }else{
+            contentValues.put(Data.getDbScoreColumn(), score);
+        }
+        if (date == null)
+        {
+            contentValues.put(Data.getDbDateColumn(), this.date);
+        }else{
+            contentValues.put(Data.getDbDateColumn(), date);
+        }
+
         sqLiteDatabase.insert(Data.getDbRecordTable(), null, contentValues);
         contentValues.clear();
-//        statisticCursor(Data.getDbStatisticTable());
-//        statisticCursor(Data.getDbRecordTable());
     }
 
     public void setContext(Context c){

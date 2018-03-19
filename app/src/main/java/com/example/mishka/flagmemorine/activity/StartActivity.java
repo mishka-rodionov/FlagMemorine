@@ -17,6 +17,7 @@ import android.widget.RadioGroup;
 import com.example.mishka.flagmemorine.R;
 import com.example.mishka.flagmemorine.logic.Data;
 import com.example.mishka.flagmemorine.service.DBHelper;
+import com.example.mishka.flagmemorine.service.SqLiteTableManager;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -27,7 +28,8 @@ public class StartActivity extends AppCompatActivity {
 
         contentValues = new ContentValues();
 
-        sqLiteDatabase = dbHelper.getWritableDatabase();
+//        sqLiteDatabase = dbHelper.getWritableDatabase();
+        sqLiteTableManager = new SqLiteTableManager(StartActivity.this);
 
         checkFirstRun();
 
@@ -134,18 +136,18 @@ public class StartActivity extends AppCompatActivity {
                         startActivity(intent);
                         break;
                     case R.id.statistic:
-                        Log.d(Data.getLOG_TAG(), "create table if not exists " + Data.getDbRecordTable()
-                                + " ("
-                                + "id integer primary key autoincrement,"
-                                + Data.getDbUserNameColumn() + " text,"
-                                + Data.getDbLoginColumn() + " text,"
-                                + Data.getDbCountryColumn() + " text,"
-                                + Data.getDbBFColumn() + " text,"
-                                + Data.getDbGameTimeColumn() + " text,"
-                                + Data.getDbStepColumn() + " text,"
-                                + Data.getDbScoreColumn() + " text,"
-                                + Data.getDbDateColumn() + " text"
-                                + ");");
+//                        Log.d(Data.getLOG_TAG(), "create table if not exists " + Data.getDbRecordTable()
+//                                + " ("
+//                                + "id integer primary key autoincrement,"
+//                                + Data.getDbUserNameColumn() + " text,"
+//                                + Data.getDbLoginColumn() + " text,"
+//                                + Data.getDbCountryColumn() + " text,"
+//                                + Data.getDbBFColumn() + " text,"
+//                                + Data.getDbGameTimeColumn() + " text,"
+//                                + Data.getDbStepColumn() + " text,"
+//                                + Data.getDbScoreColumn() + " text,"
+//                                + Data.getDbDateColumn() + " text"
+//                                + ");");
 //                        contentValues.put(Data.getDbUserNameColumn(), Data.getUserName());
 //                        contentValues.put(Data.getDbLoginColumn(), Data.getLogin());
 //                        contentValues.put(Data.getDbCountryColumn(), Data.getUserCountry());
@@ -175,32 +177,6 @@ public class StartActivity extends AppCompatActivity {
         statistic.setOnClickListener(onClickListenerButton);
         userInfo.setOnClickListener(onClickListenerButton);
 
-    }
-
-    private void createTable(String tableName){
-        sqLiteDatabase.execSQL("create table if not exists " + tableName
-                + " ("
-                + "id integer primary key autoincrement,"
-                + Data.getDbUserNameColumn() + " text,"
-                + Data.getDbLoginColumn() + " text,"
-                + Data.getDbCountryColumn() + " text,"
-                + Data.getDbBFColumn() + " text,"
-                + Data.getDbGameTimeColumn() + " text,"
-                + Data.getDbStepColumn() + " text,"
-                + Data.getDbScoreColumn() + " text,"
-                + Data.getDbDateColumn() + " text"
-                + ");");
-    }
-
-    private void createTableUserInfo(){
-        sqLiteDatabase.execSQL("create table if not exists UserInfo"
-                + " ("
-                + "id integer primary key autoincrement,"
-                + Data.getDbUserNameColumn() + " text,"
-                + Data.getDbLoginColumn() + " text,"
-                + Data.getDbCountryColumn() + " text,"
-                + Data.getDbDateColumn() + " text"
-                + ");");
     }
 
     private void statisticCursor(String tableName) {
@@ -241,7 +217,7 @@ public class StartActivity extends AppCompatActivity {
 
         // Получение текущей версии кода
         Log.d(Data.getLOG_TAG(), "currentVersionCode = " + currentVersionCode);
-        Log.d(Data.getLOG_TAG(), "current time = " + Data.getTime());
+        Log.d(Data.getLOG_TAG(), "current time = " + Data.getCurrentDate());
 
 
         // Получение сохраненной версии кода
@@ -257,9 +233,9 @@ public class StartActivity extends AppCompatActivity {
         } else if (savedVersionCode == DOESNT_EXIST) {
             Log.d(Data.getLOG_TAG(), "savedVersionCode == DOESNT_EXIST");
             //Создание таблиц при первом запуске приложения
-            createTable(Data.getDbStatisticTable());
-            createTable(Data.getDbRecordTable());
-            createTableUserInfo();
+            sqLiteTableManager.createTableStatistic();
+            sqLiteTableManager.createTableRecord();
+            sqLiteTableManager.createTableUserInfo();
             //Обновление настроек для закрытия ветки первого включения.
             prefs.edit().putInt(PREF_VERSION_CODE_KEY, currentVersionCode).apply();
             Log.d(Data.getLOG_TAG(), "It's next action after intent!");
@@ -295,6 +271,7 @@ public class StartActivity extends AppCompatActivity {
     private ContentValues contentValues;
 
     private SQLiteDatabase sqLiteDatabase;
+    private SqLiteTableManager sqLiteTableManager;
     private DBHelper dbHelper = new DBHelper(StartActivity.this);
 
     private String size = "36";

@@ -219,7 +219,7 @@ public class Data {
 
     //endregion
 
-    public static String getTime(){
+    public static String getCurrentDate(){
         return "" + Calendar.getInstance().get(Calendar.YEAR) + ":"
                 + Calendar.getInstance().get(Calendar.MONTH)+ ":"
                 + Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + ":"

@@ -1,19 +1,14 @@
 package com.example.mishka.flagmemorine.activity;
 
-import android.content.ContentValues;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.mishka.flagmemorine.R;
 import com.example.mishka.flagmemorine.logic.Data;
-import com.example.mishka.flagmemorine.service.DBHelper;
+import com.example.mishka.flagmemorine.service.SqLiteTableManager;
 
 public class UserInfoActivity extends AppCompatActivity {
 
@@ -22,8 +17,9 @@ public class UserInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
 
-        contentValues = new ContentValues();
-        sqLiteDatabase = dbHelper.getWritableDatabase();
+//        contentValues = new ContentValues();
+//        sqLiteDatabase = dbHelper.getWritableDatabase();
+        sqLiteTableManager = new SqLiteTableManager(UserInfoActivity.this);
 
         login = getIntent().getStringExtra("login");
 
@@ -34,7 +30,12 @@ public class UserInfoActivity extends AppCompatActivity {
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                insertIntoUserInfoTable();
+//                insertIntoUserInfoTable();
+                sqLiteTableManager.insertIntoUserInfoTable(
+                        userNameEditText.getText().toString(),
+                        login,
+                        userCountryEditText.getText().toString(),
+                        Data.getCurrentDate());
             }
         };
 
@@ -52,24 +53,15 @@ public class UserInfoActivity extends AppCompatActivity {
 //        });
     }
 
-    private void insertIntoUserInfoTable(){
-        contentValues.put(Data.getDbUserNameColumn(), userNameEditText.getText().toString());
-        contentValues.put(Data.getDbLoginColumn(), login);
-        contentValues.put(Data.getDbCountryColumn() , userCountryEditText.getText().toString());
-        contentValues.put(Data.getDbDateColumn(), "Current date");
-        sqLiteDatabase.insert("UserInfo", null, contentValues);
-        contentValues.clear();
-    }
-
     private Button userInfoApplyButton;
     private EditText userNameEditText;
     private EditText userCountryEditText;
 
-    private ContentValues contentValues;
-
-    private SQLiteDatabase sqLiteDatabase;
-    private DBHelper dbHelper = new DBHelper(UserInfoActivity.this);
-
+//    private ContentValues contentValues;
+//
+//    private SQLiteDatabase sqLiteDatabase;
+//    private DBHelper dbHelper = new DBHelper(UserInfoActivity.this);
+    private SqLiteTableManager sqLiteTableManager;
     private String login;
 
 }
