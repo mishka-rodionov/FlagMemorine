@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.IntegerRes;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,20 +39,21 @@ public class BattleFieldActivity extends AppCompatActivity {
         setContentView(R.layout.activity_test);
         //******************************************************************************************
         DBHelper dbHelper = new DBHelper(BattleFieldActivity.this);
-        sqLiteDatabase = dbHelper.getWritableDatabase();
-        contentValues = new ContentValues();
-        record = getPreferences(MODE_PRIVATE);
-        timer = new Timer();
-        userChoice = new ArrayList<>(2);
-        viewTag = new ArrayList<>(2);
+        sqLiteDatabase = dbHelper.getWritableDatabase();                                            // Экземпляр БД для работы
+        contentValues = new ContentValues();                                                        // Инициализация контейнера для работы с таблицами БД
+
+        record = getPreferences(MODE_PRIVATE);                                                      //
+        timer = new Timer();                                                                        // Инициализация таймера для задержки переворота табличек
+        userChoice = new ArrayList<>(2);                                               // Инициализация контейнера для хранения страны с выбранной таблички табличек
+        viewTag = new ArrayList<>(2);                                                  // Инициализация контейнера для хранения тэгов табличек пользовательского выбора табличек
         CountryList.loadCountryMap();
         basicLayout = (LinearLayout) findViewById(R.id.basicLayout);
         battleFieldSize = Integer.parseInt(getIntent().getStringExtra("size"));
         topRecord = topRecord(battleFieldSize);
-        score = battleFieldSize * 2;
         battleField = new BattleField(battleFieldSize);
         getView(battleFieldSize);
         initFlipView(view, battleFieldSize);
+
         clickable = new HashMap<Integer, Boolean>();
         for (int i = 0; i < battleFieldSize; i++) {
             clickable.put(i, true);
@@ -85,6 +87,7 @@ public class BattleFieldActivity extends AppCompatActivity {
         back.setOnClickListener(backListener);
         restart.setOnClickListener(restartListener);
         scoreTV.setText(Integer.toString(score));
+
         if (topRecord == 10000)
             test2.setText("" + 0);
         else
@@ -153,8 +156,6 @@ public class BattleFieldActivity extends AppCompatActivity {
                         mp.start();
                     }
                 }.start();
-                final int rowIndex = rowIndexCalc(view.getTag().toString());                    // Вычисление индекса строки.
-                final int columnIndex = columnIndexCalc(view.getTag().toString());              // Вычисление индекса столбца.
                     String country  = battleField.getElement(Integer.parseInt(view.getTag().toString()));                                        // Получение ответа от AsynkTask
                     Log.d(Data.getLOG_TAG(), "Try to get result");
                     result.setText(country);                                                    // Отображение значения в тестовом текстовом поле
@@ -188,10 +189,9 @@ public class BattleFieldActivity extends AppCompatActivity {
             flipFlag = false;
             Log.d(Data.getLOG_TAG(), "flipFlag = " + flipFlag);
             test1.setText("" + stepCounter);
-//                            view.setClickable(false);
             if (!userChoice.get(0).equals(userChoice.get(1))) {                       // Если значения пользовательского выбора не равны, то
                 userChoice.clear();                                                 // очищаем контейнер
-                score--;
+                scoreCount(false);
                 scoreTV.setText(Integer.toString(score));
                 final int but0 = Integer.parseInt(viewTag.get(0));                  // вычисляем тег первой нажатой кнопки
                 final int but1 = Integer.parseInt(viewTag.get(1));                  // вычисляем тег второй нажатой кнопки
@@ -204,27 +204,13 @@ public class BattleFieldActivity extends AppCompatActivity {
                 flipViews.get(but1).setClickable(true);
 
                 final int paint = R.drawable.unknown;            // вычисляем целочисленное значение файла ресурса с флагом
-                Thread t1 = new Thread(new Runnable() {                             // создаем новый поток для закрытия первого, из выбранных пользователем флагов, рубашкой
-                    Message msg;
-                    @Override
-                    public void run() {
-                        msg = handler.obtainMessage(1, but0, paint);                // подготавливаем сообщение
-                        handler.sendMessageDelayed(msg, 1000);                      // помещаем в очередь хэндлера отложенное на секунду сообщение
-                    }
-                });
-                t1.start();
-                Thread t2 = new Thread(new Runnable() {                             // то же самое делаем для второй кнопки
-                    Message msg;
-                    @Override
-                    public void run() {
-                        msg = handler.obtainMessage(1, but1, paint);
-                        handler.sendMessageDelayed(msg, 1000);
-                    }
-                });
-                t2.start();
+                delayedTask(but0, paint);
+                delayedTask(but1, paint);
                 viewTag.clear();                                                    // очищаем контейнер тегов
             } else                                                                   // иначе
                 if (userChoice.get(0).equals(userChoice.get(1))) {                        // Если значения пользовательского выбора равны, то
+                    scoreCount(true);
+                    scoreTV.setText(Integer.toString(score));
                     Log.d(Data.getLOG_TAG(), "country equals");
                     flipFlag = true;
                     flipViews.get(Integer.parseInt(viewTag.get(0)))
@@ -241,6 +227,14 @@ public class BattleFieldActivity extends AppCompatActivity {
                     viewTag.clear();
                     if (!clickable.containsValue(true)) {
                         clickable.clear();
+
+                        Intent endOfGameActivityIntent= new Intent(BattleFieldActivity.this, EndOfGameActivity.class);
+                        endOfGameActivityIntent.putExtra("score", Integer.toString(score));
+                        endOfGameActivityIntent.putExtra("step", Integer.toString(stepCounter));
+                        endOfGameActivityIntent.putExtra("time", time.getText().toString());
+                        endOfGameActivityIntent.putExtra("size", Integer.toString(battleFieldSize));
+                        startActivity(endOfGameActivityIntent);
+
                         userRecord = Integer.parseInt(test1.getText().toString());
                         Log.d(Data.getLOG_TAG(), "All flags is plipped");
                         back.setVisibility(View.VISIBLE);
@@ -273,24 +267,8 @@ public class BattleFieldActivity extends AppCompatActivity {
                 flipViews.get(but1).setClickable(true);
 
                 final int paint = R.drawable.unknown;            // вычисляем целочисленное значение файла ресурса с флагом
-                Thread t1 = new Thread(new Runnable() {                             // создаем новый поток для закрытия первого, из выбранных пользователем флагов, рубашкой
-                    Message msg;
-                    @Override
-                    public void run() {
-                        msg = handler.obtainMessage(1, but0, paint);                // подготавливаем сообщение
-                        handler.sendMessageDelayed(msg, 1000);                      // помещаем в очередь хэндлера отложенное на секунду сообщение
-                    }
-                });
-                t1.start();
-                Thread t2 = new Thread(new Runnable() {                             // то же самое делаем для второй кнопки
-                    Message msg;
-                    @Override
-                    public void run() {
-                        msg = handler.obtainMessage(1, but1, paint);
-                        handler.sendMessageDelayed(msg, 1000);
-                    }
-                });
-                t2.start();
+                delayedTask(but0, paint);
+                delayedTask(but1, paint);
                 viewTag.clear();                                                    // очищаем контейнер тегов
             } else                                                                   // иначе
                 if (userChoice.get(0).equals(userChoice.get(1))) {                        // Если значения пользовательского выбора равны, то
@@ -426,14 +404,6 @@ public class BattleFieldActivity extends AppCompatActivity {
         Log.d(Data.getLOG_TAG(), "flipview size = " + flipViews.size());
     }
 
-    //Вычисление индекса столбца по тэгу нажатой кнопки.
-    public int rowIndexCalc(String viewTag){
-        int tag = Integer.parseInt(viewTag);
-        Log.d(Data.getLOG_TAG(), "input tag = " + viewTag);
-        Log.d(Data.getLOG_TAG(), "row index = " + tag/battleFieldSize);
-        return tag/battleFieldSize;
-    }
-
     public void getView(int size){
         if(size == Data.getXsmallSize()){
             view = getLayoutInflater().inflate(R.layout.layout_xsmall, null);
@@ -450,18 +420,33 @@ public class BattleFieldActivity extends AppCompatActivity {
         }
     }
 
-    //Вычисление индекса столбца по тэгу нажатой кнопки.
-    public int columnIndexCalc(String viewTag){
-        int tag = Integer.parseInt(viewTag);
-        if (tag < battleFieldSize){
-            Log.d(Data.getLOG_TAG(), "input tag = " + viewTag);
-            Log.d(Data.getLOG_TAG(), "column index = " + tag);
-            return tag;
-        }else{
-            Log.d(Data.getLOG_TAG(), "input tag = " + viewTag);
-            Log.d(Data.getLOG_TAG(), "column index = " + tag%battleFieldSize);
-            return tag%battleFieldSize;
+    public void scoreCount(Boolean state){
+        if(state){
+            score += 100;
+        }else if (!state){
+            if (score > 0){
+                score -= 10;
+            }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent startActivityIntent = new Intent(BattleFieldActivity.this, StartActivity.class);
+        startActivity(startActivityIntent);
+    }
+
+    public void delayedTask(final int button, final int resource){
+        Thread thread = new Thread(new Runnable() {                             // создаем новый поток для закрытия первого, из выбранных пользователем флагов, рубашкой
+            Message msg;
+            @Override
+            public void run() {
+                msg = handler.obtainMessage(1, button, resource);                // подготавливаем сообщение
+                handler.sendMessageDelayed(msg, 1000);                      // помещаем в очередь хэндлера отложенное на секунду сообщение
+            }
+        });
+        thread.start();
     }
 
     //region Private fields
@@ -504,7 +489,8 @@ public class BattleFieldActivity extends AppCompatActivity {
     private int userRecord = 0;
     private int topRecord = 0;
     private int seconds = 0;
-    private int score =  Data.getXxlargeSize() * 2;
+    //    private int score =  Data.getXxlargeSize() * 2;
+    private int score =  100;
     private long time1 = 0;
     private long time2 = 0;
     private boolean flipFlag = true;

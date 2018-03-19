@@ -2,8 +2,10 @@ package com.example.mishka.flagmemorine.activity;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.design.BuildConfig;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,9 +29,7 @@ public class StartActivity extends AppCompatActivity {
 
         sqLiteDatabase = dbHelper.getWritableDatabase();
 
-        createTable(Data.getDbStatisticTable());
-        createTable(Data.getDbRecordTable());
-        createTableUserInfo();
+        checkFirstRun();
 
 //        sqLiteDatabase.execSQL("create table if not exists " + Data.getDbRecordTable()
 //                + " ("
@@ -203,29 +203,15 @@ public class StartActivity extends AppCompatActivity {
                 + ");");
     }
 
-
     private void statisticCursor(String tableName) {
         Cursor c = sqLiteDatabase.query(tableName, null, null, null, null, null, null);
 
         // ставим позицию курсора на первую строку выборки
         // если в выборке нет строк, вернется false
         if (c.moveToFirst()) {
-
-            // определяем номера столбцов по имени в выборке
-//            int idColIndex = c.getColumnIndex("id");
-//            int nameColIndex = c.getColumnIndex("name");
-//            int stateColIndex = c.getColumnIndex("state");
-//            int stateOSColIndex = c.getColumnIndex("stateOS");
-//            int temperatureColIndex = c.getColumnIndex("temperature");
-//            int date_timeColIndex = c.getColumnIndex("date_time");
-//            int idTemp = c.getColumnIndex("temp");
-//            int idSecond = c.getColumnIndex("second");
-
             do {
                 // получаем значения по номерам столбцов и пишем все в лог
                 Log.d(Data.getLOG_TAG(),
-//                        "temp = " + c.getString(idTemp) +
-//                                " second = " + c.getString(idSecond)
                         "ID = " + c.getInt(c.getColumnIndex("id")) +
                                 ", user name = " + c.getString(c.getColumnIndex(Data.getDbUserNameColumn())) +
                                 ", login = " + c.getString(c.getColumnIndex(Data.getDbLoginColumn())) +
@@ -242,6 +228,52 @@ public class StartActivity extends AppCompatActivity {
         } else
             Log.d(Data.getLOG_TAG(), "0 rows in " + tableName);
         c.close();
+    }
+
+    private void checkFirstRun() {
+
+        Log.d(Data.getLOG_TAG(), "inside onCheckFirstRun");
+
+        final String PREF_VERSION_CODE_KEY = "version_code";
+        final int DOESNT_EXIST = -2;
+        final int currentVersionCode = BuildConfig.VERSION_CODE;
+        final SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+
+        // Получение текущей версии кода
+        Log.d(Data.getLOG_TAG(), "currentVersionCode = " + currentVersionCode);
+        Log.d(Data.getLOG_TAG(), "current time = " + Data.getTime());
+
+
+        // Получение сохраненной версии кода
+        int savedVersionCode = prefs.getInt(PREF_VERSION_CODE_KEY, DOESNT_EXIST);
+        Log.d(Data.getLOG_TAG(), "savedVersionCode = " + savedVersionCode);
+
+        // Проверка на первый вход или апгрейд
+        if (currentVersionCode == savedVersionCode) {
+            // При выполнении данного условия происходит обычная загрузка приложения
+            Log.d(Data.getLOG_TAG(), "currentVersionCode == savedVersionCode");
+
+            return;
+        } else if (savedVersionCode == DOESNT_EXIST) {
+            Log.d(Data.getLOG_TAG(), "savedVersionCode == DOESNT_EXIST");
+            //Создание таблиц при первом запуске приложения
+            createTable(Data.getDbStatisticTable());
+            createTable(Data.getDbRecordTable());
+            createTableUserInfo();
+            //Обновление настроек для закрытия ветки первого включения.
+            prefs.edit().putInt(PREF_VERSION_CODE_KEY, currentVersionCode).apply();
+            Log.d(Data.getLOG_TAG(), "It's next action after intent!");
+//            // TODO This is a new install (or the user cleared the shared preferences)
+
+
+        } else if (currentVersionCode > savedVersionCode) {
+
+            Log.d(Data.getLOG_TAG(), "currentVersionCode > savedVersionCode");
+            // TODO This is an upgrade
+        }
+
+//        // Update the shared preferences with the current version code
+//        prefs.edit().putInt(PREF_VERSION_CODE_KEY, currentVersionCode).apply();
     }
 
     private RadioButton xSmall;
@@ -266,4 +298,5 @@ public class StartActivity extends AppCompatActivity {
     private DBHelper dbHelper = new DBHelper(StartActivity.this);
 
     private String size = "36";
+    private final String PREFS_NAME = "MyPrefsFile26";
 }

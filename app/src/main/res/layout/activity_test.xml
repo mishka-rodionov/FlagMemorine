@@ -59,7 +59,7 @@
             android:layout_toEndOf="@+id/restart"
             android:layout_weight="1"
             android:gravity="left"
-            android:text="@string/stepCount" />
+            android:text="@string/step" />
 
         <TextView
             android:id="@+id/userRecord"

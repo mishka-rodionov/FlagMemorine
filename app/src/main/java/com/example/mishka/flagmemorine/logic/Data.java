@@ -215,6 +215,8 @@ public class Data {
         return dbGameTimeColumn;
     }
 
+    public static String getDbUserInfoTable() { return dbUserInfoTable; }
+
     //endregion
 
     public static String getTime(){
@@ -242,6 +244,7 @@ public class Data {
     private static String dbName  = "FlagMem";
     private static String dbStatisticTable  = "Statistic";
     private static String dbRecordTable  = "Record";
+    private static String dbUserInfoTable  = "UserInfo";
     private static String dbUserNameColumn = "UserName";
     private static String dbLoginColumn = "Login";
     private static String dbCountryColumn = "Country";
