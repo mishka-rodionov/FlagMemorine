@@ -72,6 +72,7 @@ public class SqLiteTableManager {
             this.country = cursor.getString(cursor.getColumnIndex(Data.getDbCountryColumn()));
             this.date = cursor.getString(cursor.getColumnIndex(Data.getDbDateColumn()));
         }
+        cursor.close();
 
         if (name == null)
         {
@@ -116,6 +117,7 @@ public class SqLiteTableManager {
             this.score = cursor.getInt(cursor.getColumnIndex(Data.getDbScoreColumn()));
             this.date = cursor.getString(cursor.getColumnIndex(Data.getDbDateColumn()));
         }
+        cursor.close();
 
         if (name == null)
         {
@@ -184,6 +186,7 @@ public class SqLiteTableManager {
             this.score = cursor.getInt(cursor.getColumnIndex(Data.getDbScoreColumn()));
             this.date = cursor.getString(cursor.getColumnIndex(Data.getDbDateColumn()));
         }
+        cursor.close();
 
         if (name == null)
         {
@@ -235,6 +238,19 @@ public class SqLiteTableManager {
 
         sqLiteDatabase.insert(Data.getDbRecordTable(), null, contentValues);
         contentValues.clear();
+    }
+
+    public String[] readLastRowFromUserInfo(){
+        cursor = sqLiteDatabase.query(Data.getDbUserInfoTable(), null, null, null, null, null, null);
+        String[] row = new String[4];
+        if (cursor.moveToLast()){
+            row[0] = cursor.getString(cursor.getColumnIndex(Data.getDbUserNameColumn()));
+            row[1] = cursor.getString(cursor.getColumnIndex(Data.getDbLoginColumn()));
+            row[2] = cursor.getString(cursor.getColumnIndex(Data.getDbCountryColumn()));
+            row[3] = cursor.getString(cursor.getColumnIndex(Data.getDbDateColumn()));
+        }
+        cursor.close();
+        return row;
     }
 
     public void setContext(Context c){

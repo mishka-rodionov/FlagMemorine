@@ -21,7 +21,8 @@ public class UserInfoActivity extends AppCompatActivity {
 //        sqLiteDatabase = dbHelper.getWritableDatabase();
         sqLiteTableManager = new SqLiteTableManager(UserInfoActivity.this);
 
-        login = getIntent().getStringExtra("login");
+        // Чтение из таблицы UserInfo логина, записанного в последней строке
+        login = sqLiteTableManager.readLastRowFromUserInfo()[1];
 
         userCountryEditText = (EditText) findViewById(R.id.userCountry);
         userNameEditText = (EditText) findViewById(R.id.userName);

@@ -236,6 +236,16 @@ public class StartActivity extends AppCompatActivity {
             sqLiteTableManager.createTableStatistic();
             sqLiteTableManager.createTableRecord();
             sqLiteTableManager.createTableUserInfo();
+
+            //**********
+            // Запись свободного логина (типа User1234) в таблицу UserInfo при первом запуске приложения.
+            // Свободный логин получается от сервера. Позже будет введена реализация этого.
+            String freeLogin = "User1234";
+            sqLiteTableManager.insertIntoUserInfoTable(
+                    null,
+                    freeLogin,
+                    null,
+                    Data.getCurrentDate());
             //Обновление настроек для закрытия ветки первого включения.
             prefs.edit().putInt(PREF_VERSION_CODE_KEY, currentVersionCode).apply();
             Log.d(Data.getLOG_TAG(), "It's next action after intent!");
