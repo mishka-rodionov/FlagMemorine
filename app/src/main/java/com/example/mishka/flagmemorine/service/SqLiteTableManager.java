@@ -253,6 +253,20 @@ public class SqLiteTableManager {
         return row;
     }
 
+    public Integer getScore(Integer size){
+        cursor = sqLiteDatabase.query(Data.getDbStatisticTable(), null, Data.getDbBFColumn() + " = " + Data.getXsmallSize(), null, null, null, null);
+        Integer scoreCount = 0;
+        String[] row = new String[4];
+        if (cursor.moveToFirst()){
+            do {
+                scoreCount += Integer.parseInt(cursor.getString(cursor.getColumnIndex(Data.getDbScoreColumn())));
+            }
+            while (cursor.moveToNext());
+        }
+        Log.i(Data.getLOG_TAG(), "getScore: " + scoreCount);
+        return scoreCount;
+    }
+
     public void setContext(Context c){
         context = c;
     }

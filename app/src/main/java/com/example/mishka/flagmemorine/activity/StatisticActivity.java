@@ -19,6 +19,7 @@ import com.example.mishka.flagmemorine.logic.CountryList;
 import com.example.mishka.flagmemorine.logic.Data;
 import com.example.mishka.flagmemorine.logic.Player;
 import com.example.mishka.flagmemorine.service.DBHelper;
+import com.example.mishka.flagmemorine.service.SqLiteTableManager;
 
 import java.util.ArrayList;
 
@@ -29,14 +30,15 @@ public class StatisticActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistic);
+        sqLiteTableManager = new SqLiteTableManager(StatisticActivity.this);
 
-        DBHelper dbHelper = new DBHelper(this);
-        sqLiteDatabase = dbHelper.getWritableDatabase();
+//        DBHelper dbHelper = new DBHelper(this);
+//        sqLiteDatabase = dbHelper.getWritableDatabase();
 
         CountryList.loadCountryMap();
 
         Player.initPlayers();
-        Player player1 = new Player("Mishka", "Russia", 100, 100, 0, 0, 0 ,0 ,0);
+        Player player1 = new Player("Mishka", "Russia", 0, sqLiteTableManager.getScore(Data.getXsmallSize()), 0, 0, 0 ,0 ,0);
         Player player2 = new Player("Petya", "Ukraine", 10, 10, 0, 0, 0 ,0 ,0);
         Player player3 = new Player("Vasya", "Belarus", 20, 10, 10, 0, 0 ,0 ,0);
         Player player4 = new Player("Borya", "Armenia", 10, 10, 0, 0, 0 ,0 ,0);
@@ -65,6 +67,7 @@ public class StatisticActivity extends AppCompatActivity {
 //        statisticLV.setAdapter(statisticAdapter);
     }
 
+
 //    private void createListView(){
 //        Cursor cursor = sqLiteDatabase.query(Data.getDbStatisticTable(), null, null, null, null,null, null);
 //        contentLV = new ArrayList<>();
@@ -91,6 +94,7 @@ public class StatisticActivity extends AppCompatActivity {
     private ListView statisticLV;
     private ArrayAdapter<String> statisticAdapter;
     private SQLiteDatabase sqLiteDatabase;
+    private SqLiteTableManager sqLiteTableManager;
     private ArrayList<String> contentLV;
     private RecyclerView recyclerView;
 }

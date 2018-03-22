@@ -50,7 +50,7 @@ public class BattleFieldActivity extends AppCompatActivity {
         CountryList.loadCountryMap();
         basicLayout = (LinearLayout) findViewById(R.id.basicLayout);
         battleFieldSize = Integer.parseInt(getIntent().getStringExtra("size"));
-        topRecord = topRecord(battleFieldSize);
+        topRecord = 10000/*topRecord(battleFieldSize)*/;
         battleField = new BattleField(battleFieldSize);
         getView(battleFieldSize);
         initFlipView(view, battleFieldSize);
@@ -240,12 +240,11 @@ public class BattleFieldActivity extends AppCompatActivity {
                         Log.d(Data.getLOG_TAG(), "All flags is plipped");
                         back.setVisibility(View.VISIBLE);
                         timer.cancel();
-                        pushToDB(Data.getDbStatisticTable());
-                        sqLiteTableManager.insertIntoStatisticTable();
+                        sqLiteTableManager.insertIntoStatisticTable(null,null,null, Integer.toString(battleFieldSize), time.getText().toString(), stepCounter, score, Data.getCurrentDate());
                         Log.d(Data.getLOG_TAG(), "user record = " + userRecord);
                         if (userRecord < topRecord) {
                             test2.setText("" + userRecord);
-                            pushRecordToDB(userRecord, score);
+                            sqLiteTableManager.insertIntoRecordTable(null,null,null, Integer.toString(battleFieldSize), time.getText().toString(), stepCounter, score, Data.getCurrentDate());
                             SharedPreferences.Editor editor = record.edit();
                             editor.putString("REC", test1.getText().toString());
                             editor.commit();
@@ -359,22 +358,22 @@ public class BattleFieldActivity extends AppCompatActivity {
 //        cursor.close();
 //    }
 
-    private int topRecord(int BF){
-        Cursor cursor = sqLiteDatabase.query(Data.getDbRecordTable(), null, Data.getDbBFColumn()
-        + " = " + BF, null, null, null, null);
-        Log.d(Data.getLOG_TAG(), Data.getDbRecordTable() + " where " + Data.getDbBFColumn()
-                + " = " + BF);
-        int topRecord = 10000;
-        if (cursor.moveToFirst()){
-            int recIndex = cursor.getColumnIndex(Data.getDbStepColumn());
-            topRecord = Integer.parseInt(cursor.getString(recIndex));
-            Log.d(Data.getLOG_TAG(), "record table DB = " + topRecord);
-        }else{
-            Log.d(Data.getLOG_TAG(), "in table " + Data.getDbRecordTable() + " 0 rows in order.");
-        }
-        cursor.close();
-        return topRecord;
-    }
+//    private int topRecord(int BF){
+//        Cursor cursor = sqLiteDatabase.query(Data.getDbRecordTable(), null, Data.getDbBFColumn()
+//        + " = " + BF, null, null, null, null);
+//        Log.d(Data.getLOG_TAG(), Data.getDbRecordTable() + " where " + Data.getDbBFColumn()
+//                + " = " + BF);
+//        int topRecord = 10000;
+//        if (cursor.moveToFirst()){
+//            int recIndex = cursor.getColumnIndex(Data.getDbStepColumn());
+//            topRecord = Integer.parseInt(cursor.getString(recIndex));
+//            Log.d(Data.getLOG_TAG(), "record table DB = " + topRecord);
+//        }else{
+//            Log.d(Data.getLOG_TAG(), "in table " + Data.getDbRecordTable() + " 0 rows in order.");
+//        }
+//        cursor.close();
+//        return topRecord;
+//    }
 
     public void initFlipView(View view, int battleFieldSize){
         flipViews = new ArrayList<>(battleFieldSize);
