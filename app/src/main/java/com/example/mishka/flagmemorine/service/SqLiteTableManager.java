@@ -9,6 +9,8 @@ import android.util.Log;
 import com.example.mishka.flagmemorine.activity.StartActivity;
 import com.example.mishka.flagmemorine.logic.Data;
 
+import java.util.ArrayList;
+
 /**
  * Created by Lab1 on 19.03.2018.
  */
@@ -253,10 +255,39 @@ public class SqLiteTableManager {
         return row;
     }
 
+    public String getName(){
+        cursor = sqLiteDatabase.query(Data.getDbUserInfoTable(), null, null, null, null, null, null);
+        String username = "";
+        if (cursor.moveToLast()){
+            username = cursor.getString(cursor.getColumnIndex(Data.getDbUserNameColumn()));
+        }
+        cursor.close();
+        return username;
+    }
+
+    public String getLogin(){
+        cursor = sqLiteDatabase.query(Data.getDbUserInfoTable(), null, null, null, null, null, null);
+        String userLogin = "";
+        if (cursor.moveToLast()){
+            userLogin = cursor.getString(cursor.getColumnIndex(Data.getDbLoginColumn()));
+        }
+        cursor.close();
+        return userLogin;
+    }
+
+    public String getCountry(){
+        cursor = sqLiteDatabase.query(Data.getDbUserInfoTable(), null, null, null, null, null, null);
+        String userCountry = "";
+        if (cursor.moveToLast()){
+            userCountry = cursor.getString(cursor.getColumnIndex(Data.getDbCountryColumn()));
+        }
+        cursor.close();
+        return userCountry;
+    }
+
     public Integer getScore(Integer size){
-        cursor = sqLiteDatabase.query(Data.getDbStatisticTable(), null, Data.getDbBFColumn() + " = " + Data.getXsmallSize(), null, null, null, null);
+        cursor = sqLiteDatabase.query(Data.getDbStatisticTable(), null, Data.getDbBFColumn() + " = " + size, null, null, null, null);
         Integer scoreCount = 0;
-        String[] row = new String[4];
         if (cursor.moveToFirst()){
             do {
                 scoreCount += Integer.parseInt(cursor.getString(cursor.getColumnIndex(Data.getDbScoreColumn())));
@@ -265,6 +296,25 @@ public class SqLiteTableManager {
         }
         Log.i(Data.getLOG_TAG(), "getScore: " + scoreCount);
         return scoreCount;
+    }
+
+    public ArrayList<String> getGroup(Integer size, String time){
+        ArrayList<String> rows = new ArrayList<>();
+        cursor = sqLiteDatabase.query(
+                Data.getDbStatisticTable(),
+                null,
+                Data.getDbBFColumn() + " = " + size,
+                null, null, null, null);
+        Integer scoreCount = 0;
+        if (cursor.moveToFirst()){
+            do {
+                scoreCount += Integer.parseInt(cursor.getString(cursor.getColumnIndex(Data.getDbScoreColumn())));
+                rows.add(cursor.getString(cursor.getColumnIndex(Data.getDbScoreColumn())));
+                Log.i(Data.getLOG_TAG(), "rows: " + rows.get(rows.size() - 1));
+            }
+            while (cursor.moveToNext());
+        }
+        return rows;
     }
 
     public void setContext(Context c){

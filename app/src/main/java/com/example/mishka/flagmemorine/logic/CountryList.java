@@ -245,7 +245,7 @@ public class CountryList {
 //                countryMap.put("Northern Cyprus",R.drawable.northern_cyprus);
                 countryMap.put("Northern Mariana Islands",R.drawable.northern_mariana_islands);
                 countryMap.put("Norway",R.drawable.norway);
-//                countryMap.put("Olympics",R.drawable.olympics);
+                countryMap.put("Olympics",R.drawable.olympics);
                 countryMap.put("Oman",R.drawable.oman);
                 countryMap.put("Pakistan",R.drawable.pakistan);
                 countryMap.put("Palau",R.drawable.palau);
@@ -600,7 +600,7 @@ public class CountryList {
 //            "Northern Cyprus",
             "Northern Mariana Islands",
             "Norway",
-//            "Olympics",
+            "Olympics",
             "Oman",
             "Pakistan",
             "Palau",

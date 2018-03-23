@@ -14,7 +14,7 @@ import java.util.List;
 
 public class Player {
 
-    public Player(String name, String country, Integer totalScore, Integer xsScore,
+    public Player(String name, String country, Integer xsScore,
                   Integer sScore, Integer mScore, Integer lScore, Integer xlScore, Integer xxlScore){
         this.name = name;
         this.country = country;
@@ -31,23 +31,24 @@ public class Player {
         players = new ArrayList<>();
     }
 
+    public static void clearPlayers(){ players.clear(); }
+
     public static void addPlayer(Player player){
         players.add(player);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void sortPlayers(){
-        players.sort(new Comparator<Player>() {
-            @Override
-            public int compare(Player o1, Player o2) {
-                if(o1.getTotalScore() < o2.getTotalScore())
-                    return 0;
-                else if (o1.getTotalScore() == o2.getTotalScore())
-                    return 1;
-                else
-                    return 2;
+        Player player;
+        for (int i = 0; i < players.size() - 1; i++) {
+            for (int j = i + 1; j < players.size(); j++) {
+                if (players.get(i).getTotalScore() < players.get(j).getTotalScore()){
+                    player = players.get(i);
+                    players.set(i,players.get(j));
+                    players.set(j,player);
+                }
             }
-        });
+        }
     }
 
     public static List<Player> getPlayers() {
