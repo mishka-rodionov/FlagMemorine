@@ -369,7 +369,8 @@ public class CountryList {
         Collections.shuffle(country);
     }
 
-    public static ArrayList getCountryList(){return country;}
+    public static ArrayList<String> getCountryList(){ return country; }
+    public static String[] getCountries() { return countryList; }
 
     private static ArrayList<String> country;
     private static HashMap<String, Integer> countryMap;

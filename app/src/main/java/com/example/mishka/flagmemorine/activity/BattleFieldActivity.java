@@ -116,6 +116,18 @@ public class BattleFieldActivity extends AppCompatActivity {
             }
         };
 
+        handlerIntent = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                Intent endOfGameActivityIntent= new Intent(BattleFieldActivity.this, EndOfGameActivity.class);
+                endOfGameActivityIntent.putExtra("score", Integer.toString(score));
+                endOfGameActivityIntent.putExtra("step", Integer.toString(stepCounter));
+                endOfGameActivityIntent.putExtra("time", time.getText().toString());
+                endOfGameActivityIntent.putExtra("size", Integer.toString(battleFieldSize));
+                startActivity(endOfGameActivityIntent);
+            }
+        };
+
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -229,19 +241,22 @@ public class BattleFieldActivity extends AppCompatActivity {
                     if (!clickable.containsValue(true)) {
                         clickable.clear();
 
-                        Intent endOfGameActivityIntent= new Intent(BattleFieldActivity.this, EndOfGameActivity.class);
-                        endOfGameActivityIntent.putExtra("score", Integer.toString(score));
-                        endOfGameActivityIntent.putExtra("step", Integer.toString(stepCounter));
-                        endOfGameActivityIntent.putExtra("time", time.getText().toString());
-                        endOfGameActivityIntent.putExtra("size", Integer.toString(battleFieldSize));
-                        startActivity(endOfGameActivityIntent);
-
                         userRecord = Integer.parseInt(test1.getText().toString());
                         Log.d(Data.getLOG_TAG(), "All flags is plipped");
                         back.setVisibility(View.VISIBLE);
                         timer.cancel();
                         sqLiteTableManager.insertIntoStatisticTable(null,null,null, Integer.toString(battleFieldSize), time.getText().toString(), stepCounter, score, Data.getCurrentDate());
                         Log.d(Data.getLOG_TAG(), "user record = " + userRecord);
+
+//                        Intent endOfGameActivityIntent= new Intent(BattleFieldActivity.this, EndOfGameActivity.class);
+//                        endOfGameActivityIntent.putExtra("score", Integer.toString(score));
+//                        endOfGameActivityIntent.putExtra("step", Integer.toString(stepCounter));
+//                        endOfGameActivityIntent.putExtra("time", time.getText().toString());
+//                        endOfGameActivityIntent.putExtra("size", Integer.toString(battleFieldSize));
+//                        startActivity(endOfGameActivityIntent);
+
+                        delayedIntent();
+
                         if (userRecord < topRecord) {
                             test2.setText("" + userRecord);
                             sqLiteTableManager.insertIntoRecordTable(null,null,null, Integer.toString(battleFieldSize), time.getText().toString(), stepCounter, score, Data.getCurrentDate());
@@ -450,6 +465,18 @@ public class BattleFieldActivity extends AppCompatActivity {
         thread.start();
     }
 
+    public void delayedIntent(){
+        Thread thread = new Thread(new Runnable() {
+            Message msg;
+            @Override
+            public void run() {
+                msg = handlerIntent.obtainMessage();
+                handlerIntent.sendMessageDelayed(msg, 1000);
+            }
+        });
+        thread.start();
+    }
+
     //region Private fields
     private ArrayList<ImageButton> imageButtonArrayList;
     private ArrayList<FlipView> flipViews;
@@ -462,6 +489,7 @@ public class BattleFieldActivity extends AppCompatActivity {
 
     private Handler handler;
     private Handler handlerTime;
+    private Handler handlerIntent;
     private HashMap<Integer, Boolean> clickable;
 
     private LinearLayout basicLayout;

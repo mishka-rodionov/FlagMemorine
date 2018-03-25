@@ -47,13 +47,11 @@
                 android:layout_weight="1"
                 android:text="@string/user_country" />
 
-            <EditText
-                android:id="@+id/userCountry"
+            <Spinner
+                android:id="@+id/spinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="textPersonName" />
+                android:layout_weight="1" />
 
         </LinearLayout>
 
@@ -62,6 +60,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/apply_button" />
+
+        <EditText
+            android:id="@+id/userCountry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPersonName" />
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

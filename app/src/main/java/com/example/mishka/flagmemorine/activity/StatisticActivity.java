@@ -66,28 +66,68 @@ public class StatisticActivity extends AppCompatActivity {
         adapter = new CRecyclerViewAdapter(Player.getPlayers());
         recyclerView.setAdapter(adapter);
         xS = (ToggleButton) findViewById(R.id.xsTB);
+        S = (ToggleButton) findViewById(R.id.sTB);
+        M = (ToggleButton) findViewById(R.id.mTB);
+        L = (ToggleButton) findViewById(R.id.lTB);
+        xL = (ToggleButton) findViewById(R.id.xlTB);
+        xxL = (ToggleButton) findViewById(R.id.xxlTB);
 
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switch (v.getId()){
                     case R.id.xsTB:
-                        Player.clearPlayers();
-                        ArrayList<String> pl = sqLiteTableManager.getGroup(Data.getXsmallSize(),"time");
-                        for (int i = 0; i < pl.size(); i++) {
-                            Player.addPlayer(new Player(sqLiteTableManager.getName() == null ? sqLiteTableManager.getLogin() : sqLiteTableManager.getName(),
-                                    sqLiteTableManager.getCountry() == null ? "Olympics" : sqLiteTableManager.getCountry(),
-                                    Integer.parseInt(pl.get(i)),0, 0, 0, 0, 0));
-                        }
-                        Player.sortPlayers();
-                        adapter = new CRecyclerViewAdapter(Player.getPlayers());
-                        recyclerView.setAdapter(adapter);
+//                        Player.clearPlayers();
+//                        ArrayList<String> pl = sqLiteTableManager.getGroup(Data.getXsmallSize(),"time");
+//                        for (int i = 0; i < pl.size(); i++) {
+//                            Player.addPlayer(new Player(sqLiteTableManager.getName() == null ? sqLiteTableManager.getLogin() : sqLiteTableManager.getName(),
+//                                    sqLiteTableManager.getCountry() == null ? "Olympics" : sqLiteTableManager.getCountry(),
+//                                    Integer.parseInt(pl.get(i)),0, 0, 0, 0, 0));
+//                        }
+//                        Player.sortPlayers();
+//                        adapter = new CRecyclerViewAdapter(Player.getPlayers());
+//                        recyclerView.setAdapter(adapter);
+                        specificate(Data.getXsmallSize());
+                        break;
+                    case R.id.sTB:
+                        specificate(Data.getSmallSize());
+                        break;
+                    case R.id.mTB:
+                        specificate(Data.getMediumSize());
+                        break;
+                    case R.id.lTB:
+                        specificate(Data.getLargeSize());
+                        break;
+                    case R.id.xlTB:
+                        specificate(Data.getXlargeSize());
+                        break;
+                    case R.id.xxlTB:
+                        specificate(Data.getXxlargeSize());
                         break;
                 }
             }
         };
         xS.setOnClickListener(onClickListener);
+        S.setOnClickListener(onClickListener);
+        M.setOnClickListener(onClickListener);
+        L.setOnClickListener(onClickListener);
+        xL.setOnClickListener(onClickListener);
+        xxL.setOnClickListener(onClickListener);
 
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void specificate(Integer size) {
+        Player.clearPlayers();
+        ArrayList<String> pl = sqLiteTableManager.getGroup(size,"time");
+        for (int i = 0; i < pl.size(); i++) {
+            Player.addPlayer(new Player(sqLiteTableManager.getName() == null ? sqLiteTableManager.getLogin() : sqLiteTableManager.getName(),
+                    sqLiteTableManager.getCountry() == null ? "Olympics" : sqLiteTableManager.getCountry(),
+                    Integer.parseInt(pl.get(i)),0, 0, 0, 0, 0));
+        }
+        Player.sortPlayers();
+        adapter = new CRecyclerViewAdapter(Player.getPlayers());
+        recyclerView.setAdapter(adapter);
     }
 
     private SqLiteTableManager sqLiteTableManager;
@@ -95,4 +135,9 @@ public class StatisticActivity extends AppCompatActivity {
     private LinearLayoutManager llm;
     private CRecyclerViewAdapter adapter;
     private ToggleButton xS;
+    private ToggleButton S;
+    private ToggleButton M;
+    private ToggleButton L;
+    private ToggleButton xL;
+    private ToggleButton xxL;
 }
