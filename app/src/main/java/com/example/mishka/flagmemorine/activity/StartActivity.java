@@ -19,6 +19,8 @@ import com.example.mishka.flagmemorine.logic.Data;
 import com.example.mishka.flagmemorine.service.DBHelper;
 import com.example.mishka.flagmemorine.service.SqLiteTableManager;
 
+import java.text.DateFormat;
+
 public class StartActivity extends AppCompatActivity {
 
     @Override

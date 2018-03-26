@@ -10,6 +10,7 @@ import java.util.List;
 
 /**
  * Created by mishka on 15/03/18.
+ * Класс для хранения данных игрока.
  */
 
 public class Player {

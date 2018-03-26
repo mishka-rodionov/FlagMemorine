@@ -1,18 +1,12 @@
 package com.example.mishka.flagmemorine.activity;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-import android.widget.AbsListView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.ToggleButton;
 
 import com.example.mishka.flagmemorine.R;
@@ -20,10 +14,10 @@ import com.example.mishka.flagmemorine.cView.CRecyclerViewAdapter;
 import com.example.mishka.flagmemorine.logic.CountryList;
 import com.example.mishka.flagmemorine.logic.Data;
 import com.example.mishka.flagmemorine.logic.Player;
-import com.example.mishka.flagmemorine.service.DBHelper;
 import com.example.mishka.flagmemorine.service.SqLiteTableManager;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class StatisticActivity extends AppCompatActivity {
 
@@ -32,10 +26,12 @@ public class StatisticActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistic);
+        // Инициализация менеджера по работе с БД.
         sqLiteTableManager = new SqLiteTableManager(StatisticActivity.this);
 
         CountryList.loadCountryMap();
 
+        // Инициализация контейнера плейеров.
         Player.initPlayers();
         Player player1 = new Player(sqLiteTableManager.getName() == null ? sqLiteTableManager.getLogin() : sqLiteTableManager.getName(),
                 sqLiteTableManager.getCountry() == null ? "Olympics" : sqLiteTableManager.getCountry(),
@@ -59,12 +55,15 @@ public class StatisticActivity extends AppCompatActivity {
 
         Player.sortPlayers();
 
+        // Инициализация структуры отображения данных
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
 //        recyclerView.setHasFixedSize(true);
+        // Менеджер компоновки для данного активити.
         llm = new LinearLayoutManager(StatisticActivity.this);
         recyclerView.setLayoutManager(llm);
         adapter = new CRecyclerViewAdapter(Player.getPlayers());
         recyclerView.setAdapter(adapter);
+
         xS = (ToggleButton) findViewById(R.id.xsTB);
         S = (ToggleButton) findViewById(R.id.sTB);
         M = (ToggleButton) findViewById(R.id.mTB);
@@ -77,36 +76,31 @@ public class StatisticActivity extends AppCompatActivity {
             public void onClick(View v) {
                 switch (v.getId()){
                     case R.id.xsTB:
-//                        Player.clearPlayers();
-//                        ArrayList<String> pl = sqLiteTableManager.getGroup(Data.getXsmallSize(),"time");
-//                        for (int i = 0; i < pl.size(); i++) {
-//                            Player.addPlayer(new Player(sqLiteTableManager.getName() == null ? sqLiteTableManager.getLogin() : sqLiteTableManager.getName(),
-//                                    sqLiteTableManager.getCountry() == null ? "Olympics" : sqLiteTableManager.getCountry(),
-//                                    Integer.parseInt(pl.get(i)),0, 0, 0, 0, 0));
-//                        }
-//                        Player.sortPlayers();
-//                        adapter = new CRecyclerViewAdapter(Player.getPlayers());
-//                        recyclerView.setAdapter(adapter);
-                        specificate(Data.getXsmallSize());
+                        specification(Data.getXsmallSize());
+                        String date = Data.getCurrentDate();
+//                        LocalDateTime dateTime = Loca;
                         break;
                     case R.id.sTB:
-                        specificate(Data.getSmallSize());
+                        specification(Data.getSmallSize());
                         break;
                     case R.id.mTB:
-                        specificate(Data.getMediumSize());
+                        specification(Data.getMediumSize());
                         break;
                     case R.id.lTB:
-                        specificate(Data.getLargeSize());
+                        specification(Data.getLargeSize());
                         break;
                     case R.id.xlTB:
-                        specificate(Data.getXlargeSize());
+                        specification(Data.getXlargeSize());
                         break;
                     case R.id.xxlTB:
-                        specificate(Data.getXxlargeSize());
+                        specification(Data.getXxlargeSize());
                         break;
                 }
             }
         };
+
+        // Установка слушателя на кнопки, с помощью которых можно выбрать результаты конкретно для
+        // определенного игрового поля.
         xS.setOnClickListener(onClickListener);
         S.setOnClickListener(onClickListener);
         M.setOnClickListener(onClickListener);
@@ -116,8 +110,11 @@ public class StatisticActivity extends AppCompatActivity {
 
     }
 
+    // 24.03.18
+    // Метод детализации отображения статистических данных. Ограничивает выборку, используя критерий
+    // размера поля.
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void specificate(Integer size) {
+    private void specification(Integer size) {
         Player.clearPlayers();
         ArrayList<String> pl = sqLiteTableManager.getGroup(size,"time");
         for (int i = 0; i < pl.size(); i++) {

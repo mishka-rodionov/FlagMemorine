@@ -220,12 +220,12 @@ public class Data {
     //endregion
 
     public static String getCurrentDate(){
-        return "" + Calendar.getInstance().get(Calendar.YEAR) + ":"
-                + Calendar.getInstance().get(Calendar.MONTH)+ ":"
-                + Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + ":"
+        return "" + Calendar.getInstance().get(Calendar.YEAR) + "-"
+                + Calendar.getInstance().get(Calendar.MONTH)+ "-"
+                + Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "T"
                 + Calendar.getInstance().get(Calendar.HOUR_OF_DAY) + ":"
                 + Calendar.getInstance().get(Calendar.MINUTE) + ":"
-                + Calendar.getInstance().get(Calendar.SECOND);
+                + Calendar.getInstance().get(Calendar.SECOND) + "Z";
     }
 
     //region Private static fields
