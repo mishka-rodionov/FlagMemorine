@@ -3,6 +3,7 @@ package com.example.mishka.flagmemorine.logic;
 import com.example.mishka.flagmemorine.R;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 /**
  * Created by Lab1 on 22.01.2018.
@@ -220,12 +221,19 @@ public class Data {
     //endregion
 
     public static String getCurrentDate(){
-        return "" + Calendar.getInstance().get(Calendar.YEAR) + "-"
-                + Calendar.getInstance().get(Calendar.MONTH)+ "-"
-                + Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "T"
-                + Calendar.getInstance().get(Calendar.HOUR_OF_DAY) + ":"
-                + Calendar.getInstance().get(Calendar.MINUTE) + ":"
-                + Calendar.getInstance().get(Calendar.SECOND) + "Z";
+        Calendar calendar = new GregorianCalendar();
+        return calendar.get(Calendar.YEAR) + "-"
+                + Calendar.getInstance().get(Calendar.MONTH + 1) + "-"
+                + calendar.get(Calendar.DAY_OF_MONTH) + " "
+                + calendar.get(Calendar.HOUR_OF_DAY) + ":"
+                + calendar.get(Calendar.MINUTE) + ":"
+                + calendar.get(Calendar.SECOND) + "";
+//        return "" + Calendar.getInstance().get(Calendar.YEAR) + "-"
+//                + Calendar.getInstance().get(Calendar.MONTH) + "-"
+//                + Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + " "
+//                + Calendar.getInstance().get(Calendar.HOUR_OF_DAY) + ":"
+//                + Calendar.getInstance().get(Calendar.MINUTE) + ":"
+//                + Calendar.getInstance().get(Calendar.SECOND) + "";
     }
 
     //region Private static fields

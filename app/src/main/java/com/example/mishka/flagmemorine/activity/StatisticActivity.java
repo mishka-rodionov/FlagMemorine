@@ -1,11 +1,13 @@
 package com.example.mishka.flagmemorine.activity;
 
+import android.annotation.TargetApi;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ToggleButton;
 
@@ -16,12 +18,19 @@ import com.example.mishka.flagmemorine.logic.Data;
 import com.example.mishka.flagmemorine.logic.Player;
 import com.example.mishka.flagmemorine.service.SqLiteTableManager;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 public class StatisticActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
+    @TargetApi(26)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,14 +80,30 @@ public class StatisticActivity extends AppCompatActivity {
         xL = (ToggleButton) findViewById(R.id.xlTB);
         xxL = (ToggleButton) findViewById(R.id.xxlTB);
 
+
         View.OnClickListener onClickListener = new View.OnClickListener() {
+            @TargetApi(26)
             @Override
             public void onClick(View v) {
                 switch (v.getId()){
                     case R.id.xsTB:
                         specification(Data.getXsmallSize());
                         String date = Data.getCurrentDate();
-//                        LocalDateTime dateTime = Loca;
+                        DateFormat format = new SimpleDateFormat("yyyy-M-dd HH:mm:ss", Locale.CANADA);
+                        Date curr = new Date();
+                        try {
+                            curr = format.parse(date);
+                            Log.i(Data.getLOG_TAG(), "onClick: must be " + date);
+                            Log.i(Data.getLOG_TAG(), "onClick: having  " + curr.toString());
+                        }catch (ParseException e){
+                            e.printStackTrace();
+                            Log.i(Data.getLOG_TAG(), "onClick exception: " + "!!!!!!!!!!!!!!!!!");
+                        }
+                        Date newCurr = new Date();
+//                        if (curr.before(newCurr)){
+                            Log.i(Data.getLOG_TAG(), "onClick: YEAH " + Calendar.MARCH);
+                            Log.i(Data.getLOG_TAG(), "onClick: YEAH2 " + Calendar.getInstance().get(Calendar.MONTH));
+//                        }
                         break;
                     case R.id.sTB:
                         specification(Data.getSmallSize());
