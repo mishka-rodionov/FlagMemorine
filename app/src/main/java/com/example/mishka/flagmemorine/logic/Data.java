@@ -3,6 +3,7 @@ package com.example.mishka.flagmemorine.logic;
 import com.example.mishka.flagmemorine.R;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
@@ -218,22 +219,18 @@ public class Data {
 
     public static String getDbUserInfoTable() { return dbUserInfoTable; }
 
+    public static int getMillisInHour() {
+        return millisInHour;
+    }
+
+    public static int getMillisInDay() {
+        return millisInDay;
+    }
+
     //endregion
 
     public static String getCurrentDate(){
-        Calendar calendar = new GregorianCalendar();
-        return calendar.get(Calendar.YEAR) + "-"
-                + Calendar.getInstance().get(Calendar.MONTH + 1) + "-"
-                + calendar.get(Calendar.DAY_OF_MONTH) + " "
-                + calendar.get(Calendar.HOUR_OF_DAY) + ":"
-                + calendar.get(Calendar.MINUTE) + ":"
-                + calendar.get(Calendar.SECOND) + "";
-//        return "" + Calendar.getInstance().get(Calendar.YEAR) + "-"
-//                + Calendar.getInstance().get(Calendar.MONTH) + "-"
-//                + Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + " "
-//                + Calendar.getInstance().get(Calendar.HOUR_OF_DAY) + ":"
-//                + Calendar.getInstance().get(Calendar.MINUTE) + ":"
-//                + Calendar.getInstance().get(Calendar.SECOND) + "";
+        return new Date().toString();
     }
 
     //region Private static fields
@@ -265,6 +262,8 @@ public class Data {
     private static String login = "Login001";
     private static String userCountry = "Russia";
 
+    private static int millisInHour = 3600000;
+    private static int millisInDay = millisInHour * 24;
     private static int dbVersion = 1;
     private static int xsmallSize = 8;
     private static int smallSize = 12;

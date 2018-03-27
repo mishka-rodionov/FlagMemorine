@@ -9,7 +9,13 @@ import android.util.Log;
 import com.example.mishka.flagmemorine.activity.StartActivity;
 import com.example.mishka.flagmemorine.logic.Data;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+import java.util.logging.SimpleFormatter;
 
 /**
  * Created by Lab1 on 19.03.2018.
@@ -283,6 +289,30 @@ public class SqLiteTableManager {
         }
         cursor.close();
         return userCountry;
+    }
+
+    public String getDate(){
+        cursor = sqLiteDatabase.query(Data.getDbStatisticTable(), null, null, null, null, null, " id DESC");
+        String username = "";
+        Date lastDate = new Date(); //Определяем текущую дату и время
+        Date fromBd = new Date();
+        DateFormat format = new SimpleDateFormat("EEE MMM d HH:mm:ss z yyyy", Locale.ENGLISH);
+        if (cursor.moveToFirst()){
+            do{
+                try{
+                    fromBd = format.parse(cursor.getString(cursor.getColumnIndex(Data.getDbDateColumn()))); // Берем дату из БД
+                }catch (ParseException e){
+                    e.printStackTrace();
+                }
+                if ((lastDate.getTime() - fromBd.getTime()) < Data.getMillisInHour()) //Если их разница меньше часа, то нужно вывести все счета за это время
+                {
+
+                }
+            }while (cursor.moveToNext());
+            username = cursor.getString(cursor.getColumnIndex(Data.getDbUserNameColumn()));
+        }
+        cursor.close();
+        return username;
     }
 
     public Integer getScore(Integer size){

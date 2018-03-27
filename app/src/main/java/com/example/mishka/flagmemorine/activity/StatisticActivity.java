@@ -91,6 +91,11 @@ public class StatisticActivity extends AppCompatActivity {
                         String date = Data.getCurrentDate();
                         DateFormat format = new SimpleDateFormat("yyyy-M-dd HH:mm:ss", Locale.CANADA);
                         Date curr = new Date();
+                        for (int i = 0; i < 10000; i++) {
+                            for (int j = 0; j < 250; j++) {
+
+                            }
+                        }
                         try {
                             curr = format.parse(date);
                             Log.i(Data.getLOG_TAG(), "onClick: must be " + date);
@@ -101,7 +106,8 @@ public class StatisticActivity extends AppCompatActivity {
                         }
                         Date newCurr = new Date();
 //                        if (curr.before(newCurr)){
-                            Log.i(Data.getLOG_TAG(), "onClick: YEAH " + Calendar.MARCH);
+                            Log.i(Data.getLOG_TAG(), "onClick: YEAH time" + (newCurr.getTime() - curr.getTime()));
+                            Log.i(Data.getLOG_TAG(), "onClick: YEAH " + newCurr);
                             Log.i(Data.getLOG_TAG(), "onClick: YEAH2 " + Calendar.getInstance().get(Calendar.MONTH));
 //                        }
                         break;
