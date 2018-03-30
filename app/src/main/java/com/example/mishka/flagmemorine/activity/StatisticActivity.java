@@ -80,6 +80,9 @@ public class StatisticActivity extends AppCompatActivity {
         xL = (ToggleButton) findViewById(R.id.xlTB);
         xxL = (ToggleButton) findViewById(R.id.xxlTB);
 
+        hour = (ToggleButton) findViewById(R.id.hourTB);
+        day = (ToggleButton) findViewById(R.id.dayTB);
+        all = (ToggleButton) findViewById(R.id.allTB);
 
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @TargetApi(26)
@@ -130,6 +133,23 @@ public class StatisticActivity extends AppCompatActivity {
             }
         };
 
+        View.OnClickListener timeToggleButton = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()){
+                    case R.id.hourTB:
+
+                        break;
+                    case R.id.dayTB:
+
+                        break;
+                    case R.id.allTB:
+
+                        break;
+                }
+            }
+        };
+
         // Установка слушателя на кнопки, с помощью которых можно выбрать результаты конкретно для
         // определенного игрового поля.
         xS.setOnClickListener(onClickListener);
@@ -168,4 +188,7 @@ public class StatisticActivity extends AppCompatActivity {
     private ToggleButton L;
     private ToggleButton xL;
     private ToggleButton xxL;
+    private ToggleButton hour;
+    private ToggleButton day;
+    private ToggleButton all;
 }

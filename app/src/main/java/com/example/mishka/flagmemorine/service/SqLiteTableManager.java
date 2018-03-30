@@ -291,9 +291,9 @@ public class SqLiteTableManager {
         return userCountry;
     }
 
-    public String getDate(){
+    public ArrayList<String> getDate(){
         cursor = sqLiteDatabase.query(Data.getDbStatisticTable(), null, null, null, null, null, " id DESC");
-        String username = "";
+        ArrayList<String> scores = new ArrayList<String>();
         Date lastDate = new Date(); //Определяем текущую дату и время
         Date fromBd = new Date();
         DateFormat format = new SimpleDateFormat("EEE MMM d HH:mm:ss z yyyy", Locale.ENGLISH);
@@ -306,13 +306,12 @@ public class SqLiteTableManager {
                 }
                 if ((lastDate.getTime() - fromBd.getTime()) < Data.getMillisInHour()) //Если их разница меньше часа, то нужно вывести все счета за это время
                 {
-
+                    scores.add(cursor.getString(cursor.getColumnIndex(Data.getDbScoreColumn())));
                 }
             }while (cursor.moveToNext());
-            username = cursor.getString(cursor.getColumnIndex(Data.getDbUserNameColumn()));
         }
         cursor.close();
-        return username;
+        return scores;
     }
 
     public Integer getScore(Integer size){
