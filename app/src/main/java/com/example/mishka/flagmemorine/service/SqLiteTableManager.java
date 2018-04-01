@@ -29,6 +29,10 @@ public class SqLiteTableManager {
         sqLiteDatabase = dbHelper.getWritableDatabase();
     }
 
+    public void dropTable(String tableName){
+        sqLiteDatabase.execSQL("drop table " + tableName);
+    }
+
     public void createTableStatistic(){
         sqLiteDatabase.execSQL("create table if not exists " + Data.getDbStatisticTable()
                 + " ("
@@ -282,7 +286,8 @@ public class SqLiteTableManager {
     }
 
     public String getCountry(){
-        cursor = sqLiteDatabase.query(Data.getDbUserInfoTable(), null, null, null, null, null, null);
+        cursor = sqLiteDatabase.query(Data.getDbUserInfoTable(), null, null,
+                null, null, null, null);
         String userCountry = "";
         if (cursor.moveToLast()){
             userCountry = cursor.getString(cursor.getColumnIndex(Data.getDbCountryColumn()));
@@ -292,7 +297,8 @@ public class SqLiteTableManager {
     }
 
     public ArrayList<String> getDate(){
-        cursor = sqLiteDatabase.query(Data.getDbStatisticTable(), null, null, null, null, null, " id DESC");
+        cursor = sqLiteDatabase.query(Data.getDbStatisticTable(), null, null,
+                null, null, null, " id DESC");
         ArrayList<String> scores = new ArrayList<String>();
         Date lastDate = new Date(); //Определяем текущую дату и время
         Date fromBd = new Date();
@@ -327,19 +333,35 @@ public class SqLiteTableManager {
         return scoreCount;
     }
 
-    public ArrayList<String> getGroup(Integer size, String time){
+    public ArrayList<String> getGroup(Integer size, Long period){
         ArrayList<String> rows = new ArrayList<>();
+        Date lastDate = new Date(); //Определяем текущую дату и время
+        Date fromBd = new Date();
+        DateFormat format = new SimpleDateFormat("EEE MMM d HH:mm:ss z yyyy", Locale.ENGLISH);
         cursor = sqLiteDatabase.query(
                 Data.getDbStatisticTable(),
                 null,
                 Data.getDbBFColumn() + " = " + size,
-                null, null, null, null);
-        Integer scoreCount = 0;
+                null, null, null, "id DESC");
         if (cursor.moveToFirst()){
             do {
-                scoreCount += Integer.parseInt(cursor.getString(cursor.getColumnIndex(Data.getDbScoreColumn())));
-                rows.add(cursor.getString(cursor.getColumnIndex(Data.getDbScoreColumn())));
-                Log.i(Data.getLOG_TAG(), "rows: " + rows.get(rows.size() - 1));
+                try{
+                    fromBd = format.parse(cursor.getString(cursor.getColumnIndex(Data.getDbDateColumn()))); // Берем дату из БД
+                }catch (ParseException e){
+                    e.printStackTrace(System.out);
+                    Log.i(Data.getLOG_TAG(), "getGroup: exception occured!!!!!!!!!!!!!");
+                }
+                Log.i(Data.getLOG_TAG(), "period: " + period);
+                Log.i(Data.getLOG_TAG(), "exite period: " + (lastDate.getTime() - fromBd.getTime()));
+                if ((lastDate.getTime() - fromBd.getTime()) < period) //Если их разница меньше часа, то нужно вывести все счета за это время
+                {
+                    rows.add(cursor.getString(cursor.getColumnIndex(Data.getDbScoreColumn())));
+                    Log.i(Data.getLOG_TAG(), "rows: " + rows.get(rows.size() - 1));
+                    Log.i(Data.getLOG_TAG(), "period: " + period);
+                    Log.i(Data.getLOG_TAG(), "last date: " + lastDate.getTime());
+                    Log.i(Data.getLOG_TAG(), "from db date: " + fromBd.getTime());
+                    Log.i(Data.getLOG_TAG(), "exite period: " + (lastDate.getTime() - fromBd.getTime()));
+                }
             }
             while (cursor.moveToNext());
         }

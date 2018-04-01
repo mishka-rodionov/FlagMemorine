@@ -90,60 +90,63 @@ public class StatisticActivity extends AppCompatActivity {
             public void onClick(View v) {
                 switch (v.getId()){
                     case R.id.xsTB:
-                        specification(Data.getXsmallSize());
-                        String date = Data.getCurrentDate();
-                        DateFormat format = new SimpleDateFormat("yyyy-M-dd HH:mm:ss", Locale.CANADA);
-                        Date curr = new Date();
-                        for (int i = 0; i < 10000; i++) {
-                            for (int j = 0; j < 250; j++) {
-
-                            }
+                        if (hour.isChecked()){
+                            specification(Data.getXsmallSize(), Data.getMillisInHour());
+                        }else if (day.isChecked()){
+                            specification(Data.getXsmallSize(), Data.getMillisInDay());
+                        }else {
+                            Date currentDate = new Date();
+                            Long currentTime = currentDate.getTime();
+                            Log.i(Data.getLOG_TAG(), "onClick current time: " + currentTime);
+                            specification(Data.getXsmallSize(), currentTime);
                         }
-                        try {
-                            curr = format.parse(date);
-                            Log.i(Data.getLOG_TAG(), "onClick: must be " + date);
-                            Log.i(Data.getLOG_TAG(), "onClick: having  " + curr.toString());
-                        }catch (ParseException e){
-                            e.printStackTrace();
-                            Log.i(Data.getLOG_TAG(), "onClick exception: " + "!!!!!!!!!!!!!!!!!");
-                        }
-                        Date newCurr = new Date();
-//                        if (curr.before(newCurr)){
-                            Log.i(Data.getLOG_TAG(), "onClick: YEAH time" + (newCurr.getTime() - curr.getTime()));
-                            Log.i(Data.getLOG_TAG(), "onClick: YEAH " + newCurr);
-                            Log.i(Data.getLOG_TAG(), "onClick: YEAH2 " + Calendar.getInstance().get(Calendar.MONTH));
-//                        }
                         break;
                     case R.id.sTB:
-                        specification(Data.getSmallSize());
+//                        specification(Data.getSmallSize());
                         break;
                     case R.id.mTB:
-                        specification(Data.getMediumSize());
+//                        specification(Data.getMediumSize());
                         break;
                     case R.id.lTB:
-                        specification(Data.getLargeSize());
+//                        specification(Data.getLargeSize());
                         break;
                     case R.id.xlTB:
-                        specification(Data.getXlargeSize());
+//                        specification(Data.getXlargeSize());
                         break;
                     case R.id.xxlTB:
-                        specification(Data.getXxlargeSize());
+//                        specification(Data.getXxlargeSize());
                         break;
                 }
             }
         };
 
-        View.OnClickListener timeToggleButton = new View.OnClickListener() {
+        View.OnClickListener periodToggleButton = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switch (v.getId()){
                     case R.id.hourTB:
-
+                        if (hour.isChecked()){
+                            day.setChecked(false);
+                            all.setChecked(false);
+                        }else{
+                            all.setChecked(true);
+                        }
                         break;
                     case R.id.dayTB:
-
+                        if (day.isChecked()){
+                            hour.setChecked(false);
+                            all.setChecked(false);
+                        }else{
+                            all.setChecked(true);
+                        }
                         break;
                     case R.id.allTB:
+                        if (all.isChecked()){
+                            day.setChecked(false);
+                            hour.setChecked(false);
+                        }else {
+                            hour.setChecked(true);
+                        }
 
                         break;
                 }
@@ -159,17 +162,22 @@ public class StatisticActivity extends AppCompatActivity {
         xL.setOnClickListener(onClickListener);
         xxL.setOnClickListener(onClickListener);
 
+        hour.setOnClickListener(periodToggleButton);
+        day.setOnClickListener(periodToggleButton);
+        all.setOnClickListener(periodToggleButton);
+
     }
 
     // 24.03.18
     // Метод детализации отображения статистических данных. Ограничивает выборку, используя критерий
     // размера поля.
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void specification(Integer size) {
+    private void specification(Integer size, Long period) {
         Player.clearPlayers();
-        ArrayList<String> pl = sqLiteTableManager.getGroup(size,"time");
+        ArrayList<String> pl = sqLiteTableManager.getGroup(size, period);
         for (int i = 0; i < pl.size(); i++) {
-            Player.addPlayer(new Player(sqLiteTableManager.getName() == null ? sqLiteTableManager.getLogin() : sqLiteTableManager.getName(),
+            Player.addPlayer(new Player(sqLiteTableManager.getName() == null ?
+                    sqLiteTableManager.getLogin() : sqLiteTableManager.getName(),
                     sqLiteTableManager.getCountry() == null ? "Olympics" : sqLiteTableManager.getCountry(),
                     Integer.parseInt(pl.get(i)),0, 0, 0, 0, 0));
         }

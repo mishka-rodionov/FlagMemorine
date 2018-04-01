@@ -219,11 +219,11 @@ public class Data {
 
     public static String getDbUserInfoTable() { return dbUserInfoTable; }
 
-    public static int getMillisInHour() {
+    public static Long getMillisInHour() {
         return millisInHour;
     }
 
-    public static int getMillisInDay() {
+    public static Long getMillisInDay() {
         return millisInDay;
     }
 
@@ -262,8 +262,8 @@ public class Data {
     private static String login = "Login001";
     private static String userCountry = "Russia";
 
-    private static int millisInHour = 3600000;
-    private static int millisInDay = millisInHour * 24;
+    private static Long millisInHour = 3600000l;
+    private static Long millisInDay = 84000000l;
     private static int dbVersion = 1;
     private static int xsmallSize = 8;
     private static int smallSize = 12;

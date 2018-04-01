@@ -235,6 +235,7 @@ public class StartActivity extends AppCompatActivity {
         } else if (savedVersionCode == DOESNT_EXIST) {
             Log.d(Data.getLOG_TAG(), "savedVersionCode == DOESNT_EXIST");
             //Создание таблиц при первом запуске приложения
+            sqLiteTableManager.dropTable(Data.getDbStatisticTable());
             sqLiteTableManager.createTableStatistic();
             sqLiteTableManager.createTableRecord();
             sqLiteTableManager.createTableUserInfo();
@@ -287,5 +288,5 @@ public class StartActivity extends AppCompatActivity {
     private DBHelper dbHelper = new DBHelper(StartActivity.this);
 
     private String size = "36";
-    private final String PREFS_NAME = "MyPrefsFile26";
+    private final String PREFS_NAME = "MyPrefsFile102";
 }

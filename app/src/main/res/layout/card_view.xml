@@ -36,9 +36,17 @@
                 android:id="@+id/person_age"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/person_name"
-                android:layout_toRightOf="@id/person_photo"
+                android:layout_alignStart="@+id/person_name"
+                android:layout_below="@+id/person_name"
                 android:text="test" />
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/person_name"
+                android:layout_below="@+id/person_name"
+                android:text="TextView" />
 
             <ImageView
                 android:id="@+id/graph"
