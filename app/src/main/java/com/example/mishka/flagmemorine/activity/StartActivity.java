@@ -235,7 +235,7 @@ public class StartActivity extends AppCompatActivity {
         } else if (savedVersionCode == DOESNT_EXIST) {
             Log.d(Data.getLOG_TAG(), "savedVersionCode == DOESNT_EXIST");
             //Создание таблиц при первом запуске приложения
-            sqLiteTableManager.dropTable(Data.getDbStatisticTable());
+//            sqLiteTableManager.dropTable(Data.getDbStatisticTable());
             sqLiteTableManager.createTableStatistic();
             sqLiteTableManager.createTableRecord();
             sqLiteTableManager.createTableUserInfo();

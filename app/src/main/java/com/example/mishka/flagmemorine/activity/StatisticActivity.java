@@ -42,27 +42,27 @@ public class StatisticActivity extends AppCompatActivity {
 
         // Инициализация контейнера плейеров.
         Player.initPlayers();
-        Player player1 = new Player(sqLiteTableManager.getName() == null ? sqLiteTableManager.getLogin() : sqLiteTableManager.getName(),
-                sqLiteTableManager.getCountry() == null ? "Olympics" : sqLiteTableManager.getCountry(),
-                sqLiteTableManager.getScore(Data.getXsmallSize()),
-                sqLiteTableManager.getScore(Data.getSmallSize()),
-                sqLiteTableManager.getScore(Data.getMediumSize()),
-                sqLiteTableManager.getScore(Data.getLargeSize()),
-                sqLiteTableManager.getScore(Data.getXlargeSize()),
-                sqLiteTableManager.getScore(Data.getXxlargeSize()));
-        Player player2 = new Player("Petya", "Ukraine",  10, 0, 0, 0 ,0 ,0);
-        Player player3 = new Player("Vasya", "Belarus",  20, 10, 0, 0 ,0 ,0);
-        Player player4 = new Player("Borya", "Armenia",  60, 0, 0, 0 ,0 ,0);
-        Player player5 = new Player("Fedya", "Azerbaijan",  30, 10, 0, 0 ,0 ,0);
-        Player player6 = new Player("Kolya", "Kazakhstan",  100, 0, 0, 0 ,0 ,0);
-        Player.addPlayer(player1);
-        Player.addPlayer(player2);
-        Player.addPlayer(player3);
-        Player.addPlayer(player4);
-        Player.addPlayer(player5);
-        Player.addPlayer(player6);
-
-        Player.sortPlayers();
+//        Player player1 = new Player(sqLiteTableManager.getName() == null ? sqLiteTableManager.getLogin() : sqLiteTableManager.getName(),
+//                sqLiteTableManager.getCountry() == null ? "Olympics" : sqLiteTableManager.getCountry(),
+//                sqLiteTableManager.getScore(Data.getXsmallSize()),
+//                sqLiteTableManager.getScore(Data.getSmallSize()),
+//                sqLiteTableManager.getScore(Data.getMediumSize()),
+//                sqLiteTableManager.getScore(Data.getLargeSize()),
+//                sqLiteTableManager.getScore(Data.getXlargeSize()),
+//                sqLiteTableManager.getScore(Data.getXxlargeSize()));
+//        Player player2 = new Player("Petya", "Ukraine",  10, 0, 0, 0 ,0 ,0);
+//        Player player3 = new Player("Vasya", "Belarus",  20, 10, 0, 0 ,0 ,0);
+//        Player player4 = new Player("Borya", "Armenia",  60, 0, 0, 0 ,0 ,0);
+//        Player player5 = new Player("Fedya", "Azerbaijan",  30, 10, 0, 0 ,0 ,0);
+//        Player player6 = new Player("Kolya", "Kazakhstan",  100, 0, 0, 0 ,0 ,0);
+//        Player.addPlayer(player1);
+//        Player.addPlayer(player2);
+//        Player.addPlayer(player3);
+//        Player.addPlayer(player4);
+//        Player.addPlayer(player5);
+//        Player.addPlayer(player6);
+//
+//        Player.sortPlayers();
 
         // Инициализация структуры отображения данных
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
@@ -102,19 +102,64 @@ public class StatisticActivity extends AppCompatActivity {
                         }
                         break;
                     case R.id.sTB:
-//                        specification(Data.getSmallSize());
+                        if (hour.isChecked()){
+                            specification(Data.getSmallSize(), Data.getMillisInHour());
+                        }else if (day.isChecked()){
+                            specification(Data.getSmallSize(), Data.getMillisInDay());
+                        }else {
+                            Date currentDate = new Date();
+                            Long currentTime = currentDate.getTime();
+                            Log.i(Data.getLOG_TAG(), "onClick current time: " + currentTime);
+                            specification(Data.getSmallSize(), currentTime);
+                        }
                         break;
                     case R.id.mTB:
-//                        specification(Data.getMediumSize());
+                        if (hour.isChecked()){
+                            specification(Data.getMediumSize(), Data.getMillisInHour());
+                        }else if (day.isChecked()){
+                            specification(Data.getMediumSize(), Data.getMillisInDay());
+                        }else {
+                            Date currentDate = new Date();
+                            Long currentTime = currentDate.getTime();
+                            Log.i(Data.getLOG_TAG(), "onClick current time: " + currentTime);
+                            specification(Data.getMediumSize(), currentTime);
+                        }
                         break;
                     case R.id.lTB:
-//                        specification(Data.getLargeSize());
+                        if (hour.isChecked()){
+                            specification(Data.getLargeSize(), Data.getMillisInHour());
+                        }else if (day.isChecked()){
+                            specification(Data.getLargeSize(), Data.getMillisInDay());
+                        }else {
+                            Date currentDate = new Date();
+                            Long currentTime = currentDate.getTime();
+                            Log.i(Data.getLOG_TAG(), "onClick current time: " + currentTime);
+                            specification(Data.getLargeSize(), currentTime);
+                        }
                         break;
                     case R.id.xlTB:
-//                        specification(Data.getXlargeSize());
+                        if (hour.isChecked()){
+                            specification(Data.getXlargeSize(), Data.getMillisInHour());
+                        }else if (day.isChecked()){
+                            specification(Data.getXlargeSize(), Data.getMillisInDay());
+                        }else {
+                            Date currentDate = new Date();
+                            Long currentTime = currentDate.getTime();
+                            Log.i(Data.getLOG_TAG(), "onClick current time: " + currentTime);
+                            specification(Data.getXlargeSize(), currentTime);
+                        }
                         break;
                     case R.id.xxlTB:
-//                        specification(Data.getXxlargeSize());
+                        if (hour.isChecked()){
+                            specification(Data.getXxlargeSize(), Data.getMillisInHour());
+                        }else if (day.isChecked()){
+                            specification(Data.getXxlargeSize(), Data.getMillisInDay());
+                        }else {
+                            Date currentDate = new Date();
+                            Long currentTime = currentDate.getTime();
+                            Log.i(Data.getLOG_TAG(), "onClick current time: " + currentTime);
+                            specification(Data.getXxlargeSize(), currentTime);
+                        }
                         break;
                 }
             }
@@ -165,6 +210,11 @@ public class StatisticActivity extends AppCompatActivity {
         hour.setOnClickListener(periodToggleButton);
         day.setOnClickListener(periodToggleButton);
         all.setOnClickListener(periodToggleButton);
+
+        //Start conditions
+        all.setChecked(true);
+        xS.setChecked(true);
+        specification(Data.getXsmallSize(), new Date().getTime());
 
     }
 
