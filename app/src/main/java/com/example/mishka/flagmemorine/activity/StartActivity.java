@@ -288,5 +288,5 @@ public class StartActivity extends AppCompatActivity {
     private DBHelper dbHelper = new DBHelper(StartActivity.this);
 
     private String size = "36";
-    private final String PREFS_NAME = "MyPrefsFile102";
+    private final String PREFS_NAME = "MyPrefsFile103";
 }

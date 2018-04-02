@@ -1,6 +1,7 @@
 package com.example.mishka.flagmemorine.activity;
 
 import android.annotation.TargetApi;
+import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
@@ -90,76 +91,28 @@ public class StatisticActivity extends AppCompatActivity {
             public void onClick(View v) {
                 switch (v.getId()){
                     case R.id.xsTB:
-                        if (hour.isChecked()){
-                            specification(Data.getXsmallSize(), Data.getMillisInHour());
-                        }else if (day.isChecked()){
-                            specification(Data.getXsmallSize(), Data.getMillisInDay());
-                        }else {
-                            Date currentDate = new Date();
-                            Long currentTime = currentDate.getTime();
-                            Log.i(Data.getLOG_TAG(), "onClick current time: " + currentTime);
-                            specification(Data.getXsmallSize(), currentTime);
-                        }
+                        setBackgroundColorTB(xS);
+                        statisticTimeInterval(Data.getXsmallSize());
                         break;
                     case R.id.sTB:
-                        if (hour.isChecked()){
-                            specification(Data.getSmallSize(), Data.getMillisInHour());
-                        }else if (day.isChecked()){
-                            specification(Data.getSmallSize(), Data.getMillisInDay());
-                        }else {
-                            Date currentDate = new Date();
-                            Long currentTime = currentDate.getTime();
-                            Log.i(Data.getLOG_TAG(), "onClick current time: " + currentTime);
-                            specification(Data.getSmallSize(), currentTime);
-                        }
+                        setBackgroundColorTB(S);
+                        statisticTimeInterval(Data.getSmallSize());
                         break;
                     case R.id.mTB:
-                        if (hour.isChecked()){
-                            specification(Data.getMediumSize(), Data.getMillisInHour());
-                        }else if (day.isChecked()){
-                            specification(Data.getMediumSize(), Data.getMillisInDay());
-                        }else {
-                            Date currentDate = new Date();
-                            Long currentTime = currentDate.getTime();
-                            Log.i(Data.getLOG_TAG(), "onClick current time: " + currentTime);
-                            specification(Data.getMediumSize(), currentTime);
-                        }
+                        setBackgroundColorTB(M);
+                        statisticTimeInterval(Data.getMediumSize());
                         break;
                     case R.id.lTB:
-                        if (hour.isChecked()){
-                            specification(Data.getLargeSize(), Data.getMillisInHour());
-                        }else if (day.isChecked()){
-                            specification(Data.getLargeSize(), Data.getMillisInDay());
-                        }else {
-                            Date currentDate = new Date();
-                            Long currentTime = currentDate.getTime();
-                            Log.i(Data.getLOG_TAG(), "onClick current time: " + currentTime);
-                            specification(Data.getLargeSize(), currentTime);
-                        }
+                        setBackgroundColorTB(L);
+                        statisticTimeInterval(Data.getLargeSize());
                         break;
                     case R.id.xlTB:
-                        if (hour.isChecked()){
-                            specification(Data.getXlargeSize(), Data.getMillisInHour());
-                        }else if (day.isChecked()){
-                            specification(Data.getXlargeSize(), Data.getMillisInDay());
-                        }else {
-                            Date currentDate = new Date();
-                            Long currentTime = currentDate.getTime();
-                            Log.i(Data.getLOG_TAG(), "onClick current time: " + currentTime);
-                            specification(Data.getXlargeSize(), currentTime);
-                        }
+                        setBackgroundColorTB(xL);
+                        statisticTimeInterval(Data.getXlargeSize());
                         break;
                     case R.id.xxlTB:
-                        if (hour.isChecked()){
-                            specification(Data.getXxlargeSize(), Data.getMillisInHour());
-                        }else if (day.isChecked()){
-                            specification(Data.getXxlargeSize(), Data.getMillisInDay());
-                        }else {
-                            Date currentDate = new Date();
-                            Long currentTime = currentDate.getTime();
-                            Log.i(Data.getLOG_TAG(), "onClick current time: " + currentTime);
-                            specification(Data.getXxlargeSize(), currentTime);
-                        }
+                        setBackgroundColorTB(xxL);
+                        statisticTimeInterval(Data.getXxlargeSize());
                         break;
                 }
             }
@@ -215,13 +168,26 @@ public class StatisticActivity extends AppCompatActivity {
         all.setChecked(true);
         xS.setChecked(true);
         specification(Data.getXsmallSize(), new Date().getTime());
+        setBackgroundColorTB(xS);
 
+    }
+
+    private void statisticTimeInterval(Integer size){
+        if (hour.isChecked()){
+            specification(size, Data.getMillisInHour());
+        }else if (day.isChecked()){
+            specification(size, Data.getMillisInDay());
+        }else {
+            Date currentDate = new Date();
+            Long currentTime = currentDate.getTime();
+            Log.i(Data.getLOG_TAG(), "onClick current time: " + currentTime);
+            specification(size, currentTime);
+        }
     }
 
     // 24.03.18
     // Метод детализации отображения статистических данных. Ограничивает выборку, используя критерий
     // размера поля.
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private void specification(Integer size, Long period) {
         Player.clearPlayers();
         ArrayList<String> pl = sqLiteTableManager.getGroup(size, period);
@@ -234,6 +200,59 @@ public class StatisticActivity extends AppCompatActivity {
         Player.sortPlayers();
         adapter = new CRecyclerViewAdapter(Player.getPlayers());
         recyclerView.setAdapter(adapter);
+    }
+
+    private void setBackgroundColorTB(View v){
+        switch (v.getId()){
+            case R.id.xsTB:
+                xS.setTextColor(Color.GREEN);
+                S.setTextColor(Color.BLACK);
+                M.setTextColor(Color.BLACK);
+                L.setTextColor(Color.BLACK);
+                xL.setTextColor(Color.BLACK);
+                xxL.setTextColor(Color.BLACK);
+                break;
+            case R.id.sTB:
+                xS.setTextColor(Color.BLACK);
+                S.setTextColor(Color.GREEN);
+                M.setTextColor(Color.BLACK);
+                L.setTextColor(Color.BLACK);
+                xL.setTextColor(Color.BLACK);
+                xxL.setTextColor(Color.BLACK);
+                break;
+            case R.id.mTB:
+                xS.setTextColor(Color.BLACK);
+                S.setTextColor(Color.BLACK);
+                M.setTextColor(Color.GREEN);
+                L.setTextColor(Color.BLACK);
+                xL.setTextColor(Color.BLACK);
+                xxL.setTextColor(Color.BLACK);
+                break;
+            case R.id.lTB:
+                xS.setTextColor(Color.BLACK);
+                S.setTextColor(Color.BLACK);
+                M.setTextColor(Color.BLACK);
+                L.setTextColor(Color.GREEN);
+                xL.setTextColor(Color.BLACK);
+                xxL.setTextColor(Color.BLACK);
+                break;
+            case R.id.xlTB:
+                xS.setTextColor(Color.BLACK);
+                S.setTextColor(Color.BLACK);
+                M.setTextColor(Color.BLACK);
+                L.setTextColor(Color.BLACK);
+                xL.setTextColor(Color.GREEN);
+                xxL.setTextColor(Color.BLACK);
+                break;
+            case R.id.xxlTB:
+                xS.setTextColor(Color.BLACK);
+                S.setTextColor(Color.BLACK);
+                M.setTextColor(Color.BLACK);
+                L.setTextColor(Color.BLACK);
+                xL.setTextColor(Color.BLACK);
+                xxL.setTextColor(Color.GREEN);
+                break;
+        }
     }
 
     private SqLiteTableManager sqLiteTableManager;

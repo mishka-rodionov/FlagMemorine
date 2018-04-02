@@ -38,7 +38,7 @@ public class Player {
         players.add(player);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+//    @RequiresApi(api = Build.VERSION_CODES.N)
     public static void sortPlayers(){
         Player player;
         for (int i = 0; i < players.size() - 1; i++) {
