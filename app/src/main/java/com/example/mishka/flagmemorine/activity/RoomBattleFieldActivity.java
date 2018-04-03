@@ -39,7 +39,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test);
+        setContentView(R.layout.activity_battlefield);
 
         //******************************************************************************************
         // Интент для получения информации о рабочей комнате.

@@ -1,10 +1,7 @@
 package com.example.mishka.flagmemorine.activity;
 
-import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Message;
@@ -21,7 +18,6 @@ import com.example.mishka.flagmemorine.R;
 import com.example.mishka.flagmemorine.logic.BattleField;
 import com.example.mishka.flagmemorine.logic.CountryList;
 import com.example.mishka.flagmemorine.logic.Data;
-import com.example.mishka.flagmemorine.service.DBHelper;
 import com.example.mishka.flagmemorine.service.SqLiteTableManager;
 
 import java.util.ArrayList;
@@ -36,7 +32,7 @@ public class BattleFieldActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         time1 = System.currentTimeMillis();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test);
+        setContentView(R.layout.activity_battlefield);
         //******************************************************************************************
 //        DBHelper dbHelper = new DBHelper(BattleFieldActivity.this);
 //        sqLiteDatabase = dbHelper.getWritableDatabase();                                            // Экземпляр БД для работы
@@ -318,78 +314,6 @@ public class BattleFieldActivity extends AppCompatActivity {
         }
     }
 
-//    private void pushToDB(String tableName) {
-//        Log.d(Data.getLOG_TAG(), " params = " + Data.getDbUserNameColumn()+ " " + Data.getUserName());
-//        contentValues.put(Data.getDbUserNameColumn(), Data.getUserName());
-//        contentValues.put(Data.getDbLoginColumn(), Data.getLogin());
-//        contentValues.put(Data.getDbCountryColumn(), Data.getUserCountry());
-//        contentValues.put(Data.getDbBFColumn(), battleFieldSize);
-//        Log.d(Data.getLOG_TAG(), " params = " + Data.getDbBFColumn()+ " " + battleFieldSize);
-//        Log.d(Data.getLOG_TAG(), " params = " + Data.getDbDateColumn()+ " " + Data.getCurrentDate());
-//        contentValues.put(Data.getDbDateColumn(), Data.getCurrentDate());
-//        contentValues.put(Data.getDbStepColumn(), userRecord);
-//        contentValues.put(Data.getDbScoreColumn(), score);
-//        contentValues.put(Data.getDbGameTimeColumn(), "" + minutes + ":" + seconds);
-//        sqLiteDatabase.insert(tableName, null, contentValues);
-//        contentValues.clear();
-//    }
-//
-//    private void pushRecordToDB(int newRecord, int newScore){
-//        Cursor cursor = sqLiteDatabase.query(Data.getDbRecordTable(), null, Data.getDbBFColumn()
-//                + " = " + battleFieldSize, null, null, null, null);
-//        Log.d(Data.getLOG_TAG(), Data.getDbRecordTable() + " where " + Data.getDbBFColumn()
-//                + " = " + battleFieldSize);
-//        if (cursor.moveToFirst()){
-//            contentValues.put(Data.getDbUserNameColumn(), Data.getUserName());
-//            contentValues.put(Data.getDbLoginColumn(), Data.getLogin());
-//            contentValues.put(Data.getDbCountryColumn(), Data.getUserCountry());
-//            contentValues.put(Data.getDbBFColumn(), battleFieldSize);
-//            contentValues.put(Data.getDbDateColumn(), Data.getCurrentDate());
-//            contentValues.put(Data.getDbStepColumn(), newRecord);
-//            contentValues.put(Data.getDbScoreColumn(), newScore);
-//            contentValues.put(Data.getDbGameTimeColumn(), "" + minutes + ":" + seconds);
-//            int row = sqLiteDatabase.update(Data.getDbRecordTable(), contentValues, Data.getDbBFColumn() +
-//                    "=" + battleFieldSize, null);
-//            Log.d(Data.getLOG_TAG(), "rows update affected = " + row);
-//            Log.d(Data.getLOG_TAG(), "SQL clause = " + Data.getDbBFColumn() +
-//                    "=" + battleFieldSize);
-//            contentValues.clear();
-//        }else{
-//            contentValues.put(Data.getDbUserNameColumn(), Data.getUserName());
-//            contentValues.put(Data.getDbLoginColumn(), Data.getLogin());
-//            contentValues.put(Data.getDbCountryColumn(), Data.getUserCountry());
-//            contentValues.put(Data.getDbBFColumn(), battleFieldSize);
-//            contentValues.put(Data.getDbDateColumn(), Data.getCurrentDate());
-//            contentValues.put(Data.getDbStepColumn(), newRecord);
-//            contentValues.put(Data.getDbScoreColumn(), newScore);
-//            contentValues.put(Data.getDbGameTimeColumn(), "" + minutes + ":" + seconds);
-//            long row = sqLiteDatabase.insert(Data.getDbRecordTable(), null, contentValues);
-//            Log.d(Data.getLOG_TAG(), "rows insert affected = " + row);
-//            Log.d(Data.getLOG_TAG(), "SQL clause = " + Data.getDbBFColumn() +
-//                    "=" + battleFieldSize);
-//            contentValues.clear();
-//            Log.d(Data.getLOG_TAG(), "in table " + Data.getDbRecordTable() + " 0 rows in order.");
-//        }
-//        cursor.close();
-//    }
-
-//    private int topRecord(int BF){
-//        Cursor cursor = sqLiteDatabase.query(Data.getDbRecordTable(), null, Data.getDbBFColumn()
-//        + " = " + BF, null, null, null, null);
-//        Log.d(Data.getLOG_TAG(), Data.getDbRecordTable() + " where " + Data.getDbBFColumn()
-//                + " = " + BF);
-//        int topRecord = 10000;
-//        if (cursor.moveToFirst()){
-//            int recIndex = cursor.getColumnIndex(Data.getDbStepColumn());
-//            topRecord = Integer.parseInt(cursor.getString(recIndex));
-//            Log.d(Data.getLOG_TAG(), "record table DB = " + topRecord);
-//        }else{
-//            Log.d(Data.getLOG_TAG(), "in table " + Data.getDbRecordTable() + " 0 rows in order.");
-//        }
-//        cursor.close();
-//        return topRecord;
-//    }
-
     public void initFlipView(View view, int battleFieldSize){
         flipViews = new ArrayList<>(battleFieldSize);
         if (battleFieldSize == Data.getXsmallSize()){
@@ -432,7 +356,8 @@ public class BattleFieldActivity extends AppCompatActivity {
         }else if (size == Data.getXlargeSize()){
             view = getLayoutInflater().inflate(R.layout.layout_xlarge, null);
         }else if (size == Data.getXxlargeSize()){
-            view = getLayoutInflater().inflate(R.layout.layout_xxlarge, null);
+//            view = getLayoutInflater().inflate(R.layout.layout_xxlarge, null);
+            view = getLayoutInflater().inflate(R.layout.activity_temp, null);
         }
     }
 

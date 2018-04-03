@@ -85,6 +85,7 @@ public class StatisticActivity extends AppCompatActivity {
         day = (ToggleButton) findViewById(R.id.dayTB);
         all = (ToggleButton) findViewById(R.id.allTB);
 
+        // Обработчик нажатия на кнопку выбора размкра поля
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @TargetApi(26)
             @Override
@@ -118,6 +119,7 @@ public class StatisticActivity extends AppCompatActivity {
             }
         };
 
+        // Обработчик нажатия на кнопку выбора периода детализации статистики (час, день, полный период).
         View.OnClickListener periodToggleButton = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
