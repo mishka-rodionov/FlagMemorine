@@ -61,13 +61,5 @@
             android:layout_height="wrap_content"
             android:text="@string/apply_button" />
 
-        <EditText
-            android:id="@+id/userCountry"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:inputType="textPersonName" />
-
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

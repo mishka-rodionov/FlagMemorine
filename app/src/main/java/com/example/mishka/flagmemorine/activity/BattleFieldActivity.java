@@ -5,8 +5,10 @@ import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -33,6 +35,9 @@ public class BattleFieldActivity extends AppCompatActivity {
         time1 = System.currentTimeMillis();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_battlefield);
+        battlefieldToolbar = (Toolbar) findViewById(R.id.battlefield_toolbar);
+        setSupportActionBar(battlefieldToolbar);
+        battlefieldActionBar = getSupportActionBar();
         //******************************************************************************************
 //        DBHelper dbHelper = new DBHelper(BattleFieldActivity.this);
 //        sqLiteDatabase = dbHelper.getWritableDatabase();                                            // Экземпляр БД для работы
@@ -93,6 +98,7 @@ public class BattleFieldActivity extends AppCompatActivity {
         handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
+                flipViews.get(msg.arg1).setEnabled(true);
                 if (flipViews.get(msg.arg1).isFlipped()) {
                     flipViews.get(msg.arg1).flip(false);
                     Log.d(Data.getLOG_TAG(), "flip = false " + flipViews.get(msg.arg1).isClickable());
@@ -143,7 +149,7 @@ public class BattleFieldActivity extends AppCompatActivity {
         //******************************************************************************************
         for (int i = 0; i < flipViews.size(); i++) {
             flipViews.get(i).setFrontImage(R.drawable.unknown);
-            flipViews.get(i).setClickable(true);
+            flipViews.get(i).setEnabled(true);
         }
 
         // Метод обработки нажатий на кнопки на игровом поле. При нажатии на кнопку происходит
@@ -159,6 +165,8 @@ public class BattleFieldActivity extends AppCompatActivity {
             @Override
             public void onFlipped(FlipView view, boolean checked) {
                 Log.d(Data.getLOG_TAG(), "press button");
+                final int index = Integer.parseInt(view.getTag().toString());               // Вычисление индекса кнопки в контейнере кнопок по тэгу кнопки
+                flipViews.get(index).setEnabled(false);
                 new Thread(){
                     public void run(){
                         mp = MediaPlayer.create(BattleFieldActivity.this, R.raw.flip_click);
@@ -169,10 +177,10 @@ public class BattleFieldActivity extends AppCompatActivity {
                     Log.d(Data.getLOG_TAG(), "Try to get result");
                     result.setText(country);                                                    // Отображение значения в тестовом текстовом поле
                     final int resource = CountryList.getCountry(country);                       // Получение целочисленного значения сооветствующего ресурсу с флагом
-                    final int index = Integer.parseInt(view.getTag().toString());               // Вычисление индекса кнопки в контейнере кнопок по тэгу кнопки
+
 
                     flipViews.get(index).setRearImage(resource);
-                    flipViews.get(index).setClickable(false);
+
                     userChoice.add(country);                                                    // Добавление выбранного значения в контейнер пользовательского выбора.
                     viewTag.add(view.getTag().toString());                                      // Добавление тега выбранной кнопки в контейнер пользовательского выбора.
                     Log.d(Data.getLOG_TAG(), "userCoice size = " + userChoice.size());
@@ -206,11 +214,11 @@ public class BattleFieldActivity extends AppCompatActivity {
                 final int but1 = Integer.parseInt(viewTag.get(1));                  // вычисляем тег второй нажатой кнопки
                 for (int i = 0; i < clickable.size(); i++) {
                     if (clickable.get(i)) {
-                        flipViews.get(i).setClickable(false);
+                        flipViews.get(i).setEnabled(false);
                     }
                 }
-                flipViews.get(but0).setClickable(true);
-                flipViews.get(but1).setClickable(true);
+//                flipViews.get(but0).setEnabled(true);
+//                flipViews.get(but1).setEnabled(true);
 
                 final int paint = R.drawable.unknown;            // вычисляем целочисленное значение файла ресурса с флагом
                 delayedTask(but0, paint);
@@ -223,12 +231,12 @@ public class BattleFieldActivity extends AppCompatActivity {
                     Log.d(Data.getLOG_TAG(), "country equals");
                     flipFlag = true;
                     flipViews.get(Integer.parseInt(viewTag.get(0)))
-                            .setClickable(false);                                       // делаем выбранные кнопки не кликабельными
+                            .setEnabled(false);                                       // делаем выбранные кнопки не кликабельными
                     flipViews.get(Integer.parseInt(viewTag.get(1)))
-                            .setClickable(false);
+                            .setEnabled(false);
 
-                    flipViews.get(Integer.parseInt(viewTag.get(0))).setClickable(false);
-                    flipViews.get(Integer.parseInt(viewTag.get(1))).setClickable(false);
+                    flipViews.get(Integer.parseInt(viewTag.get(0))).setEnabled(false);
+                    flipViews.get(Integer.parseInt(viewTag.get(1))).setEnabled(false);
 
                     clickable.put(Integer.parseInt(viewTag.get(0)), false);
                     clickable.put(Integer.parseInt(viewTag.get(1)), false);
@@ -272,11 +280,11 @@ public class BattleFieldActivity extends AppCompatActivity {
                 final int but1 = Integer.parseInt(viewTag.get(1));                  // вычисляем тег второй нажатой кнопки
                 for (int i = 0; i < clickable.size(); i++) {
                     if (clickable.get(i)) {
-                        flipViews.get(i).setClickable(true);
+                        flipViews.get(i).setEnabled(true);
                     }
                 }
-                flipViews.get(but0).setClickable(true);
-                flipViews.get(but1).setClickable(true);
+//                flipViews.get(but0).setEnabled(true);
+//                flipViews.get(but1).setEnabled(true);
 
                 final int paint = R.drawable.unknown;            // вычисляем целочисленное значение файла ресурса с флагом
                 delayedTask(but0, paint);
@@ -286,12 +294,12 @@ public class BattleFieldActivity extends AppCompatActivity {
                 if (userChoice.get(0).equals(userChoice.get(1))) {                        // Если значения пользовательского выбора равны, то
                     Log.d(Data.getLOG_TAG(), "country equals");
                     flipViews.get(Integer.parseInt(viewTag.get(0)))
-                            .setClickable(false);                                       // делаем выбранные кнопки не кликабельными
+                            .setEnabled(false);                                       // делаем выбранные кнопки не кликабельными
                     flipViews.get(Integer.parseInt(viewTag.get(1)))
-                            .setClickable(false);
+                            .setEnabled(false);
 
-                    flipViews.get(Integer.parseInt(viewTag.get(0))).setClickable(false);
-                    flipViews.get(Integer.parseInt(viewTag.get(1))).setClickable(false);
+                    flipViews.get(Integer.parseInt(viewTag.get(0))).setEnabled(false);
+                    flipViews.get(Integer.parseInt(viewTag.get(1))).setEnabled(false);
 
                     clickable.put(Integer.parseInt(viewTag.get(0)), false);
                     clickable.put(Integer.parseInt(viewTag.get(1)), false);
@@ -347,16 +355,22 @@ public class BattleFieldActivity extends AppCompatActivity {
     public void getView(int size){
         if(size == Data.getXsmallSize()){
             view = getLayoutInflater().inflate(R.layout.layout_xsmall, null);
+            battlefieldActionBar.setTitle("xSmall field");
         }else if (size == Data.getSmallSize()){
             view = getLayoutInflater().inflate(R.layout.layout_small, null);
+            battlefieldActionBar.setTitle("Small field");
         }else if (size == Data.getMediumSize()){
             view = getLayoutInflater().inflate(R.layout.layout_medium, null);
+            battlefieldActionBar.setTitle("Medium field");
         }else if (size == Data.getLargeSize()){
             view = getLayoutInflater().inflate(R.layout.layout_large, null);
+            battlefieldActionBar.setTitle("Large field");
         }else if (size == Data.getXlargeSize()){
             view = getLayoutInflater().inflate(R.layout.layout_xlarge, null);
+            battlefieldActionBar.setTitle("xLarge field");
         }else if (size == Data.getXxlargeSize()){
 //            view = getLayoutInflater().inflate(R.layout.layout_xxlarge, null);
+            battlefieldActionBar.setTitle("xxLarge field");
             view = getLayoutInflater().inflate(R.layout.activity_temp, null);
         }
     }
@@ -435,6 +449,8 @@ public class BattleFieldActivity extends AppCompatActivity {
     private TextView scoreTV;
     private Timer timer;
     private View view;
+    private Toolbar battlefieldToolbar;
+    private ActionBar battlefieldActionBar;
 
     private String BF;
     private int battleFieldSize = 6;

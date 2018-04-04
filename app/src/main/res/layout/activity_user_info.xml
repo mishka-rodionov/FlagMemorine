@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_earth"
     tools:context="com.example.mishka.flagmemorine.activity.UserInfoActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -12,14 +13,16 @@
         android:theme="@style/AppTheme.NoActionBar.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/userinfo_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
+            android:elevation="4dp"
             app:popupTheme="@style/AppTheme.NoActionBar.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
 
+    <!--<include layout="@menu/main" />-->
     <include layout="@layout/content_user_info" />
 
     <android.support.design.widget.FloatingActionButton

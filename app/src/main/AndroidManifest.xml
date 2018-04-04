@@ -14,31 +14,44 @@
         <activity
             android:name=".activity.RoomsActivity"
             android:label="@string/title_activity_rooms"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.RoomBattleFieldActivity"
             android:label="@string/title_activity_room_battle_field"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.BattleFieldActivity"
-            android:configChanges="orientation|screenSize" />
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+             />
         <activity
             android:name=".activity.StartActivity"
-            android:configChanges="orientation|screenSize">
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.StatisticActivity" />
+        <activity android:name=".activity.StatisticActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.UserInfoActivity"
             android:label="@string/title_activity_user_info"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.EndOfGameActivity"
             android:label="@string/title_activity_end_of_game"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

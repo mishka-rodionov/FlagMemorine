@@ -2,12 +2,14 @@ package com.example.mishka.flagmemorine.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toolbar;
 
 import com.example.mishka.flagmemorine.R;
 import com.example.mishka.flagmemorine.logic.CountryList;
@@ -20,6 +22,10 @@ public class UserInfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
+        userinfoToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.userinfo_toolbar);
+        setSupportActionBar(userinfoToolbar);
+        ActionBar acBar  = getSupportActionBar();
+        acBar.setTitle("This is text");
 
 //        contentValues = new ContentValues();
 //        sqLiteDatabase = dbHelper.getWritableDatabase();
@@ -28,7 +34,6 @@ public class UserInfoActivity extends AppCompatActivity {
         // Чтение из таблицы UserInfo логина, записанного в последней строке
         login = sqLiteTableManager.readLastRowFromUserInfo()[1];
 
-        userCountryEditText = (EditText) findViewById(R.id.userCountry);
         userNameEditText = (EditText) findViewById(R.id.userName);
         userInfoApplyButton = (Button) findViewById(R.id.userInfoApply);
         countrySpinner = (Spinner) findViewById(R.id.spinner);
@@ -70,6 +75,7 @@ public class UserInfoActivity extends AppCompatActivity {
     private Button userInfoApplyButton;
     private EditText userNameEditText;
     private EditText userCountryEditText;
+    private android.support.v7.widget.Toolbar userinfoToolbar;
 
 //    private ContentValues contentValues;
 //
