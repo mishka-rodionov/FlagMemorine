@@ -26,6 +26,7 @@ public class UserInfoActivity extends AppCompatActivity {
         setSupportActionBar(userinfoToolbar);
         ActionBar acBar  = getSupportActionBar();
         acBar.setTitle("This is text");
+        acBar.setDisplayHomeAsUpEnabled(true);
 
 //        contentValues = new ContentValues();
 //        sqLiteDatabase = dbHelper.getWritableDatabase();
