@@ -2,6 +2,7 @@ package com.example.mishka.flagmemorine.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Message;
@@ -10,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -31,6 +34,22 @@ import eu.davidea.flipview.FlipView;
 
 public class BattleFieldActivity extends AppCompatActivity {
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_restart:
+                recreate();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         time1 = System.currentTimeMillis();
         super.onCreate(savedInstanceState);
@@ -38,6 +57,7 @@ public class BattleFieldActivity extends AppCompatActivity {
         battlefieldToolbar = (Toolbar) findViewById(R.id.battlefield_toolbar);
         setSupportActionBar(battlefieldToolbar);
         battlefieldActionBar = getSupportActionBar();
+        battlefieldActionBar.setDisplayHomeAsUpEnabled(true);
         //******************************************************************************************
 //        DBHelper dbHelper = new DBHelper(BattleFieldActivity.this);
 //        sqLiteDatabase = dbHelper.getWritableDatabase();                                            // Экземпляр БД для работы
@@ -63,13 +83,13 @@ public class BattleFieldActivity extends AppCompatActivity {
 
         result =    (TextView)  findViewById(R.id.result);
         test1 =     (TextView)  findViewById(R.id.currentStepCount);
-        test2 =     (TextView)  findViewById(R.id.recordStepCount);
+//        test2 =     (TextView)  findViewById(R.id.recordStepCount);
         time =      (TextView)  findViewById(R.id.timeValue);
-        restart =   (Button)    findViewById(R.id.restart);
+//        restart =   (Button)    findViewById(R.id.restart);
         scoreTV =   (TextView)  findViewById(R.id.currentScore);
-        back =      (Button)    findViewById(R.id.backBtn);
+//        back =      (Button)    findViewById(R.id.backBtn);
 
-        back.setVisibility(View.INVISIBLE);
+//        back.setVisibility(View.INVISIBLE);
 
         View.OnClickListener backListener = new View.OnClickListener() {
             @Override
@@ -86,14 +106,14 @@ public class BattleFieldActivity extends AppCompatActivity {
             }
         };
 
-        back.setOnClickListener(backListener);
-        restart.setOnClickListener(restartListener);
+//        back.setOnClickListener(backListener);
+//        restart.setOnClickListener(restartListener);
         scoreTV.setText(Integer.toString(score));
 
-        if (topRecord == 10000)
-            test2.setText("" + 0);
-        else
-            test2.setText("" + topRecord);
+//        if (topRecord == 10000)
+//            test2.setText("" + 0);
+//        else
+//            test2.setText("" + topRecord);
 
         handler = new Handler() {
             @Override
@@ -186,7 +206,7 @@ public class BattleFieldActivity extends AppCompatActivity {
                     Log.d(Data.getLOG_TAG(), "userCoice size = " + userChoice.size());
                     Log.d(Data.getLOG_TAG(), "userCoice 1 = " + userChoice.get(0));
 
-                clickHandler();
+                clickHandler(country);
             }
         };
 
@@ -200,7 +220,7 @@ public class BattleFieldActivity extends AppCompatActivity {
     }
 
 
-    private void clickHandler() {
+    private void clickHandler(String country) {
         if (userChoice.size() == 2 && flipFlag) {                                                // Проверка количества элементов в контейнере пользовательского выбора.
             stepCounter++;
             flipFlag = false;
@@ -208,6 +228,10 @@ public class BattleFieldActivity extends AppCompatActivity {
             test1.setText("" + stepCounter);
             if (!userChoice.get(0).equals(userChoice.get(1))) {                       // Если значения пользовательского выбора не равны, то
                 userChoice.clear();                                                 // очищаем контейнер
+
+                result.setTextColor(Color.RED);
+                result.setText(country);
+
                 scoreCount(false);
                 scoreTV.setText(Integer.toString(score));
                 final int but0 = Integer.parseInt(viewTag.get(0));                  // вычисляем тег первой нажатой кнопки
@@ -226,6 +250,10 @@ public class BattleFieldActivity extends AppCompatActivity {
                 viewTag.clear();                                                    // очищаем контейнер тегов
             } else                                                                   // иначе
                 if (userChoice.get(0).equals(userChoice.get(1))) {                        // Если значения пользовательского выбора равны, то
+
+                    result.setTextColor(Color.GREEN);
+                    result.setText(country);
+
                     scoreCount(true);
                     scoreTV.setText(Integer.toString(score));
                     Log.d(Data.getLOG_TAG(), "country equals");
@@ -247,7 +275,7 @@ public class BattleFieldActivity extends AppCompatActivity {
 
                         userRecord = Integer.parseInt(test1.getText().toString());
                         Log.d(Data.getLOG_TAG(), "All flags is plipped");
-                        back.setVisibility(View.VISIBLE);
+//                        back.setVisibility(View.VISIBLE);
                         timer.cancel();
                         sqLiteTableManager.insertIntoStatisticTable(null,null,null, Integer.toString(battleFieldSize), time.getText().toString(), stepCounter, score, Data.getCurrentDate());
                         Log.d(Data.getLOG_TAG(), "user record = " + userRecord);
@@ -262,7 +290,7 @@ public class BattleFieldActivity extends AppCompatActivity {
                         delayedIntent();
 
                         if (userRecord < topRecord) {
-                            test2.setText("" + userRecord);
+//                            test2.setText("" + userRecord);
                             sqLiteTableManager.insertIntoRecordTable(null,null,null, Integer.toString(battleFieldSize), time.getText().toString(), stepCounter, score, Data.getCurrentDate());
                             SharedPreferences.Editor editor = record.edit();
                             editor.putString("REC", test1.getText().toString());
@@ -312,13 +340,16 @@ public class BattleFieldActivity extends AppCompatActivity {
                         timer.cancel();
                         Log.d(Data.getLOG_TAG(), "user record = " + userRecord);
                         if (userRecord < topRecord) {
-                            test2.setText("" + userRecord);
+//                            test2.setText("" + userRecord);
                             SharedPreferences.Editor editor = record.edit();
                             editor.putString("REC", test1.getText().toString());
                             editor.commit();
                         }
                     }
                 }
+        }else{
+            result.setTextColor(Color.GREEN);
+            result.setText(country);
         }
     }
 

@@ -4,11 +4,14 @@ import android.annotation.TargetApi;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.ToggleButton;
 
@@ -36,6 +39,10 @@ public class StatisticActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistic);
+        statisticToolbar = (Toolbar) findViewById(R.id.statistic_toolbar);
+        setSupportActionBar(statisticToolbar);
+        statisticActionBar = getSupportActionBar();
+        statisticActionBar.setDisplayHomeAsUpEnabled(true);
         // Инициализация менеджера по работе с БД.
         sqLiteTableManager = new SqLiteTableManager(StatisticActivity.this);
 
@@ -174,6 +181,12 @@ public class StatisticActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
     private void statisticTimeInterval(Integer size){
         if (hour.isChecked()){
             specification(size, Data.getMillisInHour());
@@ -270,4 +283,6 @@ public class StatisticActivity extends AppCompatActivity {
     private ToggleButton hour;
     private ToggleButton day;
     private ToggleButton all;
+    private Toolbar statisticToolbar;
+    private ActionBar statisticActionBar;
 }

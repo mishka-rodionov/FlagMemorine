@@ -27,6 +27,7 @@
             android:name=".activity.BattleFieldActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
+            android:parentActivityName=".activity.StartActivity"
              />
         <activity
             android:name=".activity.StartActivity"
@@ -40,7 +41,8 @@
         </activity>
         <activity android:name=".activity.StatisticActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:parentActivityName=".activity.StartActivity"/>
         <activity
             android:name=".activity.UserInfoActivity"
             android:label="@string/title_activity_user_info"
@@ -53,6 +55,7 @@
             android:label="@string/title_activity_end_of_game"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
+            android:parentActivityName=".activity.StartActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

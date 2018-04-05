@@ -7,30 +7,40 @@
     android:background="@drawable/background_earth"
     tools:context="com.example.mishka.flagmemorine.activity.UserInfoActivity">
 
+    <include layout="@layout/content_user_info" />
+
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/toolbar_background"
+        app:elevation="0dp"
+        android:outlineProvider="none"
         android:theme="@style/AppTheme.NoActionBar.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/userinfo_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:elevation="4dp"
-            app:popupTheme="@style/AppTheme.NoActionBar.PopupOverlay" />
+            android:background="@drawable/toolbar_background"
+            android:outlineProvider="none"
+            app:elevation="0dp"
+            android:theme="@style/AppTheme.NoActionBar.AppBarOverlay"
+             />
+        <!--android:elevation="0dp"-->
+        <!--android:background="?attr/colorPrimary"-->
+        <!--app:popupTheme="@style/AppTheme.NoActionBar.PopupOverlay"-->
 
     </android.support.design.widget.AppBarLayout>
 
     <!--<include layout="@menu/main" />-->
-    <include layout="@layout/content_user_info" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+
+    <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:id="@+id/fab"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="bottom|end"-->
+        <!--android:layout_margin="@dimen/fab_margin"-->
+        <!--app:srcCompat="@android:drawable/ic_dialog_email" />-->
 
 </android.support.design.widget.CoordinatorLayout>

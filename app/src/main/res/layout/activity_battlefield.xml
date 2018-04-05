@@ -11,14 +11,17 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/toolbar_background"
+        app:elevation="0dp"
         android:theme="@style/AppTheme.NoActionBar.AppBarOverlay">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/battlefield_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:elevation="4dp"
+        android:background="@drawable/toolbar_background"
+        app:elevation="0dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/AppTheme.NoActionBar.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
@@ -26,6 +29,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignBottom="@+id/result"
+        android:layout_alignStart="@+id/currentStepCount"
         android:layout_weight="1">
 
         <LinearLayout
@@ -49,103 +54,82 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_alignStart="@+id/restart"
+            android:layout_centerHorizontal="true"
             android:layout_weight="1"
-            android:text="test" />
-
-        <Button
-            android:id="@+id/restart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="7dp"
-            android:layout_marginStart="7dp"
-            android:layout_weight="1"
-            android:text="@string/restart" />
+            android:fontFamily="sans-serif"
+            android:hint="@string/user_country"
+            android:textColorHint="@android:color/white"
+            android:textSize="30dp" />
 
         <TextView
             android:id="@+id/step"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="97dp"
-            android:layout_toEndOf="@+id/restart"
+            android:layout_alignBaseline="@+id/currentStepCount"
+            android:layout_alignBottom="@+id/currentStepCount"
+            android:layout_marginEnd="42dp"
+            android:layout_toStartOf="@+id/currentStepCount"
             android:layout_weight="1"
             android:gravity="left"
-            android:text="@string/step" />
-
-        <TextView
-            android:id="@+id/userRecord"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/step"
-            android:layout_below="@+id/step"
-            android:layout_weight="1"
-            android:gravity="left"
-            android:text="@string/record" />
+            android:text="@string/step"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/timeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/restart"
-            android:layout_alignStart="@+id/userRecord"
+            android:layout_below="@+id/currentScore"
+            android:layout_toEndOf="@+id/currentScore"
             android:layout_weight="1"
-            android:text="@string/time" />
+            android:text="@string/time"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/timeValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/step"
+            android:layout_toStartOf="@+id/step"
             android:layout_weight="1"
             android:text="0:00"
-            android:layout_alignBaseline="@+id/timeText"
-            android:layout_alignBottom="@+id/timeText"
-            android:layout_alignStart="@+id/currentScore" />
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/currentStepCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/currentScore"
+            android:layout_alignBottom="@+id/currentScore"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="17dp"
             android:layout_weight="1"
-            android:text="test"
-            android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/userRecord"
-            android:layout_marginStart="11dp" />
-
-        <TextView
-            android:id="@+id/recordStepCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="test"
-            android:layout_below="@+id/currentStepCount"
-            android:layout_alignStart="@+id/currentStepCount" />
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/userRecord"
-            android:layout_below="@+id/userRecord"
-            android:text="@string/score" />
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="16dp"
+            android:text="@string/score"
+            android:textSize="18sp"
+            android:textColor="@android:color/white" />
 
         <TextView
             android:id="@+id/currentScore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="test"
-            android:layout_below="@+id/recordStepCount"
-            android:layout_alignStart="@+id/recordStepCount" />
-
-        <Button
-            android:id="@+id/backBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/restart"
-            android:layout_toEndOf="@+id/restart"
-            android:text="@string/back" />
+            android:layout_alignBaseline="@+id/score"
+            android:layout_alignBottom="@+id/score"
+            android:layout_marginStart="27dp"
+            android:layout_toEndOf="@+id/score"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
 
     </RelativeLayout>
 

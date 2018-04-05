@@ -21,6 +21,6 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_room_battle_field"
-        app:menu="@menu/activity_room_battle_field_drawer" />
+        />
 
 </android.support.v4.widget.DrawerLayout>
