@@ -13,6 +13,7 @@ import android.widget.Spinner;
 import android.widget.Toolbar;
 
 import com.example.mishka.flagmemorine.R;
+import com.example.mishka.flagmemorine.cView.CSpinnerAdapter;
 import com.example.mishka.flagmemorine.logic.CountryList;
 import com.example.mishka.flagmemorine.logic.Data;
 import com.example.mishka.flagmemorine.service.SqLiteTableManager;
@@ -58,8 +59,11 @@ public class UserInfoActivity extends AppCompatActivity {
 
         userInfoApplyButton.setOnClickListener(onClickListener);
 
+        CountryList.loadCountryMap();
         spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, CountryList.getCountries());
-        countrySpinner.setAdapter(spinnerAdapter);
+        cSpinnerAdapter = new CSpinnerAdapter(this, CountryList.getCountries(), CountryList.getCountryResources());
+        countrySpinner.setAdapter(cSpinnerAdapter);
+
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 //
@@ -81,6 +85,7 @@ public class UserInfoActivity extends AppCompatActivity {
 
     private ArrayAdapter<String> spinnerAdapter;
     private Button userInfoApplyButton;
+    private CSpinnerAdapter cSpinnerAdapter;
     private EditText userNameEditText;
     private EditText userCountryEditText;
     private android.support.v7.widget.Toolbar userinfoToolbar;

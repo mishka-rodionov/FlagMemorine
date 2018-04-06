@@ -9,7 +9,9 @@ import com.example.mishka.flagmemorine.R;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Random;
+import java.util.Set;
 
 /**
  * Created by Lab1 on 18.01.2018.
@@ -338,6 +340,16 @@ public class CountryList {
 
     public static Integer getCountry(String name){
         return countryMap.get(name);
+    }
+
+    public static int[] getCountryResources(){
+            int[] resources = new int[countryMap.size()];
+            Iterator iterator = countryMap.keySet().iterator();
+            int i = 0;
+            while (iterator.hasNext()){
+                    resources[i++] = countryMap.get(iterator.next());
+            }
+        return resources;
     }
 
     public static String getCountry(int index){return country.get(index);}
