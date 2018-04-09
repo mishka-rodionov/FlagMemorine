@@ -3,6 +3,7 @@ package com.example.mishka.flagmemorine.cView;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.mishka.flagmemorine.R;
+import com.example.mishka.flagmemorine.logic.Data;
 
 /**
  * Created by Lab1 on 06.04.2018.
@@ -21,6 +23,8 @@ public class CSpinnerAdapter extends ArrayAdapter<String> {
     int[] spinnerImages;
 //    String[] spinnerPopulation;
     Context mContext;
+    int pos = -1;
+    String username = "unknown";
 
     public CSpinnerAdapter(@NonNull Context context, String[] titles, int[] images) {
         super(context, R.layout.cspinner_row);
@@ -28,6 +32,22 @@ public class CSpinnerAdapter extends ArrayAdapter<String> {
         this.spinnerImages = images;
 //        this.spinnerPopulation = population;
         this.mContext = context;
+    }
+
+    public int getPosition(){
+        return pos;
+    }
+
+    public String getUsername(){
+        return username;
+    }
+
+    private void setUsername(String un){
+        username = un;
+    }
+
+    private void setPosition(int position){
+        pos = position;
     }
 
     @Override
@@ -43,6 +63,8 @@ public class CSpinnerAdapter extends ArrayAdapter<String> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        Log.i(Data.getLOG_TAG(), "getView position: " + position);
+        setPosition(position);
         ViewHolder mViewHolder = new ViewHolder();
         if (convertView == null) {
             LayoutInflater mInflater = (LayoutInflater) mContext.
@@ -57,14 +79,21 @@ public class CSpinnerAdapter extends ArrayAdapter<String> {
         }
         mViewHolder.mFlag.setImageResource(spinnerImages[position]);
         mViewHolder.mName.setText(spinnerTitles[position]);
+        setUsername(mViewHolder.mName.getText().toString());
 //        mViewHolder.mPopulation.setText(spinnerPopulation[position]);
 
         return convertView;
+//        return mViewHolder;
     }
 
     private static class ViewHolder {
         ImageView mFlag;
         TextView mName;
-//        TextView mPopulation;
+
+        public TextView getmName() {
+            return mName;
+        }
+
+        //        TextView mPopulation;
     }
 }

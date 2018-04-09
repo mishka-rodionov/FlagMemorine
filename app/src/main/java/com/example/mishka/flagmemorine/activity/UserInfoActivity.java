@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -45,15 +47,17 @@ public class UserInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 //                insertIntoUserInfoTable();
-                sqLiteTableManager.insertIntoUserInfoTable(
-                        userNameEditText.getText().toString(),
-                        login,
-//                        userCountryEditText.getText().toString(),
-                        countrySpinner.getSelectedItem().toString(),
-                        Data.getCurrentDate());
-
-                Intent startActivityIntent = new Intent(UserInfoActivity.this, StartActivity.class);
-                startActivity(startActivityIntent);
+//                sqLiteTableManager.insertIntoUserInfoTable(
+//                        userNameEditText.getText().toString(),
+//                        login,
+////                        userCountryEditText.getText().toString(),
+//                        countrySpinner.getSelectedItem().toString(),
+//                        Data.getCurrentDate());
+                Log.i(Data.getLOG_TAG(), "onClick calc position: " + cSpinnerAdapter.getUsername());
+                Log.i(Data.getLOG_TAG(), "onClick calc position: " + cSpinnerAdapter.getPosition());
+                Log.i(Data.getLOG_TAG(), "onClick: " + userNameEditText.getText().toString());
+//                Intent startActivityIntent = new Intent(UserInfoActivity.this, StartActivity.class);
+//                startActivity(startActivityIntent);
             }
         };
 
@@ -62,6 +66,13 @@ public class UserInfoActivity extends AppCompatActivity {
         CountryList.loadCountryMap();
         spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, CountryList.getCountries());
         cSpinnerAdapter = new CSpinnerAdapter(this, CountryList.getCountries(), CountryList.getCountryResources());
+        AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        };
+        countrySpinner.setOnItemClickListener();
         countrySpinner.setAdapter(cSpinnerAdapter);
 
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
