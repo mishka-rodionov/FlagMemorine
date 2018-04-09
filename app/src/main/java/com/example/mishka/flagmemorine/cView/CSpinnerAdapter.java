@@ -38,6 +38,10 @@ public class CSpinnerAdapter extends ArrayAdapter<String> {
         return pos;
     }
 
+    public String getCountry(int position){
+        return spinnerTitles[position];
+    }
+
     public String getUsername(){
         return username;
     }
@@ -63,7 +67,7 @@ public class CSpinnerAdapter extends ArrayAdapter<String> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        Log.i(Data.getLOG_TAG(), "getView position: " + position);
+//        Log.i(Data.getLOG_TAG(), "getView position: " + position);
         setPosition(position);
         ViewHolder mViewHolder = new ViewHolder();
         if (convertView == null) {

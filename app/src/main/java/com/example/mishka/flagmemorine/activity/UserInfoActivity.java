@@ -47,17 +47,17 @@ public class UserInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 //                insertIntoUserInfoTable();
-//                sqLiteTableManager.insertIntoUserInfoTable(
-//                        userNameEditText.getText().toString(),
-//                        login,
-////                        userCountryEditText.getText().toString(),
-//                        countrySpinner.getSelectedItem().toString(),
-//                        Data.getCurrentDate());
-                Log.i(Data.getLOG_TAG(), "onClick calc position: " + cSpinnerAdapter.getUsername());
-                Log.i(Data.getLOG_TAG(), "onClick calc position: " + cSpinnerAdapter.getPosition());
-                Log.i(Data.getLOG_TAG(), "onClick: " + userNameEditText.getText().toString());
-//                Intent startActivityIntent = new Intent(UserInfoActivity.this, StartActivity.class);
-//                startActivity(startActivityIntent);
+                sqLiteTableManager.insertIntoUserInfoTable(
+                        userNameEditText.getText().toString(),
+                        login,
+//                        userCountryEditText.getText().toString(),
+                        country,
+                        Data.getCurrentDate());
+//                Log.i(Data.getLOG_TAG(), "onClick calc position: " + cSpinnerAdapter.getUsername());
+//                Log.i(Data.getLOG_TAG(), "onClick calc position: " + cSpinnerAdapter.getPosition());
+//                Log.i(Data.getLOG_TAG(), "onClick: " + userNameEditText.getText().toString());
+                Intent startActivityIntent = new Intent(UserInfoActivity.this, StartActivity.class);
+                startActivity(startActivityIntent);
             }
         };
 
@@ -66,13 +66,20 @@ public class UserInfoActivity extends AppCompatActivity {
         CountryList.loadCountryMap();
         spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, CountryList.getCountries());
         cSpinnerAdapter = new CSpinnerAdapter(this, CountryList.getCountries(), CountryList.getCountryResources());
-        AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
+        AdapterView.OnItemSelectedListener onItemSelectedListener = new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.i(Data.getLOG_TAG(), "onItemClick: " + cSpinnerAdapter.getCountry(i));
+                country = cSpinnerAdapter.getCountry(i);
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                Log.i(Data.getLOG_TAG(), "onItemClick: " + "nothing");
+                country = "Olympics";
             }
         };
-        countrySpinner.setOnItemClickListener();
+        countrySpinner.setOnItemSelectedListener(onItemSelectedListener);
         countrySpinner.setAdapter(cSpinnerAdapter);
 
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -99,6 +106,7 @@ public class UserInfoActivity extends AppCompatActivity {
     private CSpinnerAdapter cSpinnerAdapter;
     private EditText userNameEditText;
     private EditText userCountryEditText;
+    private String country;
     private android.support.v7.widget.Toolbar userinfoToolbar;
 
 //    private ContentValues contentValues;
