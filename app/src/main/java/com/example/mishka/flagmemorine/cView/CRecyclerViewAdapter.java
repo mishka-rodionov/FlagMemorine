@@ -24,13 +24,15 @@ public class CRecyclerViewAdapter extends RecyclerView.Adapter<CRecyclerViewAdap
         TextView personName;
         TextView personAge;
         TextView date;
+        TextView number;
         ImageView personPhoto;
         PlayerViewHolder(View itemView) {
             super(itemView);
-            cv = (CardView)itemView.findViewById(R.id.cardview);
-            personName = (TextView)itemView.findViewById(R.id.person_name);
-            personAge = (TextView)itemView.findViewById(R.id.person_age);
-            date = (TextView)itemView.findViewById(R.id.date);
+            cv = (CardView) itemView.findViewById(R.id.cardview);
+            personName = (TextView) itemView.findViewById(R.id.person_name);
+            personAge = (TextView) itemView.findViewById(R.id.person_age);
+            date = (TextView) itemView.findViewById(R.id.date);
+            number = (TextView) itemView.findViewById(R.id.number);
             personPhoto = (ImageView)itemView.findViewById(R.id.person_photo);
         }
     }
@@ -50,7 +52,8 @@ public class CRecyclerViewAdapter extends RecyclerView.Adapter<CRecyclerViewAdap
         holder.personName.setText(players.get(position).getName());
         holder.personAge.setText(Integer.toString(players.get(position).getTotalScore()));
         holder.personPhoto.setImageResource(CountryList.getCountry(players.get(position).getCountry()));
-        holder.date.setText(players.get(position).getName());
+        holder.number.setText(Integer.toString(position));
+        holder.date.setText(players.get(position).getDate());
 
     }
 

@@ -355,12 +355,12 @@ public class SqLiteTableManager {
                 Log.i(Data.getLOG_TAG(), "exite period: " + (lastDate.getTime() - fromBd.getTime()));
                 if ((lastDate.getTime() - fromBd.getTime()) < period) //Если их разница меньше часа, то нужно вывести все счета за это время
                 {
-                    rows.add(cursor.getString(cursor.getColumnIndex(Data.getDbScoreColumn())));
-                    Log.i(Data.getLOG_TAG(), "rows: " + rows.get(rows.size() - 1));
-                    Log.i(Data.getLOG_TAG(), "period: " + period);
-                    Log.i(Data.getLOG_TAG(), "last date: " + lastDate.getTime());
-                    Log.i(Data.getLOG_TAG(), "from db date: " + fromBd.getTime());
-                    Log.i(Data.getLOG_TAG(), "exite period: " + (lastDate.getTime() - fromBd.getTime()));
+                    rows.add(cursor.getString(cursor.getColumnIndex(Data.getDbScoreColumn()))+ " " + fromBd.toString());
+//                    Log.i(Data.getLOG_TAG(), "rows: " + rows.get(rows.size() - 1));
+//                    Log.i(Data.getLOG_TAG(), "period: " + period);
+//                    Log.i(Data.getLOG_TAG(), "last date: " + lastDate.getTime());
+                    Log.i(Data.getLOG_TAG(), "from db date: " + fromBd.toString());
+//                    Log.i(Data.getLOG_TAG(), "exite period: " + (lastDate.getTime() - fromBd.getTime()));
                 }
             }
             while (cursor.moveToNext());

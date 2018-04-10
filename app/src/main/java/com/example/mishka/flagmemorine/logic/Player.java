@@ -6,6 +6,7 @@ import android.support.annotation.RequiresApi;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -16,9 +17,11 @@ import java.util.List;
 public class Player {
 
     public Player(String name, String country, Integer xsScore,
-                  Integer sScore, Integer mScore, Integer lScore, Integer xlScore, Integer xxlScore){
+                  Integer sScore, Integer mScore, Integer lScore, Integer xlScore, Integer xxlScore, String date){
         this.name = name;
         this.country = country;
+        this.date = date;
+//        this.number = number;
         this.xsScore = xsScore;
         this.sScore = sScore;
         this.mScore = mScore;
@@ -132,6 +135,22 @@ public class Player {
         this.xxlScore = xxlScore;
     }
 
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
     private static List<Player> players;
 
     private String name;
@@ -143,5 +162,7 @@ public class Player {
     private Integer lScore;
     private Integer xlScore;
     private Integer xxlScore;
+    private Integer number;
+    private String date;
 
 }

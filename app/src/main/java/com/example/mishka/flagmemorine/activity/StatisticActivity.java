@@ -50,27 +50,6 @@ public class StatisticActivity extends AppCompatActivity {
 
         // Инициализация контейнера плейеров.
         Player.initPlayers();
-//        Player player1 = new Player(sqLiteTableManager.getName() == null ? sqLiteTableManager.getLogin() : sqLiteTableManager.getName(),
-//                sqLiteTableManager.getCountry() == null ? "Olympics" : sqLiteTableManager.getCountry(),
-//                sqLiteTableManager.getScore(Data.getXsmallSize()),
-//                sqLiteTableManager.getScore(Data.getSmallSize()),
-//                sqLiteTableManager.getScore(Data.getMediumSize()),
-//                sqLiteTableManager.getScore(Data.getLargeSize()),
-//                sqLiteTableManager.getScore(Data.getXlargeSize()),
-//                sqLiteTableManager.getScore(Data.getXxlargeSize()));
-//        Player player2 = new Player("Petya", "Ukraine",  10, 0, 0, 0 ,0 ,0);
-//        Player player3 = new Player("Vasya", "Belarus",  20, 10, 0, 0 ,0 ,0);
-//        Player player4 = new Player("Borya", "Armenia",  60, 0, 0, 0 ,0 ,0);
-//        Player player5 = new Player("Fedya", "Azerbaijan",  30, 10, 0, 0 ,0 ,0);
-//        Player player6 = new Player("Kolya", "Kazakhstan",  100, 0, 0, 0 ,0 ,0);
-//        Player.addPlayer(player1);
-//        Player.addPlayer(player2);
-//        Player.addPlayer(player3);
-//        Player.addPlayer(player4);
-//        Player.addPlayer(player5);
-//        Player.addPlayer(player6);
-//
-//        Player.sortPlayers();
 
         // Инициализация структуры отображения данных
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
@@ -206,11 +185,15 @@ public class StatisticActivity extends AppCompatActivity {
     private void specification(Integer size, Long period) {
         Player.clearPlayers();
         ArrayList<String> pl = sqLiteTableManager.getGroup(size, period);
+        String[] row = new String[2];
         for (int i = 0; i < pl.size(); i++) {
+            row = pl.get(i).split(" ");
+            Log.i(Data.getLOG_TAG(), "specification: row[1] = " + row[1]);
             Player.addPlayer(new Player(sqLiteTableManager.getName() == null ?
                     sqLiteTableManager.getLogin() : sqLiteTableManager.getName(),
                     sqLiteTableManager.getCountry() == null ? "Olympics" : sqLiteTableManager.getCountry(),
-                    Integer.parseInt(pl.get(i)),0, 0, 0, 0, 0));
+                    Integer.parseInt(row[0]),0, 0, 0, 0, 0,
+                     row[3] + " " + row[2] + " " + row[6] + " " + row[4]));
         }
         Player.sortPlayers();
         adapter = new CRecyclerViewAdapter(Player.getPlayers());

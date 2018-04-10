@@ -11,52 +11,88 @@
         android:layout_height="wrap_content"
         android:id="@+id/cardview">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:padding="16dp">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/person_photo"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginRight="16dp"/>
 
-            <TextView
-                android:id="@+id/person_name"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_toRightOf="@id/person_photo"
-                android:text="Mishka"
-                android:textSize="30sp" />
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/person_age"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/person_name"
-                android:layout_below="@+id/person_name"
-                android:text="test" />
+                <TextView
+                    android:id="@+id/number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/person_name"
+                    android:layout_alignBottom="@+id/person_name"
+                    android:layout_alignParentStart="false"
+                    android:text="999"
+                    android:textSize="24sp" />
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/person_name"
-                android:layout_below="@+id/person_name"
-                android:text="TextView" />
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="100">
 
-            <ImageView
-                android:id="@+id/graph"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"
-                app:srcCompat="@drawable/graph" />
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-        </RelativeLayout>
+                    <ImageView
+                        android:id="@+id/person_photo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginRight="16dp"
+                        app:srcCompat="@drawable/unknown" />
+
+                    <TextView
+                        android:id="@+id/person_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_toRightOf="@id/person_photo"
+                        android:text="Mishka"
+                        android:textSize="30sp" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <!--app:srcCompat="@drawable/graph" />-->
+
+                    <TextView
+                        android:id="@+id/person_age"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignStart="@+id/person_name"
+                        android:layout_below="@+id/person_name"
+                        android:text="test" />
+
+                    <TextView
+                        android:id="@+id/date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/person_name"
+                        android:layout_gravity="start"
+                        android:layout_marginStart="48dp"
+                        android:layout_toEndOf="@+id/person_age"
+                        android:gravity="start"
+                        android:text="TextView" />
+                </TableRow>
+
+            </TableLayout>
+
+        </LinearLayout>
     </android.support.v7.widget.CardView>
 
 </LinearLayout>

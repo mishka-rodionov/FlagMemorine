@@ -4,34 +4,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="10dp"
+    android:layout_gravity="center_horizontal"
     android:layout_marginEnd="10dp"
-    android:orientation="vertical"
-    >
+    android:layout_marginStart="10dp"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:paddingEnd="5dp"
+        android:paddingStart="5dp">
 
         <!--<Space-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_weight="1" />-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_weight="1" />-->
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
             android:id="@+id/xsmall1"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginEnd="@dimen/activity_horizontal_custom_margin"
             android:clickable="true"
             android:clipToPadding="false"
             android:padding="@dimen/default_padding"
-            android:tag="0"
-            android:layout_weight="1"
             android:soundEffectsEnabled="true"
+            android:tag="0"
             app:animationDuration="300"
             app:checked="false"
             app:enableInitialAnimation="false"
@@ -44,22 +50,21 @@
             app:rearImageAnimationDelay="0"
             app:rearLayout="@layout/flip_rear_custom" />
 
-        <!--<Space-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_weight="1" />-->
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
             android:id="@+id/xsmall2"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginEnd="@dimen/activity_horizontal_custom_margin"
             android:clickable="true"
             android:clipToPadding="false"
             android:padding="@dimen/default_padding"
             android:tag="1"
-            android:layout_weight="1"
             app:animationDuration="300"
             app:checked="false"
             app:enableInitialAnimation="false"
@@ -70,24 +75,25 @@
             app:rearBackground="@drawable/unknown"
             app:rearBackgroundColor="@android:color/white"
             app:rearImageAnimationDelay="0"
-            app:rearLayout="@layout/flip_rear_custom" />
+            app:rearLayout="@layout/flip_rear_custom">
 
-        <!--<Space-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_weight="1" />-->
+        </eu.davidea.flipview.FlipView>
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
             android:id="@+id/xsmall3"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginEnd="@dimen/activity_horizontal_custom_margin"
             android:clickable="true"
             android:clipToPadding="false"
             android:padding="@dimen/default_padding"
             android:tag="2"
-            android:layout_weight="1"
             app:animationDuration="300"
             app:checked="false"
             app:enableInitialAnimation="false"
@@ -100,22 +106,21 @@
             app:rearImageAnimationDelay="0"
             app:rearLayout="@layout/flip_rear_custom" />
 
-        <!--<Space-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_weight="1" />-->
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
             android:id="@+id/xsmall4"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginEnd="@dimen/activity_horizontal_custom_margin"
             android:clickable="true"
             android:clipToPadding="false"
             android:padding="@dimen/default_padding"
             android:tag="3"
-            android:layout_weight="1"
             app:animationDuration="300"
             app:checked="false"
             app:enableInitialAnimation="false"
@@ -128,35 +133,61 @@
             app:rearImageAnimationDelay="0"
             app:rearLayout="@layout/flip_rear_custom" />
 
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
         <!--<Space-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_weight="1" />-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_weight="1" />-->
+
+        <!--<Space-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_weight="1" />-->
+
+        <!--<Space-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_weight="1" />-->
+
+        <!--<Space-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_weight="1" />-->
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:paddingEnd="5dp"
+        android:paddingStart="5dp">
 
         <!--<Space-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_weight="1" />-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_weight="1" />-->
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
             android:id="@+id/xsmall5"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginEnd="@dimen/activity_horizontal_custom_margin"
             android:clickable="true"
             android:clipToPadding="false"
             android:padding="@dimen/default_padding"
             android:tag="4"
-            android:layout_weight="1"
             app:animationDuration="300"
             app:checked="false"
             app:enableInitialAnimation="false"
@@ -169,22 +200,21 @@
             app:rearImageAnimationDelay="0"
             app:rearLayout="@layout/flip_rear_custom" />
 
-        <!--<Space-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_weight="1" />-->
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
             android:id="@+id/xsmall6"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginEnd="@dimen/activity_horizontal_custom_margin"
             android:clickable="true"
             android:clipToPadding="false"
             android:padding="@dimen/default_padding"
             android:tag="5"
-            android:layout_weight="1"
             app:animationDuration="300"
             app:checked="false"
             app:enableInitialAnimation="false"
@@ -197,22 +227,21 @@
             app:rearImageAnimationDelay="0"
             app:rearLayout="@layout/flip_rear_custom" />
 
-        <!--<Space-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_weight="1" />-->
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
             android:id="@+id/xsmall7"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginEnd="@dimen/activity_horizontal_custom_margin"
             android:clickable="true"
             android:clipToPadding="false"
             android:padding="@dimen/default_padding"
             android:tag="6"
-            android:layout_weight="1"
             app:animationDuration="300"
             app:checked="false"
             app:enableInitialAnimation="false"
@@ -225,22 +254,21 @@
             app:rearImageAnimationDelay="0"
             app:rearLayout="@layout/flip_rear_custom" />
 
-        <!--<Space-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_weight="1" />-->
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
             android:id="@+id/xsmall8"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginEnd="@dimen/activity_horizontal_custom_margin"
             android:clickable="true"
             android:clipToPadding="false"
             android:padding="@dimen/default_padding"
             android:tag="7"
-            android:layout_weight="1"
             app:animationDuration="300"
             app:checked="false"
             app:enableInitialAnimation="false"
@@ -253,10 +281,30 @@
             app:rearImageAnimationDelay="0"
             app:rearLayout="@layout/flip_rear_custom" />
 
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
         <!--<Space-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_weight="1" />-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_weight="1" />-->
+
+        <!--<Space-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_weight="1" />-->
+
+        <!--<Space-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_weight="1" />-->
+
+        <!--<Space-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_weight="1" />-->
 
     </LinearLayout>
 

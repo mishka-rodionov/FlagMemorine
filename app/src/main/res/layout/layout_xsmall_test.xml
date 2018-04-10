@@ -11,27 +11,27 @@
     android:stretchMode="columnWidth"
     android:gravity="center">
 
-<eu.davidea.flipview.FlipView
-android:id="@+id/xsmall1"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:layout_gravity="center_horizontal"
-android:layout_marginEnd="@dimen/activity_horizontal_custom_margin"
-android:clickable="true"
-android:clipToPadding="false"
-android:padding="@dimen/default_padding"
-android:tag="0"
-android:soundEffectsEnabled="true"
-app:animationDuration="300"
-app:checked="false"
-app:enableInitialAnimation="false"
-app:frontBackground="@drawable/unknown"
-app:frontBackgroundColor="@android:color/white"
-app:frontImage="@drawable/unknown"
-app:frontLayout="@layout/flip_front_custom"
-app:rearBackground="@drawable/unknown"
-app:rearBackgroundColor="@android:color/white"
-app:rearImageAnimationDelay="0"
-app:rearLayout="@layout/flip_rear_custom" />
+<!--<eu.davidea.flipview.FlipView-->
+<!--&lt;!&ndash;android:id="@+id/xsmall1"&ndash;&gt;-->
+<!--android:layout_width="wrap_content"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_gravity="center_horizontal"-->
+<!--android:layout_marginEnd="@dimen/activity_horizontal_custom_margin"-->
+<!--android:clickable="true"-->
+<!--android:clipToPadding="false"-->
+<!--android:padding="@dimen/default_padding"-->
+<!--android:tag="0"-->
+<!--android:soundEffectsEnabled="true"-->
+<!--app:animationDuration="300"-->
+<!--app:checked="false"-->
+<!--app:enableInitialAnimation="false"-->
+<!--app:frontBackground="@drawable/unknown"-->
+<!--app:frontBackgroundColor="@android:color/white"-->
+<!--app:frontImage="@drawable/unknown"-->
+<!--app:frontLayout="@layout/flip_front_custom"-->
+<!--app:rearBackground="@drawable/unknown"-->
+<!--app:rearBackgroundColor="@android:color/white"-->
+<!--app:rearImageAnimationDelay="0"-->
+<!--app:rearLayout="@layout/flip_rear_custom" />-->
 
 </GridView>

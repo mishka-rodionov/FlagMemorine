@@ -4,17 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    >
+    android:layout_gravity="center_horizontal"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:paddingEnd="5dp"
+        android:paddingStart="5dp">
 
         <Space
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
@@ -27,8 +30,8 @@
             android:clipToPadding="false"
             android:padding="@dimen/default_padding"
             android:tag="0"
-            app:anticipateInAnimationTime="100"
             app:animationDuration="300"
+            app:anticipateInAnimationTime="100"
             app:checked="false"
             app:enableInitialAnimation="false"
             app:frontBackground="@drawable/unknown"
@@ -38,11 +41,13 @@
             app:rearBackground="@drawable/unknown"
             app:rearBackgroundColor="@android:color/white"
             app:rearImageAnimationDelay="0"
-            app:rearLayout="@layout/flip_rear_custom" />
+            app:rearLayout="@layout/flip_rear_custom">
+
+        </eu.davidea.flipview.FlipView>
 
         <Space
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
@@ -55,8 +60,8 @@
             android:clipToPadding="false"
             android:padding="@dimen/default_padding"
             android:tag="1"
-            app:anticipateInAnimationTime="100"
             app:animationDuration="300"
+            app:anticipateInAnimationTime="100"
             app:checked="false"
             app:enableInitialAnimation="false"
             app:frontBackground="@drawable/unknown"
@@ -66,11 +71,13 @@
             app:rearBackground="@drawable/unknown"
             app:rearBackgroundColor="@android:color/white"
             app:rearImageAnimationDelay="0"
-            app:rearLayout="@layout/flip_rear_custom" />
+            app:rearLayout="@layout/flip_rear_custom">
+
+        </eu.davidea.flipview.FlipView>
 
         <Space
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
@@ -83,8 +90,8 @@
             android:clipToPadding="false"
             android:padding="@dimen/default_padding"
             android:tag="2"
-            app:anticipateInAnimationTime="100"
             app:animationDuration="300"
+            app:anticipateInAnimationTime="100"
             app:checked="false"
             app:enableInitialAnimation="false"
             app:frontBackground="@drawable/unknown"
@@ -94,11 +101,13 @@
             app:rearBackground="@drawable/unknown"
             app:rearBackgroundColor="@android:color/white"
             app:rearImageAnimationDelay="0"
-            app:rearLayout="@layout/flip_rear_custom" />
+            app:rearLayout="@layout/flip_rear_custom">
+
+        </eu.davidea.flipview.FlipView>
 
         <Space
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
@@ -111,8 +120,8 @@
             android:clipToPadding="false"
             android:padding="@dimen/default_padding"
             android:tag="3"
-            app:anticipateInAnimationTime="100"
             app:animationDuration="300"
+            app:anticipateInAnimationTime="100"
             app:checked="false"
             app:enableInitialAnimation="false"
             app:frontBackground="@drawable/unknown"
@@ -122,11 +131,13 @@
             app:rearBackground="@drawable/unknown"
             app:rearBackgroundColor="@android:color/white"
             app:rearImageAnimationDelay="0"
-            app:rearLayout="@layout/flip_rear_custom" />
+            app:rearLayout="@layout/flip_rear_custom">
+
+        </eu.davidea.flipview.FlipView>
 
         <Space
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1" />
 
     </LinearLayout>
@@ -134,11 +145,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:paddingEnd="5dp"
+        android:paddingStart="5dp">
 
         <Space
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
@@ -151,8 +165,8 @@
             android:clipToPadding="false"
             android:padding="@dimen/default_padding"
             android:tag="4"
-            app:anticipateInAnimationTime="100"
             app:animationDuration="300"
+            app:anticipateInAnimationTime="100"
             app:checked="false"
             app:enableInitialAnimation="false"
             app:frontBackground="@drawable/unknown"
@@ -166,7 +180,7 @@
 
         <Space
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
@@ -179,8 +193,8 @@
             android:clipToPadding="false"
             android:padding="@dimen/default_padding"
             android:tag="5"
-            app:anticipateInAnimationTime="100"
             app:animationDuration="300"
+            app:anticipateInAnimationTime="100"
             app:checked="false"
             app:enableInitialAnimation="false"
             app:frontBackground="@drawable/unknown"
@@ -194,7 +208,7 @@
 
         <Space
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
@@ -207,8 +221,8 @@
             android:clipToPadding="false"
             android:padding="@dimen/default_padding"
             android:tag="6"
-            app:anticipateInAnimationTime="100"
             app:animationDuration="300"
+            app:anticipateInAnimationTime="100"
             app:checked="false"
             app:enableInitialAnimation="false"
             app:frontBackground="@drawable/unknown"
@@ -222,7 +236,7 @@
 
         <Space
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
@@ -235,8 +249,8 @@
             android:clipToPadding="false"
             android:padding="@dimen/default_padding"
             android:tag="7"
-            app:anticipateInAnimationTime="100"
             app:animationDuration="300"
+            app:anticipateInAnimationTime="100"
             app:checked="false"
             app:enableInitialAnimation="false"
             app:frontBackground="@drawable/unknown"
@@ -250,7 +264,7 @@
 
         <Space
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1" />
 
     </LinearLayout>
@@ -258,11 +272,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:paddingEnd="5dp"
+        android:paddingStart="5dp">
 
         <Space
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
@@ -275,8 +292,8 @@
             android:clipToPadding="false"
             android:padding="@dimen/default_padding"
             android:tag="8"
-            app:anticipateInAnimationTime="100"
             app:animationDuration="300"
+            app:anticipateInAnimationTime="100"
             app:checked="false"
             app:enableInitialAnimation="false"
             app:frontBackground="@drawable/unknown"
@@ -290,7 +307,7 @@
 
         <Space
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
@@ -303,8 +320,8 @@
             android:clipToPadding="false"
             android:padding="@dimen/default_padding"
             android:tag="9"
-            app:anticipateInAnimationTime="100"
             app:animationDuration="300"
+            app:anticipateInAnimationTime="100"
             app:checked="false"
             app:enableInitialAnimation="false"
             app:frontBackground="@drawable/unknown"
@@ -318,7 +335,7 @@
 
         <Space
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
@@ -331,8 +348,8 @@
             android:clipToPadding="false"
             android:padding="@dimen/default_padding"
             android:tag="10"
-            app:anticipateInAnimationTime="100"
             app:animationDuration="300"
+            app:anticipateInAnimationTime="100"
             app:checked="false"
             app:enableInitialAnimation="false"
             app:frontBackground="@drawable/unknown"
@@ -346,7 +363,7 @@
 
         <Space
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1" />
 
         <eu.davidea.flipview.FlipView
@@ -359,8 +376,8 @@
             android:clipToPadding="false"
             android:padding="@dimen/default_padding"
             android:tag="11"
-            app:anticipateInAnimationTime="100"
             app:animationDuration="300"
+            app:anticipateInAnimationTime="100"
             app:checked="false"
             app:enableInitialAnimation="false"
             app:frontBackground="@drawable/unknown"
@@ -374,7 +391,7 @@
 
         <Space
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1" />
 
     </LinearLayout>
