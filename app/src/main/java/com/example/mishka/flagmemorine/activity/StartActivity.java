@@ -28,6 +28,8 @@ public class StartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
+        hideSystemUI();
+
         contentValues = new ContentValues();
 
 //        sqLiteDatabase = dbHelper.getWritableDatabase();
@@ -263,6 +265,17 @@ public class StartActivity extends AppCompatActivity {
 
 //        // Update the shared preferences with the current version code
 //        prefs.edit().putInt(PREF_VERSION_CODE_KEY, currentVersionCode).apply();
+    }
+
+    private void hideSystemUI(){
+        View mDecorView = getWindow().getDecorView();
+        mDecorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_IMMERSIVE
+        );
     }
 
     private RadioButton xSmall;

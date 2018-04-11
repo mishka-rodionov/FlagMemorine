@@ -5,11 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    >
+    android:paddingEnd="10dp"
+    android:paddingStart="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <Space
@@ -27,8 +28,8 @@
             android:clipToPadding="false"
             android:padding="@dimen/default_padding"
             android:tag="0"
-            app:anticipateInAnimationTime="100"
             app:animationDuration="300"
+            app:anticipateInAnimationTime="100"
             app:checked="false"
             app:enableInitialAnimation="false"
             app:frontBackground="@drawable/unknown"
@@ -55,8 +56,8 @@
             android:clipToPadding="false"
             android:padding="@dimen/default_padding"
             android:tag="1"
-            app:anticipateInAnimationTime="100"
             app:animationDuration="300"
+            app:anticipateInAnimationTime="100"
             app:checked="false"
             app:enableInitialAnimation="false"
             app:frontBackground="@drawable/unknown"
@@ -83,8 +84,8 @@
             android:clipToPadding="false"
             android:padding="@dimen/default_padding"
             android:tag="2"
-            app:anticipateInAnimationTime="100"
             app:animationDuration="300"
+            app:anticipateInAnimationTime="100"
             app:checked="false"
             app:enableInitialAnimation="false"
             app:frontBackground="@drawable/unknown"
@@ -111,8 +112,8 @@
             android:clipToPadding="false"
             android:padding="@dimen/default_padding"
             android:tag="3"
-            app:anticipateInAnimationTime="100"
             app:animationDuration="300"
+            app:anticipateInAnimationTime="100"
             app:checked="false"
             app:enableInitialAnimation="false"
             app:frontBackground="@drawable/unknown"
@@ -133,7 +134,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <Space
@@ -151,8 +152,8 @@
             android:clipToPadding="false"
             android:padding="@dimen/default_padding"
             android:tag="4"
-            app:anticipateInAnimationTime="100"
             app:animationDuration="300"
+            app:anticipateInAnimationTime="100"
             app:checked="false"
             app:enableInitialAnimation="false"
             app:frontBackground="@drawable/unknown"
@@ -179,8 +180,8 @@
             android:clipToPadding="false"
             android:padding="@dimen/default_padding"
             android:tag="5"
-            app:anticipateInAnimationTime="100"
             app:animationDuration="300"
+            app:anticipateInAnimationTime="100"
             app:checked="false"
             app:enableInitialAnimation="false"
             app:frontBackground="@drawable/unknown"
@@ -207,8 +208,8 @@
             android:clipToPadding="false"
             android:padding="@dimen/default_padding"
             android:tag="6"
-            app:anticipateInAnimationTime="100"
             app:animationDuration="300"
+            app:anticipateInAnimationTime="100"
             app:checked="false"
             app:enableInitialAnimation="false"
             app:frontBackground="@drawable/unknown"
@@ -235,8 +236,8 @@
             android:clipToPadding="false"
             android:padding="@dimen/default_padding"
             android:tag="7"
-            app:anticipateInAnimationTime="100"
             app:animationDuration="300"
+            app:anticipateInAnimationTime="100"
             app:checked="false"
             app:enableInitialAnimation="false"
             app:frontBackground="@drawable/unknown"
@@ -257,7 +258,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <Space
@@ -275,8 +276,8 @@
             android:clipToPadding="false"
             android:padding="@dimen/default_padding"
             android:tag="8"
-            app:anticipateInAnimationTime="100"
             app:animationDuration="300"
+            app:anticipateInAnimationTime="100"
             app:checked="false"
             app:enableInitialAnimation="false"
             app:frontBackground="@drawable/unknown"
@@ -303,8 +304,8 @@
             android:clipToPadding="false"
             android:padding="@dimen/default_padding"
             android:tag="9"
-            app:anticipateInAnimationTime="100"
             app:animationDuration="300"
+            app:anticipateInAnimationTime="100"
             app:checked="false"
             app:enableInitialAnimation="false"
             app:frontBackground="@drawable/unknown"
@@ -331,8 +332,8 @@
             android:clipToPadding="false"
             android:padding="@dimen/default_padding"
             android:tag="10"
-            app:anticipateInAnimationTime="100"
             app:animationDuration="300"
+            app:anticipateInAnimationTime="100"
             app:checked="false"
             app:enableInitialAnimation="false"
             app:frontBackground="@drawable/unknown"
@@ -359,8 +360,8 @@
             android:clipToPadding="false"
             android:padding="@dimen/default_padding"
             android:tag="11"
-            app:anticipateInAnimationTime="100"
             app:animationDuration="300"
+            app:anticipateInAnimationTime="100"
             app:checked="false"
             app:enableInitialAnimation="false"
             app:frontBackground="@drawable/unknown"

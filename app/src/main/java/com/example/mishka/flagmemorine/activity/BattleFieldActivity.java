@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -52,8 +53,13 @@ public class BattleFieldActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         time1 = System.currentTimeMillis();
+
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_battlefield);
+//        WindowManager.LayoutParams.FLAG_FULLSCREEN;
+        hideSystemUI();
         battlefieldToolbar = (Toolbar) findViewById(R.id.battlefield_toolbar);
         setSupportActionBar(battlefieldToolbar);
         battlefieldActionBar = getSupportActionBar();
@@ -402,7 +408,7 @@ public class BattleFieldActivity extends AppCompatActivity {
         }else if (size == Data.getXxlargeSize()){
 //            view = getLayoutInflater().inflate(R.layout.layout_xxlarge, null);
             battlefieldActionBar.setTitle("xxLarge field");
-            view = getLayoutInflater().inflate(R.layout.activity_temp, null);
+            view = getLayoutInflater().inflate(R.layout.layout_xxlarge, null);
         }
     }
 
@@ -445,6 +451,17 @@ public class BattleFieldActivity extends AppCompatActivity {
             }
         });
         thread.start();
+    }
+
+    private void hideSystemUI(){
+        View mDecorView = getWindow().getDecorView();
+        mDecorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_IMMERSIVE
+        );
     }
 
     //region Private fields

@@ -18,6 +18,7 @@ public class EndOfGameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end_of_game);
+        hideSystemUI();
 
         scoreValue = getIntent().getStringExtra("score");
         stepValue = getIntent().getStringExtra("step");
@@ -65,6 +66,17 @@ public class EndOfGameActivity extends AppCompatActivity {
 //                        .setAction("Action", null).show();
 //            }
 //        });
+    }
+
+    private void hideSystemUI(){
+        View mDecorView = getWindow().getDecorView();
+        mDecorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_IMMERSIVE
+        );
     }
 
     private TextView score;
