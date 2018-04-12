@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -19,6 +21,12 @@ public class EndOfGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end_of_game);
         hideSystemUI();
+
+        endOfGameToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.userinfo_toolbar);
+        setSupportActionBar(endOfGameToolbar);
+        ActionBar acBar  = getSupportActionBar();
+        acBar.setTitle("This is text");
+        acBar.setDisplayHomeAsUpEnabled(true);
 
         scoreValue = getIntent().getStringExtra("score");
         stepValue = getIntent().getStringExtra("step");
@@ -79,9 +87,16 @@ public class EndOfGameActivity extends AppCompatActivity {
         );
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
     private TextView score;
     private TextView step;
     private TextView time;
+    private android.support.v7.widget.Toolbar endOfGameToolbar;
 
     private Button restart;
     private Button home;
