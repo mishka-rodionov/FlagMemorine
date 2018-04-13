@@ -22,7 +22,7 @@ public class EndOfGameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_end_of_game);
         hideSystemUI();
 
-        endOfGameToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.userinfo_toolbar);
+        endOfGameToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.endofgame_toolbar);
         setSupportActionBar(endOfGameToolbar);
         ActionBar acBar  = getSupportActionBar();
         acBar.setTitle("This is text");
