@@ -65,9 +65,6 @@ public class BattleFieldActivity extends AppCompatActivity {
         battlefieldActionBar = getSupportActionBar();
         battlefieldActionBar.setDisplayHomeAsUpEnabled(true);
         //******************************************************************************************
-//        DBHelper dbHelper = new DBHelper(BattleFieldActivity.this);
-//        sqLiteDatabase = dbHelper.getWritableDatabase();                                            // Экземпляр БД для работы
-//        contentValues = new ContentValues();                                                        // Инициализация контейнера для работы с таблицами БД
         sqLiteTableManager = new SqLiteTableManager(BattleFieldActivity.this);
 
         record = getPreferences(MODE_PRIVATE);                                                      //
@@ -89,13 +86,8 @@ public class BattleFieldActivity extends AppCompatActivity {
 
         result =    (TextView)  findViewById(R.id.result);
         test1 =     (TextView)  findViewById(R.id.currentStepCount);
-//        test2 =     (TextView)  findViewById(R.id.recordStepCount);
         time =      (TextView)  findViewById(R.id.timeValue);
-//        restart =   (Button)    findViewById(R.id.restart);
         scoreTV =   (TextView)  findViewById(R.id.currentScore);
-//        back =      (Button)    findViewById(R.id.backBtn);
-
-//        back.setVisibility(View.INVISIBLE);
 
         View.OnClickListener backListener = new View.OnClickListener() {
             @Override
@@ -111,26 +103,32 @@ public class BattleFieldActivity extends AppCompatActivity {
                 recreate();
             }
         };
-
-//        back.setOnClickListener(backListener);
-//        restart.setOnClickListener(restartListener);
         scoreTV.setText(Integer.toString(score));
-
-//        if (topRecord == 10000)
-//            test2.setText("" + 0);
-//        else
-//            test2.setText("" + topRecord);
 
         handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 flipViews.get(msg.arg1).setEnabled(true);
+                flipViews.get(msg.arg2).setEnabled(true);
+                flipViews.get(msg.arg1).setClickable(false);
+                flipViews.get(msg.arg2).setClickable(false);
                 if (flipViews.get(msg.arg1).isFlipped()) {
                     flipViews.get(msg.arg1).flip(false);
-                    Log.d(Data.getLOG_TAG(), "flip = false " + flipViews.get(msg.arg1).isClickable());
+                    flipViews.get(msg.arg2).flip(false);
+//                    flipViews.get(msg.arg1).setClickable(true);
+//                    flipViews.get(msg.arg2).setClickable(true);
+//                    Log.d(Data.getLOG_TAG(), "flip = false " + flipViews.get(msg.arg1).isClickable());
                 } else {
-                    Log.d(Data.getLOG_TAG(), "flip = true " + flipViews.get(msg.arg1).isClickable());
+//                    Log.d(Data.getLOG_TAG(), "flip = true " + flipViews.get(msg.arg1).isClickable());
                 }
+            }
+        };
+
+        handlerClickable = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                flipViews.get(msg.arg1).setClickable(true);
+                flipViews.get(msg.arg2).setClickable(true);
             }
         };
 
@@ -200,12 +198,6 @@ public class BattleFieldActivity extends AppCompatActivity {
                     }
                 }.start();
                     String country  = battleField.getElement(Integer.parseInt(view.getTag().toString()));                                        // Получение ответа от AsynkTask
-                    Log.d(Data.getLOG_TAG(), "Try to get result");
-                    result.setText(country);                                                    // Отображение значения в тестовом текстовом поле
-                    final int resource = CountryList.getCountry(country);                       // Получение целочисленного значения сооветствующего ресурсу с флагом
-
-
-                    flipViews.get(index).setRearImage(resource);
 
                     userChoice.add(country);                                                    // Добавление выбранного значения в контейнер пользовательского выбора.
                     viewTag.add(view.getTag().toString());                                      // Добавление тега выбранной кнопки в контейнер пользовательского выбора.
@@ -228,11 +220,13 @@ public class BattleFieldActivity extends AppCompatActivity {
 
     private void clickHandler(String country) {
         if (userChoice.size() == 2 && flipFlag) {                                                // Проверка количества элементов в контейнере пользовательского выбора.
+
             stepCounter++;
             flipFlag = false;
             Log.d(Data.getLOG_TAG(), "flipFlag = " + flipFlag);
             test1.setText("" + stepCounter);
             if (!userChoice.get(0).equals(userChoice.get(1))) {                       // Если значения пользовательского выбора не равны, то
+                Log.i(Data.getLOG_TAG(), "clickHandler: forward flip, flag NO equals");
                 userChoice.clear();                                                 // очищаем контейнер
 
                 result.setTextColor(Color.RED);
@@ -247,15 +241,17 @@ public class BattleFieldActivity extends AppCompatActivity {
                         flipViews.get(i).setEnabled(false);
                     }
                 }
-//                flipViews.get(but0).setEnabled(true);
-//                flipViews.get(but1).setEnabled(true);
 
                 final int paint = R.drawable.unknown;            // вычисляем целочисленное значение файла ресурса с флагом
-                delayedTask(but0, paint);
-                delayedTask(but1, paint);
+//                delayedTask(but0, paint);
+//                delayedTask(but1, paint);
+                delayedTask(but0, but1);
+                delayedClickable(but0, but1);
+
                 viewTag.clear();                                                    // очищаем контейнер тегов
             } else                                                                   // иначе
                 if (userChoice.get(0).equals(userChoice.get(1))) {                        // Если значения пользовательского выбора равны, то
+                    Log.i(Data.getLOG_TAG(), "clickHandler: forward flip, flag equals");
 
                     result.setTextColor(Color.GREEN);
                     result.setText(country);
@@ -276,7 +272,7 @@ public class BattleFieldActivity extends AppCompatActivity {
                     clickable.put(Integer.parseInt(viewTag.get(1)), false);
                     userChoice.clear();                                                 // очищаем контейнеры пользовательского выбора
                     viewTag.clear();
-                    if (!clickable.containsValue(true)) {
+                    if (!clickable.containsValue(true)) {                               // данное условие выполняется когда все таблички перевернуты
                         clickable.clear();
 
                         userRecord = Integer.parseInt(test1.getText().toString());
@@ -285,14 +281,6 @@ public class BattleFieldActivity extends AppCompatActivity {
                         timer.cancel();
                         sqLiteTableManager.insertIntoStatisticTable(null,null,null, Integer.toString(battleFieldSize), time.getText().toString(), stepCounter, score, Data.getCurrentDate());
                         Log.d(Data.getLOG_TAG(), "user record = " + userRecord);
-
-//                        Intent endOfGameActivityIntent= new Intent(BattleFieldActivity.this, EndOfGameActivity.class);
-//                        endOfGameActivityIntent.putExtra("score", Integer.toString(score));
-//                        endOfGameActivityIntent.putExtra("step", Integer.toString(stepCounter));
-//                        endOfGameActivityIntent.putExtra("time", time.getText().toString());
-//                        endOfGameActivityIntent.putExtra("size", Integer.toString(battleFieldSize));
-//                        startActivity(endOfGameActivityIntent);
-
                         delayedIntent();
 
                         if (userRecord < topRecord) {
@@ -309,6 +297,7 @@ public class BattleFieldActivity extends AppCompatActivity {
             Log.d(Data.getLOG_TAG(), "flipFlag = " + flipFlag);
             test1.setText("" + stepCounter);
             if (!userChoice.get(0).equals(userChoice.get(1))) {                     // Если значения пользовательского выбора не равны, то
+                Log.i(Data.getLOG_TAG(), "clickHandler: backward flip, flag NO equals");
                 userChoice.clear();                                                 // очищаем контейнер
                 final int but0 = Integer.parseInt(viewTag.get(0));                  // вычисляем тег первой нажатой кнопки
                 final int but1 = Integer.parseInt(viewTag.get(1));                  // вычисляем тег второй нажатой кнопки
@@ -321,11 +310,14 @@ public class BattleFieldActivity extends AppCompatActivity {
 //                flipViews.get(but1).setEnabled(true);
 
                 final int paint = R.drawable.unknown;            // вычисляем целочисленное значение файла ресурса с флагом
-                delayedTask(but0, paint);
-                delayedTask(but1, paint);
+//                delayedTask(but0, paint);
+//                delayedTask(but1, paint);
+                delayedTask(but0, but1);
+                delayedClickable(but0, but1);
                 viewTag.clear();                                                    // очищаем контейнер тегов
             } else                                                                   // иначе
                 if (userChoice.get(0).equals(userChoice.get(1))) {                        // Если значения пользовательского выбора равны, то
+                    Log.i(Data.getLOG_TAG(), "clickHandler: backward flip, flag equals");
                     Log.d(Data.getLOG_TAG(), "country equals");
                     flipViews.get(Integer.parseInt(viewTag.get(0)))
                             .setEnabled(false);                                       // делаем выбранные кнопки не кликабельными
@@ -364,26 +356,33 @@ public class BattleFieldActivity extends AppCompatActivity {
         if (battleFieldSize == Data.getXsmallSize()){
             for (int i = 0; i < Data.getXsmallSize(); i++) {
                 flipViews.add((FlipView) view.findViewById(Data.getIdxsmall(i)));
+                flipViews.get(i).setRearImage(CountryList.getCountry(battleField.getElement(i)));
+                flipViews.get(i).isFlipped();
             }
         }else if (battleFieldSize == Data.getSmallSize()){
             for (int i = 0; i < Data.getSmallSize(); i++) {
                 flipViews.add((FlipView) view.findViewById(Data.getIdsmall(i)));
+                flipViews.get(i).setRearImage(CountryList.getCountry(battleField.getElement(i)));
             }
         }else if (battleFieldSize == Data.getMediumSize()){
             for (int i = 0; i < Data.getMediumSize(); i++) {
                 flipViews.add((FlipView) view.findViewById(Data.getIdmedium(i)));
+                flipViews.get(i).setRearImage(CountryList.getCountry(battleField.getElement(i)));
             }
         }else if (battleFieldSize == Data.getLargeSize()){
             for (int i = 0; i < Data.getLargeSize(); i++) {
                 flipViews.add((FlipView) view.findViewById(Data.getIdlarge(i)));
+                flipViews.get(i).setRearImage(CountryList.getCountry(battleField.getElement(i)));
             }
         }else if (battleFieldSize == Data.getXlargeSize()){
             for (int i = 0; i < Data.getXlargeSize(); i++) {
                 flipViews.add((FlipView) view.findViewById(Data.getIdxlarge(i)));
+                flipViews.get(i).setRearImage(CountryList.getCountry(battleField.getElement(i)));
             }
         }else if (battleFieldSize == Data.getXxlargeSize()){
             for (int i = 0; i < Data.getXxlargeSize(); i++) {
                 flipViews.add((FlipView) view.findViewById(Data.getIdxxlarge(i)));
+                flipViews.get(i).setRearImage(CountryList.getCountry(battleField.getElement(i)));
             }
         }
         Log.d(Data.getLOG_TAG(), "flipview size = " + flipViews.size());
@@ -429,12 +428,12 @@ public class BattleFieldActivity extends AppCompatActivity {
         startActivity(startActivityIntent);
     }
 
-    public void delayedTask(final int button, final int resource){
+    public void delayedTask(final int but0, final int but1/*, final int resource*/){
         Thread thread = new Thread(new Runnable() {                             // создаем новый поток для закрытия первого, из выбранных пользователем флагов, рубашкой
             Message msg;
             @Override
             public void run() {
-                msg = handler.obtainMessage(1, button, resource);                // подготавливаем сообщение
+                msg = handler.obtainMessage(1, but0, but1);                // подготавливаем сообщение
                 handler.sendMessageDelayed(msg, 1000);                      // помещаем в очередь хэндлера отложенное на секунду сообщение
             }
         });
@@ -448,6 +447,18 @@ public class BattleFieldActivity extends AppCompatActivity {
             public void run() {
                 msg = handlerIntent.obtainMessage();
                 handlerIntent.sendMessageDelayed(msg, 1000);
+            }
+        });
+        thread.start();
+    }
+
+    public void delayedClickable(final int but0, final int but1){
+        Thread thread = new Thread(new Runnable() {                             // создаем новый поток для закрытия первого, из выбранных пользователем флагов, рубашкой
+            Message msg;
+            @Override
+            public void run() {
+                msg = handlerClickable.obtainMessage(1, but0, but1);                // подготавливаем сообщение
+                handlerClickable.sendMessageDelayed(msg, 1000);                      // помещаем в очередь хэндлера отложенное на секунду сообщение
             }
         });
         thread.start();
@@ -475,6 +486,7 @@ public class BattleFieldActivity extends AppCompatActivity {
 //    private ContentValues contentValues;
 
     private Handler handler;
+    private Handler handlerClickable;
     private Handler handlerTime;
     private Handler handlerIntent;
     private HashMap<Integer, Boolean> clickable;
