@@ -32,6 +32,7 @@
         android:layout_height="match_parent"
         android:layout_alignBottom="@+id/result"
         android:layout_alignStart="@+id/currentStepCount"
+        android:layout_gravity="center"
         android:layout_weight="1">
 
         <LinearLayout
@@ -46,92 +47,130 @@
         </LinearLayout>
     </ScrollView>
 
-    <RelativeLayout
+    <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="82dp">
+        android:layout_height="82dp"
+        android:shrinkColumns="*"
+        android:stretchColumns="*"
+        >
 
-        <TextView
-            android:id="@+id/result"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_weight="1"
-            android:fontFamily="sans-serif"
-            android:hint="@string/user_country"
-            android:textColorHint="@android:color/white"
-            android:textSize="30dp" />
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp">
 
-        <TextView
-            android:id="@+id/step"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/currentStepCount"
-            android:layout_alignBottom="@+id/currentStepCount"
-            android:layout_marginEnd="42dp"
-            android:layout_toStartOf="@+id/currentStepCount"
-            android:layout_weight="1"
-            android:gravity="left"
-            android:text="@string/step"
-            android:textColor="@android:color/white"
-            android:textSize="18sp" />
+            <TableLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/timeText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/currentScore"
-            android:layout_toEndOf="@+id/currentScore"
-            android:layout_weight="1"
-            android:text="@string/time"
-            android:textColor="@android:color/white"
-            android:textSize="18sp" />
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/timeValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/step"
-            android:layout_toStartOf="@+id/step"
-            android:layout_weight="1"
-            android:text="0:00"
-            android:textColor="@android:color/white"
-            android:textSize="18sp" />
+                    <TextView
+                        android:id="@+id/score"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="false"
+                        android:layout_centerVertical="false"
+                        android:layout_weight="1"
+                        android:text="@string/score"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/currentStepCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/currentScore"
-            android:layout_alignBottom="@+id/currentScore"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="17dp"
-            android:layout_weight="1"
-            android:textColor="@android:color/white"
-            android:textSize="18sp" />
+                    <TextView
+                        android:id="@+id/currentScore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@+id/score"
+                        android:layout_alignBottom="@+id/score"
+                        android:layout_toEndOf="@+id/score"
+                        android:layout_weight="1"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp" />
+                </TableRow>
 
-        <TextView
-            android:id="@+id/score"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="16dp"
-            android:text="@string/score"
-            android:textSize="18sp"
-            android:textColor="@android:color/white" />
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/currentScore"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/score"
-            android:layout_alignBottom="@+id/score"
-            android:layout_marginStart="27dp"
-            android:layout_toEndOf="@+id/score"
-            android:textColor="@android:color/white"
-            android:textSize="18sp" />
+                    <TextView
+                        android:id="@+id/step"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@+id/currentStepCount"
+                        android:layout_alignBottom="@+id/currentStepCount"
+                        android:layout_toStartOf="@+id/currentStepCount"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:text="@string/step"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp" />
 
-    </RelativeLayout>
+                    <TextView
+                        android:id="@+id/currentStepCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@+id/currentScore"
+                        android:layout_alignBottom="@+id/currentScore"
+                        android:layout_alignParentEnd="true"
+                        android:layout_weight="1"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/timeText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/currentScore"
+                        android:layout_toEndOf="@+id/currentScore"
+                        android:layout_weight="1"
+                        android:text="@string/time"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/timeValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/step"
+                        android:layout_toStartOf="@+id/step"
+                        android:layout_weight="1"
+                        android:text="0:00"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp" />
+                </TableRow>
+            </TableLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/result"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif"
+                    android:hint="@string/user_country"
+                    android:textColorHint="@android:color/white"
+                    android:textSize="30dp" />
+            </LinearLayout>
+        </TableRow>
+
+    </TableLayout>
 
 </LinearLayout>
