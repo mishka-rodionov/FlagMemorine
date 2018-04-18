@@ -85,6 +85,7 @@ public class BattleFieldActivity extends AppCompatActivity {
         }
 
         result =    (TextView)  findViewById(R.id.result);
+        result.setTextColor(Color.WHITE);
         test1 =     (TextView)  findViewById(R.id.currentStepCount);
         time =      (TextView)  findViewById(R.id.timeValue);
         scoreTV =   (TextView)  findViewById(R.id.currentScore);
@@ -108,6 +109,7 @@ public class BattleFieldActivity extends AppCompatActivity {
         handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
+                Log.i(Data.getLOG_TAG(), "handleMessage: " + System.currentTimeMillis());
                 flipViews.get(msg.arg1).setEnabled(true);
                 flipViews.get(msg.arg2).setEnabled(true);
                 flipViews.get(msg.arg1).setClickable(false);
@@ -115,7 +117,6 @@ public class BattleFieldActivity extends AppCompatActivity {
                 if (flipViews.get(msg.arg1).isFlipped()) {
                     flipViews.get(msg.arg1).flip(false);
                     flipViews.get(msg.arg2).flip(false);
-//                    flipViews.get(msg.arg1).setClickable(true);
 //                    flipViews.get(msg.arg2).setClickable(true);
 //                    Log.d(Data.getLOG_TAG(), "flip = false " + flipViews.get(msg.arg1).isClickable());
                 } else {
@@ -127,6 +128,7 @@ public class BattleFieldActivity extends AppCompatActivity {
         handlerClickable = new Handler() {
             @Override
             public void handleMessage(Message msg) {
+                Log.i(Data.getLOG_TAG(), "handleClickableMessage: " + System.currentTimeMillis());
                 flipViews.get(msg.arg1).setClickable(true);
                 flipViews.get(msg.arg2).setClickable(true);
             }
@@ -191,6 +193,7 @@ public class BattleFieldActivity extends AppCompatActivity {
                 Log.d(Data.getLOG_TAG(), "press button");
                 final int index = Integer.parseInt(view.getTag().toString());               // Вычисление индекса кнопки в контейнере кнопок по тэгу кнопки
                 flipViews.get(index).setEnabled(false);
+                flipViews.get(index).setClickable(false);
                 new Thread(){
                     public void run(){
                         mp = MediaPlayer.create(BattleFieldActivity.this, R.raw.flip_click);
@@ -198,8 +201,11 @@ public class BattleFieldActivity extends AppCompatActivity {
                     }
                 }.start();
                     String country  = battleField.getElement(Integer.parseInt(view.getTag().toString()));                                        // Получение ответа от AsynkTask
-
                     userChoice.add(country);                                                    // Добавление выбранного значения в контейнер пользовательского выбора.
+                    if (userChoice.size() == 1 && flipFlag){
+                        result.setTextColor(Color.WHITE);
+                        result.setText(country);
+                    }
                     viewTag.add(view.getTag().toString());                                      // Добавление тега выбранной кнопки в контейнер пользовательского выбора.
                     Log.d(Data.getLOG_TAG(), "userCoice size = " + userChoice.size());
                     Log.d(Data.getLOG_TAG(), "userCoice 1 = " + userChoice.get(0));
@@ -243,8 +249,6 @@ public class BattleFieldActivity extends AppCompatActivity {
                 }
 
                 final int paint = R.drawable.unknown;            // вычисляем целочисленное значение файла ресурса с флагом
-//                delayedTask(but0, paint);
-//                delayedTask(but1, paint);
                 delayedTask(but0, but1);
                 delayedClickable(but0, but1);
 
@@ -312,8 +316,8 @@ public class BattleFieldActivity extends AppCompatActivity {
                 final int paint = R.drawable.unknown;            // вычисляем целочисленное значение файла ресурса с флагом
 //                delayedTask(but0, paint);
 //                delayedTask(but1, paint);
-                delayedTask(but0, but1);
-                delayedClickable(but0, but1);
+//                delayedTask(but0, but1);
+//                delayedClickable(but0, but1);
                 viewTag.clear();                                                    // очищаем контейнер тегов
             } else                                                                   // иначе
                 if (userChoice.get(0).equals(userChoice.get(1))) {                        // Если значения пользовательского выбора равны, то
@@ -346,8 +350,8 @@ public class BattleFieldActivity extends AppCompatActivity {
                     }
                 }
         }else{
-            result.setTextColor(Color.GREEN);
-            result.setText(country);
+//            result.setTextColor(Color.GREEN);
+//            result.setText(country);
         }
     }
 
@@ -445,6 +449,7 @@ public class BattleFieldActivity extends AppCompatActivity {
             Message msg;
             @Override
             public void run() {
+
                 msg = handlerIntent.obtainMessage();
                 handlerIntent.sendMessageDelayed(msg, 1000);
             }
@@ -458,7 +463,7 @@ public class BattleFieldActivity extends AppCompatActivity {
             @Override
             public void run() {
                 msg = handlerClickable.obtainMessage(1, but0, but1);                // подготавливаем сообщение
-                handlerClickable.sendMessageDelayed(msg, 1000);                      // помещаем в очередь хэндлера отложенное на секунду сообщение
+                handlerClickable.sendMessageDelayed(msg, 1600);                      // помещаем в очередь хэндлера отложенное на секунду сообщение
             }
         });
         thread.start();
