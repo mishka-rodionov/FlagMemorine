@@ -16,18 +16,6 @@ public class BattleField {
         CountryList.loading(size);
         CountryList.shuffle();
         country = CountryList.getCountryList();
-//        try {
-//            for (int i = 0; i < size; i++) {
-//                ArrayList<String> temp = new ArrayList<String>(size);
-//                field.add(temp);
-//                for (int j = 0; j < size; j++) {
-//                    field.get(i).add(CountryList.getCountry(index++));
-//                }
-//            }
-//        }catch (IndexOutOfBoundsException e){
-//            e.printStackTrace();
-////            out.println();
-//        }
     }
 
     public static int addBattleField(BattleField battleField){

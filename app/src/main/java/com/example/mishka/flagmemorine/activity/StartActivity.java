@@ -37,37 +37,6 @@ public class StartActivity extends AppCompatActivity {
 
         checkFirstRun();
 
-//        sqLiteDatabase.execSQL("create table if not exists " + Data.getDbRecordTable()
-//                + " ("
-//                + "id integer primary key autoincrement,"
-//                + Data.getDbUserNameColumn() + " text,"
-//                + Data.getDbLoginColumn() + " text,"
-//                + Data.getDbCountryColumn() + " text,"
-//                + Data.getDbBFColumn() + " text,"
-//                + Data.getDbGameTimeColumn() + " text,"
-//                + Data.getDbStepColumn() + " text,"
-//                + Data.getDbScoreColumn() + " text,"
-//                + Data.getDbDateColumn() + " text"
-//                + ");");
-//
-//        sqLiteDatabase.execSQL("create table if not exists test " +
-//                "(" +
-//                "temp text," +
-//                "second text" +
-//                ");");
-//
-//        sqLiteDatabase.execSQL("create table if not exists " + Data.getDbStatisticTable()
-//                + " ("
-//                + "id integer primary key autoincrement,"
-//                + Data.getDbUserNameColumn() + " text,"
-//                + Data.getDbLoginColumn() + " text,"
-//                + Data.getDbCountryColumn() + " text,"
-//                + Data.getDbBFColumn() + " text,"
-//                + Data.getDbGameTimeColumn() + " text,"
-//                + Data.getDbStepColumn() + " text,"
-//                + Data.getDbScoreColumn() + " text,"
-//                + Data.getDbDateColumn() + " text"
-//                + ");");
         xSmall = (RadioButton) findViewById(R.id.xsmall);
         small = (RadioButton) findViewById(R.id.small);
         medium = (RadioButton) findViewById(R.id.medium);
@@ -83,13 +52,6 @@ public class StartActivity extends AppCompatActivity {
         statistic = (Button) findViewById(R.id.statistic);
         stopAds = (Button) findViewById(R.id.stopAds);
         userInfo = (Button) findViewById(R.id.userInfo);
-
-//        rg1.addView(xSmall);
-//        rg1.addView(small);
-//        rg1.addView(medium);
-//        rg2.addView(large);
-//        rg2.addView(xLarge);
-//        rg2.addView(xxLarge);
 
         View.OnClickListener onClickListenerRB = new View.OnClickListener() {
             @Override
@@ -140,29 +102,6 @@ public class StartActivity extends AppCompatActivity {
                         startActivity(intent);
                         break;
                     case R.id.statistic:
-//                        Log.d(Data.getLOG_TAG(), "create table if not exists " + Data.getDbRecordTable()
-//                                + " ("
-//                                + "id integer primary key autoincrement,"
-//                                + Data.getDbUserNameColumn() + " text,"
-//                                + Data.getDbLoginColumn() + " text,"
-//                                + Data.getDbCountryColumn() + " text,"
-//                                + Data.getDbBFColumn() + " text,"
-//                                + Data.getDbGameTimeColumn() + " text,"
-//                                + Data.getDbStepColumn() + " text,"
-//                                + Data.getDbScoreColumn() + " text,"
-//                                + Data.getDbDateColumn() + " text"
-//                                + ");");
-//                        contentValues.put(Data.getDbUserNameColumn(), Data.getUserName());
-//                        contentValues.put(Data.getDbLoginColumn(), Data.getLogin());
-//                        contentValues.put(Data.getDbCountryColumn(), Data.getUserCountry());
-//                        sqLiteDatabase.insert("Record", null, contentValues);
-//                        contentValues.clear();
-//                        contentValues.put("temp", Data.getUserName());
-//                        contentValues.put("second", Data.getLogin());
-//                        sqLiteDatabase.insert(Data.getDbRecordTable(), null, contentValues);
-//                        contentValues.clear();
-//                        statisticCursor(Data.getDbStatisticTable());
-//                        statisticCursor(Data.getDbRecordTable());
 
                         Intent statisticActivityIntent = new Intent(StartActivity.this, StatisticActivity.class);
                         startActivity(statisticActivityIntent);
