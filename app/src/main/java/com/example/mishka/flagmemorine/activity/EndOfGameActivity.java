@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.mishka.flagmemorine.R;
@@ -25,7 +26,7 @@ public class EndOfGameActivity extends AppCompatActivity {
         endOfGameToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.endofgame_toolbar);
         setSupportActionBar(endOfGameToolbar);
         ActionBar acBar  = getSupportActionBar();
-        acBar.setTitle("This is text");
+//        acBar.setTitle("This is text");
         acBar.setDisplayHomeAsUpEnabled(true);
 
         scoreValue = getIntent().getStringExtra("score");
@@ -58,8 +59,8 @@ public class EndOfGameActivity extends AppCompatActivity {
             }
         };
 
-        restart = (Button) findViewById(R.id.restartButton);
-        home = (Button) findViewById(R.id.homeButton);
+        restart = (ImageButton) findViewById(R.id.restartButton);
+        home = (ImageButton) findViewById(R.id.homeButton);
 
         restart.setOnClickListener(onClickListener);
         home.setOnClickListener(onClickListener);
@@ -98,8 +99,8 @@ public class EndOfGameActivity extends AppCompatActivity {
     private TextView time;
     private android.support.v7.widget.Toolbar endOfGameToolbar;
 
-    private Button restart;
-    private Button home;
+    private ImageButton restart;
+    private ImageButton home;
 
     private String scoreValue;
     private String stepValue;

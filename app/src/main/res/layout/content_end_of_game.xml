@@ -5,6 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:paddingBottom="10dp"
+    android:paddingEnd="10dp"
+    android:paddingStart="10dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <LinearLayout
@@ -21,6 +24,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:text="@string/congratulations"
+            android:textColor="@android:color/holo_green_light"
             android:textSize="24sp" />
     </LinearLayout>
 
@@ -73,21 +77,64 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/factsTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center_horizontal|center"
+            android:text="Facts" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="79dp"
+        android:layout_gravity="bottom"
+        android:gravity="bottom"
         android:orientation="horizontal">
 
-        <Button
+        <ImageButton
             android:id="@+id/restartButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/restart" />
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="100"
+            android:background="@drawable/rounded_button"
+            android:elevation="4dp"
+            app:srcCompat="@drawable/ic_refresh_white_36dp" />
 
-        <Button
-            android:id="@+id/homeButton"
-            android:layout_width="wrap_content"
+        <Space
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/home" />
+            android:layout_weight="3" />
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="100"
+            android:background="@drawable/rounded_button"
+            android:elevation="4dp"
+            app:srcCompat="@drawable/ic_menu_white_48dp" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3" />
+
+        <ImageButton
+            android:id="@+id/homeButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="100"
+            android:background="@drawable/rounded_button"
+            android:elevation="4dp"
+            app:srcCompat="@drawable/ic_home_white_36dp" />
+
     </LinearLayout>
 
 </LinearLayout>

@@ -14,7 +14,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:orientation="vertical"
         android:paddingEnd="10dp"
@@ -24,6 +24,9 @@
             android:id="@+id/play"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/rounded_button"
+            android:elevation="4dp"
             android:text="@string/play" />
 
         <RadioGroup
@@ -105,33 +108,55 @@
                 android:text="@string/xxlarge" />
         </RadioGroup>
 
-        <Button
-            android:id="@+id/multiplayer"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/multiplayer" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/statistic"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/statistic" />
+            <Button
+                android:id="@+id/multiplayer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_button"
+                android:elevation="4dp"
+                android:text="@string/multiplayer" />
 
-        <Button
-            android:id="@+id/stopAds"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/stopAds" />
+            <Button
+                android:id="@+id/statistic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_button"
+                android:elevation="4dp"
+                android:text="@string/statistic" />
 
-        <Button
-            android:id="@+id/userInfo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/userInfo" />
+            <Button
+                android:id="@+id/stopAds"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_button"
+                android:elevation="4dp"
+                android:text="@string/stopAds" />
+
+            <Button
+                android:id="@+id/userInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_button"
+                android:elevation="4dp"
+                android:text="@string/userInfo" />
+        </LinearLayout>
 
     </LinearLayout>
 

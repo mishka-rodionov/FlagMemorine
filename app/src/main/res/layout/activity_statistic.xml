@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/background_earth"
     android:orientation="vertical"
+    android:paddingEnd="10dp"
+    android:paddingStart="10dp"
     tools:context="com.example.mishka.flagmemorine.activity.StatisticActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -28,105 +30,129 @@
     </android.support.design.widget.AppBarLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <ToggleButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/hourTB"
-            android:layout_weight="1"
-            android:checked="false"
-            android:textOn="@string/hour"
-            android:textOff="@string/hour" />
-
-        <ToggleButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/dayTB"
+            android:layout_marginLeft="10dp"
             android:layout_weight="1"
+            android:background="@drawable/rounded_button"
+            android:checked="false"
+            android:textOff="@string/hour"
+            android:textOn="@string/hour" />
+
+        <ToggleButton
+            android:id="@+id/dayTB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_button"
             android:textOff="@string/day"
             android:textOn="@string/day" />
 
         <ToggleButton
+            android:id="@+id/allTB"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/allTB"
+            android:layout_marginLeft="10dp"
             android:layout_weight="1"
+            android:background="@drawable/rounded_button"
             android:textOff="@string/all"
             android:textOn="@string/all" />
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <ToggleButton
+            android:id="@+id/xsTB"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/xsTB"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
             android:layout_weight="1"
+            android:background="@drawable/rounded_button"
             android:textOff="@string/xsmall"
             android:textOn="@string/xsmall" />
 
         <ToggleButton
+            android:id="@+id/sTB"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/sTB"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
             android:layout_weight="1"
+            android:background="@drawable/rounded_button"
             android:textOff="@string/small"
             android:textOn="@string/small" />
 
         <ToggleButton
+            android:id="@+id/mTB"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/mTB"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
             android:layout_weight="1"
+            android:background="@drawable/rounded_button"
             android:textOff="@string/medium"
             android:textOn="@string/medium" />
 
         <ToggleButton
+            android:id="@+id/lTB"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/lTB"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
             android:layout_weight="1"
+            android:background="@drawable/rounded_button"
             android:textOff="@string/large"
             android:textOn="@string/large" />
 
         <ToggleButton
+            android:id="@+id/xlTB"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/xlTB"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
             android:layout_weight="1"
+            android:background="@drawable/rounded_button"
             android:textOff="@string/xlarge"
             android:textOn="@string/xlarge" />
 
         <ToggleButton
+            android:id="@+id/xxlTB"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/xxlTB"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
             android:layout_weight="1"
+            android:background="@drawable/rounded_button"
             android:textOff="@string/xxlarge"
             android:textOn="@string/xxlarge" />
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/recyclerview">
+        android:layout_height="wrap_content">
 
     </android.support.v7.widget.RecyclerView>
 
     <!--<ListView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:id="@+id/statisticLV" />-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:id="@+id/statisticLV" />-->
 </LinearLayout>

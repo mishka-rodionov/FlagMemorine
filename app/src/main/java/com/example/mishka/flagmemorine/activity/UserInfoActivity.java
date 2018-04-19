@@ -31,7 +31,7 @@ public class UserInfoActivity extends AppCompatActivity {
         userinfoToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.userinfo_toolbar);
         setSupportActionBar(userinfoToolbar);
         ActionBar acBar  = getSupportActionBar();
-        acBar.setTitle("This is text");
+//        acBar.setTitle("This is text");
         acBar.setDisplayHomeAsUpEnabled(true);
 
 //        contentValues = new ContentValues();
