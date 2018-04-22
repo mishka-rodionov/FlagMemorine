@@ -1,491 +1,570 @@
-//package com.example.mishka.flagmemorine.activity;
-//
-//import android.content.Intent;
-//import android.content.SharedPreferences;
-//import android.graphics.Color;
-//import android.os.Bundle;
-//import android.os.Handler;
-//import android.os.Message;
-//import android.support.design.widget.FloatingActionButton;
-//import android.support.design.widget.Snackbar;
-//import android.util.Log;
-//import android.view.View;
-//import android.support.design.widget.NavigationView;
-//import android.support.v4.view.GravityCompat;
-//import android.support.v4.widget.DrawerLayout;
-//import android.support.v7.app.ActionBarDrawerToggle;
-//import android.support.v7.app.AppCompatActivity;
-//import android.support.v7.widget.Toolbar;
-//import android.view.Menu;
-//import android.view.MenuItem;
-//import android.widget.ImageButton;
-//import android.widget.LinearLayout;
-//import android.widget.TextView;
-//
-//import com.example.mishka.flagmemorine.R;
-//import com.example.mishka.flagmemorine.logic.CountryList;
-//import com.example.mishka.flagmemorine.logic.Data;
-//import com.example.mishka.flagmemorine.logic.HttpClient;
-//
-//import java.util.ArrayList;
-//import java.util.HashMap;
-//import java.util.Timer;
-//import java.util.TimerTask;
-//import java.util.concurrent.ExecutionException;
-//
-//public class RoomBattleFieldActivity extends AppCompatActivity
-//        implements NavigationView.OnNavigationItemSelectedListener {
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_battlefield);
-//
-//        //******************************************************************************************
-//        // Интент для получения информации о рабочей комнате.
-//        Intent intent = getIntent();
-//        roomName = intent.getStringExtra("roomName");
-//        roomIndex = Integer.parseInt(intent.getStringExtra("roomIndex"));
-//        playerName = intent.getStringExtra("playerName");
-//
-//        timer = new Timer();
-//        httpClient = new HttpClient();
-//        record = getPreferences(MODE_PRIVATE);
-//        topRecord = Integer.parseInt(record.getString("REC", "10000"));
-//
-//        userChoice = new ArrayList<>(2);
-//        viewTag = new ArrayList<>(2);
-//        CountryList.loadCountryMap();
-//        relativeLayout = (LinearLayout) findViewById(R.id.basicLayout);
-//        view  = getLayoutInflater().inflate(R.layout.layout_large, null);
-//        for (int i = 0; i < imageButtonArrayList.size(); i++) {
-//            imageButtonArrayList.get(i).setBackgroundColor(Color.WHITE);
-//        }
-//        clickable = new HashMap<Integer, Boolean>();
-//        for (int i = 0; i < battleFieldSize*battleFieldSize; i++) {
-//            clickable.put(i, true);
-//        }
-//        result = (TextView) view.findViewById(R.id.result);
-//        test1 = (TextView) view.findViewById(R.id.currentStepCount);
-//        test2 = (TextView) view.findViewById(R.id.recordStepCount);
-//        if(topRecord == 10000)
-//            test2.setText("" + 0);
-//        else
-//            test2.setText("" + topRecord);
-//
-//        handler = new Handler(){
-//            @Override
-//            public void handleMessage(Message msg) {
-//                imageButtonArrayList.get(msg.arg1)
-//                        .setBackgroundColor(Color.WHITE);
-//                imageButtonArrayList.get(msg.arg1)
-//                        .setImageResource(msg.arg2);
-////                view.setClickable(true);
-////                for (int i = 0; i < clickable.size(); i++) {
-////                    if(clickable.get(i)){
-////                        imageButtonArrayList.get(i).setClickable(true);
-////                    }
-////                }
-//            }
-//        };
-//
-//        relativeLayout.removeAllViewsInLayout();
-//        stepCounter = 0;
-//        // Таймер для периодических запросов к серверу для определения выбора соперника и состояния
-//        // игрового поля.
-//        timer.schedule(new TimerTask() {
-//            @Override
-//            public void run() {
-//                httpClient = new HttpClient();
-//                // В параметрах запроса отправляются индекс комнаты в контейнере комнат и имя игрока.
-//                // В ответе от сервера приходит статус игрока (если ход игрока то первый элемент
-//                // строки равен "start", если ход соперника, то - "stop"). Последующие 3 элемента -
-//                // это индекс строки, индекс столбца (на игровом поле) и страна, соответсвующая
-//                // выбранному элементу. Если не происходило ни одного хода соперника, то вместо
-//                // страны присылается значение по умлчанию "dummy".
-//                httpClient.execute("testAnotherPlayerChoice", Integer.toString(roomIndex), playerName);
-//                String[] temp;
-//                try{
-//                    // Получение ответа сервера.
-//                    temp = httpClient.get().split(" ");
-//                    // Если ход соперника
-//                    if(temp[0].equals("stop")) {
-//                        // Если присланные данные имеют смысл, то есть не дефолтные.
-//                        if (!temp[3].equals("dummy")) {
-//                            countStart = 0;
-//                            Log.d(Data.getLOG_TAG(), " country is = " + temp[3]);
-//                            // Вычисляем тэг кнопки по полученным индексам
-//                            int tag = Integer.parseInt(temp[1]) * 6 + Integer.parseInt(temp[2]);
-//                            // При первом выборе соперника сохраняем тэг первого элемента в
-//                            // переменную tag1.
-//                            if (countStop == 0){
-//                                tag1 = tag;
-//                                country1 = temp[3];
-//                            // Если выбор соперника уже не первый, то сохраняем тэг второго элемента
-//                            // в переменную tag2.
-//                            }else if (countStop > 0 && tag1 != tag){
-//                                tag2 = tag;
-//                                country2 = temp[3];
-//                            }
-//                            // Получаем ресурс выбранного соперником элемента.
-//                            int resource = CountryList.getCountry(temp[3]);
-//                            Message msg;
-//                            msg = handler.obtainMessage(1, tag, resource);
-//                            handler.sendMessage(msg);
-//                            countStop++;
-//                        }
-//                    // Если ход игрока
-//                    }else if(temp[0].equals("start")){
-//                        // Если присланные данные имеют смысл, то есть не дефолтные.
-//                        if (!temp[3].equals("dummy")) {
-//                            //Если соперник уже ходил и страны не совпали, то очищаем выбранные элементы
-//                            if (countStart == 0 && countStop > 0 && (!country1.equals(country2))){
-//                                Message msg;
-////                                msg = handler.obtainMessage(1, tag1, R.drawable.unknown);
-////                                handler.sendMessage(msg);
-////                                msg = handler.obtainMessage(1, tag2, R.drawable.unknown);
-////                                handler.sendMessage(msg);
-//                                final int paint = R.drawable.unknown;
-//                                Thread t1 = new Thread(new Runnable() {                             // то же самое делаем для второй кнопки
-//                                    Message msg;
-//                                    @Override
-//                                    public void run() {
-//                                        msg = handler.obtainMessage(1, tag1, paint);
-//                                        handler.sendMessageDelayed(msg, 1000);
-//                                    }
-//                                });
-//                                t1.start();
-//                                Thread t2 = new Thread(new Runnable() {                             // то же самое делаем для второй кнопки
-//                                    Message msg;
-//                                    @Override
-//                                    public void run() {
-//                                        msg = handler.obtainMessage(1, tag2, paint);
-//                                        handler.sendMessageDelayed(msg, 1000);
-//                                    }
-//                                });
-//                                t2.start();
-//                            }else if (countStart == 0 && countStop > 0 && (country1.equals(country2))){
-//                                imageButtonArrayList.get(tag1)
-//                                        .setClickable(false);                                       // делаем выбранные кнопки не кликабельными
-//                                imageButtonArrayList.get(tag2)
-//                                        .setClickable(false);
-//                                clickable.put(tag1, false);
-//                                clickable.put(tag2, false);
-//                            }
-//                            countStart++;
-//                        }
-//                        countStop = 0;
-//                    }
-//                }catch (InterruptedException e){
-//                    e.printStackTrace();
-//                }catch (ExecutionException e){
-//                    e.printStackTrace();
-//                }catch (ArrayIndexOutOfBoundsException ar){
-//                    ar.printStackTrace(System.out);
-//                }
-//            }
-//        }, 0, 1000);
-//
-//        //******************************************************************************************
-//
-//        for (int i = 0; i < battleFieldSize*battleFieldSize; i++) {
-//            clickable.put(i, true);
-//        }
-//        Log.d(Data.getLOG_TAG(), "index of container battle field = " + roomIndex);
-//        relativeLayout.addView(view);
-//        for (int i = 0; i < imageButtonArrayList.size(); i++) {
-//            imageButtonArrayList.get(i).setBackgroundColor(Color.WHITE);
-//            imageButtonArrayList.get(i).setImageResource(R.drawable.unknown);
-//            imageButtonArrayList.get(i).setClickable(true);
-//        }
-//        // Метод обработки нажатий на кнопки на игровом поле. При нажатии на кнопку происходит
-//        // отправка данных на сервер (индекс строки и столбца (два целочисленных значения)).
-//        // По этим данным возвращается запращиваемое значение (название страны).Используя это
-//        // значение, из контейнера выбирается необходимый ресурс для отображения на кнопке и
-//        // отображается на ней. Если происходит второй подряд клик на кнопке, то определяется,
-//        // совпадают ли флаги на этих кнопка. Если флаги совпадают, то кнопки становятся
-//        // некликабельными, дальше происходит обычная работа. Если флаги несовпадют, то они
-//        // отображаются секунду, после чего закрываются.
+package com.example.mishka.flagmemorine.activity;
+
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.media.MediaPlayer;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.example.mishka.flagmemorine.R;
+import com.example.mishka.flagmemorine.logic.BattleField;
+import com.example.mishka.flagmemorine.logic.CountryList;
+import com.example.mishka.flagmemorine.logic.Data;
+import com.example.mishka.flagmemorine.logic.HttpClient;
+import com.example.mishka.flagmemorine.service.SqLiteTableManager;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.ExecutionException;
+
+import eu.davidea.flipview.FlipView;
+
+public class RoomBattleFieldActivity extends AppCompatActivity {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_restart:
+                recreate();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        time1 = System.currentTimeMillis();
+
+
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_battlefield);
+//        WindowManager.LayoutParams.FLAG_FULLSCREEN;
+        hideSystemUI();
+        battlefieldToolbar = (Toolbar) findViewById(R.id.battlefield_toolbar);
+        setSupportActionBar(battlefieldToolbar);
+        battlefieldActionBar = getSupportActionBar();
+        battlefieldActionBar.setDisplayHomeAsUpEnabled(true);
+        //******************************************************************************************
+        sqLiteTableManager = new SqLiteTableManager(RoomBattleFieldActivity.this);
+        playerName = sqLiteTableManager.getName() == null ? sqLiteTableManager.getLogin() : sqLiteTableManager.getName();
+        username = sqLiteTableManager.getLogin();
+        origin = sqLiteTableManager.getCountry() == null ? "Olympics" : sqLiteTableManager.getCountry();
+        battlefieldBody = new ArrayList<String>();
+
+        HttpClient httpClient = new HttpClient();
+
+        record = getPreferences(MODE_PRIVATE);                                                      //
+        timer = new Timer();                                                                        // Инициализация таймера для задержки переворота табличек
+        userChoice = new ArrayList<>(2);                                               // Инициализация контейнера для хранения страны с выбранной таблички табличек
+        viewTag = new ArrayList<>(2);                                                  // Инициализация контейнера для хранения тэгов табличек пользовательского выбора табличек
+        CountryList.loadCountryMap();
+        basicLayout = (LinearLayout) findViewById(R.id.basicLayout);
+        battleFieldSize = Integer.parseInt(getIntent().getStringExtra("size"));
+        topRecord = 10000/*topRecord(battleFieldSize)*/;
+        getView(battleFieldSize);
+
+        String[] body = new String[1];
+        String answer = "";
+        httpClient.execute("connectToRoom", playerName, username, origin, Integer.toString(battleFieldSize));
+        try{
+            answer = httpClient.get();
+            Log.i(Data.getLOG_TAG(), "onCreate: response from server " + answer);
+            body = answer.split(" ");
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }catch (ExecutionException e){
+            e.printStackTrace();
+        }
+
+        roomIndex = Integer.parseInt(body[0]);
+        for (int i = 2; i < body.length-2; i+=2) {
+            battlefieldBody.add(body[i]);
+        }
+        battleField = new BattleField(battlefieldBody);
+        initFlipView(view, battleFieldSize);
+
+        clickable = new HashMap<Integer, Boolean>();
+        for (int i = 0; i < battleFieldSize; i++) {
+            clickable.put(i, true);
+        }
+
+        result =    (TextView)  findViewById(R.id.result);
+        result.setTextColor(Color.WHITE);
+        test1 =     (TextView)  findViewById(R.id.currentStepCount);
+        time =      (TextView)  findViewById(R.id.timeValue);
+        scoreTV =   (TextView)  findViewById(R.id.currentScore);
+
+        View.OnClickListener backListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RoomBattleFieldActivity.this, StartActivity.class);
+                startActivity(intent);
+            }
+        };
+
+        View.OnClickListener restartListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recreate();
+            }
+        };
+        scoreTV.setText(Integer.toString(score));
+
+        handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                Log.i(Data.getLOG_TAG(), "handleMessage: " + System.currentTimeMillis());
+                flipViews.get(msg.arg1).setEnabled(true);
+                flipViews.get(msg.arg2).setEnabled(true);
+                flipViews.get(msg.arg1).setClickable(false);
+                flipViews.get(msg.arg2).setClickable(false);
+                if (flipViews.get(msg.arg1).isFlipped()) {
+                    flipViews.get(msg.arg1).flip(false);
+                    flipViews.get(msg.arg2).flip(false);
+//                    flipViews.get(msg.arg2).setClickable(true);
+//                    Log.d(Data.getLOG_TAG(), "flip = false " + flipViews.get(msg.arg1).isClickable());
+                } else {
+//                    Log.d(Data.getLOG_TAG(), "flip = true " + flipViews.get(msg.arg1).isClickable());
+                }
+            }
+        };
+
+        handlerClickable = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                Log.i(Data.getLOG_TAG(), "handleClickableMessage: " + System.currentTimeMillis());
+                flipViews.get(msg.arg1).setClickable(true);
+                flipViews.get(msg.arg2).setClickable(true);
+            }
+        };
+
+        handlerTime = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                if (msg.arg2 < 10)
+                    time.setText("" + msg.arg1 + " : 0" + msg.arg2);
+                else
+                    time.setText("" + msg.arg1 + " : " + msg.arg2);
+            }
+        };
+
+        handlerIntent = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                Intent endOfGameActivityIntent= new Intent(RoomBattleFieldActivity.this, EndOfGameActivity.class);
+                endOfGameActivityIntent.putExtra("score", Integer.toString(score));
+                endOfGameActivityIntent.putExtra("step", Integer.toString(stepCounter));
+                endOfGameActivityIntent.putExtra("time", time.getText().toString());
+                endOfGameActivityIntent.putExtra("size", Integer.toString(battleFieldSize));
+                startActivity(endOfGameActivityIntent);
+            }
+        };
+
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                seconds++;
+                if (seconds == 60){
+                    minutes++;
+                    seconds = 0;
+                }
+                Message msg = handlerTime.obtainMessage(1, minutes, seconds);
+                handlerTime.sendMessage(msg);
+            }
+        }, 0, 1000);
+
+        stepCounter = 0;
+        basicLayout.addView(view);
+
+        //******************************************************************************************
+        for (int i = 0; i < flipViews.size(); i++) {
+            flipViews.get(i).setFrontImage(R.drawable.unknown);
+            flipViews.get(i).setEnabled(true);
+        }
+
+        // Метод обработки нажатий на кнопки на игровом поле. При нажатии на кнопку происходит
+        // отправка данных на сервер (индекс строки и столбца (два целочисленных значения)).
+        // По этим данным возвращается запращиваемое значение (название страны).Используя это
+        // значение, из контейнера выбирается необходимый ресурс для отображения на кнопке и
+        // отображается на ней. Если происходит второй подряд клик на кнопке, то определяется,
+        // совпадают ли флаги на этих кнопка. Если флаги совпадают, то кнопки становятся
+        // некликабельными, дальше происходит обычная работа. Если флаги несовпадют, то они
+        // отображаются секунду, после чего закрываются.
 //        View.OnClickListener onClickListener = new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Log.d(Data.getLOG_TAG(), "press button");
-//                final int rowIndex = rowIndexCalc(view.getTag().toString());                    // Вычисление индекса строки.
-//                final int columnIndex = columnIndexCalc(view.getTag().toString());              // Вычисление индекса столбца.
-//                httpClient = new HttpClient();
-//                httpClient.execute("getElementRoom", Integer.toString(rowIndex), Integer.toString(columnIndex),   // GET-запрос на сервер. Создается новый поток (AsyncTask).
-//                        Integer.toString(roomIndex), playerName);
-//                try{
-////                    String country  = countryName.get();                                        // Получение ответа от AsynkTask
-//                    String country  = httpClient.get();                                        // Получение ответа от AsynkTask
-//                    Log.d(Data.getLOG_TAG(), "Try to get result");
-//                    result.setText(country);                                                    // Отображение значения в тестовом текстовом поле
-//                    final int resource = CountryList.getCountry(country);                       // Получение целочисленного значения сооветствующего ресурсу с флагом
-//                    final int index = Integer.parseInt(view.getTag().toString());               // Вычисление индекса кнопки в контейнере кнопок по тэгу кнопки
-//                    Thread t = new Thread(new Runnable() {                                      // Создание нового потока для отображения флага на кнопке.
-//                        Message msg;
-//                        @Override
-//                        public void run() {
-//                            msg = handler.obtainMessage(1, index, resource);                    // Формирование сообщения для хэндлера.
-//                            handler.sendMessage(msg);                                           // Отправка сообщения хэндлеру.
-//                        }
-//                    });
-//                    t.start();
-//                    userChoice.add(country);                                                    // Добавление выбранного значения в контейнер пользовательского выбора.
-//                    viewTag.add(view.getTag().toString());                                      // Добавление тега выбранной кнопки в контейнер пользовательского выбора.
-//                    imageButtonArrayList.get(Integer.parseInt(view.getTag().toString()))
-//                            .setClickable(false);
-//                    Log.d(Data.getLOG_TAG(), "userCoice size = " + userChoice.size());
-//                    Log.d(Data.getLOG_TAG(), "userCoice 1 = " + userChoice.get(0));
-//
-//                    if(userChoice.size() == 2 ){                                                // Проверка количества элементов в контейнере пользовательского выбора.
-//                        stepCounter++;
-//                        test1.setText("" + stepCounter);
-////                            view.setClickable(false);
-//                        if(!userChoice.get(0).equals(userChoice.get(1))){                       // Если значения пользовательского выбора не равны, то
-//                            userChoice.clear();                                                 // очищаем контейнер
-//                            final int but0 = Integer.parseInt(viewTag.get(0));                  // вычисляем тег первой нажатой кнопки
-//                            final int but1 = Integer.parseInt(viewTag.get(1));                  // вычисляем тег второй нажатой кнопки
-////                                for (int i = 0; i < clickable.size(); i++) {
-////                                    if(clickable.get(i)){
-////                                        imageButtonArrayList.get(i).setClickable(false);
-////                                    }
-////                                }
-//                            imageButtonArrayList.get(but0).setClickable(true);
-//                            imageButtonArrayList.get(but1).setClickable(true);
-//                            final int paint = R.drawable.unknown;            // вычисляем целочисленное значение файла ресурса с флагом
-//                            Thread t1 = new Thread(new Runnable() {                             // создаем новый поток для закрытия первого, из выбранных пользователем флагов, рубашкой
-//                                Message msg;
-//                                @Override
-//                                public void run() {
-//                                    msg = handler.obtainMessage(1, but0, paint);                // подготавливаем сообщение
-//                                    handler.sendMessageDelayed(msg, 1000);                      // помещаем в очередь хэндлера отложенное на секунду сообщение
-//                                }
-//                            });
-//                            t1.start();
-//                            Thread t2 = new Thread(new Runnable() {                             // то же самое делаем для второй кнопки
-//                                Message msg;
-//                                @Override
-//                                public void run() {
-//                                    msg = handler.obtainMessage(1, but1, paint);
-//                                    handler.sendMessageDelayed(msg, 1000);
-//                                }
-//                            });
-//                            t2.start();
-//                            viewTag.clear();                                                    // очищаем контейнер тегов
-//                        }else                                                                   // иначе
-//                            if(userChoice.get(0).equals(userChoice.get(1))){                        // Если значения пользовательского выбора равны, то
-//                                Log.d(Data.getLOG_TAG(), "country equals");
-//                                imageButtonArrayList.get(Integer.parseInt(viewTag.get(0)))
-//                                        .setClickable(false);                                       // делаем выбранные кнопки не кликабельными
-//                                imageButtonArrayList.get(Integer.parseInt(viewTag.get(1)))
-//                                        .setClickable(false);
-//                                clickable.put(Integer.parseInt(viewTag.get(0)), false);
-//                                clickable.put(Integer.parseInt(viewTag.get(1)), false);
-//                                userChoice.clear();                                                 // очищаем контейнеры пользовательского выбора
-//                                viewTag.clear();
-//                                if(!clickable.containsValue(true)){
-//                                    clickable.clear();
-//                                    userRecord = Integer.parseInt(test1.getText().toString());
-//                                    Log.d(Data.getLOG_TAG(), "user record = " + userRecord);
-//                                    if(userRecord < topRecord){
-//                                        test2.setText("" + userRecord);
-//                                        SharedPreferences.Editor editor = record.edit();
-//                                        editor.putString("REC", test1.getText().toString());
-//                                        editor.commit();
-//                                    }
-//                                }
-//                            }
-//                    }
-//                }catch (InterruptedException e){
-//                    e.printStackTrace();
-//                }catch (ExecutionException e){
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//        };
-//
-////        Button send = (Button) view.findViewById(R.id.buttonSend);
-////        send.setOnClickListener(onClickListener);
-//        for (int i = 0; i < battleFieldSize*battleFieldSize; i++) {
-//            imageButtonArrayList.get(i).setOnClickListener(onClickListener);
-//        }
-//
-//        //******************************************************************************************
-//
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-//
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        drawer.setDrawerListener(toggle);
-//        toggle.syncState();
-//
-//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-//        navigationView.setNavigationItemSelectedListener(this);
-//    }
-//
-//    @Override
-//    public void onBackPressed() {
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        if (drawer.isDrawerOpen(GravityCompat.START)) {
-//            drawer.closeDrawer(GravityCompat.START);
-//        } else {
-//            super.onBackPressed();
-//        }
-//    }
-//
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.battle_field, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
-//
-//    @SuppressWarnings("StatementWithEmptyBody")
-//    @Override
-//    public boolean onNavigationItemSelected(MenuItem item) {
-//        // Handle navigation view item clicks here.
-//        int id = item.getItemId();
-//
-//        if (id == R.id.nav_camera) {
-//            // Handle the camera action
-//        } else if (id == R.id.nav_gallery) {
-//
-//        } else if (id == R.id.nav_slideshow) {
-//
-//        } else if (id == R.id.nav_manage) {
-//
-//        } else if (id == R.id.nav_share) {
-//
-//        } else if (id == R.id.nav_send) {
-//
-//        }
-//
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        drawer.closeDrawer(GravityCompat.START);
-//        return true;
-//    }
-//
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//
-//    }
-//
-////    public void initImageButton(View view){
-////        imageButtonArrayList = new ArrayList<>(battleFieldSize*battleFieldSize);
-////        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton2));
-////        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton3));
-////        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton4));
-////        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton5));
-////        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton6));
-////        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton7));
-////        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton8));
-////        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton9));
-////        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton10));
-////        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton11));
-////        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton12));
-////        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton13));
-////        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton14));
-////        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton15));
-////        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton16));
-////        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton17));
-////        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton18));
-////        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton19));
-////        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton20));
-////        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton21));
-////        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton22));
-////        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton23));
-////        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton24));
-////        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton25));
-////        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton26));
-////        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton27));
-////        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton28));
-////        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton29));
-////        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton30));
-////        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton31));
-////        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton32));
-////        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton33));
-////        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton34));
-////        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton35));
-////        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton36));
-////        imageButtonArrayList.add((ImageButton) view.findViewById(R.id.imageButton37));
-////    }
-//
-//    //Вычисление индекса столбца по тэгу нажатой кнопки.
-//    public int rowIndexCalc(String viewTag){
-//        int tag = Integer.parseInt(viewTag);
-//        Log.d(Data.getLOG_TAG(), "input tag = " + viewTag);
-//        Log.d(Data.getLOG_TAG(), "row index = " + tag/battleFieldSize);
-//        return tag/battleFieldSize;
-//    }
-//
-//    //Вычисление индекса столбца по тэгу нажатой кнопки.
-//    public int columnIndexCalc(String viewTag){
-//        int tag = Integer.parseInt(viewTag);
-//        if (tag < battleFieldSize){
-//            Log.d(Data.getLOG_TAG(), "input tag = " + viewTag);
-//            Log.d(Data.getLOG_TAG(), "column index = " + tag);
-//            return tag;
-//        }else{
-//            Log.d(Data.getLOG_TAG(), "input tag = " + viewTag);
-//            Log.d(Data.getLOG_TAG(), "column index = " + tag%battleFieldSize);
-//            return tag%battleFieldSize;
-//        }
-//    }
-//
-//    private ArrayList<ImageButton> imageButtonArrayList;
-//    private ArrayList<String> userChoice;
-//    private ArrayList<String> viewTag;
-//    private Handler handler;
-//    private HashMap<Integer, Boolean> clickable;
-//    private HttpClient httpClient;
-//    private LinearLayout relativeLayout;
-//    private SharedPreferences record;
-//    private String roomName;
-//    private String playerName;
-//    private String country1;
-//    private String country2;
-//    private TextView result;
-//    private TextView test1;
-//    private TextView test2;
-//    private Timer timer;
-//    private View view;
-//
-//    private int battleFieldSize = 6;
-//    private int roomIndex = 0;
-//    private int stepCounter = 0;
-//    private int userRecord = 0;
-//    private int topRecord = 0;
-//    private int tag1 = 10000;
-//    private int tag2;
-//    private int countStop = 0;
-//    private int countStart = 0;
-//}
+        FlipView.OnFlippingListener onFlippingListener = new FlipView.OnFlippingListener() {
+            @Override
+            public void onFlipped(FlipView view, boolean checked) {
+                Log.d(Data.getLOG_TAG(), "press button");
+                final int index = Integer.parseInt(view.getTag().toString());               // Вычисление индекса кнопки в контейнере кнопок по тэгу кнопки
+                flipViews.get(index).setEnabled(false);
+                flipViews.get(index).setClickable(false);
+                new Thread(){
+                    public void run(){
+                        mp = MediaPlayer.create(RoomBattleFieldActivity.this, R.raw.flip_click);
+                        mp.start();
+                    }
+                }.start();
+                String country  = battleField.getElement(Integer.parseInt(view.getTag().toString()));                                        // Получение ответа от AsynkTask
+                userChoice.add(country);                                                    // Добавление выбранного значения в контейнер пользовательского выбора.
+                if (userChoice.size() == 1 && flipFlag){
+                    result.setTextColor(Color.WHITE);
+                    result.setText(country);
+                }
+                viewTag.add(view.getTag().toString());                                      // Добавление тега выбранной кнопки в контейнер пользовательского выбора.
+                Log.d(Data.getLOG_TAG(), "userCoice size = " + userChoice.size());
+                Log.d(Data.getLOG_TAG(), "userCoice 1 = " + userChoice.get(0));
+
+                clickHandler(country);
+            }
+        };
+
+        for (int i = 0; i < flipViews.size(); i++) {
+            flipViews.get(i).setOnFlippingListener(onFlippingListener);
+//            Log.d(Data.getLOG_TAG(), "add onFlipListener " + i + " " + flipViews.get(i).getId() + " xxlarge1 = " + R.id.xxlarge1);
+        }
+        time2 = System.currentTimeMillis();
+        Log.d(Data.getLOG_TAG(), "loading time is = " + (time2 - time1));
+        //******************************************************************************************
+    }
+
+
+    private void clickHandler(String country) {
+        if (userChoice.size() == 2 && flipFlag) {                                                // Проверка количества элементов в контейнере пользовательского выбора.
+
+            stepCounter++;
+            flipFlag = false;
+            Log.d(Data.getLOG_TAG(), "flipFlag = " + flipFlag);
+            test1.setText("" + stepCounter);
+            if (!userChoice.get(0).equals(userChoice.get(1))) {                       // Если значения пользовательского выбора не равны, то
+                Log.i(Data.getLOG_TAG(), "clickHandler: forward flip, flag NO equals");
+                userChoice.clear();                                                 // очищаем контейнер
+
+                result.setTextColor(Color.RED);
+                result.setText(country);
+
+                scoreCount(false);
+                scoreTV.setText(Integer.toString(score));
+                final int but0 = Integer.parseInt(viewTag.get(0));                  // вычисляем тег первой нажатой кнопки
+                final int but1 = Integer.parseInt(viewTag.get(1));                  // вычисляем тег второй нажатой кнопки
+                for (int i = 0; i < clickable.size(); i++) {
+                    if (clickable.get(i)) {
+                        flipViews.get(i).setEnabled(false);
+                    }
+                }
+
+                final int paint = R.drawable.unknown;            // вычисляем целочисленное значение файла ресурса с флагом
+                delayedTask(but0, but1);
+                delayedClickable(but0, but1);
+
+                viewTag.clear();                                                    // очищаем контейнер тегов
+            } else                                                                   // иначе
+                if (userChoice.get(0).equals(userChoice.get(1))) {                        // Если значения пользовательского выбора равны, то
+                    Log.i(Data.getLOG_TAG(), "clickHandler: forward flip, flag equals");
+
+                    result.setTextColor(Color.GREEN);
+                    result.setText(country);
+
+                    scoreCount(true);
+                    scoreTV.setText(Integer.toString(score));
+                    Log.d(Data.getLOG_TAG(), "country equals");
+                    flipFlag = true;
+                    flipViews.get(Integer.parseInt(viewTag.get(0)))
+                            .setEnabled(false);                                       // делаем выбранные кнопки не кликабельными
+                    flipViews.get(Integer.parseInt(viewTag.get(1)))
+                            .setEnabled(false);
+
+                    flipViews.get(Integer.parseInt(viewTag.get(0))).setEnabled(false);
+                    flipViews.get(Integer.parseInt(viewTag.get(1))).setEnabled(false);
+
+                    clickable.put(Integer.parseInt(viewTag.get(0)), false);
+                    clickable.put(Integer.parseInt(viewTag.get(1)), false);
+                    userChoice.clear();                                                 // очищаем контейнеры пользовательского выбора
+                    viewTag.clear();
+                    if (!clickable.containsValue(true)) {                               // данное условие выполняется когда все таблички перевернуты
+                        clickable.clear();
+
+                        userRecord = Integer.parseInt(test1.getText().toString());
+                        Log.d(Data.getLOG_TAG(), "All flags is plipped");
+//                        back.setVisibility(View.VISIBLE);
+                        timer.cancel();
+                        sqLiteTableManager.insertIntoStatisticTable(null,null,null, Integer.toString(battleFieldSize), time.getText().toString(), stepCounter, score, Data.getCurrentDate());
+                        Log.d(Data.getLOG_TAG(), "user record = " + userRecord);
+                        delayedIntent();
+
+                        if (userRecord < topRecord) {
+//                            test2.setText("" + userRecord);
+                            sqLiteTableManager.insertIntoRecordTable(null,null,null, Integer.toString(battleFieldSize), time.getText().toString(), stepCounter, score, Data.getCurrentDate());
+                            SharedPreferences.Editor editor = record.edit();
+                            editor.putString("REC", test1.getText().toString());
+                            editor.commit();
+                        }
+                    }
+                }
+        } else if (userChoice.size() == 2 && !flipFlag) {
+            flipFlag = true;
+            Log.d(Data.getLOG_TAG(), "flipFlag = " + flipFlag);
+            test1.setText("" + stepCounter);
+            if (!userChoice.get(0).equals(userChoice.get(1))) {                     // Если значения пользовательского выбора не равны, то
+                Log.i(Data.getLOG_TAG(), "clickHandler: backward flip, flag NO equals");
+                userChoice.clear();                                                 // очищаем контейнер
+                final int but0 = Integer.parseInt(viewTag.get(0));                  // вычисляем тег первой нажатой кнопки
+                final int but1 = Integer.parseInt(viewTag.get(1));                  // вычисляем тег второй нажатой кнопки
+                for (int i = 0; i < clickable.size(); i++) {
+                    if (clickable.get(i)) {
+                        flipViews.get(i).setEnabled(true);
+                    }
+                }
+//                flipViews.get(but0).setEnabled(true);
+//                flipViews.get(but1).setEnabled(true);
+
+                final int paint = R.drawable.unknown;            // вычисляем целочисленное значение файла ресурса с флагом
+//                delayedTask(but0, paint);
+//                delayedTask(but1, paint);
+//                delayedTask(but0, but1);
+//                delayedClickable(but0, but1);
+                viewTag.clear();                                                    // очищаем контейнер тегов
+            } else                                                                   // иначе
+                if (userChoice.get(0).equals(userChoice.get(1))) {                        // Если значения пользовательского выбора равны, то
+                    Log.i(Data.getLOG_TAG(), "clickHandler: backward flip, flag equals");
+                    Log.d(Data.getLOG_TAG(), "country equals");
+                    flipViews.get(Integer.parseInt(viewTag.get(0)))
+                            .setEnabled(false);                                       // делаем выбранные кнопки не кликабельными
+                    flipViews.get(Integer.parseInt(viewTag.get(1)))
+                            .setEnabled(false);
+
+                    flipViews.get(Integer.parseInt(viewTag.get(0))).setEnabled(false);
+                    flipViews.get(Integer.parseInt(viewTag.get(1))).setEnabled(false);
+
+                    clickable.put(Integer.parseInt(viewTag.get(0)), false);
+                    clickable.put(Integer.parseInt(viewTag.get(1)), false);
+                    userChoice.clear();                                                 // очищаем контейнеры пользовательского выбора
+                    viewTag.clear();
+                    if (!clickable.containsValue(true)) {
+                        clickable.clear();
+                        userRecord = Integer.parseInt(test1.getText().toString());
+                        Log.d(Data.getLOG_TAG(), "All flags is flipped");
+                        timer.cancel();
+                        Log.d(Data.getLOG_TAG(), "user record = " + userRecord);
+                        if (userRecord < topRecord) {
+//                            test2.setText("" + userRecord);
+                            SharedPreferences.Editor editor = record.edit();
+                            editor.putString("REC", test1.getText().toString());
+                            editor.commit();
+                        }
+                    }
+                }
+        }else{
+//            result.setTextColor(Color.GREEN);
+//            result.setText(country);
+        }
+    }
+
+    public void initFlipView(View view, int battleFieldSize){
+        flipViews = new ArrayList<>(battleFieldSize);
+        if (battleFieldSize == Data.getXsmallSize()){
+            for (int i = 0; i < Data.getXsmallSize(); i++) {
+                flipViews.add((FlipView) view.findViewById(Data.getIdxsmall(i)));
+                flipViews.get(i).setRearImage(CountryList.getCountry(battleField.getElement(i)));
+                flipViews.get(i).isFlipped();
+            }
+        }else if (battleFieldSize == Data.getSmallSize()){
+            for (int i = 0; i < Data.getSmallSize(); i++) {
+                flipViews.add((FlipView) view.findViewById(Data.getIdsmall(i)));
+                flipViews.get(i).setRearImage(CountryList.getCountry(battleField.getElement(i)));
+            }
+        }else if (battleFieldSize == Data.getMediumSize()){
+            for (int i = 0; i < Data.getMediumSize(); i++) {
+                flipViews.add((FlipView) view.findViewById(Data.getIdmedium(i)));
+                flipViews.get(i).setRearImage(CountryList.getCountry(battleField.getElement(i)));
+            }
+        }else if (battleFieldSize == Data.getLargeSize()){
+            for (int i = 0; i < Data.getLargeSize(); i++) {
+                flipViews.add((FlipView) view.findViewById(Data.getIdlarge(i)));
+                flipViews.get(i).setRearImage(CountryList.getCountry(battleField.getElement(i)));
+            }
+        }else if (battleFieldSize == Data.getXlargeSize()){
+            for (int i = 0; i < Data.getXlargeSize(); i++) {
+                flipViews.add((FlipView) view.findViewById(Data.getIdxlarge(i)));
+                flipViews.get(i).setRearImage(CountryList.getCountry(battleField.getElement(i)));
+            }
+        }else if (battleFieldSize == Data.getXxlargeSize()){
+            for (int i = 0; i < Data.getXxlargeSize(); i++) {
+                flipViews.add((FlipView) view.findViewById(Data.getIdxxlarge(i)));
+                flipViews.get(i).setRearImage(CountryList.getCountry(battleField.getElement(i)));
+            }
+        }
+        Log.d(Data.getLOG_TAG(), "flipview size = " + flipViews.size());
+    }
+
+    public void getView(int size){
+        if(size == Data.getXsmallSize()){
+            view = getLayoutInflater().inflate(R.layout.layout_xsmall, null);
+            battlefieldActionBar.setTitle("xSmall field");
+        }else if (size == Data.getSmallSize()){
+            view = getLayoutInflater().inflate(R.layout.layout_small, null);
+            battlefieldActionBar.setTitle("Small field");
+        }else if (size == Data.getMediumSize()){
+            view = getLayoutInflater().inflate(R.layout.layout_medium, null);
+            battlefieldActionBar.setTitle("Medium field");
+        }else if (size == Data.getLargeSize()){
+            view = getLayoutInflater().inflate(R.layout.layout_large, null);
+            battlefieldActionBar.setTitle("Large field");
+        }else if (size == Data.getXlargeSize()){
+            view = getLayoutInflater().inflate(R.layout.layout_xlarge, null);
+            battlefieldActionBar.setTitle("xLarge field");
+        }else if (size == Data.getXxlargeSize()){
+//            view = getLayoutInflater().inflate(R.layout.layout_xxlarge, null);
+            battlefieldActionBar.setTitle("xxLarge field");
+            view = getLayoutInflater().inflate(R.layout.layout_xxlarge, null);
+        }
+    }
+
+    public void scoreCount(Boolean state){
+        if(state){
+            score += 100;
+        }else if (!state){
+            if (score > 0){
+                score -= 10;
+            }
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent startActivityIntent = new Intent(RoomBattleFieldActivity.this, StartActivity.class);
+        startActivity(startActivityIntent);
+    }
+
+    public void delayedTask(final int but0, final int but1/*, final int resource*/){
+        Thread thread = new Thread(new Runnable() {                             // создаем новый поток для закрытия первого, из выбранных пользователем флагов, рубашкой
+            Message msg;
+            @Override
+            public void run() {
+                msg = handler.obtainMessage(1, but0, but1);                // подготавливаем сообщение
+                handler.sendMessageDelayed(msg, 1000);                      // помещаем в очередь хэндлера отложенное на секунду сообщение
+            }
+        });
+        thread.start();
+    }
+
+    public void delayedIntent(){
+        Thread thread = new Thread(new Runnable() {
+            Message msg;
+            @Override
+            public void run() {
+
+                msg = handlerIntent.obtainMessage();
+                handlerIntent.sendMessageDelayed(msg, 1000);
+            }
+        });
+        thread.start();
+    }
+
+    public void delayedClickable(final int but0, final int but1){
+        Thread thread = new Thread(new Runnable() {                             // создаем новый поток для закрытия первого, из выбранных пользователем флагов, рубашкой
+            Message msg;
+            @Override
+            public void run() {
+                msg = handlerClickable.obtainMessage(1, but0, but1);                // подготавливаем сообщение
+                handlerClickable.sendMessageDelayed(msg, 1600);                      // помещаем в очередь хэндлера отложенное на секунду сообщение
+            }
+        });
+        thread.start();
+    }
+
+    private void hideSystemUI(){
+        View mDecorView = getWindow().getDecorView();
+        mDecorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_IMMERSIVE
+        );
+    }
+
+    //region Private fields
+    private ArrayList<ImageButton> imageButtonArrayList;
+    private ArrayList<FlipView> flipViews;
+    private ArrayList<String> userChoice;
+    private ArrayList<String> viewTag;
+
+    private BattleField battleField;
+
+//    private ContentValues contentValues;
+
+    private Handler handler;
+    private Handler handlerClickable;
+    private Handler handlerTime;
+    private Handler handlerIntent;
+    private Handler handlerCreateRoom;
+    private HashMap<Integer, Boolean> clickable;
+
+    private LinearLayout basicLayout;
+
+    private MediaPlayer mp;
+
+    private SharedPreferences record;
+
+    //    private SQLiteDatabase sqLiteDatabase;
+    private SqLiteTableManager sqLiteTableManager;
+
+    private Button restart;
+    private Button back;
+    private TextView result;
+    private TextView test1;
+    private TextView test2;
+    private TextView time;
+    private TextView scoreTV;
+    private Timer timer;
+    private View view;
+    private Toolbar battlefieldToolbar;
+    private ActionBar battlefieldActionBar;
+
+    private String BF;
+    private int battleFieldSize = 6;
+    private int battleFieldIndex = 0;
+    private int minutes = 0;
+    private int stepCounter = 0;
+    private int userRecord = 0;
+    private int topRecord = 0;
+    private int seconds = 0;
+    private int roomIndex;
+    //    private int score =  Data.getXxlargeSize() * 2;
+    private int score =  100;
+    private long time1 = 0;
+    private long time2 = 0;
+    private boolean flipFlag = true;
+
+    private String playerName;
+    private String username;
+    private String origin;
+
+    private ArrayList<String> battlefieldBody;
+
+    //endregion
+
+}

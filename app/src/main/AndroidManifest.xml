@@ -18,13 +18,13 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.RoomBattleFieldActivity"
+            android:name=".activity.BattleFieldActivity"
             android:label="@string/title_activity_room_battle_field"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.BattleFieldActivity"
+            android:name=".activity.RoomBattleFieldActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:parentActivityName=".activity.StartActivity"

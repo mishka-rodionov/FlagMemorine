@@ -234,7 +234,7 @@ public class Data {
     }
 
     //region Private static fields
-    private static String customURL = "82.202.246.170";
+    private static String customURL = "192.168.1.33";
     private static String LOG_TAG = "flagmemorine";
     private static String serverAppName = "TestGet";
     private static String mainServlet = "hello";

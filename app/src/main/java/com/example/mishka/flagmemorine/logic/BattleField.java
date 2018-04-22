@@ -18,6 +18,10 @@ public class BattleField {
         country = CountryList.getCountryList();
     }
 
+    public BattleField(ArrayList<String> c){
+        this.country = c;
+    }
+
     public static int addBattleField(BattleField battleField){
         battleFields.add(battleField);
         return battleFields.indexOf(battleField);

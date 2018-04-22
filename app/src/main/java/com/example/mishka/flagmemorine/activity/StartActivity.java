@@ -19,8 +19,6 @@ import com.example.mishka.flagmemorine.logic.Data;
 import com.example.mishka.flagmemorine.service.DBHelper;
 import com.example.mishka.flagmemorine.service.SqLiteTableManager;
 
-import java.text.DateFormat;
-
 public class StartActivity extends AppCompatActivity {
 
     @Override
@@ -102,7 +100,6 @@ public class StartActivity extends AppCompatActivity {
                         startActivity(intent);
                         break;
                     case R.id.statistic:
-
                         Intent statisticActivityIntent = new Intent(StartActivity.this, StatisticActivity.class);
                         startActivity(statisticActivityIntent);
 //                        statisticCursor("test");
@@ -112,11 +109,17 @@ public class StartActivity extends AppCompatActivity {
                         userInfoActivityIntent.putExtra("login", "User1");
                         startActivity(userInfoActivityIntent);
                         break;
+                    case R.id.multiplayer:
+                        Intent multiplayerIntent = new Intent(StartActivity.this, RoomBattleFieldActivity.class);
+                        multiplayerIntent.putExtra("size", size);
+                        startActivity(multiplayerIntent);
+                        break;
                 }
             }
         };
 
         play.setOnClickListener(onClickListenerButton);
+        multiplayer.setOnClickListener(onClickListenerButton);
         statistic.setOnClickListener(onClickListenerButton);
         userInfo.setOnClickListener(onClickListenerButton);
 

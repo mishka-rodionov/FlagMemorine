@@ -36,7 +36,7 @@ public class HttpClient extends AsyncTask<String, Void, String>{
                     temp = getElement(strings[1], strings[2], strings[3]);
                     break;
                 case "connectToRoom":
-                    temp = connectToRoom(strings[1], strings[2]);
+                    temp = connectToRoom(strings[1], strings[2], strings[3], strings[4]);
                     break;
                 case "getElementRoom":
                     temp = getElementRoom(strings[1], strings[2], strings[3], strings[4]);
@@ -203,19 +203,21 @@ public class HttpClient extends AsyncTask<String, Void, String>{
     }
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
-    public String connectToRoom(String secondPlayer, String roomIndex)
+    public String connectToRoom(String playerName, String user, String origin, String size)
             throws Exception {
 
-        String roomList = "";
+        String battlefield = "";
 
         HttpUrl httpUrl = new HttpUrl.Builder()
                 .scheme("http")
                 .host(Data.getCustomURL())
                 .port(8080)
                 .addPathSegment(Data.getServerAppName())
-                .addPathSegment(Data.getConnectToRoomServlet())
-                .addQueryParameter("secondPlayer", secondPlayer)
-                .addQueryParameter("roomIndex", roomIndex)
+                .addPathSegment(Data.getMainServlet())
+                .addQueryParameter("playerName", playerName)
+                .addQueryParameter("user", user)
+                .addQueryParameter("origin", origin)
+                .addQueryParameter("size", size)
                 .build();
 
         Request request = new Request.Builder()
@@ -232,9 +234,9 @@ public class HttpClient extends AsyncTask<String, Void, String>{
             for (int i = 0; i < responseHeaders.size(); i++) {
                 Log.d(Data.getLOG_TAG(), responseHeaders.name(i) + ": " + responseHeaders.value(i));
             }
-            roomList = response.body().string();
-            Log.d(Data.getLOG_TAG(), "" + roomList);
-            return roomList;
+            battlefield = response.body().string();
+            Log.d(Data.getLOG_TAG(), "" + battlefield);
+            return battlefield;
         }
 
 //        return Integer.parseInt(index);
