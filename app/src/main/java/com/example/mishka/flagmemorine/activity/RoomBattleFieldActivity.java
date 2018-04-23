@@ -99,7 +99,11 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         }
 
         roomIndex = Integer.parseInt(body[0]);
-        for (int i = 2; i < body.length-2; i+=2) {
+        for (int i = 2; i < body.length; i+=2) {
+            if(body[i].contains("_")){
+                body[i] = body[i].replaceAll("_", " ");
+            }
+            Log.i(Data.getLOG_TAG(), "body[i] " + body[i]);
             battlefieldBody.add(body[i]);
         }
         battleField = new BattleField(battlefieldBody);
