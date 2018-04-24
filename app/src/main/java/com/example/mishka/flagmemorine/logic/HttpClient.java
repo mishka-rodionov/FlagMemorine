@@ -24,24 +24,24 @@ public class HttpClient extends AsyncTask<String, Void, String>{
         try {
             switch(strings[0]){
                 case "roomListRequest":
-                    temp = roomListRequest();
+//                    temp = roomListRequest();
                     break;
                 case "createBattleField":
-                    temp = createBattleField(strings[1]);
+//                    temp = createBattleField(strings[1]);
                     break;
                 case "createRoom":
-                    temp = createRoom(strings[1], strings[2]);
+//                    temp = createRoom(strings[1], strings[2]);
                     break;
-                case "getElement":
-                    temp = getElement(strings[1], strings[2], strings[3]);
+                case "sendValue":
+                    temp = sendValue(strings[1], strings[2], strings[3], strings[4]);
                     break;
                 case "connectToRoom":
                     temp = connectToRoom(strings[1], strings[2], strings[3], strings[4]);
                     break;
                 case "getElementRoom":
-                    temp = getElementRoom(strings[1], strings[2], strings[3], strings[4]);
+//                    temp = getElementRoom(strings[1], strings[2], strings[3], strings[4]);
                 case "testAnotherPlayerChoice":
-                    temp = testAnotherPlayerChoice(strings[1], strings[2]);
+//                    temp = testAnotherPlayerChoice(strings[1], strings[2]);
                     break;
             }
 
@@ -52,157 +52,157 @@ public class HttpClient extends AsyncTask<String, Void, String>{
         return temp;
     }
 
-    @Override
-    protected void onPostExecute(String s) {
-        super.onPostExecute(s);
-    }
+//    @Override
+//    protected void onPostExecute(String s) {
+//        super.onPostExecute(s);
+//    }
+//
+//    @TargetApi(Build.VERSION_CODES.KITKAT)
+//    public String createBattleField(String size)
+//            throws Exception {
+//
+//        String index;
+//
+//        HttpUrl httpUrl = new HttpUrl.Builder()
+//                .scheme("http")
+//                .host(Data.getCustomURL())
+//                .port(8080)
+//                .addPathSegment(Data.getServerAppName())
+//                .addPathSegment(Data.getMainServlet())
+//                .addQueryParameter(Data.getBattleFieldServletParameter(),size)
+//                .build();
+//
+//        Request request = new Request.Builder()
+//                .url(httpUrl)
+//                .header("User-Agent", "OkHttp Headers.java")
+//                .build();
+//
+//        try (Response response = client.newCall(request).execute()) {
+//            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+//
+//            Headers responseHeaders = response.headers();
+//            for (int i = 0; i < responseHeaders.size(); i++) {
+//                Log.d(LOG_TAG, responseHeaders.name(i) + ": " + responseHeaders.value(i));
+//            }
+//            index = response.body().string();
+//            Log.d(LOG_TAG, "" + index);
+//            return index;
+//        }
+//
+////        return Integer.parseInt(index);
+//    }
+//
+//    @TargetApi(Build.VERSION_CODES.KITKAT)
+//    public String getElement(String rowIndex, String columnIndex, String battleFieldIndex)
+//            throws Exception {
+//
+//        String resp = "";
+//
+//        HttpUrl httpUrl = new HttpUrl.Builder()
+//                .scheme("http")
+//                .host(Data.getCustomURL())
+//                .port(8080)
+//                .addPathSegment(Data.getServerAppName())
+//                .addPathSegment(Data.getBattleFieldServlet())
+//                .addQueryParameter("rowIndex",rowIndex)
+//                .addQueryParameter("columnIndex",columnIndex)
+//                .addQueryParameter("battleFieldIndex",battleFieldIndex)
+//                .build();
+//
+//        Request request = new Request.Builder()
+//                .url(httpUrl)
+//                .header("User-Agent", "OkHttp Headers.java")
+//                .build();
+//
+//        try (Response response = client.newCall(request).execute()) {
+//            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+//
+//            Headers responseHeaders = response.headers();
+//            for (int i = 0; i < responseHeaders.size(); i++) {
+//                Log.d(LOG_TAG, responseHeaders.name(i) + ": " + responseHeaders.value(i));
+//            }
+//            resp = response.body().string();
+//            Log.d(LOG_TAG, resp);
+//        }
+//        return resp;
+//    }
+//
+//    @TargetApi(Build.VERSION_CODES.KITKAT)
+//    public String createRoom(String name, String battleFieldSize)
+//            throws Exception {
+//
+//        String index = "";
+//
+//        HttpUrl httpUrl = new HttpUrl.Builder()
+//                .scheme("http")
+//                .host(Data.getCustomURL())
+//                .port(8080)
+//                .addPathSegment(Data.getServerAppName())
+//                .addPathSegment(Data.getCreateRoomServlet())
+//                .addQueryParameter("roomName", name)
+//                .addQueryParameter("battleFieldSize", battleFieldSize)
+//                .build();
+//
+//        Request request = new Request.Builder()
+//                .url(httpUrl)
+//                .header("User-Agent", "OkHttp Headers.java")
+//                .build();
+//
+//        Log.d(LOG_TAG, "room name URL = " + httpUrl.toString());
+//
+//        try (Response response = client.newCall(request).execute()) {
+//            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+//
+//            Headers responseHeaders = response.headers();
+//            for (int i = 0; i < responseHeaders.size(); i++) {
+//                Log.d(Data.getLOG_TAG(), responseHeaders.name(i) + ": " + responseHeaders.value(i));
+//            }
+//            index = response.body().string();
+//            Log.d(Data.getLOG_TAG(), "" + index);
+//            return index;
+//        }
+//
+////        return Integer.parseInt(index);
+//    }
+//
+//    @TargetApi(Build.VERSION_CODES.KITKAT)
+//    public String roomListRequest()
+//            throws Exception {
+//
+//        String roomList = "";
+//
+//        HttpUrl httpUrl = new HttpUrl.Builder()
+//                .scheme("http")
+//                .host(Data.getCustomURL())
+//                .port(8080)
+//                .addPathSegment(Data.getServerAppName())
+//                .addPathSegment(Data.getRoomListRequestServlet())
+//                .addQueryParameter("roomList", "all")
+//                .build();
+//
+//        Request request = new Request.Builder()
+//                .url(httpUrl)
+//                .header("User-Agent", "OkHttp Headers.java")
+//                .build();
+//
+//        Log.d(LOG_TAG, "room name URL = " + httpUrl.toString());
+//
+//        try (Response response = client.newCall(request).execute()) {
+//            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+//
+//            Headers responseHeaders = response.headers();
+//            for (int i = 0; i < responseHeaders.size(); i++) {
+//                Log.d(Data.getLOG_TAG(), responseHeaders.name(i) + ": " + responseHeaders.value(i));
+//            }
+//            roomList = response.body().string();
+//            Log.d(Data.getLOG_TAG(), "" + roomList);
+//            return roomList;
+//        }
+//
+////        return Integer.parseInt(index);
+//    }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    public String createBattleField(String size)
-            throws Exception {
-
-        String index;
-
-        HttpUrl httpUrl = new HttpUrl.Builder()
-                .scheme("http")
-                .host(Data.getCustomURL())
-                .port(8080)
-                .addPathSegment(Data.getServerAppName())
-                .addPathSegment(Data.getMainServlet())
-                .addQueryParameter(Data.getBattleFieldServletParameter(),size)
-                .build();
-
-        Request request = new Request.Builder()
-                .url(httpUrl)
-                .header("User-Agent", "OkHttp Headers.java")
-                .build();
-
-        try (Response response = client.newCall(request).execute()) {
-            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-
-            Headers responseHeaders = response.headers();
-            for (int i = 0; i < responseHeaders.size(); i++) {
-                Log.d(LOG_TAG, responseHeaders.name(i) + ": " + responseHeaders.value(i));
-            }
-            index = response.body().string();
-            Log.d(LOG_TAG, "" + index);
-            return index;
-        }
-
-//        return Integer.parseInt(index);
-    }
-
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    public String getElement(String rowIndex, String columnIndex, String battleFieldIndex)
-            throws Exception {
-
-        String resp = "";
-
-        HttpUrl httpUrl = new HttpUrl.Builder()
-                .scheme("http")
-                .host(Data.getCustomURL())
-                .port(8080)
-                .addPathSegment(Data.getServerAppName())
-                .addPathSegment(Data.getBattleFieldServlet())
-                .addQueryParameter("rowIndex",rowIndex)
-                .addQueryParameter("columnIndex",columnIndex)
-                .addQueryParameter("battleFieldIndex",battleFieldIndex)
-                .build();
-
-        Request request = new Request.Builder()
-                .url(httpUrl)
-                .header("User-Agent", "OkHttp Headers.java")
-                .build();
-
-        try (Response response = client.newCall(request).execute()) {
-            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-
-            Headers responseHeaders = response.headers();
-            for (int i = 0; i < responseHeaders.size(); i++) {
-                Log.d(LOG_TAG, responseHeaders.name(i) + ": " + responseHeaders.value(i));
-            }
-            resp = response.body().string();
-            Log.d(LOG_TAG, resp);
-        }
-        return resp;
-    }
-
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    public String createRoom(String name, String battleFieldSize)
-            throws Exception {
-
-        String index = "";
-
-        HttpUrl httpUrl = new HttpUrl.Builder()
-                .scheme("http")
-                .host(Data.getCustomURL())
-                .port(8080)
-                .addPathSegment(Data.getServerAppName())
-                .addPathSegment(Data.getCreateRoomServlet())
-                .addQueryParameter("roomName", name)
-                .addQueryParameter("battleFieldSize", battleFieldSize)
-                .build();
-
-        Request request = new Request.Builder()
-                .url(httpUrl)
-                .header("User-Agent", "OkHttp Headers.java")
-                .build();
-
-        Log.d(LOG_TAG, "room name URL = " + httpUrl.toString());
-
-        try (Response response = client.newCall(request).execute()) {
-            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-
-            Headers responseHeaders = response.headers();
-            for (int i = 0; i < responseHeaders.size(); i++) {
-                Log.d(Data.getLOG_TAG(), responseHeaders.name(i) + ": " + responseHeaders.value(i));
-            }
-            index = response.body().string();
-            Log.d(Data.getLOG_TAG(), "" + index);
-            return index;
-        }
-
-//        return Integer.parseInt(index);
-    }
-
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    public String roomListRequest()
-            throws Exception {
-
-        String roomList = "";
-
-        HttpUrl httpUrl = new HttpUrl.Builder()
-                .scheme("http")
-                .host(Data.getCustomURL())
-                .port(8080)
-                .addPathSegment(Data.getServerAppName())
-                .addPathSegment(Data.getRoomListRequestServlet())
-                .addQueryParameter("roomList", "all")
-                .build();
-
-        Request request = new Request.Builder()
-                .url(httpUrl)
-                .header("User-Agent", "OkHttp Headers.java")
-                .build();
-
-        Log.d(LOG_TAG, "room name URL = " + httpUrl.toString());
-
-        try (Response response = client.newCall(request).execute()) {
-            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-
-            Headers responseHeaders = response.headers();
-            for (int i = 0; i < responseHeaders.size(); i++) {
-                Log.d(Data.getLOG_TAG(), responseHeaders.name(i) + ": " + responseHeaders.value(i));
-            }
-            roomList = response.body().string();
-            Log.d(Data.getLOG_TAG(), "" + roomList);
-            return roomList;
-        }
-
-//        return Integer.parseInt(index);
-    }
-
-    @TargetApi(Build.VERSION_CODES.KITKAT)
+//    @TargetApi(Build.VERSION_CODES.KITKAT)
     public String connectToRoom(String playerName, String user, String origin, String size)
             throws Exception {
 
@@ -242,22 +242,20 @@ public class HttpClient extends AsyncTask<String, Void, String>{
 //        return Integer.parseInt(index);
     }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    public String getElementRoom(String rowIndex, String columnIndex, String roomIndex, String player)
+    public String sendValue(String playerName, String activeStep, String activePlayer, String mistake)
             throws Exception {
 
-        String resp = "";
 
         HttpUrl httpUrl = new HttpUrl.Builder()
                 .scheme("http")
                 .host(Data.getCustomURL())
                 .port(8080)
                 .addPathSegment(Data.getServerAppName())
-                .addPathSegment(Data.getGetElementRoomServlet())
-                .addQueryParameter("rowIndex",rowIndex)
-                .addQueryParameter("columnIndex",columnIndex)
-                .addQueryParameter("roomIndex",roomIndex)
-                .addQueryParameter("player",player)
+                .addPathSegment(Data.getMainServlet())
+                .addQueryParameter("playerName", playerName)
+                .addQueryParameter("activeStep", activeStep)
+                .addQueryParameter("activePlayer", activePlayer)
+                .addQueryParameter("mistake", mistake)
                 .build();
 
         Request request = new Request.Builder()
@@ -265,52 +263,93 @@ public class HttpClient extends AsyncTask<String, Void, String>{
                 .header("User-Agent", "OkHttp Headers.java")
                 .build();
 
-        try (Response response = client.newCall(request).execute()) {
-            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-
-            Headers responseHeaders = response.headers();
-            for (int i = 0; i < responseHeaders.size(); i++) {
-                Log.d(LOG_TAG, responseHeaders.name(i) + ": " + responseHeaders.value(i));
-            }
-            resp = response.body().string();
-            Log.d(LOG_TAG, "get element room = " + resp);
-        }
-        return resp;
-    }
-
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    public String testAnotherPlayerChoice(String roomIndex, String player)
-            throws Exception {
-
-        String resp = "";
-
-        HttpUrl httpUrl = new HttpUrl.Builder()
-                .scheme("http")
-                .host(Data.getCustomURL())
-                .port(8080)
-                .addPathSegment(Data.getServerAppName())
-                .addPathSegment(Data.getTestAnotherPlayerChoiceServlet())
-                .addQueryParameter("roomIndex",roomIndex)
-                .addQueryParameter("player",player)
-                .build();
-
-        Request request = new Request.Builder()
-                .url(httpUrl)
-                .header("User-Agent", "OkHttp Headers.java")
-                .build();
+        Log.d(LOG_TAG, "room name URL = " + httpUrl.toString());
+        String answer = "";
 
         try (Response response = client.newCall(request).execute()) {
             if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
 
             Headers responseHeaders = response.headers();
             for (int i = 0; i < responseHeaders.size(); i++) {
-                Log.d(LOG_TAG, responseHeaders.name(i) + ": " + responseHeaders.value(i));
+                Log.d(Data.getLOG_TAG(), responseHeaders.name(i) + ": " + responseHeaders.value(i));
             }
-            resp = response.body().string();
-            Log.d(LOG_TAG, "test player choice = " + resp);
+            answer = response.body().string();
+            Log.d(Data.getLOG_TAG(), "" + answer);
+            return answer;
         }
-        return resp;
+
+//        return Integer.parseInt(index);
     }
+
+//    @TargetApi(Build.VERSION_CODES.KITKAT)
+//    public String getElementRoom(String rowIndex, String columnIndex, String roomIndex, String player)
+//            throws Exception {
+//
+//        String resp = "";
+//
+//        HttpUrl httpUrl = new HttpUrl.Builder()
+//                .scheme("http")
+//                .host(Data.getCustomURL())
+//                .port(8080)
+//                .addPathSegment(Data.getServerAppName())
+//                .addPathSegment(Data.getGetElementRoomServlet())
+//                .addQueryParameter("rowIndex",rowIndex)
+//                .addQueryParameter("columnIndex",columnIndex)
+//                .addQueryParameter("roomIndex",roomIndex)
+//                .addQueryParameter("player",player)
+//                .build();
+//
+//        Request request = new Request.Builder()
+//                .url(httpUrl)
+//                .header("User-Agent", "OkHttp Headers.java")
+//                .build();
+//
+//        try (Response response = client.newCall(request).execute()) {
+//            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+//
+//            Headers responseHeaders = response.headers();
+//            for (int i = 0; i < responseHeaders.size(); i++) {
+//                Log.d(LOG_TAG, responseHeaders.name(i) + ": " + responseHeaders.value(i));
+//            }
+//            resp = response.body().string();
+//            Log.d(LOG_TAG, "get element room = " + resp);
+//        }
+//        return resp;
+//    }
+//
+//    @TargetApi(Build.VERSION_CODES.KITKAT)
+//    public String testAnotherPlayerChoice(String roomIndex, String player)
+//            throws Exception {
+//
+//        String resp = "";
+//
+//        HttpUrl httpUrl = new HttpUrl.Builder()
+//                .scheme("http")
+//                .host(Data.getCustomURL())
+//                .port(8080)
+//                .addPathSegment(Data.getServerAppName())
+//                .addPathSegment(Data.getTestAnotherPlayerChoiceServlet())
+//                .addQueryParameter("roomIndex",roomIndex)
+//                .addQueryParameter("player",player)
+//                .build();
+//
+//        Request request = new Request.Builder()
+//                .url(httpUrl)
+//                .header("User-Agent", "OkHttp Headers.java")
+//                .build();
+//
+//        try (Response response = client.newCall(request).execute()) {
+//            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+//
+//            Headers responseHeaders = response.headers();
+//            for (int i = 0; i < responseHeaders.size(); i++) {
+//                Log.d(LOG_TAG, responseHeaders.name(i) + ": " + responseHeaders.value(i));
+//            }
+//            resp = response.body().string();
+//            Log.d(LOG_TAG, "test player choice = " + resp);
+//        }
+//        return resp;
+//    }
 
     private String LOG_TAG = "flagmemorine";
     private final OkHttpClient client = new OkHttpClient();

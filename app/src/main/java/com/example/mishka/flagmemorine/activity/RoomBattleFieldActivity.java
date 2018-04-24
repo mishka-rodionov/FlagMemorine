@@ -73,7 +73,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         origin = sqLiteTableManager.getCountry() == null ? "Olympics" : sqLiteTableManager.getCountry();
         battlefieldBody = new ArrayList<String>();
 
-        HttpClient httpClient = new HttpClient();
+        final HttpClient httpClient = new HttpClient();
 
         record = getPreferences(MODE_PRIVATE);                                                      //
         timer = new Timer();                                                                        // Инициализация таймера для задержки переворота табличек
@@ -99,7 +99,13 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         }
 
         roomIndex = Integer.parseInt(body[0]);
-        for (int i = 2; i < body.length; i+=2) {
+        playerNumber = body[1];
+        if (playerNumber.equals("firstPlayer")){
+            activeFlag = true;
+        }else{
+            activeFlag = false;
+        }
+        for (int i = 3; i < body.length; i+=2) {
             if(body[i].contains("_")){
                 body[i] = body[i].replaceAll("_", " ");
             }
@@ -235,12 +241,16 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
                 if (userChoice.size() == 1 && flipFlag){
                     result.setTextColor(Color.WHITE);
                     result.setText(country);
+                    if (activeFlag){
+                        action(httpClient, Integer.toString(roomIndex), view.getTag().toString(),
+                                playerNumber, Boolean.toString(false));
+                    }
                 }
                 viewTag.add(view.getTag().toString());                                      // Добавление тега выбранной кнопки в контейнер пользовательского выбора.
                 Log.d(Data.getLOG_TAG(), "userCoice size = " + userChoice.size());
                 Log.d(Data.getLOG_TAG(), "userCoice 1 = " + userChoice.get(0));
 
-                clickHandler(country);
+                clickHandler(country, httpClient);
             }
         };
 
@@ -254,7 +264,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
     }
 
 
-    private void clickHandler(String country) {
+    private void clickHandler(String country, HttpClient httpClient) {
         if (userChoice.size() == 2 && flipFlag) {                                                // Проверка количества элементов в контейнере пользовательского выбора.
 
             stepCounter++;
@@ -282,6 +292,9 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
                 delayedTask(but0, but1);
                 delayedClickable(but0, but1);
 
+                action(httpClient, Integer.toString(roomIndex), view.getTag().toString(),
+                        playerNumber, Boolean.toString(false));
+
                 viewTag.clear();                                                    // очищаем контейнер тегов
             } else                                                                   // иначе
                 if (userChoice.get(0).equals(userChoice.get(1))) {                        // Если значения пользовательского выбора равны, то
@@ -306,6 +319,9 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
                     clickable.put(Integer.parseInt(viewTag.get(1)), false);
                     userChoice.clear();                                                 // очищаем контейнеры пользовательского выбора
                     viewTag.clear();
+
+                    action(httpClient, Integer.toString(roomIndex), view.getTag().toString(),
+                            playerNumber, Boolean.toString(true));
                     if (!clickable.containsValue(true)) {                               // данное условие выполняется когда все таблички перевернуты
                         clickable.clear();
 
@@ -510,6 +526,21 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         );
     }
 
+    public String action(HttpClient httpClient, String roomIndex, String activeStep,
+                         String activePlayer, String mistake){
+        String answer = "";
+        httpClient.execute("sendValue", roomIndex, activeStep, activePlayer, mistake);
+        try{
+            answer = httpClient.get();
+            Log.i(Data.getLOG_TAG(), "action: response from server " + answer);
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }catch (ExecutionException e){
+            e.printStackTrace();
+        }
+        return answer;
+    }
+
     //region Private fields
     private ArrayList<ImageButton> imageButtonArrayList;
     private ArrayList<FlipView> flipViews;
@@ -562,8 +593,10 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
     private long time1 = 0;
     private long time2 = 0;
     private boolean flipFlag = true;
+    private Boolean activeFlag;
 
     private String playerName;
+    private String playerNumber;
     private String username;
     private String origin;
 
