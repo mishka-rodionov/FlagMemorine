@@ -232,7 +232,7 @@ public class Data {
     }
 
     //region Private static fields
-    private static String customURL = "192.168.42.227";
+    private static String customURL = "127.0.0.1";
     private static String LOG_TAG = "flagmemorine";
     private static String serverAppName = "TestGet";
     private static String mainServlet = "hello";

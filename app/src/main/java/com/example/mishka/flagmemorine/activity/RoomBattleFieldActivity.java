@@ -88,15 +88,19 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
 
         String[] body = new String[1];
         String answer = "";
-        httpClient.execute("connectToRoom", playerName, username, origin, Integer.toString(battleFieldSize));
+//        httpClient.execute("connectToRoom", playerName, username, origin, Integer.toString(battleFieldSize));
         try{
-            answer = httpClient.get();
-            httpClient.cancel(true);
+//            answer = httpClient.get();
+            answer = httpClient.connectToRoom(playerName, username, origin, Integer.toString(battleFieldSize));
+            Thread.sleep(3000);
+//            httpClient.cancel(true);
             Log.i(Data.getLOG_TAG(), "onCreate: response from server " + answer);
             body = answer.split(" ");
         }catch (InterruptedException e){
             e.printStackTrace();
         }catch (ExecutionException e){
+            e.printStackTrace();
+        }catch (Exception e){
             e.printStackTrace();
         }
 
@@ -581,14 +585,17 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
     public String action(HttpClient httpClient, String roomIndex, String activeStep,
                          String activePlayer, String mistake){
         String answer = "";
-        httpClient.execute("sendValue", roomIndex, activeStep, activePlayer, mistake);
+//        httpClient.execute("sendValue", roomIndex, activeStep, activePlayer, mistake);
         try{
-            answer = httpClient.get();
-            httpClient.cancel(true);
+//            answer = httpClient.get();
+            answer = httpClient.sendValue(roomIndex, activeStep, activePlayer, mistake);
+//            httpClient.cancel(true);
             Log.i(Data.getLOG_TAG(), "action: response from server " + answer);
         }catch (InterruptedException e){
             e.printStackTrace();
         }catch (ExecutionException e){
+            e.printStackTrace();
+        }catch (Exception e){
             e.printStackTrace();
         }
         return answer;
@@ -596,14 +603,17 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
 
     public String[] stepWait(HttpClient httpClient, String roomIndex, String activePlayer){
         String[] answer = new String[0];
-        httpClient.execute("stepWait", roomIndex, activePlayer);
+//        httpClient.execute("stepWait", roomIndex, activePlayer);
         try{
-            answer = httpClient.get().split(" ");
-            httpClient.cancel(true);
+//            answer = httpClient.get().split(" ");
+            answer = httpClient.stepWait(roomIndex, activePlayer).split(" ");
+//            httpClient.cancel(true);
             Log.i(Data.getLOG_TAG(), "action: response from server " + answer);
         }catch (InterruptedException e){
             e.printStackTrace();
         }catch (ExecutionException e){
+            e.printStackTrace();
+        }catch (Exception e){
             e.printStackTrace();
         }
         return answer;

@@ -17,8 +17,8 @@ import okhttp3.Response;
  * Created by Lab1 on 22.01.2018.
  */
 
-public class HttpClient extends AsyncTask<String, Void, String>{
-    @Override
+public class HttpClient/* extends AsyncTask<String, Void, String>*/{
+  /*  @Override
     protected String doInBackground(String... strings) {
         String temp = "";
         try {
@@ -51,7 +51,7 @@ public class HttpClient extends AsyncTask<String, Void, String>{
         }
         return temp;
     }
-
+*/
 //    @Override
 //    protected void onPostExecute(String s) {
 //        super.onPostExecute(s);
