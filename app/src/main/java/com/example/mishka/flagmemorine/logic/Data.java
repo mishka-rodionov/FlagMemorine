@@ -2,9 +2,7 @@ package com.example.mishka.flagmemorine.logic;
 
 import com.example.mishka.flagmemorine.R;
 
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 /**
  * Created by Lab1 on 22.01.2018.
@@ -45,20 +43,20 @@ public class Data {
         Data.testAnotherPlayerChoiceServlet = testAnotherPlayerChoiceServlet;
     }
 
-    public static String getWaitSecondPlayerServlet() {
-        return waitSecondPlayerServlet;
+    public static String getWaitServlet() {
+        return waitServlet;
     }
 
-    public static void setWaitSecondPlayerServlet(String waitSecondPlayerServlet) {
-        Data.waitSecondPlayerServlet = waitSecondPlayerServlet;
+    public static void setWaitServlet(String waitServlet) {
+        Data.waitServlet = waitServlet;
     }
 
     public static void setConnectToRoomServlet(String connectToRoomServlet) {
         Data.connectToRoomServlet = connectToRoomServlet;
     }
 
-    public static void setGetElementRoomServlet(String getElementRoomServlet) {
-        Data.getElementRoomServlet = getElementRoomServlet;
+    public static void setActivePlayerServlet(String activePlayerServlet) {
+        Data.activePlayerServlet = activePlayerServlet;
     }
     //endregion
 
@@ -105,8 +103,8 @@ public class Data {
         return connectToRoomServlet;
     }
 
-    public static String getGetElementRoomServlet() {
-        return getElementRoomServlet;
+    public static String getActivePlayerServlet() {
+        return activePlayerServlet;
     }
 
     public static int getXsmallSize() {
@@ -241,9 +239,9 @@ public class Data {
     private static String createRoomServlet = "createRoom";
     private static String roomListRequestServlet = "getRoomList";
     private static String testAnotherPlayerChoiceServlet = "testAnotherPlayerChoice";
-    private static String waitSecondPlayerServlet = "waitSecondPlayer";
+    private static String waitServlet = "wait";
     private static String connectToRoomServlet = "connectToRoom";
-    private static String getElementRoomServlet = "getElementRoom";
+    private static String activePlayerServlet = "activePlayer";
     private static String battleFieldServlet = "getElement";
     private static String battleFieldServletParameter = "size";
     private static String dbName  = "FlagMem";

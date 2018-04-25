@@ -29,8 +29,8 @@ public class HttpClient extends AsyncTask<String, Void, String>{
                 case "createBattleField":
 //                    temp = createBattleField(strings[1]);
                     break;
-                case "createRoom":
-//                    temp = createRoom(strings[1], strings[2]);
+                case "stepWait":
+                    temp = stepWait(strings[1], strings[2]);
                     break;
                 case "sendValue":
                     temp = sendValue(strings[1], strings[2], strings[3], strings[4]);
@@ -242,7 +242,7 @@ public class HttpClient extends AsyncTask<String, Void, String>{
 //        return Integer.parseInt(index);
     }
 
-    public String sendValue(String playerName, String activeStep, String activePlayer, String mistake)
+    public String sendValue(String roomIndex, String activeStep, String activePlayer, String mistake)
             throws Exception {
 
 
@@ -251,11 +251,48 @@ public class HttpClient extends AsyncTask<String, Void, String>{
                 .host(Data.getCustomURL())
                 .port(8080)
                 .addPathSegment(Data.getServerAppName())
-                .addPathSegment(Data.getMainServlet())
-                .addQueryParameter("playerName", playerName)
+                .addPathSegment(Data.getActivePlayerServlet())
+                .addQueryParameter("roomIndex", roomIndex)
                 .addQueryParameter("activeStep", activeStep)
                 .addQueryParameter("activePlayer", activePlayer)
                 .addQueryParameter("mistake", mistake)
+                .build();
+
+        Request request = new Request.Builder()
+                .url(httpUrl)
+                .header("User-Agent", "OkHttp Headers.java")
+                .build();
+
+        Log.d(LOG_TAG, "room name URL = " + httpUrl.toString());
+        String answer = "";
+
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+            Headers responseHeaders = response.headers();
+            for (int i = 0; i < responseHeaders.size(); i++) {
+                Log.d(Data.getLOG_TAG(), responseHeaders.name(i) + ": " + responseHeaders.value(i));
+            }
+            answer = response.body().string();
+            Log.d(Data.getLOG_TAG(), "" + answer);
+            return answer;
+        }
+
+//        return Integer.parseInt(index);
+    }
+
+    public String stepWait(String roomIndex, String activePlayer)
+            throws Exception {
+
+
+        HttpUrl httpUrl = new HttpUrl.Builder()
+                .scheme("http")
+                .host(Data.getCustomURL())
+                .port(8080)
+                .addPathSegment(Data.getServerAppName())
+                .addPathSegment(Data.getWaitServlet())
+                .addQueryParameter("roomIndex", roomIndex)
+                .addQueryParameter("activePlayer", activePlayer)
                 .build();
 
         Request request = new Request.Builder()
@@ -292,7 +329,7 @@ public class HttpClient extends AsyncTask<String, Void, String>{
 //                .host(Data.getCustomURL())
 //                .port(8080)
 //                .addPathSegment(Data.getServerAppName())
-//                .addPathSegment(Data.getGetElementRoomServlet())
+//                .addPathSegment(Data.getActivePlayerServlet())
 //                .addQueryParameter("rowIndex",rowIndex)
 //                .addQueryParameter("columnIndex",columnIndex)
 //                .addQueryParameter("roomIndex",roomIndex)

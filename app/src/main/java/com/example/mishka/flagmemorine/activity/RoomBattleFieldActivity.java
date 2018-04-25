@@ -77,6 +77,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
 
         record = getPreferences(MODE_PRIVATE);                                                      //
         timer = new Timer();                                                                        // Инициализация таймера для задержки переворота табличек
+        requestTimer = new Timer();                                                                        // Инициализация таймера для задержки переворота табличек
         userChoice = new ArrayList<>(2);                                               // Инициализация контейнера для хранения страны с выбранной таблички табличек
         viewTag = new ArrayList<>(2);                                                  // Инициализация контейнера для хранения тэгов табличек пользовательского выбора табличек
         CountryList.loadCountryMap();
@@ -90,6 +91,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         httpClient.execute("connectToRoom", playerName, username, origin, Integer.toString(battleFieldSize));
         try{
             answer = httpClient.get();
+            httpClient.cancel(true);
             Log.i(Data.getLOG_TAG(), "onCreate: response from server " + answer);
             body = answer.split(" ");
         }catch (InterruptedException e){
@@ -205,6 +207,35 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
             }
         }, 0, 1000);
 
+//        requestTask = new TimerTask() {
+//            @Override
+//            public void run() {
+//                String[] answer = stepWait(httpClient, Integer.toString(roomIndex), playerName);
+//                activeFlag = Boolean.parseBoolean(answer[1]);
+//                if (Integer.parseInt(answer[0]) == 0){
+//
+//                }else{
+//                    flipViews.get(Integer.parseInt(answer[0])).flip(true);
+//                }
+//            }
+//        };
+
+        requestTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                String[] answer = stepWait(httpClient, Integer.toString(roomIndex), playerName);
+                activeFlag = Boolean.parseBoolean(answer[1]);
+                if (activeFlag){
+                    requestTimer.cancel();
+                }
+                if (Integer.parseInt(answer[0]) == 0){
+
+                }else{
+                    flipViews.get(Integer.parseInt(answer[0])).flip(true);
+                }
+            }
+        }, 5000, 1000);
+
         stepCounter = 0;
         basicLayout.addView(view);
 
@@ -264,7 +295,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
     }
 
 
-    private void clickHandler(String country, HttpClient httpClient) {
+    private void clickHandler(String country, final HttpClient httpClient) {
         if (userChoice.size() == 2 && flipFlag) {                                                // Проверка количества элементов в контейнере пользовательского выбора.
 
             stepCounter++;
@@ -292,8 +323,26 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
                 delayedTask(but0, but1);
                 delayedClickable(but0, but1);
 
-                action(httpClient, Integer.toString(roomIndex), view.getTag().toString(),
-                        playerNumber, Boolean.toString(false));
+                if (activeFlag){
+                    action(httpClient, Integer.toString(roomIndex), view.getTag().toString(),
+                            playerNumber, Boolean.toString(false));
+                    requestTimer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            String[] answer = stepWait(httpClient, Integer.toString(roomIndex), playerName);
+                            activeFlag = Boolean.parseBoolean(answer[1]);
+                            if (activeFlag){
+                                requestTimer.cancel();
+                            }
+                            if (Integer.parseInt(answer[0]) == 0){
+
+                            }else{
+                                flipViews.get(Integer.parseInt(answer[0])).flip(true);
+                            }
+                        }
+                    }, 100, 1000);
+                }
+
 
                 viewTag.clear();                                                    // очищаем контейнер тегов
             } else                                                                   // иначе
@@ -320,8 +369,11 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
                     userChoice.clear();                                                 // очищаем контейнеры пользовательского выбора
                     viewTag.clear();
 
-                    action(httpClient, Integer.toString(roomIndex), view.getTag().toString(),
-                            playerNumber, Boolean.toString(true));
+                    if (activeFlag){
+                        action(httpClient, Integer.toString(roomIndex), view.getTag().toString(),
+                                playerNumber, Boolean.toString(true));
+                    }
+
                     if (!clickable.containsValue(true)) {                               // данное условие выполняется когда все таблички перевернуты
                         clickable.clear();
 
@@ -532,6 +584,22 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         httpClient.execute("sendValue", roomIndex, activeStep, activePlayer, mistake);
         try{
             answer = httpClient.get();
+            httpClient.cancel(true);
+            Log.i(Data.getLOG_TAG(), "action: response from server " + answer);
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }catch (ExecutionException e){
+            e.printStackTrace();
+        }
+        return answer;
+    }
+
+    public String[] stepWait(HttpClient httpClient, String roomIndex, String activePlayer){
+        String[] answer = new String[0];
+        httpClient.execute("stepWait", roomIndex, activePlayer);
+        try{
+            answer = httpClient.get().split(" ");
+            httpClient.cancel(true);
             Log.i(Data.getLOG_TAG(), "action: response from server " + answer);
         }catch (InterruptedException e){
             e.printStackTrace();
@@ -574,7 +642,11 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
     private TextView test2;
     private TextView time;
     private TextView scoreTV;
+
     private Timer timer;
+    private Timer requestTimer;
+    private TimerTask requestTask;
+
     private View view;
     private Toolbar battlefieldToolbar;
     private ActionBar battlefieldActionBar;
