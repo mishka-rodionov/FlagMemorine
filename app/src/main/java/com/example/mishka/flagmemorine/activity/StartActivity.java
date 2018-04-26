@@ -16,8 +16,11 @@ import android.widget.RadioGroup;
 
 import com.example.mishka.flagmemorine.R;
 import com.example.mishka.flagmemorine.logic.Data;
+import com.example.mishka.flagmemorine.logic.HttpClient;
 import com.example.mishka.flagmemorine.service.DBHelper;
 import com.example.mishka.flagmemorine.service.SqLiteTableManager;
+
+import java.util.concurrent.ExecutionException;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -89,6 +92,7 @@ public class StartActivity extends AppCompatActivity {
         large.setOnClickListener(onClickListenerRB);
         xLarge.setOnClickListener(onClickListenerRB);
         xxLarge.setOnClickListener(onClickListenerRB);
+        String answer = "temp";
 
         View.OnClickListener onClickListenerButton = new View.OnClickListener() {
             @Override
@@ -114,6 +118,20 @@ public class StartActivity extends AppCompatActivity {
                         multiplayerIntent.putExtra("size", size);
                         startActivity(multiplayerIntent);
                         break;
+                    case R.id.stopAds:
+                        HttpClient httpClient = new HttpClient();
+                        String answer = "temp";
+                        try{
+                            answer = httpClient.connectToRoom("player1", "user", "Russia", "8");
+                        }catch (InterruptedException e){
+                            e.printStackTrace();
+                        }catch (ExecutionException e){
+                            e.printStackTrace();
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                        Log.i(Data.getLOG_TAG(), "onClick: answer = " + answer);
+                        break;
                 }
             }
         };
@@ -122,6 +140,7 @@ public class StartActivity extends AppCompatActivity {
         multiplayer.setOnClickListener(onClickListenerButton);
         statistic.setOnClickListener(onClickListenerButton);
         userInfo.setOnClickListener(onClickListenerButton);
+        stopAds.setOnClickListener(onClickListenerButton);
 
     }
 

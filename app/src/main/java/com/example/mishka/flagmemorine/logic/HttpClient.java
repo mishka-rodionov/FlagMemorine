@@ -3,15 +3,23 @@ package com.example.mishka.flagmemorine.logic;
 import android.annotation.TargetApi;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import java.io.IOException;
 
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.Headers;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by Lab1 on 22.01.2018.
@@ -206,7 +214,7 @@ public class HttpClient/* extends AsyncTask<String, Void, String>*/{
     public String connectToRoom(String playerName, String user, String origin, String size)
             throws Exception {
 
-        String battlefield = "";
+//        final String battlefield = "";
 
         HttpUrl httpUrl = new HttpUrl.Builder()
                 .scheme("http")
@@ -225,20 +233,50 @@ public class HttpClient/* extends AsyncTask<String, Void, String>*/{
                 .header("User-Agent", "OkHttp Headers.java")
                 .build();
 
-        Log.d(LOG_TAG, "room name URL = " + httpUrl.toString());
+        final Handler mainHandler = new Handler(Looper.getMainLooper());
 
-        try (Response response = client.newCall(request).execute()) {
-            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                battlefield = "Fail!!!!!!!!!!!!";
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+//                        view.setText(battlefield);
+                        Log.i(Data.getLOG_TAG(), "run: " + battlefield);
+                    }
+                });
 
-            Headers responseHeaders = response.headers();
-            for (int i = 0; i < responseHeaders.size(); i++) {
-                Log.d(Data.getLOG_TAG(), responseHeaders.name(i) + ": " + responseHeaders.value(i));
             }
-            battlefield = response.body().string();
-            Log.d(Data.getLOG_TAG(), "" + battlefield);
-            return battlefield;
-        }
 
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Log.i(Data.getLOG_TAG(), "onResponse run: " + response.body().string());
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+//                        Log.i(Data.getLOG_TAG(), "onResponse run: " + response.body().string());
+                    }
+                });
+            }
+        });
+
+//        Handler mainHandler = new Handler(Looper.getMainLooper());
+//
+//        Log.d(LOG_TAG, "room name URL = " + httpUrl.toString());
+//
+//        try (Response response = client.newCall(request).execute()) {
+//            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+//
+//            Headers responseHeaders = response.headers();
+//            for (int i = 0; i < responseHeaders.size(); i++) {
+//                Log.d(Data.getLOG_TAG(), responseHeaders.name(i) + ": " + responseHeaders.value(i));
+//            }
+//            battlefield = response.body().string();
+//            Log.d(Data.getLOG_TAG(), "" + battlefield);
+//            return battlefield;
+//        }
+        return "s";
 //        return Integer.parseInt(index);
     }
 
@@ -390,4 +428,5 @@ public class HttpClient/* extends AsyncTask<String, Void, String>*/{
 
     private String LOG_TAG = "flagmemorine";
     private final OkHttpClient client = new OkHttpClient();
+    private String battlefield;
 }
