@@ -211,8 +211,8 @@ public class HttpClient/* extends AsyncTask<String, Void, String>*/{
 //    }
 
 //    @TargetApi(Build.VERSION_CODES.KITKAT)
-    public String connectToRoom(String playerName, String user, String origin, String size)
-            throws Exception {
+    public Request connectToRoom(String playerName, String user, String origin, String size)
+            {
 
 //        final String battlefield = "";
 
@@ -233,33 +233,35 @@ public class HttpClient/* extends AsyncTask<String, Void, String>*/{
                 .header("User-Agent", "OkHttp Headers.java")
                 .build();
 
-        final Handler mainHandler = new Handler(Looper.getMainLooper());
+                Log.d(LOG_TAG, "connect to room URL = " + httpUrl.toString());
 
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                battlefield = "Fail!!!!!!!!!!!!";
-                mainHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-//                        view.setText(battlefield);
-                        Log.i(Data.getLOG_TAG(), "run: " + battlefield);
-                    }
-                });
-
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                Log.i(Data.getLOG_TAG(), "onResponse run: " + response.body().string());
-                mainHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-//                        Log.i(Data.getLOG_TAG(), "onResponse run: " + response.body().string());
-                    }
-                });
-            }
-        });
+//        final Handler mainHandler = new Handler(Looper.getMainLooper());
+//
+//        client.newCall(request).enqueue(new Callback() {
+//            @Override
+//            public void onFailure(Call call, IOException e) {
+//                battlefield = "Fail!!!!!!!!!!!!";
+//                mainHandler.post(new Runnable() {
+//                    @Override
+//                    public void run() {
+////                        view.setText(battlefield);
+//                        Log.i(Data.getLOG_TAG(), "run: " + battlefield);
+//                    }
+//                });
+//
+//            }
+//
+//            @Override
+//            public void onResponse(Call call, Response response) throws IOException {
+//                Log.i(Data.getLOG_TAG(), "onResponse run: " + response.body().string());
+//                mainHandler.post(new Runnable() {
+//                    @Override
+//                    public void run() {
+////                        Log.i(Data.getLOG_TAG(), "onResponse run: " + response.body().string());
+//                    }
+//                });
+//            }
+//        });
 
 //        Handler mainHandler = new Handler(Looper.getMainLooper());
 //
@@ -276,12 +278,12 @@ public class HttpClient/* extends AsyncTask<String, Void, String>*/{
 //            Log.d(Data.getLOG_TAG(), "" + battlefield);
 //            return battlefield;
 //        }
-        return "s";
+        return request;
 //        return Integer.parseInt(index);
     }
 
-    public String sendValue(String roomIndex, String activeStep, String activePlayer, String mistake)
-            throws Exception {
+    public Request sendValue(String roomIndex, String activeStep, String activePlayer, String mistake)
+            {
 
 
         HttpUrl httpUrl = new HttpUrl.Builder()
@@ -301,27 +303,26 @@ public class HttpClient/* extends AsyncTask<String, Void, String>*/{
                 .header("User-Agent", "OkHttp Headers.java")
                 .build();
 
-        Log.d(LOG_TAG, "room name URL = " + httpUrl.toString());
-        String answer = "";
-
-        try (Response response = client.newCall(request).execute()) {
-            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-
-            Headers responseHeaders = response.headers();
-            for (int i = 0; i < responseHeaders.size(); i++) {
-                Log.d(Data.getLOG_TAG(), responseHeaders.name(i) + ": " + responseHeaders.value(i));
-            }
-            answer = response.body().string();
-            Log.d(Data.getLOG_TAG(), "" + answer);
-            return answer;
-        }
-
+        Log.d(LOG_TAG, "send value URL = " + httpUrl.toString());
+//        String answer = "";
+//
+//        try (Response response = client.newCall(request).execute()) {
+//            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+//
+//            Headers responseHeaders = response.headers();
+//            for (int i = 0; i < responseHeaders.size(); i++) {
+//                Log.d(Data.getLOG_TAG(), responseHeaders.name(i) + ": " + responseHeaders.value(i));
+//            }
+//            answer = response.body().string();
+//            Log.d(Data.getLOG_TAG(), "" + answer);
+//            return answer;
+//        }
+        return request;
 //        return Integer.parseInt(index);
     }
 
-    public String stepWait(String roomIndex, String activePlayer)
-            throws Exception {
-
+    public Request stepWait(String roomIndex, String activePlayer)
+            {
 
         HttpUrl httpUrl = new HttpUrl.Builder()
                 .scheme("http")
@@ -338,22 +339,22 @@ public class HttpClient/* extends AsyncTask<String, Void, String>*/{
                 .header("User-Agent", "OkHttp Headers.java")
                 .build();
 
-        Log.d(LOG_TAG, "room name URL = " + httpUrl.toString());
+        Log.d(LOG_TAG, "step wait URL = " + httpUrl.toString());
         String answer = "";
 
-        try (Response response = client.newCall(request).execute()) {
-            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+//        try (Response response = client.newCall(request).execute()) {
+//            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+//
+//            Headers responseHeaders = response.headers();
+//            for (int i = 0; i < responseHeaders.size(); i++) {
+//                Log.d(Data.getLOG_TAG(), responseHeaders.name(i) + ": " + responseHeaders.value(i));
+//            }
+//            answer = response.body().string();
+//            Log.d(Data.getLOG_TAG(), "" + answer);
+//            return answer;
+//        }
 
-            Headers responseHeaders = response.headers();
-            for (int i = 0; i < responseHeaders.size(); i++) {
-                Log.d(Data.getLOG_TAG(), responseHeaders.name(i) + ": " + responseHeaders.value(i));
-            }
-            answer = response.body().string();
-            Log.d(Data.getLOG_TAG(), "" + answer);
-            return answer;
-        }
-
-//        return Integer.parseInt(index);
+        return request;
     }
 
 //    @TargetApi(Build.VERSION_CODES.KITKAT)

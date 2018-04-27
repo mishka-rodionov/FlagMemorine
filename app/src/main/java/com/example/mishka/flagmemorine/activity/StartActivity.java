@@ -121,16 +121,16 @@ public class StartActivity extends AppCompatActivity {
                     case R.id.stopAds:
                         HttpClient httpClient = new HttpClient();
                         String answer = "temp";
-                        try{
-                            answer = httpClient.connectToRoom("player1", "user", "Russia", "8");
-                        }catch (InterruptedException e){
-                            e.printStackTrace();
-                        }catch (ExecutionException e){
-                            e.printStackTrace();
-                        }catch (Exception e){
-                            e.printStackTrace();
-                        }
-                        Log.i(Data.getLOG_TAG(), "onClick: answer = " + answer);
+//                        try{
+//                            answer = httpClient.connectToRoom("player1", "user", "Russia", "8");
+//                        }catch (InterruptedException e){
+//                            e.printStackTrace();
+//                        }catch (ExecutionException e){
+//                            e.printStackTrace();
+//                        }catch (Exception e){
+//                            e.printStackTrace();
+//                        }
+//                        Log.i(Data.getLOG_TAG(), "onClick: answer = " + answer);
                         break;
                 }
             }

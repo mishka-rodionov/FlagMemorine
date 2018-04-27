@@ -5,10 +5,12 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -26,6 +28,7 @@ import com.example.mishka.flagmemorine.logic.Data;
 import com.example.mishka.flagmemorine.logic.HttpClient;
 import com.example.mishka.flagmemorine.service.SqLiteTableManager;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,6 +37,10 @@ import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
 import eu.davidea.flipview.FlipView;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Response;
 
 public class RoomBattleFieldActivity extends AppCompatActivity {
     @Override
@@ -62,6 +69,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         setContentView(R.layout.activity_battlefield);
 //        WindowManager.LayoutParams.FLAG_FULLSCREEN;
         hideSystemUI();
+        client = new OkHttpClient();
         battlefieldToolbar = (Toolbar) findViewById(R.id.battlefield_toolbar);
         setSupportActionBar(battlefieldToolbar);
         battlefieldActionBar = getSupportActionBar();
@@ -89,37 +97,37 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         String[] body = new String[1];
         String answer = "";
 //        httpClient.execute("connectToRoom", playerName, username, origin, Integer.toString(battleFieldSize));
-        try{
-//            answer = httpClient.get();
-            answer = httpClient.connectToRoom(playerName, username, origin, Integer.toString(battleFieldSize));
-            Thread.sleep(3000);
-//            httpClient.cancel(true);
-            Log.i(Data.getLOG_TAG(), "onCreate: response from server " + answer);
-            body = answer.split(" ");
-        }catch (InterruptedException e){
-            e.printStackTrace();
-        }catch (ExecutionException e){
-            e.printStackTrace();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+//        try{
+////            answer = httpClient.get();
+//            answer = httpClient.connectToRoom(playerName, username, origin, Integer.toString(battleFieldSize));
+//            Thread.sleep(3000);
+////            httpClient.cancel(true);
+//            Log.i(Data.getLOG_TAG(), "onCreate: response from server " + answer);
+//            body = answer.split(" ");
+//        }catch (InterruptedException e){
+//            e.printStackTrace();
+//        }catch (ExecutionException e){
+//            e.printStackTrace();
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
 
-        roomIndex = Integer.parseInt(body[0]);
-        playerNumber = body[1];
-        if (playerNumber.equals("firstPlayer")){
-            activeFlag = true;
-        }else{
-            activeFlag = false;
-        }
-        for (int i = 3; i < body.length; i+=2) {
-            if(body[i].contains("_")){
-                body[i] = body[i].replaceAll("_", " ");
-            }
-            Log.i(Data.getLOG_TAG(), "body[i] " + body[i]);
-            battlefieldBody.add(body[i]);
-        }
-        battleField = new BattleField(battlefieldBody);
-        initFlipView(view, battleFieldSize);
+//        roomIndex = Integer.parseInt(body[0]);
+//        playerNumber = body[1];
+//        if (playerNumber.equals("firstPlayer")){
+//            activeFlag = true;
+//        }else{
+//            activeFlag = false;
+//        }
+//        for (int i = 3; i < body.length; i+=2) {
+//            if(body[i].contains("_")){
+//                body[i] = body[i].replaceAll("_", " ");
+//            }
+//            Log.i(Data.getLOG_TAG(), "body[i] " + body[i]);
+//            battlefieldBody.add(body[i]);
+//        }
+//        battleField = new BattleField(battlefieldBody);
+//        initFlipView(view, battleFieldSize);
 
         clickable = new HashMap<Integer, Boolean>();
         for (int i = 0; i < battleFieldSize; i++) {
@@ -227,16 +235,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         requestTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                String[] answer = stepWait(httpClient, Integer.toString(roomIndex), playerName);
-                activeFlag = Boolean.parseBoolean(answer[1]);
-                if (activeFlag){
-                    requestTimer.cancel();
-                }
-                if (Integer.parseInt(answer[0]) == 0){
-
-                }else{
-                    flipViews.get(Integer.parseInt(answer[0])).flip(true);
-                }
+                stepWait(httpClient, Integer.toString(roomIndex), playerName);
             }
         }, 5000, 1000);
 
@@ -244,10 +243,10 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         basicLayout.addView(view);
 
         //******************************************************************************************
-        for (int i = 0; i < flipViews.size(); i++) {
-            flipViews.get(i).setFrontImage(R.drawable.unknown);
-            flipViews.get(i).setEnabled(true);
-        }
+//        for (int i = 0; i < flipViews.size(); i++) {
+//            flipViews.get(i).setFrontImage(R.drawable.unknown);
+//            flipViews.get(i).setEnabled(true);
+//        }
 
         // Метод обработки нажатий на кнопки на игровом поле. При нажатии на кнопку происходит
         // отправка данных на сервер (индекс строки и столбца (два целочисленных значения)).
@@ -258,7 +257,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         // некликабельными, дальше происходит обычная работа. Если флаги несовпадют, то они
         // отображаются секунду, после чего закрываются.
 //        View.OnClickListener onClickListener = new View.OnClickListener() {
-        FlipView.OnFlippingListener onFlippingListener = new FlipView.OnFlippingListener() {
+        /*FlipView.OnFlippingListener*/ onFlippingListener = new FlipView.OnFlippingListener() {
             @Override
             public void onFlipped(FlipView view, boolean checked) {
                 Log.d(Data.getLOG_TAG(), "press button");
@@ -285,21 +284,22 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
                 Log.d(Data.getLOG_TAG(), "userCoice size = " + userChoice.size());
                 Log.d(Data.getLOG_TAG(), "userCoice 1 = " + userChoice.get(0));
 
-                clickHandler(country, httpClient);
+                clickHandler(country, httpClient, view);
             }
         };
 
-        for (int i = 0; i < flipViews.size(); i++) {
-            flipViews.get(i).setOnFlippingListener(onFlippingListener);
-//            Log.d(Data.getLOG_TAG(), "add onFlipListener " + i + " " + flipViews.get(i).getId() + " xxlarge1 = " + R.id.xxlarge1);
-        }
+//        for (int i = 0; i < flipViews.size(); i++) {
+//            flipViews.get(i).setOnFlippingListener(onFlippingListener);
+////            Log.d(Data.getLOG_TAG(), "add onFlipListener " + i + " " + flipViews.get(i).getId() + " xxlarge1 = " + R.id.xxlarge1);
+//        }
+        connectToRoom(httpClient, playerName, username, origin, Integer.toString(battleFieldSize));
         time2 = System.currentTimeMillis();
         Log.d(Data.getLOG_TAG(), "loading time is = " + (time2 - time1));
         //******************************************************************************************
     }
 
 
-    private void clickHandler(String country, final HttpClient httpClient) {
+    private void clickHandler(String country, final HttpClient httpClient, View currentView) {
         if (userChoice.size() == 2 && flipFlag) {                                                // Проверка количества элементов в контейнере пользовательского выбора.
 
             stepCounter++;
@@ -328,23 +328,15 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
                 delayedClickable(but0, but1);
 
                 if (activeFlag){
-                    action(httpClient, Integer.toString(roomIndex), view.getTag().toString(),
+                    Log.i(Data.getLOG_TAG(), "room index before crash = " + roomIndex);
+                    action(httpClient, Integer.toString(roomIndex), currentView.getTag().toString(),
                             playerNumber, Boolean.toString(false));
                     requestTimer.schedule(new TimerTask() {
                         @Override
                         public void run() {
-                            String[] answer = stepWait(httpClient, Integer.toString(roomIndex), playerName);
-                            activeFlag = Boolean.parseBoolean(answer[1]);
-                            if (activeFlag){
-                                requestTimer.cancel();
-                            }
-                            if (Integer.parseInt(answer[0]) == 0){
-
-                            }else{
-                                flipViews.get(Integer.parseInt(answer[0])).flip(true);
-                            }
+                            stepWait(httpClient, Integer.toString(roomIndex), playerName);
                         }
-                    }, 100, 1000);
+                    }, 5000, 1000);
                 }
 
 
@@ -582,41 +574,135 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         );
     }
 
-    public String action(HttpClient httpClient, String roomIndex, String activeStep,
-                         String activePlayer, String mistake){
-        String answer = "";
-//        httpClient.execute("sendValue", roomIndex, activeStep, activePlayer, mistake);
-        try{
-//            answer = httpClient.get();
-            answer = httpClient.sendValue(roomIndex, activeStep, activePlayer, mistake);
-//            httpClient.cancel(true);
-            Log.i(Data.getLOG_TAG(), "action: response from server " + answer);
-        }catch (InterruptedException e){
-            e.printStackTrace();
-        }catch (ExecutionException e){
-            e.printStackTrace();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return answer;
+    public void connectToRoom(HttpClient httpClient, String playerName, String user, String origin, String size){
+
+        final Handler mainHandler = new Handler(Looper.getMainLooper());
+
+        client.newCall(httpClient.connectToRoom(playerName, user, origin, size)).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+//                ;
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+//                        view.setText(battlefield);
+                        Log.i(Data.getLOG_TAG(), "run: " + "Fail!!!!!!!!!!!!");
+                    }
+                });
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String answer = response.body().string();
+                final String[] body = answer.split(" ");
+                Log.i(Data.getLOG_TAG(), "onResponse run: " + answer);
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        roomIndex = Integer.parseInt(body[0]);
+                        Log.i(Data.getLOG_TAG(), "room index is = " + roomIndex);
+                        playerNumber = body[1];
+                        if (playerNumber.equals("firstPlayer")){
+                            activeFlag = true;
+                        }else{
+                            activeFlag = false;
+                        }
+                        for (int i = 3; i < body.length; i+=2) {
+                            if(body[i].contains("_")){
+                                body[i] = body[i].replaceAll("_", " ");
+                            }
+                            Log.i(Data.getLOG_TAG(), "body[i] " + body[i]);
+                            battlefieldBody.add(body[i]);
+                        }
+                        battleField = new BattleField(battlefieldBody);
+                        initFlipView(view, battleFieldSize);
+
+                        for (int i = 0; i < flipViews.size(); i++) {
+                            flipViews.get(i).setFrontImage(R.drawable.unknown);
+                            flipViews.get(i).setEnabled(true);
+                        }
+                        for (int i = 0; i < flipViews.size(); i++) {
+                            flipViews.get(i).setOnFlippingListener(onFlippingListener);
+//            Log.d(Data.getLOG_TAG(), "add onFlipListener " + i + " " + flipViews.get(i).getId() + " xxlarge1 = " + R.id.xxlarge1);
+                        }
+                    }
+                });
+            }
+        });
     }
 
-    public String[] stepWait(HttpClient httpClient, String roomIndex, String activePlayer){
-        String[] answer = new String[0];
-//        httpClient.execute("stepWait", roomIndex, activePlayer);
-        try{
-//            answer = httpClient.get().split(" ");
-            answer = httpClient.stepWait(roomIndex, activePlayer).split(" ");
-//            httpClient.cancel(true);
-            Log.i(Data.getLOG_TAG(), "action: response from server " + answer);
-        }catch (InterruptedException e){
-            e.printStackTrace();
-        }catch (ExecutionException e){
-            e.printStackTrace();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return answer;
+    public void action(HttpClient httpClient, String roomIndex, String activeStep,
+                         String activePlayer, String mistake){
+        final Handler mainHandler = new Handler(Looper.getMainLooper());
+
+        client.newCall(httpClient.sendValue(roomIndex, activeStep, activePlayer, mistake)).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+//                ;
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+//                        view.setText(battlefield);
+                        Log.i(Data.getLOG_TAG(), "run: " + "Fail!!!!!!!!!!!!");
+                    }
+                });
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String answer = response.body().string();
+                Log.i(Data.getLOG_TAG(), "onResponse run: " + answer);
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        activeFlag = Boolean.parseBoolean(answer);
+                    }
+                });
+            }
+        });
+    }
+
+    public void stepWait(HttpClient httpClient, String roomIndex, String activePlayer){
+        final Handler mainHandler = new Handler(Looper.getMainLooper());
+
+        client.newCall(httpClient.stepWait(roomIndex, activePlayer)).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+//                ;
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+//                        view.setText(battlefield);
+                        Log.i(Data.getLOG_TAG(), "run: " + "Fail!!!!!!!!!!!!");
+                    }
+                });
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String[] answer = response.body().string().split(" ");
+                Log.i(Data.getLOG_TAG(), "onResponse run: " + answer);
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        activeFlag = Boolean.parseBoolean(answer[1]);
+                if (activeFlag){
+                    requestTimer.cancel();
+                }
+                if (Integer.parseInt(answer[0]) == 0){
+
+                }else{
+                    flipViews.get(Integer.parseInt(answer[0])).flip(true);
+                }
+                    }
+                });
+            }
+        });
     }
 
     //region Private fields
@@ -626,6 +712,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
     private ArrayList<String> viewTag;
 
     private BattleField battleField;
+    private FlipView.OnFlippingListener onFlippingListener;
 
 //    private ContentValues contentValues;
 
@@ -683,6 +770,8 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
     private String origin;
 
     private ArrayList<String> battlefieldBody;
+
+    private OkHttpClient client;
 
     //endregion
 
