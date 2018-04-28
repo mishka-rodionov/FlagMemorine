@@ -357,6 +357,78 @@ public class HttpClient/* extends AsyncTask<String, Void, String>*/{
         return request;
     }
 
+    public Request send(String text)
+    {
+
+        HttpUrl httpUrl = new HttpUrl.Builder()
+                .scheme("http")
+                .host(Data.getCustomURL())
+                .port(8080)
+                .addPathSegment(Data.getServerAppName())
+                .addPathSegment("testServlet")
+                .addQueryParameter("type", "send")
+                .addQueryParameter("name", "first")
+                .addQueryParameter("body", text)
+                .build();
+
+        Request request = new Request.Builder()
+                .url(httpUrl)
+                .header("User-Agent", "OkHttp Headers.java")
+                .build();
+
+        Log.d(LOG_TAG, "step wait URL = " + httpUrl.toString());
+        String answer = "";
+
+//        try (Response response = client.newCall(request).execute()) {
+//            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+//
+//            Headers responseHeaders = response.headers();
+//            for (int i = 0; i < responseHeaders.size(); i++) {
+//                Log.d(Data.getLOG_TAG(), responseHeaders.name(i) + ": " + responseHeaders.value(i));
+//            }
+//            answer = response.body().string();
+//            Log.d(Data.getLOG_TAG(), "" + answer);
+//            return answer;
+//        }
+
+        return request;
+    }
+
+    public Request receive()
+    {
+
+        HttpUrl httpUrl = new HttpUrl.Builder()
+                .scheme("http")
+                .host(Data.getCustomURL())
+                .port(8080)
+                .addPathSegment(Data.getServerAppName())
+                .addPathSegment("testServlet")
+                .addQueryParameter("name", "first")
+                .addQueryParameter("type", "receive")
+                .build();
+
+        Request request = new Request.Builder()
+                .url(httpUrl)
+                .header("User-Agent", "OkHttp Headers.java")
+                .build();
+
+        Log.d(LOG_TAG, "step wait URL = " + httpUrl.toString());
+        String answer = "";
+
+//        try (Response response = client.newCall(request).execute()) {
+//            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+//
+//            Headers responseHeaders = response.headers();
+//            for (int i = 0; i < responseHeaders.size(); i++) {
+//                Log.d(Data.getLOG_TAG(), responseHeaders.name(i) + ": " + responseHeaders.value(i));
+//            }
+//            answer = response.body().string();
+//            Log.d(Data.getLOG_TAG(), "" + answer);
+//            return answer;
+//        }
+
+        return request;
+    }
 //    @TargetApi(Build.VERSION_CODES.KITKAT)
 //    public String getElementRoom(String rowIndex, String columnIndex, String roomIndex, String player)
 //            throws Exception {

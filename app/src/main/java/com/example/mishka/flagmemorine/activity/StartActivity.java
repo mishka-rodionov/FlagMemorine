@@ -119,8 +119,11 @@ public class StartActivity extends AppCompatActivity {
                         startActivity(multiplayerIntent);
                         break;
                     case R.id.stopAds:
-                        HttpClient httpClient = new HttpClient();
-                        String answer = "temp";
+
+                        Intent interactionIntent = new Intent(StartActivity.this, TestInteraction.class);
+                        startActivity(interactionIntent);
+//                        HttpClient httpClient = new HttpClient();
+//                        String answer = "temp";
 //                        try{
 //                            answer = httpClient.connectToRoom("player1", "user", "Russia", "8");
 //                        }catch (InterruptedException e){
