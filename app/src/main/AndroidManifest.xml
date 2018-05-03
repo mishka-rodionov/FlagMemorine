@@ -20,7 +20,8 @@
         <activity
             android:name=".activity.BattleFieldActivity"
             android:configChanges="orientation"
-            android:label="@string/title_activity_room_battle_field"
+            android:label="@string/title_activity_battle_field"
+            android:parentActivityName=".activity.StartActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

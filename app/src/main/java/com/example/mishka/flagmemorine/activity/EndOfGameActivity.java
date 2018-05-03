@@ -43,7 +43,7 @@ public class EndOfGameActivity extends AppCompatActivity {
             public void onClick(View v) {
                 switch(v.getId()){
                     case R.id.restartButton:
-                        Intent intentBattleFieldActivity = new Intent(EndOfGameActivity.this, RoomBattleFieldActivity.class);
+                        Intent intentBattleFieldActivity = new Intent(EndOfGameActivity.this, BattleFieldActivity.class);
                         intentBattleFieldActivity.putExtra("size", size);
                         startActivity(intentBattleFieldActivity);
                         break;
