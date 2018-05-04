@@ -282,7 +282,8 @@ public class HttpClient/* extends AsyncTask<String, Void, String>*/{
 //        return Integer.parseInt(index);
     }
 
-    public Request sendValue(String roomIndex, String activeStep, String activePlayer, String mistake)
+    public Request sendValue(String roomIndex, String step1, String step2, String sendStart,
+                             String sendFinish, String readStart, String readFinish)
             {
 
 
@@ -292,10 +293,13 @@ public class HttpClient/* extends AsyncTask<String, Void, String>*/{
                 .port(8080)
                 .addPathSegment(Data.getServerAppName())
                 .addPathSegment(Data.getActivePlayerServlet())
-                .addQueryParameter("roomIndex", roomIndex)
-                .addQueryParameter("activeStep", activeStep)
-                .addQueryParameter("activePlayer", activePlayer)
-                .addQueryParameter("mistake", mistake)
+                .addQueryParameter(Data.getRoomIndexLabel(), roomIndex)
+                .addQueryParameter(Data.getStep1(), step1)
+                .addQueryParameter(Data.getStep2(), step2)
+                .addQueryParameter(Data.getSendStart(), sendStart)
+                .addQueryParameter(Data.getSendFinish(), sendFinish)
+                .addQueryParameter(Data.getReadStart(), readStart)
+                .addQueryParameter(Data.getReadFinish(), readFinish)
                 .build();
 
         Request request = new Request.Builder()

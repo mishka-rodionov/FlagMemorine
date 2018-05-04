@@ -19,6 +19,10 @@ public class Data {
         Data.serverAppName = serverAppName;
     }
 
+    public static void setRoomIndexLabel(String roomIndexLabel) {
+        Data.roomIndexLabel = roomIndexLabel;
+    }
+
     public static void setMainServlet(String mainServlet) {
         Data.mainServlet = mainServlet;
     }
@@ -57,6 +61,30 @@ public class Data {
 
     public static void setActivePlayerServlet(String activePlayerServlet) {
         Data.activePlayerServlet = activePlayerServlet;
+    }
+
+    public static void setSendStart(String sendStart) {
+        Data.sendStart = sendStart;
+    }
+
+    public static void setSendFinish(String sendFinish) {
+        Data.sendFinish = sendFinish;
+    }
+
+    public static void setReadStart(String readStart) {
+        Data.readStart = readStart;
+    }
+
+    public static void setReadFinish(String readFinish) {
+        Data.readFinish = readFinish;
+    }
+
+    public static void setStep1(String step1) {
+        Data.step1 = step1;
+    }
+
+    public static void setStep2(String step2) {
+        Data.step2 = step2;
     }
     //endregion
 
@@ -225,6 +253,34 @@ public class Data {
         return millisInDay;
     }
 
+    public static String getSendStart() {
+        return sendStart;
+    }
+
+    public static String getSendFinish() {
+        return sendFinish;
+    }
+
+    public static String getReadStart() {
+        return readStart;
+    }
+
+    public static String getReadFinish() {
+        return readFinish;
+    }
+
+    public static String getRoomIndexLabel() {
+        return roomIndexLabel;
+    }
+
+    public static String getStep1() {
+        return step1;
+    }
+
+    public static String getStep2() {
+        return step2;
+    }
+
     //endregion
 
     public static String getCurrentDate(){
@@ -259,6 +315,13 @@ public class Data {
     private static String userName = "User001";
     private static String login = "Login001";
     private static String userCountry = "Russia";
+    private static String sendStart = "sendStart";
+    private static String sendFinish = "sendFinish";
+    private static String readStart = "readStart";
+    private static String readFinish = "readFinish";
+    private static String roomIndexLabel = "roomIndex";
+    private static String step1 = "step1";
+    private static String step2 = "step2";
 
     private static Long millisInHour = 3600000l;
     private static Long millisInDay = 84000000l;

@@ -74,6 +74,8 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         setSupportActionBar(battlefieldToolbar);
         battlefieldActionBar = getSupportActionBar();
         battlefieldActionBar.setDisplayHomeAsUpEnabled(true);
+        sendFinish = false;
+        readFinish = false;
         //******************************************************************************************
         sqLiteTableManager = new SqLiteTableManager(RoomBattleFieldActivity.this);
         playerName = sqLiteTableManager.getName() == null ? sqLiteTableManager.getLogin() : sqLiteTableManager.getName();
@@ -235,7 +237,9 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         requestTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                stepWait(httpClient, Integer.toString(roomIndex), playerName);
+                action(httpClient, Integer.toString(roomIndex), "0", "0",
+                        Boolean.toString(sendStart), Boolean.toString(sendFinish),
+                        Boolean.toString(readStart), Boolean.toString(readFinish));
             }
         }, 5000, 1000);
 
@@ -275,10 +279,6 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
                 if (userChoice.size() == 1 && flipFlag){
                     result.setTextColor(Color.WHITE);
                     result.setText(country);
-                    if (activeFlag){
-                        action(httpClient, Integer.toString(roomIndex), view.getTag().toString(),
-                                playerNumber, Boolean.toString(false));
-                    }
                 }
                 viewTag.add(view.getTag().toString());                                      // Добавление тега выбранной кнопки в контейнер пользовательского выбора.
                 Log.d(Data.getLOG_TAG(), "userCoice size = " + userChoice.size());
@@ -327,16 +327,31 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
                 delayedTask(but0, but1);
                 delayedClickable(but0, but1);
 
-                if (activeFlag){
+                if (sendStart){
+                    sendFinish = true;
                     Log.i(Data.getLOG_TAG(), "room index before crash = " + roomIndex);
-                    action(httpClient, Integer.toString(roomIndex), currentView.getTag().toString(),
-                            playerNumber, Boolean.toString(false));
+
+                    action(httpClient, Integer.toString(roomIndex), viewTag.get(0),
+                            viewTag.get(1),Boolean.toString(sendStart), Boolean.toString(sendFinish),
+                            Boolean.toString(readStart), Boolean.toString(readFinish));
+
                     requestTimer.schedule(new TimerTask() {
                         @Override
                         public void run() {
-                            stepWait(httpClient, Integer.toString(roomIndex), playerName);
+                            action(httpClient, Integer.toString(roomIndex), "0", "0",
+                                    Boolean.toString(sendStart), Boolean.toString(sendFinish),
+                                    Boolean.toString(readStart), Boolean.toString(readFinish));
                         }
-                    }, 5000, 1000);
+                    }, 2000, 1000);
+                }
+
+                if (readStart){
+                    readFinish = true;
+                    requestTimer.cancel();
+                    action(httpClient, Integer.toString(roomIndex), "0", "0",
+                            Boolean.toString(sendStart), Boolean.toString(sendFinish),
+                            Boolean.toString(readStart), Boolean.toString(readFinish));
+
                 }
 
 
@@ -365,9 +380,19 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
                     userChoice.clear();                                                 // очищаем контейнеры пользовательского выбора
                     viewTag.clear();
 
-                    if (activeFlag){
-                        action(httpClient, Integer.toString(roomIndex), view.getTag().toString(),
-                                playerNumber, Boolean.toString(true));
+                    if (sendStart){
+                        Log.i(Data.getLOG_TAG(), "room index before crash = " + roomIndex);
+
+                        action(httpClient, Integer.toString(roomIndex), viewTag.get(0),
+                                viewTag.get(1),Boolean.toString(sendStart), Boolean.toString(sendFinish),
+                                Boolean.toString(readStart), Boolean.toString(readFinish));
+
+                        requestTimer.schedule(new TimerTask() {
+                            @Override
+                            public void run() {
+                                stepWait(httpClient, Integer.toString(roomIndex), playerName);
+                            }
+                        }, 5000, 1000);
                     }
 
                     if (!clickable.containsValue(true)) {                               // данное условие выполняется когда все таблички перевернуты
@@ -574,6 +599,8 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         );
     }
 
+    //network methods
+
     public void connectToRoom(HttpClient httpClient, String playerName, String user, String origin, String size){
 
         final Handler mainHandler = new Handler(Looper.getMainLooper());
@@ -609,7 +636,11 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
                         }else{
                             activeFlag = false;
                         }
-                        for (int i = 3; i < body.length; i+=2) {
+
+                        sendStart = Boolean.parseBoolean(body[2]);
+                        readStart = Boolean.parseBoolean(body[3]);
+
+                        for (int i = 5; i < body.length; i+=2) {
                             if(body[i].contains("_")){
                                 body[i] = body[i].replaceAll("_", " ");
                             }
@@ -633,11 +664,12 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         });
     }
 
-    public void action(HttpClient httpClient, String roomIndex, String activeStep,
-                         String activePlayer, String mistake){
+    public void action(HttpClient httpClient, String roomIndex, String step1, String step2, String ss,
+                       String sf, final String rs, String rf){
         final Handler mainHandler = new Handler(Looper.getMainLooper());
 
-        client.newCall(httpClient.sendValue(roomIndex, activeStep, activePlayer, mistake)).enqueue(new Callback() {
+        client.newCall(httpClient.sendValue(roomIndex, step1, step2, ss, sf, rs,
+                rf)).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
 //                ;
@@ -653,13 +685,23 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                final String answer = response.body().string();
+                final String[] answer = response.body().string().split(" ");
+                sendFinish = Boolean.parseBoolean(answer[0]);
                 Log.i(Data.getLOG_TAG(), "onResponse run: " + answer);
                 mainHandler.post(new Runnable() {
                     @Override
                     public void run() {
 
-                        activeFlag = Boolean.parseBoolean(answer);
+                        if (readStart){
+                            flipViews.get(Integer.parseInt(answer[1])).flip(true);
+                            flipViews.get(Integer.parseInt(answer[2])).flip(true);
+                            if (sendFinish){
+                                readFinish = true;
+                                sendFinish = false;
+                                sendStart = true;
+                                readStart = false;
+                            }
+                        }
                     }
                 });
             }
@@ -763,6 +805,10 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
     private long time2 = 0;
     private boolean flipFlag = true;
     private Boolean activeFlag;
+    private Boolean sendStart;
+    private Boolean sendFinish;
+    private Boolean readStart;
+    private Boolean readFinish;
 
     private String playerName;
     private String playerNumber;
