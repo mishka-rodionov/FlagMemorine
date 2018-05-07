@@ -234,14 +234,14 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
 //            }
 //        };
 
-        requestTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                action(httpClient, Integer.toString(roomIndex), "0", "0",
-                        Boolean.toString(sendStart), Boolean.toString(sendFinish),
-                        Boolean.toString(readStart), Boolean.toString(readFinish));
-            }
-        }, 5000, 1000);
+//        requestTimer.schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//                action(httpClient, Integer.toString(roomIndex), "0", "0",
+//                        Boolean.toString(sendStart), Boolean.toString(sendFinish),
+//                        Boolean.toString(readStart), Boolean.toString(readFinish));
+//            }
+//        }, 5000, 1000);
 
         stepCounter = 0;
         basicLayout.addView(view);
@@ -338,7 +338,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
                     requestTimer.schedule(new TimerTask() {
                         @Override
                         public void run() {
-                            action(httpClient, Integer.toString(roomIndex), "0", "0",
+                            action(httpClient, Integer.toString(roomIndex), Integer.toString(dummy), Integer.toString(dummy),
                                     Boolean.toString(sendStart), Boolean.toString(sendFinish),
                                     Boolean.toString(readStart), Boolean.toString(readFinish));
                         }
@@ -348,7 +348,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
                 if (readStart){
                     readFinish = true;
                     requestTimer.cancel();
-                    action(httpClient, Integer.toString(roomIndex), "0", "0",
+                    action(httpClient, Integer.toString(roomIndex), Integer.toString(dummy), Integer.toString(dummy),
                             Boolean.toString(sendStart), Boolean.toString(sendFinish),
                             Boolean.toString(readStart), Boolean.toString(readFinish));
 
@@ -378,7 +378,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
                     clickable.put(Integer.parseInt(viewTag.get(0)), false);
                     clickable.put(Integer.parseInt(viewTag.get(1)), false);
                     userChoice.clear();                                                 // очищаем контейнеры пользовательского выбора
-                    viewTag.clear();
+
 
                     if (sendStart){
                         Log.i(Data.getLOG_TAG(), "room index before crash = " + roomIndex);
@@ -387,13 +387,14 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
                                 viewTag.get(1),Boolean.toString(sendStart), Boolean.toString(sendFinish),
                                 Boolean.toString(readStart), Boolean.toString(readFinish));
 
-                        requestTimer.schedule(new TimerTask() {
-                            @Override
-                            public void run() {
-                                stepWait(httpClient, Integer.toString(roomIndex), playerName);
-                            }
-                        }, 5000, 1000);
+//                        requestTimer.schedule(new TimerTask() {
+//                            @Override
+//                            public void run() {
+//                                stepWait(httpClient, Integer.toString(roomIndex), playerName);
+//                            }
+//                        }, 5000, 1000);
                     }
+                    viewTag.clear();
 
                     if (!clickable.containsValue(true)) {                               // данное условие выполняется когда все таблички перевернуты
                         clickable.clear();
@@ -433,6 +434,14 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
 //                flipViews.get(but1).setEnabled(true);
 
                 final int paint = R.drawable.unknown;            // вычисляем целочисленное значение файла ресурса с флагом
+                if (readStart){
+                    readFinish = true;
+                    requestTimer.cancel();
+                    action(httpClient, Integer.toString(roomIndex), Integer.toString(dummy), Integer.toString(dummy),
+                            Boolean.toString(sendStart), Boolean.toString(sendFinish),
+                            Boolean.toString(readStart), Boolean.toString(readFinish));
+
+                }
 //                delayedTask(but0, paint);
 //                delayedTask(but1, paint);
 //                delayedTask(but0, but1);
@@ -601,7 +610,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
 
     //network methods
 
-    public void connectToRoom(HttpClient httpClient, String playerName, String user, String origin, String size){
+    public void connectToRoom(final HttpClient httpClient, String playerName, String user, String origin, String size){
 
         final Handler mainHandler = new Handler(Looper.getMainLooper());
 
@@ -632,9 +641,16 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
                         Log.i(Data.getLOG_TAG(), "room index is = " + roomIndex);
                         playerNumber = body[1];
                         if (playerNumber.equals("firstPlayer")){
-                            activeFlag = true;
+
                         }else{
-                            activeFlag = false;
+                            requestTimer.schedule(new TimerTask() {
+                                @Override
+                                public void run() {
+                                    action(httpClient, Integer.toString(roomIndex), Integer.toString(dummy), Integer.toString(dummy),
+                                            Boolean.toString(sendStart), Boolean.toString(sendFinish),
+                                            Boolean.toString(readStart), Boolean.toString(readFinish));
+                                }
+                            }, 5000, 1000);
                         }
 
                         sendStart = Boolean.parseBoolean(body[2]);
@@ -687,14 +703,16 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
             public void onResponse(Call call, Response response) throws IOException {
                 final String[] answer = response.body().string().split(" ");
                 sendFinish = Boolean.parseBoolean(answer[0]);
-                Log.i(Data.getLOG_TAG(), "onResponse run: " + answer);
+                Log.i(Data.getLOG_TAG(), "onResponse run for action methods: " + answer[0] + " " + answer[1] + " " + answer[2]);
                 mainHandler.post(new Runnable() {
                     @Override
                     public void run() {
 
-                        if (readStart){
+                        if (readStart && (Integer.parseInt(answer[1]) != dummy)){
                             flipViews.get(Integer.parseInt(answer[1])).flip(true);
                             flipViews.get(Integer.parseInt(answer[2])).flip(true);
+//                            delayedTask(Integer.parseInt(answer[1]),Integer.parseInt(answer[2]));
+//                            delayedClickable(Integer.parseInt(answer[1]),Integer.parseInt(answer[2]));
                             if (sendFinish){
                                 readFinish = true;
                                 sendFinish = false;
@@ -708,44 +726,49 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         });
     }
 
-    public void stepWait(HttpClient httpClient, String roomIndex, String activePlayer){
-        final Handler mainHandler = new Handler(Looper.getMainLooper());
-
-        client.newCall(httpClient.stepWait(roomIndex, activePlayer)).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-//                ;
-                mainHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-//                        view.setText(battlefield);
-                        Log.i(Data.getLOG_TAG(), "run: " + "Fail!!!!!!!!!!!!");
-                    }
-                });
-
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                final String[] answer = response.body().string().split(" ");
-                Log.i(Data.getLOG_TAG(), "onResponse run: " + answer);
-                mainHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        activeFlag = Boolean.parseBoolean(answer[1]);
-                if (activeFlag){
-                    requestTimer.cancel();
-                }
-                if (Integer.parseInt(answer[0]) == 0){
-
-                }else{
-                    flipViews.get(Integer.parseInt(answer[0])).flip(true);
-                }
-                    }
-                });
-            }
-        });
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        requestTimer.cancel();
     }
+//    public void stepWait(HttpClient httpClient, String roomIndex, String activePlayer){
+//        final Handler mainHandler = new Handler(Looper.getMainLooper());
+//
+//        client.newCall(httpClient.stepWait(roomIndex, activePlayer)).enqueue(new Callback() {
+//            @Override
+//            public void onFailure(Call call, IOException e) {
+////                ;
+//                mainHandler.post(new Runnable() {
+//                    @Override
+//                    public void run() {
+////                        view.setText(battlefield);
+//                        Log.i(Data.getLOG_TAG(), "run: " + "Fail!!!!!!!!!!!!");
+//                    }
+//                });
+//
+//            }
+//
+//            @Override
+//            public void onResponse(Call call, Response response) throws IOException {
+//                final String[] answer = response.body().string().split(" ");
+//                Log.i(Data.getLOG_TAG(), "onResponse run: " + answer);
+//                mainHandler.post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        activeFlag = Boolean.parseBoolean(answer[1]);
+//                if (activeFlag){
+//                    requestTimer.cancel();
+//                }
+//                if (Integer.parseInt(answer[0]) == 0){
+//
+//                }else{
+//                    flipViews.get(Integer.parseInt(answer[0])).flip(true);
+//                }
+//                    }
+//                });
+//            }
+//        });
+//    }
 
     //region Private fields
     private ArrayList<ImageButton> imageButtonArrayList;
@@ -799,6 +822,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
     private int topRecord = 0;
     private int seconds = 0;
     private int roomIndex;
+    private int dummy = -1;
     //    private int score =  Data.getXxlargeSize() * 2;
     private int score =  100;
     private long time1 = 0;

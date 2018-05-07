@@ -292,7 +292,7 @@ public class HttpClient/* extends AsyncTask<String, Void, String>*/{
                 .host(Data.getCustomURL())
                 .port(8080)
                 .addPathSegment(Data.getServerAppName())
-                .addPathSegment(Data.getActivePlayerServlet())
+                .addPathSegment(Data.getWaitServlet())
                 .addQueryParameter(Data.getRoomIndexLabel(), roomIndex)
                 .addQueryParameter(Data.getStep1(), step1)
                 .addQueryParameter(Data.getStep2(), step2)
