@@ -371,7 +371,7 @@ public class HttpClient/* extends AsyncTask<String, Void, String>*/{
                 .addPathSegment(Data.getServerAppName())
                 .addPathSegment("testServlet")
                 .addQueryParameter("type", "send")
-                .addQueryParameter("name", "first")
+                .addQueryParameter("name", "second")
                 .addQueryParameter("body", text)
                 .build();
 
@@ -407,7 +407,7 @@ public class HttpClient/* extends AsyncTask<String, Void, String>*/{
                 .port(8080)
                 .addPathSegment(Data.getServerAppName())
                 .addPathSegment("testServlet")
-                .addQueryParameter("name", "first")
+                .addQueryParameter("name", "second")
                 .addQueryParameter("type", "receive")
                 .build();
 

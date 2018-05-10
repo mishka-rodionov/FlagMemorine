@@ -129,6 +129,12 @@ public class TestInteraction extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        requestTimer.cancel();
+    }
+
     private EditText sendText;
     private TextView receiveText;
     private Button send;
