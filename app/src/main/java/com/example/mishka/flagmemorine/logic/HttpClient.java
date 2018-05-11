@@ -282,84 +282,84 @@ public class HttpClient/* extends AsyncTask<String, Void, String>*/{
 //        return Integer.parseInt(index);
     }
 
-    public Request sendValue(String roomIndex, String step1, String step2, String sendStart,
-                             String sendFinish, String readStart, String readFinish)
-            {
-
-
-        HttpUrl httpUrl = new HttpUrl.Builder()
-                .scheme("http")
-                .host(Data.getCustomURL())
-                .port(8080)
-                .addPathSegment(Data.getServerAppName())
-                .addPathSegment(Data.getWaitServlet())
-                .addQueryParameter(Data.getRoomIndexLabel(), roomIndex)
-                .addQueryParameter(Data.getStep1(), step1)
-                .addQueryParameter(Data.getStep2(), step2)
-                .addQueryParameter(Data.getSendStart(), sendStart)
-                .addQueryParameter(Data.getSendFinish(), sendFinish)
-                .addQueryParameter(Data.getReadStart(), readStart)
-                .addQueryParameter(Data.getReadFinish(), readFinish)
-                .build();
-
-        Request request = new Request.Builder()
-                .url(httpUrl)
-                .header("User-Agent", "OkHttp Headers.java")
-                .build();
-
-        Log.d(LOG_TAG, "send value URL = " + httpUrl.toString());
+//    public Request sendValue(String roomIndex, String step1, String step2, String sendStart,
+//                             String sendFinish, String readStart, String readFinish)
+//            {
+//
+//
+//        HttpUrl httpUrl = new HttpUrl.Builder()
+//                .scheme("http")
+//                .host(Data.getCustomURL())
+//                .port(8080)
+//                .addPathSegment(Data.getServerAppName())
+//                .addPathSegment(Data.getWaitServlet())
+//                .addQueryParameter(Data.getRoomIndexLabel(), roomIndex)
+//                .addQueryParameter(Data.getStep1(), step1)
+//                .addQueryParameter(Data.getStep2(), step2)
+//                .addQueryParameter(Data.getSendStart(), sendStart)
+//                .addQueryParameter(Data.getSendFinish(), sendFinish)
+//                .addQueryParameter(Data.getReadStart(), readStart)
+//                .addQueryParameter(Data.getReadFinish(), readFinish)
+//                .build();
+//
+//        Request request = new Request.Builder()
+//                .url(httpUrl)
+//                .header("User-Agent", "OkHttp Headers.java")
+//                .build();
+//
+//        Log.d(LOG_TAG, "send value URL = " + httpUrl.toString());
+////        String answer = "";
+////
+////        try (Response response = client.newCall(request).execute()) {
+////            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+////
+////            Headers responseHeaders = response.headers();
+////            for (int i = 0; i < responseHeaders.size(); i++) {
+////                Log.d(Data.getLOG_TAG(), responseHeaders.name(i) + ": " + responseHeaders.value(i));
+////            }
+////            answer = response.body().string();
+////            Log.d(Data.getLOG_TAG(), "" + answer);
+////            return answer;
+////        }
+//        return request;
+////        return Integer.parseInt(index);
+//    }
+//
+//    public Request stepWait(String roomIndex, String activePlayer)
+//            {
+//
+//        HttpUrl httpUrl = new HttpUrl.Builder()
+//                .scheme("http")
+//                .host(Data.getCustomURL())
+//                .port(8080)
+//                .addPathSegment(Data.getServerAppName())
+//                .addPathSegment(Data.getWaitServlet())
+//                .addQueryParameter("roomIndex", roomIndex)
+//                .addQueryParameter("activePlayer", activePlayer)
+//                .build();
+//
+//        Request request = new Request.Builder()
+//                .url(httpUrl)
+//                .header("User-Agent", "OkHttp Headers.java")
+//                .build();
+//
+//        Log.d(LOG_TAG, "step wait URL = " + httpUrl.toString());
 //        String answer = "";
 //
-//        try (Response response = client.newCall(request).execute()) {
-//            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+////        try (Response response = client.newCall(request).execute()) {
+////            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+////
+////            Headers responseHeaders = response.headers();
+////            for (int i = 0; i < responseHeaders.size(); i++) {
+////                Log.d(Data.getLOG_TAG(), responseHeaders.name(i) + ": " + responseHeaders.value(i));
+////            }
+////            answer = response.body().string();
+////            Log.d(Data.getLOG_TAG(), "" + answer);
+////            return answer;
+////        }
 //
-//            Headers responseHeaders = response.headers();
-//            for (int i = 0; i < responseHeaders.size(); i++) {
-//                Log.d(Data.getLOG_TAG(), responseHeaders.name(i) + ": " + responseHeaders.value(i));
-//            }
-//            answer = response.body().string();
-//            Log.d(Data.getLOG_TAG(), "" + answer);
-//            return answer;
-//        }
-        return request;
-//        return Integer.parseInt(index);
-    }
-
-    public Request stepWait(String roomIndex, String activePlayer)
-            {
-
-        HttpUrl httpUrl = new HttpUrl.Builder()
-                .scheme("http")
-                .host(Data.getCustomURL())
-                .port(8080)
-                .addPathSegment(Data.getServerAppName())
-                .addPathSegment(Data.getWaitServlet())
-                .addQueryParameter("roomIndex", roomIndex)
-                .addQueryParameter("activePlayer", activePlayer)
-                .build();
-
-        Request request = new Request.Builder()
-                .url(httpUrl)
-                .header("User-Agent", "OkHttp Headers.java")
-                .build();
-
-        Log.d(LOG_TAG, "step wait URL = " + httpUrl.toString());
-        String answer = "";
-
-//        try (Response response = client.newCall(request).execute()) {
-//            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-//
-//            Headers responseHeaders = response.headers();
-//            for (int i = 0; i < responseHeaders.size(); i++) {
-//                Log.d(Data.getLOG_TAG(), responseHeaders.name(i) + ": " + responseHeaders.value(i));
-//            }
-//            answer = response.body().string();
-//            Log.d(Data.getLOG_TAG(), "" + answer);
-//            return answer;
-//        }
-
-        return request;
-    }
+//        return request;
+//    }
 
     public Request send(String text)
     {
@@ -380,20 +380,50 @@ public class HttpClient/* extends AsyncTask<String, Void, String>*/{
                 .header("User-Agent", "OkHttp Headers.java")
                 .build();
 
-        Log.d(LOG_TAG, "step wait URL = " + httpUrl.toString());
-        String answer = "";
+        return request;
+    }
 
-//        try (Response response = client.newCall(request).execute()) {
-//            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-//
-//            Headers responseHeaders = response.headers();
-//            for (int i = 0; i < responseHeaders.size(); i++) {
-//                Log.d(Data.getLOG_TAG(), responseHeaders.name(i) + ": " + responseHeaders.value(i));
-//            }
-//            answer = response.body().string();
-//            Log.d(Data.getLOG_TAG(), "" + answer);
-//            return answer;
-//        }
+    public Request sendValue(String name, String step, String roomIndex)
+    {
+
+        HttpUrl httpUrl = new HttpUrl.Builder()
+                .scheme("http")
+                .host(Data.getCustomURL())
+                .port(8080)
+                .addPathSegment(Data.getServerAppName())
+                .addPathSegment(Data.getWaitServlet())
+                .addQueryParameter(Data.getType(), Data.getSend())
+                .addQueryParameter(Data.getPlayerName(), name)
+                .addQueryParameter(Data.getStep(), step)
+                .addQueryParameter(Data.getRoomIndexLabel(), roomIndex)
+                .build();
+
+        Request request = new Request.Builder()
+                .url(httpUrl)
+                .header("User-Agent", "OkHttp Headers.java")
+                .build();
+
+        return request;
+    }
+
+    public Request receiveValue(String name, String roomIndex)
+    {
+
+        HttpUrl httpUrl = new HttpUrl.Builder()
+                .scheme("http")
+                .host(Data.getCustomURL())
+                .port(8080)
+                .addPathSegment(Data.getServerAppName())
+                .addPathSegment(Data.getWaitServlet())
+                .addQueryParameter(Data.getType(), Data.getReceive())
+                .addQueryParameter(Data.getPlayerName(), name)
+                .addQueryParameter(Data.getRoomIndexLabel(), roomIndex)
+                .build();
+
+        Request request = new Request.Builder()
+                .url(httpUrl)
+                .header("User-Agent", "OkHttp Headers.java")
+                .build();
 
         return request;
     }
@@ -416,92 +446,8 @@ public class HttpClient/* extends AsyncTask<String, Void, String>*/{
                 .header("User-Agent", "OkHttp Headers.java")
                 .build();
 
-        Log.d(LOG_TAG, "step wait URL = " + httpUrl.toString());
-        String answer = "";
-
-//        try (Response response = client.newCall(request).execute()) {
-//            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-//
-//            Headers responseHeaders = response.headers();
-//            for (int i = 0; i < responseHeaders.size(); i++) {
-//                Log.d(Data.getLOG_TAG(), responseHeaders.name(i) + ": " + responseHeaders.value(i));
-//            }
-//            answer = response.body().string();
-//            Log.d(Data.getLOG_TAG(), "" + answer);
-//            return answer;
-//        }
-
         return request;
     }
-//    @TargetApi(Build.VERSION_CODES.KITKAT)
-//    public String getElementRoom(String rowIndex, String columnIndex, String roomIndex, String player)
-//            throws Exception {
-//
-//        String resp = "";
-//
-//        HttpUrl httpUrl = new HttpUrl.Builder()
-//                .scheme("http")
-//                .host(Data.getCustomURL())
-//                .port(8080)
-//                .addPathSegment(Data.getServerAppName())
-//                .addPathSegment(Data.getActivePlayerServlet())
-//                .addQueryParameter("rowIndex",rowIndex)
-//                .addQueryParameter("columnIndex",columnIndex)
-//                .addQueryParameter("roomIndex",roomIndex)
-//                .addQueryParameter("player",player)
-//                .build();
-//
-//        Request request = new Request.Builder()
-//                .url(httpUrl)
-//                .header("User-Agent", "OkHttp Headers.java")
-//                .build();
-//
-//        try (Response response = client.newCall(request).execute()) {
-//            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-//
-//            Headers responseHeaders = response.headers();
-//            for (int i = 0; i < responseHeaders.size(); i++) {
-//                Log.d(LOG_TAG, responseHeaders.name(i) + ": " + responseHeaders.value(i));
-//            }
-//            resp = response.body().string();
-//            Log.d(LOG_TAG, "get element room = " + resp);
-//        }
-//        return resp;
-//    }
-//
-//    @TargetApi(Build.VERSION_CODES.KITKAT)
-//    public String testAnotherPlayerChoice(String roomIndex, String player)
-//            throws Exception {
-//
-//        String resp = "";
-//
-//        HttpUrl httpUrl = new HttpUrl.Builder()
-//                .scheme("http")
-//                .host(Data.getCustomURL())
-//                .port(8080)
-//                .addPathSegment(Data.getServerAppName())
-//                .addPathSegment(Data.getTestAnotherPlayerChoiceServlet())
-//                .addQueryParameter("roomIndex",roomIndex)
-//                .addQueryParameter("player",player)
-//                .build();
-//
-//        Request request = new Request.Builder()
-//                .url(httpUrl)
-//                .header("User-Agent", "OkHttp Headers.java")
-//                .build();
-//
-//        try (Response response = client.newCall(request).execute()) {
-//            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-//
-//            Headers responseHeaders = response.headers();
-//            for (int i = 0; i < responseHeaders.size(); i++) {
-//                Log.d(LOG_TAG, responseHeaders.name(i) + ": " + responseHeaders.value(i));
-//            }
-//            resp = response.body().string();
-//            Log.d(LOG_TAG, "test player choice = " + resp);
-//        }
-//        return resp;
-//    }
 
     private String LOG_TAG = "flagmemorine";
     private final OkHttpClient client = new OkHttpClient();

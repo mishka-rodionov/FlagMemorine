@@ -41,7 +41,6 @@ public class TestInteraction extends AppCompatActivity {
 
         requestTimer = new Timer();
 
-
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,11 +72,9 @@ public class TestInteraction extends AppCompatActivity {
         client.newCall(httpClient.send(text)).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-//                ;
                 mainHandler.post(new Runnable() {
                     @Override
                     public void run() {
-//                        view.setText(battlefield);
                         Log.i(Data.getLOG_TAG(), "run: " + "Fail!!!!!!!!!!!!");
                     }
                 });
@@ -108,7 +105,6 @@ public class TestInteraction extends AppCompatActivity {
                 mainHandler.post(new Runnable() {
                     @Override
                     public void run() {
-//                        view.setText(battlefield);
                         Log.i(Data.getLOG_TAG(), "run: " + "Fail!!!!!!!!!!!!");
                     }
                 });

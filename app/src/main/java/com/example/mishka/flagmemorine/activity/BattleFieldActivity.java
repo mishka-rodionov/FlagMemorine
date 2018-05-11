@@ -232,7 +232,7 @@ public class BattleFieldActivity extends AppCompatActivity {
     }
 
     private void mistake(String country, boolean flag) {
-        if (flag){
+        if (flag){                                                              //Прямой переворот
             stepCounter++;
             result.setTextColor(Color.RED);
             result.setText(country);
