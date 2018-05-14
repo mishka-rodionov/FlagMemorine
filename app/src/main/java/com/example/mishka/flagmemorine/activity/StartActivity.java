@@ -217,7 +217,7 @@ public class StartActivity extends AppCompatActivity {
                     Data.getCurrentDate());
             //Обновление настроек для закрытия ветки первого включения.
             prefs.edit().putInt(PREF_VERSION_CODE_KEY, currentVersionCode).apply();
-            Log.d(Data.getLOG_TAG(), "It's next action after intent!");
+            Log.d(Data.getLOG_TAG(), "It's next sending after intent!");
 //            // TODO This is a new install (or the user cleared the shared preferences)
 
 

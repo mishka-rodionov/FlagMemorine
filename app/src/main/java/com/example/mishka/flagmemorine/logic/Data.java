@@ -328,6 +328,30 @@ public class Data {
         return new Date().toString();
     }
 
+    public static String getUser() {
+        return user;
+    }
+
+    public static void setUser(String user) {
+        Data.user = user;
+    }
+
+    public static String getOrigin() {
+        return origin;
+    }
+
+    public static void setOrigin(String origin) {
+        Data.origin = origin;
+    }
+
+    public static String getSize() {
+        return size;
+    }
+
+    public static void setSize(String size) {
+        Data.size = size;
+    }
+
     //region Private static fields
     private static String customURL = "192.168.42.227";
     private static String LOG_TAG = "flagmemorine";
@@ -368,6 +392,9 @@ public class Data {
     private static String step = "step";
     private static String send = "send";
     private static String receive = "receive";
+    private static String user = "user";
+    private static String origin = "origin";
+    private static String size = "size";
 
     private static Long millisInHour = 3600000l;
     private static Long millisInDay = 84000000l;

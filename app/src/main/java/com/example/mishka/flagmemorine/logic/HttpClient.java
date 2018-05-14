@@ -222,10 +222,10 @@ public class HttpClient/* extends AsyncTask<String, Void, String>*/{
                 .port(8080)
                 .addPathSegment(Data.getServerAppName())
                 .addPathSegment(Data.getMainServlet())
-                .addQueryParameter("playerName", playerName)
-                .addQueryParameter("user", user)
-                .addQueryParameter("origin", origin)
-                .addQueryParameter("size", size)
+                .addQueryParameter(Data.getPlayerName(), playerName)
+                .addQueryParameter(Data.getUser(), user)
+                .addQueryParameter(Data.getOrigin(), origin)
+                .addQueryParameter(Data.getSize(), size)
                 .build();
 
         Request request = new Request.Builder()
