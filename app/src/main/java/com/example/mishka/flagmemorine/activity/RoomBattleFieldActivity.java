@@ -96,7 +96,11 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         test1 =     (TextView)  findViewById(R.id.currentStepCount);
         time =      (TextView)  findViewById(R.id.timeValue);
         scoreTV =   (TextView)  findViewById(R.id.currentScore);
+        currentSocreSecondPlayer = (TextView) findViewById(R.id.currentScoreSecondPlayer);
+        currentStepCountSecondPlayer = (TextView) findViewById(R.id.currentStepCountSecondPlayer);
+
         scoreTV.setText(Integer.toString(score));
+        currentSocreSecondPlayer.setText(Integer.toString(score));
 
         handler = new Handler() {
             @Override
@@ -239,6 +243,12 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
             scoreCount(true);
             scoreTV.setText(Integer.toString(score));
         }
+        if (receiving){
+            stepCounterSecondPlayer++;
+            scoreCount(false);
+            currentSocreSecondPlayer.setText(Integer.toString(scoreSecondPlayer));
+            currentStepCountSecondPlayer.setText("" + stepCounterSecondPlayer);
+        }
         flipFlag = true;
         flipViews.get(Integer.parseInt(viewTag.get(0))).setEnabled(false);
         flipViews.get(Integer.parseInt(viewTag.get(1))).setEnabled(false);
@@ -256,6 +266,12 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
                 scoreCount(false);
                 scoreTV.setText(Integer.toString(score));
                 test1.setText("" + stepCounter);
+            }
+            if (receiving){
+                stepCounterSecondPlayer++;
+                scoreCount(false);
+                currentSocreSecondPlayer.setText(Integer.toString(scoreSecondPlayer));
+                currentStepCountSecondPlayer.setText("" + stepCounterSecondPlayer);
             }
             final int but0 = Integer.parseInt(viewTag.get(0));                  // вычисляем тег первой нажатой кнопки
             final int but1 = Integer.parseInt(viewTag.get(1));                  // вычисляем тег второй нажатой кнопки
@@ -277,7 +293,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
                     public void run() {
                         receiving(httpClient, Integer.toString(roomIndex));
                     }
-                }, 2000, 1000);
+                }, delay, period);
             }else if (receiving){
                 sending = true;
                 receiving = false;
@@ -389,11 +405,22 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
     }
 
     public void scoreCount(Boolean state){
-        if(state){
-            score += 100;
-        }else if (!state){
-            if (score > 0){
-                score -= 10;
+        if (sending) {
+            if (state) {
+                score += 100;
+            } else if (!state) {
+                if (score > 0) {
+                    score -= 10;
+                }
+            }
+        }
+        if (receiving){
+            if (state) {
+                scoreSecondPlayer += 100;
+            } else if (!state) {
+                if (scoreSecondPlayer > 0) {
+                    scoreSecondPlayer -= 10;
+                }
             }
         }
     }
@@ -496,7 +523,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
                                 public void run() {
                                     receiving(httpClient, Integer.toString(roomIndex));
                                 }
-                            }, 2000, 1000);
+                            }, delay, period);
                         }
 
 //                        sendStart = Boolean.parseBoolean(body[2]);
@@ -701,6 +728,8 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
     private TextView test2;
     private TextView time;
     private TextView scoreTV;
+    private TextView currentSocreSecondPlayer;
+    private TextView currentStepCountSecondPlayer;
 
     private Timer timer;
     private Timer requestTimer;
@@ -715,20 +744,21 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
     private int battleFieldIndex = 0;
     private int minutes = 0;
     private int stepCounter = 0;
+    private int stepCounterSecondPlayer = 0;
     private int userRecord = 0;
     private int topRecord = 0;
     private int seconds = 0;
     private int roomIndex;
     private int dummy = -1;
     private int score =  100;
+    private int scoreSecondPlayer =  100;
     private long time1 = 0;
     private long time2 = 0;
+    private long delay = 1000;
+    private long period = 200;
     private boolean flipFlag = true;
     private Boolean sending;
     private Boolean receiving;
-    private Boolean sendFinish;
-    private Boolean readStart;
-    private Boolean readFinish;
 
     private String playerName;
     private String playerNumber;
