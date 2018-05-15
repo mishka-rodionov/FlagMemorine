@@ -101,7 +101,6 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                Log.i(Data.getLOG_TAG(), "handleMessage: " + System.currentTimeMillis());
                 flipViews.get(msg.arg1).setEnabled(true);
                 flipViews.get(msg.arg2).setEnabled(true);
                 flipViews.get(msg.arg1).setClickable(false);
@@ -109,10 +108,8 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
                 if (flipViews.get(msg.arg1).isFlipped()) {
                     flipViews.get(msg.arg1).flip(false);
                     flipViews.get(msg.arg2).flip(false);
-//                    flipViews.get(msg.arg2).setClickable(true);
-//                    Log.d(Data.getLOG_TAG(), "flip = false " + flipViews.get(msg.arg1).isClickable());
                 } else {
-//                    Log.d(Data.getLOG_TAG(), "flip = true " + flipViews.get(msg.arg1).isClickable());
+
                 }
             }
         };
@@ -120,7 +117,6 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         handlerClickable = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                Log.i(Data.getLOG_TAG(), "handleClickableMessage: " + System.currentTimeMillis());
                 flipViews.get(msg.arg1).setClickable(true);
                 flipViews.get(msg.arg2).setClickable(true);
             }
@@ -167,7 +163,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
             @Override
             public void onFlipped(FlipView view, boolean checked) {
                 Log.d(Data.getLOG_TAG(), "press button");
-                final int index = Integer.parseInt(view.getTag().toString());               // Вычисление индекса кнопки в контейнере кнопок по тэгу кнопки
+                final int index = Integer.parseInt(view.getTag().toString());                       // Вычисление индекса кнопки в контейнере кнопок по тэгу кнопки
                 flipViews.get(index).setEnabled(false);
                 flipViews.get(index).setClickable(false);
 //                new Thread(){
@@ -176,13 +172,13 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
 //                        mp.start();
 //                    }
 //                }.start();
-                String country  = battleField.getElement(Integer.parseInt(view.getTag().toString()));                                        // Получение ответа от AsynkTask
-                userChoice.add(country);                                                    // Добавление выбранного значения в контейнер пользовательского выбора.
+                String country  = battleField.getElement(Integer.parseInt(view.getTag().toString()));
+                userChoice.add(country);                                                            // Добавление выбранного значения в контейнер пользовательского выбора.
                 if (userChoice.size() == 1 && flipFlag){
                     result.setTextColor(Color.WHITE);
                     result.setText(country);
                 }
-                viewTag.add(view.getTag().toString());                                      // Добавление тега выбранной кнопки в контейнер пользовательского выбора.
+                viewTag.add(view.getTag().toString());                                              // Добавление тега выбранной кнопки в контейнер пользовательского выбора.
                 Log.d(Data.getLOG_TAG(), "userCoice size = " + userChoice.size());
                 Log.d(Data.getLOG_TAG(), "userCoice 1 = " + userChoice.get(0));
 
@@ -235,14 +231,15 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
     }
 
     private void goal(String country) {
-        stepCounter++;
-        test1.setText("" + stepCounter);
         result.setTextColor(Color.GREEN);
         result.setText(country);
-        scoreCount(true);
-        scoreTV.setText(Integer.toString(score));
+        if(sending){
+            stepCounter++;
+            test1.setText("" + stepCounter);
+            scoreCount(true);
+            scoreTV.setText(Integer.toString(score));
+        }
         flipFlag = true;
-
         flipViews.get(Integer.parseInt(viewTag.get(0))).setEnabled(false);
         flipViews.get(Integer.parseInt(viewTag.get(1))).setEnabled(false);
 
@@ -252,31 +249,28 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
 
     private void mistake(String country, boolean flag) {
         if (flag){                                                              //Прямой переворот
-            stepCounter++;
             result.setTextColor(Color.RED);
             result.setText(country);
-            scoreCount(false);
-            scoreTV.setText(Integer.toString(score));
+            if(sending){
+                stepCounter++;
+                scoreCount(false);
+                scoreTV.setText(Integer.toString(score));
+                test1.setText("" + stepCounter);
+            }
             final int but0 = Integer.parseInt(viewTag.get(0));                  // вычисляем тег первой нажатой кнопки
             final int but1 = Integer.parseInt(viewTag.get(1));                  // вычисляем тег второй нажатой кнопки
             delayedTask(but0, but1);
             delayedClickable(but0, but1);
             flipFlag = false;
             Log.d(Data.getLOG_TAG(), "flipFlag = " + flipFlag);
-            test1.setText("" + stepCounter);
-            for (int i = 0; i < clickable.size(); i++) {
-                if (clickable.get(i)) {
-                    flipViews.get(i).setEnabled(false);
-                }
-            }
             if (sending){
                 sending = false;
                 receiving = true;
-//                for (int i = 0; i < clickable.size(); i++) {
-//                    if (clickable.get(i)) {
-//                        flipViews.get(i).setEnabled(false);
-//                    }
-//                }
+                for (int i = 0; i < clickable.size(); i++) {
+                    if (clickable.get(i)) {
+                        flipViews.get(i).setEnabled(false);
+                    }
+                }
                 requestTimer = new Timer();
                 requestTimer.schedule(new TimerTask() {
                     @Override
@@ -287,19 +281,21 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
             }else if (receiving){
                 sending = true;
                 receiving = false;
-//                for (int i = 0; i < clickable.size(); i++) {
-//                    if (clickable.get(i)) {
-//                        flipViews.get(i).setEnabled(true);
-//                    }
-//                }
+                for (int i = 0; i < clickable.size(); i++) {
+                    if (clickable.get(i)) {
+                        flipViews.get(i).setEnabled(true);
+                    }
+                }
                 requestTimer.cancel();
             }
         }else{
             flipFlag = true;
             Log.d(Data.getLOG_TAG(), "flipFlag = " + flipFlag);
-            for (int i = 0; i < clickable.size(); i++) {
-                if (clickable.get(i)) {
-                    flipViews.get(i).setEnabled(true);
+            if (sending){
+                for (int i = 0; i < clickable.size(); i++) {
+                    if (clickable.get(i)) {
+                        flipViews.get(i).setEnabled(true);
+                    }
                 }
             }
         }
@@ -515,6 +511,13 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
                         }
                         battleField = new BattleField(battlefieldBody);
                         initFlipView(view, battleFieldSize);
+                        if(receiving){
+                            for (int i = 0; i < clickable.size(); i++) {
+                                if (clickable.get(i)) {
+                                    flipViews.get(i).setEnabled(false);
+                                }
+                            }
+                        }
 //
 //                        for (int i = 0; i < flipViews.size(); i++) {
 //                            flipViews.get(i).setFrontImage(R.drawable.unknown);
@@ -602,6 +605,8 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
                         if (index == -1){
                             //do nothing
                         }else{
+                            flipViews.get(index).setEnabled(true);
+                            flipViews.get(index).setClickable(true);
                             flipViews.get(index).flip(true);
                         }
                     }
