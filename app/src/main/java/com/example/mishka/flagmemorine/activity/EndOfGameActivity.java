@@ -1,6 +1,7 @@
 package com.example.mishka.flagmemorine.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -29,14 +30,30 @@ public class EndOfGameActivity extends AppCompatActivity {
         stepValue = getIntent().getStringExtra("step");
         timeValue = getIntent().getStringExtra("time");
         size = getIntent().getStringExtra("size");
+        result = getIntent().getStringExtra("result");
 
         score = (TextView) findViewById(R.id.scoreEndOfGame);
         step = (TextView) findViewById(R.id.stepEndOfGame);
         time = (TextView) findViewById(R.id.timeEndOfGame);
+        message = (TextView) findViewById(R.id.message);
+
+        if (Integer.parseInt(result) < 0){
+            message.setText("Lose!");
+            message.setTextColor(Color.RED);
+        }
+        if (Integer.parseInt(result) > 0){
+            message.setText("Congratulations!");
+            message.setTextColor(Color.GREEN);
+        }
+        if (Integer.parseInt(result) == 0){
+            message.setText("Equals!");
+            message.setTextColor(Color.GRAY);
+        }
 
         score.setText(score.getText().toString() + " " + scoreValue);
         step.setText(step.getText().toString() + " " + stepValue);
         time.setText(time.getText().toString() + " " + timeValue);
+
 
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
@@ -93,6 +110,7 @@ public class EndOfGameActivity extends AppCompatActivity {
     private TextView score;
     private TextView step;
     private TextView time;
+    private TextView message;
     private android.support.v7.widget.Toolbar endOfGameToolbar;
 
     private ImageButton restart;
@@ -102,5 +120,6 @@ public class EndOfGameActivity extends AppCompatActivity {
     private String stepValue;
     private String timeValue;
     private String size;
+    private String result;
 
 }

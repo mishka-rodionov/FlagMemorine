@@ -383,6 +383,25 @@ public class HttpClient/* extends AsyncTask<String, Void, String>*/{
         return request;
     }
 
+    public Request availableUsers()
+    {
+
+        HttpUrl httpUrl = new HttpUrl.Builder()
+                .scheme("http")
+                .host(Data.getCustomURL())
+                .port(8080)
+                .addPathSegment(Data.getServerAppName())
+                .addPathSegment(Data.getAvailableUsersServlet())
+                .build();
+
+        Request request = new Request.Builder()
+                .url(httpUrl)
+                .header("User-Agent", "OkHttp Headers.java")
+                .build();
+
+        return request;
+    }
+
     public Request sendValue(String name, String step, String roomIndex)
     {
 

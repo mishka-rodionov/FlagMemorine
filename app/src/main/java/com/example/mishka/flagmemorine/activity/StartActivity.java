@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.design.BuildConfig;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.example.mishka.flagmemorine.R;
 import com.example.mishka.flagmemorine.logic.Data;
@@ -20,7 +23,15 @@ import com.example.mishka.flagmemorine.logic.HttpClient;
 import com.example.mishka.flagmemorine.service.DBHelper;
 import com.example.mishka.flagmemorine.service.SqLiteTableManager;
 
+import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Response;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -35,6 +46,10 @@ public class StartActivity extends AppCompatActivity {
 
 //        sqLiteDatabase = dbHelper.getWritableDatabase();
         sqLiteTableManager = new SqLiteTableManager(StartActivity.this);
+        client = new OkHttpClient();
+        httpClient = new HttpClient();
+
+        requestTimer = new Timer();
 
         checkFirstRun();
 
@@ -45,8 +60,15 @@ public class StartActivity extends AppCompatActivity {
         xLarge = (RadioButton) findViewById(R.id.xlarge);
         xxLarge = (RadioButton) findViewById(R.id.xxlarge);
 
-        rg1 = (RadioGroup) findViewById(R.id.rg1);
-        rg2 = (RadioGroup) findViewById(R.id.rg2);
+        xsmallAvailableUsers = (TextView) findViewById(R.id.xsmallAvailableUsers);
+        smallAvailableUsers = (TextView) findViewById(R.id.smallAvailableUsers);
+        mediumAvailableUsers = (TextView) findViewById(R.id.mediumAvailableUsers);
+        largeAvailableUsers = (TextView) findViewById(R.id.largeAvailableUsers);
+        xlargeAvailableUsers = (TextView) findViewById(R.id.xlargeAvailableUsers);
+        xxlargeAvailableUsers = (TextView) findViewById(R.id.xxlargeAvailableUsers);
+
+//        rg1 = (RadioGroup) findViewById(R.id.rg1);
+//        rg2 = (RadioGroup) findViewById(R.id.rg2);
 
         play = (Button) findViewById(R.id.play);
         multiplayer = (Button) findViewById(R.id.multiplayer);
@@ -59,28 +81,58 @@ public class StartActivity extends AppCompatActivity {
             public void onClick(View view) {
                 switch (view.getId()){
                     case R.id.xsmall:
-                        rg2.clearCheck();
-                        size = "8";
+//                        rg2.clearCheck();
+                        small.setChecked(false);
+                        medium.setChecked(false);
+                        large.setChecked(false);
+                        xLarge.setChecked(false);
+                        xxLarge.setChecked(false);
+                        size = Integer.toString(Data.getXsmallSize());
                         break;
                     case R.id.small:
-                        rg2.clearCheck();
-                        size = "12";
+//                        rg2.clearCheck();
+                        xSmall.setChecked(false);
+                        medium.setChecked(false);
+                        large.setChecked(false);
+                        xLarge.setChecked(false);
+                        xxLarge.setChecked(false);
+                        size = Integer.toString(Data.getSmallSize());
                         break;
                     case R.id.medium:
-                        rg2.clearCheck();
-                        size = "16";
+//                        rg2.clearCheck();
+                        xSmall.setChecked(false);
+                        small.setChecked(false);
+                        large.setChecked(false);
+                        xLarge.setChecked(false);
+                        xxLarge.setChecked(false);
+                        size = Integer.toString(Data.getMediumSize());
                         break;
                     case R.id.large:
-                        rg1.clearCheck();
-                        size = "24";
+//                        rg1.clearCheck();
+                        xSmall.setChecked(false);
+                        small.setChecked(false);
+                        medium.setChecked(false);
+                        xLarge.setChecked(false);
+                        xxLarge.setChecked(false);
+                        size = Integer.toString(Data.getLargeSize());
                         break;
                     case R.id.xlarge:
-                        rg1.clearCheck();
-                        size = "30";
+//                        rg1.clearCheck();
+                        xSmall.setChecked(false);
+                        small.setChecked(false);
+                        medium.setChecked(false);
+                        large.setChecked(false);
+                        xxLarge.setChecked(false);
+                        size = Integer.toString(Data.getXlargeSize());;
                         break;
                     case R.id.xxlarge:
-                        rg1.clearCheck();
-                        size = "36";
+//                        rg1.clearCheck();
+                        xSmall.setChecked(false);
+                        small.setChecked(false);
+                        medium.setChecked(false);
+                        large.setChecked(false);
+                        xLarge.setChecked(false);
+                        size = Integer.toString(Data.getXxlargeSize());;
                         break;
                 }
             }
@@ -144,6 +196,13 @@ public class StartActivity extends AppCompatActivity {
         statistic.setOnClickListener(onClickListenerButton);
         userInfo.setOnClickListener(onClickListenerButton);
         stopAds.setOnClickListener(onClickListenerButton);
+
+        requestTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                availableUsers();
+            }
+        }, delay, period);
 
     }
 
@@ -242,12 +301,62 @@ public class StartActivity extends AppCompatActivity {
         );
     }
 
+    public void availableUsers(){
+        final Handler mainHandler = new Handler(Looper.getMainLooper());
+
+        client.newCall(httpClient.availableUsers()).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+//                ;
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+//                        view.setText(battlefield);
+                        Log.i(Data.getLOG_TAG(), "run: " + "Fail!!!!!!!!!!!!");
+                    }
+                });
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+//                final String[] answer = response.body().string().split(" ");
+                final String[] answer = response.body().string().split(" ");
+                Log.i(Data.getLOG_TAG(), "onResponse run for RECEIVING methods: " + answer);
+                xsUsers = Integer.parseInt(answer[0]);
+                sUsers = Integer.parseInt(answer[1]);
+                mUsers = Integer.parseInt(answer[2]);
+                lUsers = Integer.parseInt(answer[3]);
+                xlUsers = Integer.parseInt(answer[4]);
+                xxlUsers = Integer.parseInt(answer[5]);
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        xsmallAvailableUsers.setText(answer[0]);
+                        smallAvailableUsers.setText(answer[1]);
+                        mediumAvailableUsers.setText(answer[2]);
+                        largeAvailableUsers.setText(answer[3]);
+                        xlargeAvailableUsers.setText(answer[4]);
+                        xxlargeAvailableUsers.setText(answer[5]);
+                    }
+                });
+            }
+        });
+    }
+
     private RadioButton xSmall;
     private RadioButton small;
     private RadioButton medium;
     private RadioButton large;
     private RadioButton xLarge;
     private RadioButton xxLarge;
+
+    private TextView xsmallAvailableUsers;
+    private TextView smallAvailableUsers;
+    private TextView mediumAvailableUsers;
+    private TextView largeAvailableUsers;
+    private TextView xlargeAvailableUsers;
+    private TextView xxlargeAvailableUsers;
 
     private RadioGroup rg1;
     private RadioGroup rg2;
@@ -264,6 +373,21 @@ public class StartActivity extends AppCompatActivity {
     private SqLiteTableManager sqLiteTableManager;
     private DBHelper dbHelper = new DBHelper(StartActivity.this);
 
+    private HttpClient httpClient;
+    private OkHttpClient client;
+
     private String size = "36";
     private final String PREFS_NAME = "MyPrefsFile103";
+
+    private Integer xsUsers;
+    private Integer sUsers;
+    private Integer mUsers;
+    private Integer lUsers;
+    private Integer xlUsers;
+    private Integer xxlUsers;
+    private long delay = 1000;
+    private long period = 2000;
+
+    private Timer requestTimer;
+
 }

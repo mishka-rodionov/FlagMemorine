@@ -84,6 +84,10 @@ public class BattleFieldActivity extends AppCompatActivity {
         test1 =     (TextView)  findViewById(R.id.currentStepCount);
         time =      (TextView)  findViewById(R.id.timeValue);
         scoreTV =   (TextView)  findViewById(R.id.currentScore);
+        currentScoreSecondPlayer = (TextView) findViewById(R.id.currentScoreSecondPlayer);
+        currentStepCountSecondPlayer = (TextView) findViewById(R.id.currentStepCountSecondPlayer);
+        currentScoreSecondPlayer.setVisibility(View.INVISIBLE);
+        currentStepCountSecondPlayer.setVisibility(View.INVISIBLE);
         scoreTV.setText(Integer.toString(score));
 
         handler = new Handler() {
@@ -441,6 +445,8 @@ public class BattleFieldActivity extends AppCompatActivity {
     private TextView test2;
     private TextView time;
     private TextView scoreTV;
+    private TextView currentScoreSecondPlayer;
+    private TextView currentStepCountSecondPlayer;
     private Timer timer;
     private View view;
     private Toolbar battlefieldToolbar;

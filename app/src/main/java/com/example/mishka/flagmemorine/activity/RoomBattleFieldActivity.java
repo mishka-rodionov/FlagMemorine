@@ -96,11 +96,11 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         test1 =     (TextView)  findViewById(R.id.currentStepCount);
         time =      (TextView)  findViewById(R.id.timeValue);
         scoreTV =   (TextView)  findViewById(R.id.currentScore);
-        currentSocreSecondPlayer = (TextView) findViewById(R.id.currentScoreSecondPlayer);
+        currentScoreSecondPlayer = (TextView) findViewById(R.id.currentScoreSecondPlayer);
         currentStepCountSecondPlayer = (TextView) findViewById(R.id.currentStepCountSecondPlayer);
 
         scoreTV.setText(Integer.toString(score));
-        currentSocreSecondPlayer.setText(Integer.toString(score));
+        currentScoreSecondPlayer.setText(Integer.toString(score));
 
         handler = new Handler() {
             @Override
@@ -144,6 +144,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
                 endOfGameActivityIntent.putExtra("step", Integer.toString(stepCounter));
                 endOfGameActivityIntent.putExtra("time", time.getText().toString());
                 endOfGameActivityIntent.putExtra("size", Integer.toString(battleFieldSize));
+                endOfGameActivityIntent.putExtra("result", Integer.toString(score - scoreSecondPlayer));
                 startActivity(endOfGameActivityIntent);
             }
         };
@@ -237,18 +238,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
     private void goal(String country) {
         result.setTextColor(Color.GREEN);
         result.setText(country);
-        if(sending){
-            stepCounter++;
-            test1.setText("" + stepCounter);
-            scoreCount(true);
-            scoreTV.setText(Integer.toString(score));
-        }
-        if (receiving){
-            stepCounterSecondPlayer++;
-            scoreCount(false);
-            currentSocreSecondPlayer.setText(Integer.toString(scoreSecondPlayer));
-            currentStepCountSecondPlayer.setText("" + stepCounterSecondPlayer);
-        }
+        scoreDisplay(true);
         flipFlag = true;
         flipViews.get(Integer.parseInt(viewTag.get(0))).setEnabled(false);
         flipViews.get(Integer.parseInt(viewTag.get(1))).setEnabled(false);
@@ -261,18 +251,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         if (flag){                                                              //Прямой переворот
             result.setTextColor(Color.RED);
             result.setText(country);
-            if(sending){
-                stepCounter++;
-                scoreCount(false);
-                scoreTV.setText(Integer.toString(score));
-                test1.setText("" + stepCounter);
-            }
-            if (receiving){
-                stepCounterSecondPlayer++;
-                scoreCount(false);
-                currentSocreSecondPlayer.setText(Integer.toString(scoreSecondPlayer));
-                currentStepCountSecondPlayer.setText("" + stepCounterSecondPlayer);
-            }
+            scoreDisplay(false);
             final int but0 = Integer.parseInt(viewTag.get(0));                  // вычисляем тег первой нажатой кнопки
             final int but1 = Integer.parseInt(viewTag.get(1));                  // вычисляем тег второй нажатой кнопки
             delayedTask(but0, but1);
@@ -334,6 +313,21 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
                 editor.putString("REC", test1.getText().toString());
                 editor.commit();
             }
+        }
+    }
+
+    private void scoreDisplay(Boolean state) {
+        if(sending){
+            stepCounter++;
+            test1.setText("" + stepCounter);
+            scoreCount(state);
+            scoreTV.setText(Integer.toString(score));
+        }
+        if (receiving){
+            stepCounterSecondPlayer++;
+            scoreCount(state);
+            currentScoreSecondPlayer.setText(Integer.toString(scoreSecondPlayer));
+            currentStepCountSecondPlayer.setText("" + stepCounterSecondPlayer);
         }
     }
 
@@ -489,12 +483,12 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         client.newCall(httpClient.connectToRoom(playerName, user, origin, size)).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-//                ;
+                final IOException ex = e;
                 mainHandler.post(new Runnable() {
                     @Override
                     public void run() {
-//                        view.setText(battlefield);
                         Log.i(Data.getLOG_TAG(), "run: " + "Fail!!!!!!!!!!!!");
+                        Log.i(Data.getLOG_TAG(), "connectTORoom run: " + ex.toString());
                     }
                 });
 
@@ -526,9 +520,6 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
                             }, delay, period);
                         }
 
-//                        sendStart = Boolean.parseBoolean(body[2]);
-//                        readStart = Boolean.parseBoolean(body[3]);
-
                         for (int i = 3; i < body.length; i+=2) {
                             if(body[i].contains("_")){
                                 body[i] = body[i].replaceAll("_", " ");
@@ -545,15 +536,6 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
                                 }
                             }
                         }
-//
-//                        for (int i = 0; i < flipViews.size(); i++) {
-//                            flipViews.get(i).setFrontImage(R.drawable.unknown);
-//                            flipViews.get(i).setEnabled(true);
-//                        }
-//                        for (int i = 0; i < flipViews.size(); i++) {
-//                            flipViews.get(i).setOnFlippingListener(onFlippingListener);
-////            Log.d(Data.getLOG_TAG(), "add onFlipListener " + i + " " + flipViews.get(i).getId() + " xxlarge1 = " + R.id.xxlarge1);
-//                        }
                     }
                 });
             }
@@ -712,6 +694,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
     private Handler handlerCreateRoom;
     private HashMap<Integer, Boolean> clickable;
     private HttpClient httpClient;
+    private OkHttpClient client;
 
     private LinearLayout basicLayout;
 
@@ -728,7 +711,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
     private TextView test2;
     private TextView time;
     private TextView scoreTV;
-    private TextView currentSocreSecondPlayer;
+    private TextView currentScoreSecondPlayer;
     private TextView currentStepCountSecondPlayer;
 
     private Timer timer;
@@ -766,8 +749,6 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
     private String origin;
 
     private ArrayList<String> battlefieldBody;
-
-    private OkHttpClient client;
 
     //endregion
 

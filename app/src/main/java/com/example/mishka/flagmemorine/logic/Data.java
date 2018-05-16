@@ -352,11 +352,20 @@ public class Data {
         Data.size = size;
     }
 
+    public static String getAvailableUsersServlet() {
+        return availableUsersServlet;
+    }
+
+    public static void setAvailableUsersServlet(String availableUsersServlet) {
+        Data.availableUsersServlet = availableUsersServlet;
+    }
+
     //region Private static fields
     private static String customURL = "192.168.42.227";
     private static String LOG_TAG = "flagmemorine";
     private static String serverAppName = "TestGet";
     private static String mainServlet = "hello";
+    //region servlets
     private static String createRoomServlet = "createRoom";
     private static String roomListRequestServlet = "getRoomList";
     private static String testAnotherPlayerChoiceServlet = "testAnotherPlayerChoice";
@@ -365,6 +374,8 @@ public class Data {
     private static String activePlayerServlet = "activePlayer";
     private static String battleFieldServlet = "getElement";
     private static String battleFieldServletParameter = "size";
+    private static String availableUsersServlet = "availableUsersServlet";
+    //endregion
     private static String dbName  = "FlagMem";
     private static String dbStatisticTable  = "Statistic";
     private static String dbRecordTable  = "Record";
