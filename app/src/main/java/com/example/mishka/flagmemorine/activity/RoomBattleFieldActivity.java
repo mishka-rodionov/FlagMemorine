@@ -72,7 +72,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
 
         //******************************************************************************************
         sqLiteTableManager = new SqLiteTableManager(RoomBattleFieldActivity.this);
-        pullDB();
+//        pullDB();
 
         requestTimer = new Timer();
         record = getPreferences(MODE_PRIVATE);                                                      //
@@ -81,9 +81,23 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         viewTag = new ArrayList<>(2);                                                  // Инициализация контейнера для хранения тэгов табличек пользовательского выбора табличек
         CountryList.loadCountryMap();
         basicLayout = (LinearLayout) findViewById(R.id.basicLayout);
-        battleFieldSize = Integer.parseInt(getIntent().getStringExtra("size"));
+        //region get intent parameters
+        battleFieldSize = Integer.parseInt(getIntent().getStringExtra(Data.getSize()));
+        roomIndex = Integer.parseInt(getIntent().getStringExtra(Data.getRoomIndexLabel()));
+        playerNumber = getIntent().getStringExtra(Data.getPlayerName());
+        if (playerNumber.equals("firstPlayer")){
+            secondPlayerName = getIntent().getStringExtra("anotherPlayer");
+        }
+        if (playerNumber.equals("secondPlayer")){
+            firstPlayerName = getIntent().getStringExtra("anotherPlayer");
+        }
+        String[] body = getIntent().getStringExtra("battlefieldBody").split(" ");
+        //endregion
         topRecord = 10000/*topRecord(battleFieldSize)*/;
         battlefieldBody = new ArrayList<String>();
+        for (int i = 0; i < body.length; i++) {
+            battlefieldBody.add(body[i]);
+        }
 //        battleField = new BattleField(battleFieldSize);
 
         clickable = new HashMap<Integer, Boolean>();
@@ -197,7 +211,16 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
 
         getView(battleFieldSize);
 //        initFlipView(view, battleFieldSize);
-        connectToRoom(httpClient, playerName, username, origin, Integer.toString(battleFieldSize));
+//        connectToRoom(httpClient, playerName, username, origin, Integer.toString(battleFieldSize));
+        battleField = new BattleField(battlefieldBody);
+        initFlipView(view, battleFieldSize);
+        if(receiving){
+            for (int i = 0; i < clickable.size(); i++) {
+                if (clickable.get(i)) {
+                    flipViews.get(i).setEnabled(false);
+                }
+            }
+        }
         basicLayout.addView(view);
         time2 = System.currentTimeMillis();
         Log.d(Data.getLOG_TAG(), "loading time is = " + (time2 - time1));
@@ -333,9 +356,11 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
 
     public void initFlipView(View view, int battleFieldSize){
         flipViews = new ArrayList<>(battleFieldSize);
+        Log.i(Data.getLOG_TAG(), "initFlipView: flipviews SIZE = " + flipViews.size());
         if (battleFieldSize == Data.getXsmallSize()){
             for (int i = 0; i < Data.getXsmallSize(); i++) {
                 flipViews.add((FlipView) view.findViewById(Data.getIdxsmall(i)));
+                Log.i(Data.getLOG_TAG(), "initFlipView: COUNTRY = " + CountryList.getCountry(battleField.getElement(i)));
                 flipViews.get(i).setRearImage(CountryList.getCountry(battleField.getElement(i)));
                 flipViews.get(i).isFlipped();
             }
@@ -693,6 +718,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
     private Handler handlerIntent;
     private Handler handlerCreateRoom;
     private HashMap<Integer, Boolean> clickable;
+
     private HttpClient httpClient;
     private OkHttpClient client;
 
@@ -747,6 +773,8 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
     private String playerNumber;
     private String username;
     private String origin;
+    private String firstPlayerName;
+    private String secondPlayerName;
 
     private ArrayList<String> battlefieldBody;
 

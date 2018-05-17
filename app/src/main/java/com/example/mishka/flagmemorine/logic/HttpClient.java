@@ -425,6 +425,26 @@ public class HttpClient/* extends AsyncTask<String, Void, String>*/{
         return request;
     }
 
+    public Request waitUser(String roomIndex)
+    {
+
+        HttpUrl httpUrl = new HttpUrl.Builder()
+                .scheme("http")
+                .host(Data.getCustomURL())
+                .port(8080)
+                .addPathSegment(Data.getServerAppName())
+                .addPathSegment(Data.getUsernameServlet())
+                .addQueryParameter(Data.getRoomIndexLabel(), roomIndex)
+                .build();
+
+        Request request = new Request.Builder()
+                .url(httpUrl)
+                .header("User-Agent", "OkHttp Headers.java")
+                .build();
+
+        return request;
+    }
+
     public Request receiveValue(String name, String roomIndex)
     {
 

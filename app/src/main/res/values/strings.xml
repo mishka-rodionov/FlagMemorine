@@ -35,6 +35,8 @@
     <string name="user_name">User name:</string>
     <string name="user_country">Country:</string>
     <string name="title_activity_end_of_game">EndOfGameActivity</string>
+    <string name="title_wait_user_activity">WaitUserActivity</string>
     <string name="congratulations">Congratulations!</string>
     <string name="home">Home</string>
+    <string name="versus">VS</string>
 </resources>

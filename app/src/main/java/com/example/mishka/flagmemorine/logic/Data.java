@@ -360,12 +360,20 @@ public class Data {
         Data.availableUsersServlet = availableUsersServlet;
     }
 
+    public static String getUsernameServlet() {
+        return usernameServlet;
+    }
+
+    public static void setUsernameServlet(String usernameServlet) {
+        Data.usernameServlet = usernameServlet;
+    }
+
     //region Private static fields
     private static String customURL = "192.168.42.227";
     private static String LOG_TAG = "flagmemorine";
     private static String serverAppName = "TestGet";
     private static String mainServlet = "hello";
-    //region servlets
+    //region servlets names
     private static String createRoomServlet = "createRoom";
     private static String roomListRequestServlet = "getRoomList";
     private static String testAnotherPlayerChoiceServlet = "testAnotherPlayerChoice";
@@ -375,6 +383,7 @@ public class Data {
     private static String battleFieldServlet = "getElement";
     private static String battleFieldServletParameter = "size";
     private static String availableUsersServlet = "availableUsersServlet";
+    private static String usernameServlet = "usernameServlet";
     //endregion
     private static String dbName  = "FlagMem";
     private static String dbStatisticTable  = "Statistic";

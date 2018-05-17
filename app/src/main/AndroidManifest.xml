@@ -58,7 +58,13 @@
             android:parentActivityName=".activity.StartActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.TestInteraction"></activity>
+        <activity android:name=".activity.TestInteraction" />
+        <activity android:name=".activity.WaitUserActivity"
+            android:configChanges="orientation"
+            android:label="@string/title_wait_user_activity"
+            android:parentActivityName=".activity.StartActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

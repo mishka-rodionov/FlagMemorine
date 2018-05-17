@@ -166,9 +166,12 @@ public class StartActivity extends AppCompatActivity {
                         startActivity(userInfoActivityIntent);
                         break;
                     case R.id.multiplayer:
-                        Intent multiplayerIntent = new Intent(StartActivity.this, RoomBattleFieldActivity.class);
-                        multiplayerIntent.putExtra("size", size);
-                        startActivity(multiplayerIntent);
+//                        Intent multiplayerIntent = new Intent(StartActivity.this, RoomBattleFieldActivity.class);
+//                        multiplayerIntent.putExtra("size", size);
+//                        startActivity(multiplayerIntent);
+                        Intent waitUserIntent = new Intent(StartActivity.this, WaitUserActivity.class);
+                        waitUserIntent.putExtra(Data.getSize(), size);
+                        startActivity(waitUserIntent);
                         break;
                     case R.id.stopAds:
 
