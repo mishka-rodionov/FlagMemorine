@@ -32,27 +32,36 @@ public class EndOfGameActivity extends AppCompatActivity {
         stepValue = getIntent().getStringExtra("step");
         timeValue = getIntent().getStringExtra("time");
         size = getIntent().getStringExtra("size");
-        if (activityName.equals("RoomBattlefield")){
-            result = getIntent().getStringExtra("result");
-        }
 
         score = (TextView) findViewById(R.id.scoreEndOfGame);
         step = (TextView) findViewById(R.id.stepEndOfGame);
         time = (TextView) findViewById(R.id.timeEndOfGame);
         message = (TextView) findViewById(R.id.message);
 
-        if (Integer.parseInt(result) < 0){
-            message.setText("Lose!");
-            message.setTextColor(Color.RED);
+        if (activityName.equals("RoomBattlefield")){
+            result = getIntent().getStringExtra("result");
+            if (Integer.parseInt(result) < 0){
+                message.setText("Lose!");
+                message.setTextColor(Color.RED);
+            }
+            if (Integer.parseInt(result) > 0){
+                message.setText("Congratulations!");
+                message.setTextColor(Color.GREEN);
+            }
+            if (Integer.parseInt(result) == 0){
+                message.setText("Equals!");
+                message.setTextColor(Color.GRAY);
+            }
         }
-        if (Integer.parseInt(result) > 0){
+
+        if (activityName.equals("Battlefield")){
             message.setText("Congratulations!");
             message.setTextColor(Color.GREEN);
         }
-        if (Integer.parseInt(result) == 0){
-            message.setText("Equals!");
-            message.setTextColor(Color.GRAY);
-        }
+
+
+
+
 
         score.setText(score.getText().toString() + " " + scoreValue);
         step.setText(step.getText().toString() + " " + stepValue);
