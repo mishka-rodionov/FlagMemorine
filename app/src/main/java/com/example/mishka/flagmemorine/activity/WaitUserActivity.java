@@ -104,9 +104,9 @@ public class WaitUserActivity extends AppCompatActivity {
 //                        }
 
                         for (int i = 3; i < body.length; i+=2) {
-                            if(body[i].contains("_")){
-                                body[i] = body[i].replaceAll("_", " ");
-                            }
+//                            if(body[i].contains("_")){
+//                                body[i] = body[i].replaceAll("_", " ");
+//                            }
                             Log.i(Data.getLOG_TAG(), "body[i] " + body[i]);
                             battlefieldBody.add(body[i]);
                         }
@@ -166,7 +166,7 @@ public class WaitUserActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         firstPlayerName.setText(firstPlayer);
-                        if (!secondPlayer.equals(null)/* != null*/){
+                        if (!secondPlayer.equals("null")){
                             secondPlayerName.setText(secondPlayer);
                             String body = "";
                             for (int i = 0; i < battlefieldBody.size(); i++) {
@@ -217,6 +217,33 @@ public class WaitUserActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        requestTimer.cancel();
+    }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        requestTimer.cancel();
+        Log.i(Data.getLOG_TAG(), "onStop: WaitUserActivity");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        requestTimer = new Timer();
+        requestTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                waitUser(httpClient, Integer.toString(roomIndex));
+            }
+        }, delay, period);
+        Log.i(Data.getLOG_TAG(), "onRestart: WaitUserActivity");
     }
 
     private android.support.v7.widget.Toolbar waitUserToolbar;

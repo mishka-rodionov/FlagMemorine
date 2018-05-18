@@ -136,6 +136,7 @@ public class BattleFieldActivity extends AppCompatActivity {
                 endOfGameActivityIntent.putExtra("step", Integer.toString(stepCounter));
                 endOfGameActivityIntent.putExtra("time", time.getText().toString());
                 endOfGameActivityIntent.putExtra("size", Integer.toString(battleFieldSize));
+                endOfGameActivityIntent.putExtra("activityName", "Battlefield");
                 startActivity(endOfGameActivityIntent);
             }
         };

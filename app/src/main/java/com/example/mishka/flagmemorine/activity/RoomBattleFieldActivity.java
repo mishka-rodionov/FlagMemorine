@@ -96,7 +96,10 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         topRecord = 10000/*topRecord(battleFieldSize)*/;
         battlefieldBody = new ArrayList<String>();
         for (int i = 0; i < body.length; i++) {
-            battlefieldBody.add(body[i]);
+            battlefieldBody.add(body[i].replaceAll("_", " "));
+//            if(battlefieldBody.get(i).contains("_")){
+//                battlefieldBody.add(i, battlefieldBody.get(i).replaceAll("_", " "));
+//            }
         }
 //        battleField = new BattleField(battleFieldSize);
 
@@ -159,6 +162,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
                 endOfGameActivityIntent.putExtra("time", time.getText().toString());
                 endOfGameActivityIntent.putExtra("size", Integer.toString(battleFieldSize));
                 endOfGameActivityIntent.putExtra("result", Integer.toString(score - scoreSecondPlayer));
+                endOfGameActivityIntent.putExtra("activityName", "RoomBattlefield");
                 startActivity(endOfGameActivityIntent);
             }
         };
@@ -212,6 +216,19 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         getView(battleFieldSize);
 //        initFlipView(view, battleFieldSize);
 //        connectToRoom(httpClient, playerName, username, origin, Integer.toString(battleFieldSize));
+        if (playerNumber.equals("firstPlayer")){
+            sending = true;
+            receiving = false;
+        }else{
+            sending = false;
+            receiving = true;
+            requestTimer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    receiving(httpClient, Integer.toString(roomIndex));
+                }
+            }, delay, period);
+        }
         battleField = new BattleField(battlefieldBody);
         initFlipView(view, battleFieldSize);
         if(receiving){
@@ -360,7 +377,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         if (battleFieldSize == Data.getXsmallSize()){
             for (int i = 0; i < Data.getXsmallSize(); i++) {
                 flipViews.add((FlipView) view.findViewById(Data.getIdxsmall(i)));
-                Log.i(Data.getLOG_TAG(), "initFlipView: COUNTRY = " + CountryList.getCountry(battleField.getElement(i)));
+                Log.i(Data.getLOG_TAG(), "initFlipView: COUNTRY = " + battleField.getElement(i));
                 flipViews.get(i).setRearImage(CountryList.getCountry(battleField.getElement(i)));
                 flipViews.get(i).isFlipped();
             }
@@ -501,71 +518,71 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
 
     //network methods
 
-    public void connectToRoom(final HttpClient httpClient, String playerName, String user, String origin, String size){
-
-        final Handler mainHandler = new Handler(Looper.getMainLooper());
-
-        client.newCall(httpClient.connectToRoom(playerName, user, origin, size)).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                final IOException ex = e;
-                mainHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        Log.i(Data.getLOG_TAG(), "run: " + "Fail!!!!!!!!!!!!");
-                        Log.i(Data.getLOG_TAG(), "connectTORoom run: " + ex.toString());
-                    }
-                });
-
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                String answer = response.body().string();
-                final String[] body = answer.split(" ");
-                Log.i(Data.getLOG_TAG(), "onResponse run: " + answer);
-                mainHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        roomIndex = Integer.parseInt(body[0]);
-                        Log.i(Data.getLOG_TAG(), "room index is = " + roomIndex);
-                        playerNumber = body[1];
-                        if (playerNumber.equals("firstPlayer")){
-                            sending = true;
-                            receiving = false;
-                        }else{
-                            sending = false;
-                            receiving = true;
-                            requestTimer.schedule(new TimerTask() {
-                                @Override
-                                public void run() {
-                                    receiving(httpClient, Integer.toString(roomIndex));
-                                }
-                            }, delay, period);
-                        }
-
-                        for (int i = 3; i < body.length; i+=2) {
-                            if(body[i].contains("_")){
-                                body[i] = body[i].replaceAll("_", " ");
-                            }
-                            Log.i(Data.getLOG_TAG(), "body[i] " + body[i]);
-                            battlefieldBody.add(body[i]);
-                        }
-                        battleField = new BattleField(battlefieldBody);
-                        initFlipView(view, battleFieldSize);
-                        if(receiving){
-                            for (int i = 0; i < clickable.size(); i++) {
-                                if (clickable.get(i)) {
-                                    flipViews.get(i).setEnabled(false);
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-        });
-    }
+//    public void connectToRoom(final HttpClient httpClient, String playerName, String user, String origin, String size){
+//
+//        final Handler mainHandler = new Handler(Looper.getMainLooper());
+//
+//        client.newCall(httpClient.connectToRoom(playerName, user, origin, size)).enqueue(new Callback() {
+//            @Override
+//            public void onFailure(Call call, IOException e) {
+//                final IOException ex = e;
+//                mainHandler.post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        Log.i(Data.getLOG_TAG(), "run: " + "Fail!!!!!!!!!!!!");
+//                        Log.i(Data.getLOG_TAG(), "connectTORoom run: " + ex.toString());
+//                    }
+//                });
+//
+//            }
+//
+//            @Override
+//            public void onResponse(Call call, Response response) throws IOException {
+//                String answer = response.body().string();
+//                final String[] body = answer.split(" ");
+//                Log.i(Data.getLOG_TAG(), "onResponse run: " + answer);
+//                mainHandler.post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//
+//                        roomIndex = Integer.parseInt(body[0]);
+//                        Log.i(Data.getLOG_TAG(), "room index is = " + roomIndex);
+//                        playerNumber = body[1];
+//                        if (playerNumber.equals("firstPlayer")){
+//                            sending = true;
+//                            receiving = false;
+//                        }else{
+//                            sending = false;
+//                            receiving = true;
+//                            requestTimer.schedule(new TimerTask() {
+//                                @Override
+//                                public void run() {
+//                                    receiving(httpClient, Integer.toString(roomIndex));
+//                                }
+//                            }, delay, period);
+//                        }
+//
+//                        for (int i = 3; i < body.length; i+=2) {
+//                            if(body[i].contains("_")){
+//                                body[i] = body[i].replaceAll("_", " ");
+//                            }
+//                            Log.i(Data.getLOG_TAG(), "body[i] " + body[i]);
+//                            battlefieldBody.add(body[i]);
+//                        }
+//                        battleField = new BattleField(battlefieldBody);
+//                        initFlipView(view, battleFieldSize);
+//                        if(receiving){
+//                            for (int i = 0; i < clickable.size(); i++) {
+//                                if (clickable.get(i)) {
+//                                    flipViews.get(i).setEnabled(false);
+//                                }
+//                            }
+//                        }
+//                    }
+//                });
+//            }
+//        });
+//    }
 
     public void sending(HttpClient httpClient, String roomIndex, String step){
         final Handler mainHandler = new Handler(Looper.getMainLooper());
@@ -649,23 +666,46 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         });
     }
 
-    private void pullDB(){
-        playerName = sqLiteTableManager.getName() == null ?
-                sqLiteTableManager.getLogin() : sqLiteTableManager.getName();
-        origin = sqLiteTableManager.getCountry() == null ?
-                "Olympics" : sqLiteTableManager.getCountry();
-        username = sqLiteTableManager.getLogin();
-        Log.i(Data.getLOG_TAG(), "pullDB: playerName = " + playerName);
-        Log.i(Data.getLOG_TAG(), "pullDB: username = " + username);
-        Log.i(Data.getLOG_TAG(), "pullDB: origin = " + origin);
-    }
+//    private void pullDB(){
+//        playerName = sqLiteTableManager.getName() == null ?
+//                sqLiteTableManager.getLogin() : sqLiteTableManager.getName();
+//        origin = sqLiteTableManager.getCountry() == null ?
+//                "Olympics" : sqLiteTableManager.getCountry();
+//        username = sqLiteTableManager.getLogin();
+//        Log.i(Data.getLOG_TAG(), "pullDB: playerName = " + playerName);
+//        Log.i(Data.getLOG_TAG(), "pullDB: username = " + username);
+//        Log.i(Data.getLOG_TAG(), "pullDB: origin = " + origin);
+//    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         requestTimer.cancel();
     }
-//    public void stepWait(HttpClient httpClient, String roomIndex, String activePlayer){
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        requestTimer.cancel();
+        Log.i(Data.getLOG_TAG(), "onStop: RoomBattlefieldActivity");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        requestTimer = new Timer();
+        if (receiving){
+            requestTimer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    receiving(httpClient, Integer.toString(roomIndex));
+                }
+            }, delay, period);
+        }
+        Log.i(Data.getLOG_TAG(), "onRestart: RoomBattlefieldActivity");
+    }
+
+    //    public void stepWait(HttpClient httpClient, String roomIndex, String activePlayer){
 //        final Handler mainHandler = new Handler(Looper.getMainLooper());
 //
 //        client.newCall(httpClient.stepWait(roomIndex, activePlayer)).enqueue(new Callback() {

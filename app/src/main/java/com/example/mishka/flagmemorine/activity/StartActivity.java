@@ -347,6 +347,32 @@ public class StartActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        requestTimer.cancel();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        requestTimer.cancel();
+        Log.i(Data.getLOG_TAG(), "onStop: StartActivity");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        requestTimer = new Timer();
+        requestTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                availableUsers();
+            }
+        }, delay, period);
+        Log.i(Data.getLOG_TAG(), "onRestart: StartActivity");
+    }
+
     private RadioButton xSmall;
     private RadioButton small;
     private RadioButton medium;

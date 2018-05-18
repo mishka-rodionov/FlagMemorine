@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.mishka.flagmemorine.R;
+import com.example.mishka.flagmemorine.logic.Data;
 
 public class EndOfGameActivity extends AppCompatActivity {
 
@@ -26,11 +27,14 @@ public class EndOfGameActivity extends AppCompatActivity {
 //        acBar.setTitle("This is text");
         acBar.setDisplayHomeAsUpEnabled(true);
 
+        activityName = getIntent().getStringExtra("activityName");
         scoreValue = getIntent().getStringExtra("score");
         stepValue = getIntent().getStringExtra("step");
         timeValue = getIntent().getStringExtra("time");
         size = getIntent().getStringExtra("size");
-        result = getIntent().getStringExtra("result");
+        if (activityName.equals("RoomBattlefield")){
+            result = getIntent().getStringExtra("result");
+        }
 
         score = (TextView) findViewById(R.id.scoreEndOfGame);
         step = (TextView) findViewById(R.id.stepEndOfGame);
@@ -60,9 +64,16 @@ public class EndOfGameActivity extends AppCompatActivity {
             public void onClick(View v) {
                 switch(v.getId()){
                     case R.id.restartButton:
-                        Intent intentBattleFieldActivity = new Intent(EndOfGameActivity.this, BattleFieldActivity.class);
-                        intentBattleFieldActivity.putExtra("size", size);
-                        startActivity(intentBattleFieldActivity);
+                        if (activityName.equals("Battlefield")){
+                            Intent intentBattleFieldActivity = new Intent(EndOfGameActivity.this, BattleFieldActivity.class);
+                            intentBattleFieldActivity.putExtra(Data.getSize(), size);
+                            startActivity(intentBattleFieldActivity);
+                        }
+                        if (activityName.equals("RoomBattlefield")){
+                            Intent waitUserIntent = new Intent(EndOfGameActivity.this, WaitUserActivity.class);
+                            waitUserIntent.putExtra(Data.getSize(), size);
+                            startActivity(waitUserIntent);
+                        }
                         break;
                     case R.id.homeButton:
                         Intent intentStartActivity = new Intent(EndOfGameActivity.this, StartActivity.class);
@@ -121,5 +132,6 @@ public class EndOfGameActivity extends AppCompatActivity {
     private String timeValue;
     private String size;
     private String result;
+    private String activityName;
 
 }
