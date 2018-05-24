@@ -71,10 +71,10 @@
 
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="82dp"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
         android:shrinkColumns="*"
-        android:stretchColumns="*"
-        >
+        android:stretchColumns="*">
 
         <TableRow
             android:layout_width="match_parent"
@@ -90,6 +90,21 @@
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/localPlayerName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
 
                     <TextView
                         android:id="@+id/score"
@@ -179,11 +194,25 @@
 
                 <TableRow
                     android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
+
+                    <TextView
+                        android:id="@+id/enemyPlayerName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
                     <TextView
                         android:id="@+id/scoreSecondPlayer"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="false"
                         android:layout_centerVertical="false"
@@ -194,7 +223,7 @@
 
                     <TextView
                         android:id="@+id/currentScoreSecondPlayer"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignBaseline="@+id/scoreSecondPlayer"
                         android:layout_alignBottom="@+id/scoreSecondPlayer"
@@ -235,30 +264,30 @@
                 </TableRow>
 
                 <!--<TableRow-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="match_parent">-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent">-->
 
-                    <!--&lt;!&ndash;<TextView&ndash;&gt;-->
-                        <!--&lt;!&ndash;android:id="@+id/timeTextSecondPlayer"&ndash;&gt;-->
-                        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
-                        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
-                        <!--&lt;!&ndash;android:layout_below="@+id/currentScoreSecondPlayer"&ndash;&gt;-->
-                        <!--&lt;!&ndash;android:layout_toEndOf="@+id/currentScoreSecondPlayer"&ndash;&gt;-->
-                        <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
-                        <!--&lt;!&ndash;android:text="@string/time"&ndash;&gt;-->
-                        <!--&lt;!&ndash;android:textColor="@android:color/white"&ndash;&gt;-->
-                        <!--&lt;!&ndash;android:textSize="18sp" />&ndash;&gt;-->
+                <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+                <!--&lt;!&ndash;android:id="@+id/timeTextSecondPlayer"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_below="@+id/currentScoreSecondPlayer"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_toEndOf="@+id/currentScoreSecondPlayer"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:text="@string/time"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:textColor="@android:color/white"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:textSize="18sp" />&ndash;&gt;-->
 
-                    <!--&lt;!&ndash;<TextView&ndash;&gt;-->
-                        <!--&lt;!&ndash;android:id="@+id/timeValueSecondPlayer"&ndash;&gt;-->
-                        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
-                        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
-                        <!--&lt;!&ndash;android:layout_below="@+id/stepSecondPlayer"&ndash;&gt;-->
-                        <!--&lt;!&ndash;android:layout_toStartOf="@+id/stepSecondPlayer"&ndash;&gt;-->
-                        <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
-                        <!--&lt;!&ndash;android:text="0:00"&ndash;&gt;-->
-                        <!--&lt;!&ndash;android:textColor="@android:color/white"&ndash;&gt;-->
-                        <!--&lt;!&ndash;android:textSize="18sp" />&ndash;&gt;-->
+                <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+                <!--&lt;!&ndash;android:id="@+id/timeValueSecondPlayer"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_below="@+id/stepSecondPlayer"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_toStartOf="@+id/stepSecondPlayer"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:text="0:00"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:textColor="@android:color/white"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:textSize="18sp" />&ndash;&gt;-->
                 <!--</TableRow>-->
             </TableLayout>
 

@@ -37,6 +37,8 @@
     <string name="title_activity_end_of_game">EndOfGameActivity</string>
     <string name="title_wait_user_activity">WaitUserActivity</string>
     <string name="congratulations">Congratulations!</string>
+    <string name="win">Winner!</string>
+    <string name="lose">Loser!</string>
     <string name="home">Home</string>
     <string name="versus">VS</string>
 </resources>

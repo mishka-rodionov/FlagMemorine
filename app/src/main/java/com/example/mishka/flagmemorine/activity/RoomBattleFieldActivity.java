@@ -85,12 +85,12 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         battleFieldSize = Integer.parseInt(getIntent().getStringExtra(Data.getSize()));
         roomIndex = Integer.parseInt(getIntent().getStringExtra(Data.getRoomIndexLabel()));
         playerNumber = getIntent().getStringExtra(Data.getPlayerName());
-        if (playerNumber.equals("firstPlayer")){
-            secondPlayerName = getIntent().getStringExtra("anotherPlayer");
-        }
-        if (playerNumber.equals("secondPlayer")){
-            firstPlayerName = getIntent().getStringExtra("anotherPlayer");
-        }
+//        if (playerNumber.equals("firstPlayer")){
+//            secondPlayerName = getIntent().getStringExtra("anotherPlayer");
+//        }
+//        if (playerNumber.equals("secondPlayer")){
+//            firstPlayerName = getIntent().getStringExtra("anotherPlayer");
+//        }
         String[] body = getIntent().getStringExtra("battlefieldBody").split(" ");
         //endregion
         topRecord = 10000/*topRecord(battleFieldSize)*/;
@@ -115,7 +115,11 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         scoreTV =   (TextView)  findViewById(R.id.currentScore);
         currentScoreSecondPlayer = (TextView) findViewById(R.id.currentScoreSecondPlayer);
         currentStepCountSecondPlayer = (TextView) findViewById(R.id.currentStepCountSecondPlayer);
+        localPlayerName = (TextView) findViewById(R.id.localPlayerName);
+        enemyPlayerName = (TextView) findViewById(R.id.enemyPlayerName);
 
+        localPlayerName.setText(getIntent().getStringExtra("localPlayerName"));
+        enemyPlayerName.setText(getIntent().getStringExtra("anotherPlayer"));
         scoreTV.setText(Integer.toString(score));
         currentScoreSecondPlayer.setText(Integer.toString(score));
 
@@ -158,7 +162,9 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
             public void handleMessage(Message msg) {
                 Intent endOfGameActivityIntent= new Intent(RoomBattleFieldActivity.this, EndOfGameActivity.class);
                 endOfGameActivityIntent.putExtra("score", Integer.toString(score));
+                endOfGameActivityIntent.putExtra("scoreValueSecondPlayer", Integer.toString(scoreSecondPlayer));
                 endOfGameActivityIntent.putExtra("step", Integer.toString(stepCounter));
+                endOfGameActivityIntent.putExtra("stepValueSecondPlayer", Integer.toString(stepCounterSecondPlayer));
                 endOfGameActivityIntent.putExtra("time", time.getText().toString());
                 endOfGameActivityIntent.putExtra("size", Integer.toString(battleFieldSize));
                 endOfGameActivityIntent.putExtra("result", Integer.toString(score - scoreSecondPlayer));
@@ -779,6 +785,8 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
     private TextView scoreTV;
     private TextView currentScoreSecondPlayer;
     private TextView currentStepCountSecondPlayer;
+    private TextView localPlayerName;
+    private TextView enemyPlayerName;
 
     private Timer timer;
     private Timer requestTimer;

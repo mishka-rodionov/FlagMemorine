@@ -175,6 +175,7 @@ public class WaitUserActivity extends AppCompatActivity {
                             Intent roomBattlefieldIntent = new Intent(WaitUserActivity.this, RoomBattleFieldActivity.class);
                             roomBattlefieldIntent.putExtra(Data.getRoomIndexLabel(), roomIndex);
                             roomBattlefieldIntent.putExtra(Data.getPlayerName(), playerNumber);
+                            roomBattlefieldIntent.putExtra("localPlayerName", playerName);
                             if (playerNumber.equals("firstPlayer")){
                                 roomBattlefieldIntent.putExtra("anotherPlayer", secondPlayer);
                             }
