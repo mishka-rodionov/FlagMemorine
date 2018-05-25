@@ -488,6 +488,26 @@ public class HttpClient/* extends AsyncTask<String, Void, String>*/{
         return request;
     }
 
+    public Request removeRoom(String roomIndex)
+    {
+
+        HttpUrl httpUrl = new HttpUrl.Builder()
+                .scheme("http")
+                .host(Data.getCustomURL())
+                .port(8080)
+                .addPathSegment(Data.getServerAppName())
+                .addPathSegment(Data.getRemoveRoomServlet())
+                .addQueryParameter(Data.getRoomIndexLabel(), roomIndex)
+                .build();
+
+        Request request = new Request.Builder()
+                .url(httpUrl)
+                .header("User-Agent", "OkHttp Headers.java")
+                .build();
+
+        return request;
+    }
+
     private String LOG_TAG = "flagmemorine";
     private final OkHttpClient client = new OkHttpClient();
     private String battlefield;

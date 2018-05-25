@@ -368,6 +368,14 @@ public class Data {
         Data.usernameServlet = usernameServlet;
     }
 
+    public static String getRemoveRoomServlet() {
+        return removeRoomServlet;
+    }
+
+    public static void setRemoveRoomServlet(String removeRoomServlet) {
+        Data.removeRoomServlet = removeRoomServlet;
+    }
+
     //region Private static fields
     private static String customURL = "192.168.42.227";
     private static String LOG_TAG = "flagmemorine";
@@ -384,6 +392,7 @@ public class Data {
     private static String battleFieldServletParameter = "size";
     private static String availableUsersServlet = "availableUsersServlet";
     private static String usernameServlet = "usernameServlet";
+    private static String removeRoomServlet = "removeRoomServlet";
     //endregion
     private static String dbName  = "FlagMem";
     private static String dbStatisticTable  = "Statistic";

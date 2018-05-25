@@ -44,8 +44,17 @@ public class BattleFieldActivity extends AppCompatActivity {
             case R.id.action_restart:
                 recreate();
                 break;
+            case android.R.id.home:
+                Log.i(Data.getLOG_TAG(), "android.R.id.home is pressed");
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i(Data.getLOG_TAG(), "BattelfieldActivity onStop: ");
     }
 
     @Override
@@ -366,6 +375,7 @@ public class BattleFieldActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        Log.i(Data.getLOG_TAG(), "onBackPressed: back is pressed");
         Intent startActivityIntent = new Intent(BattleFieldActivity.this, StartActivity.class);
         startActivity(startActivityIntent);
     }

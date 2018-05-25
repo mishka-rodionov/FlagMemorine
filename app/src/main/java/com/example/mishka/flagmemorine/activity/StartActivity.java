@@ -315,7 +315,7 @@ public class StartActivity extends AppCompatActivity {
                     @Override
                     public void run() {
 //                        view.setText(battlefield);
-                        Log.i(Data.getLOG_TAG(), "run: " + "Fail!!!!!!!!!!!!");
+                        Log.i(Data.getLOG_TAG(), "StartActivity run: " + "Fail!!!!!!!!!!!!");
                     }
                 });
 

@@ -220,8 +220,6 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         };
 
         getView(battleFieldSize);
-//        initFlipView(view, battleFieldSize);
-//        connectToRoom(httpClient, playerName, username, origin, Integer.toString(battleFieldSize));
         if (playerNumber.equals("firstPlayer")){
             sending = true;
             receiving = false;
@@ -249,9 +247,6 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         Log.d(Data.getLOG_TAG(), "loading time is = " + (time2 - time1));
         //******************************************************************************************
     }
-
-
-
 
     private void clickHandler(String country) {
         if (userChoice.size() == 2 && flipFlag) {                                                   // Если выбрано 2 флага и происходит прямой переворот
@@ -470,6 +465,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        Log.i(Data.getLOG_TAG(), "onBackPressed: back is pressed");
         Intent startActivityIntent = new Intent(RoomBattleFieldActivity.this, StartActivity.class);
         startActivity(startActivityIntent);
     }
@@ -524,72 +520,6 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
 
     //network methods
 
-//    public void connectToRoom(final HttpClient httpClient, String playerName, String user, String origin, String size){
-//
-//        final Handler mainHandler = new Handler(Looper.getMainLooper());
-//
-//        client.newCall(httpClient.connectToRoom(playerName, user, origin, size)).enqueue(new Callback() {
-//            @Override
-//            public void onFailure(Call call, IOException e) {
-//                final IOException ex = e;
-//                mainHandler.post(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        Log.i(Data.getLOG_TAG(), "run: " + "Fail!!!!!!!!!!!!");
-//                        Log.i(Data.getLOG_TAG(), "connectTORoom run: " + ex.toString());
-//                    }
-//                });
-//
-//            }
-//
-//            @Override
-//            public void onResponse(Call call, Response response) throws IOException {
-//                String answer = response.body().string();
-//                final String[] body = answer.split(" ");
-//                Log.i(Data.getLOG_TAG(), "onResponse run: " + answer);
-//                mainHandler.post(new Runnable() {
-//                    @Override
-//                    public void run() {
-//
-//                        roomIndex = Integer.parseInt(body[0]);
-//                        Log.i(Data.getLOG_TAG(), "room index is = " + roomIndex);
-//                        playerNumber = body[1];
-//                        if (playerNumber.equals("firstPlayer")){
-//                            sending = true;
-//                            receiving = false;
-//                        }else{
-//                            sending = false;
-//                            receiving = true;
-//                            requestTimer.schedule(new TimerTask() {
-//                                @Override
-//                                public void run() {
-//                                    receiving(httpClient, Integer.toString(roomIndex));
-//                                }
-//                            }, delay, period);
-//                        }
-//
-//                        for (int i = 3; i < body.length; i+=2) {
-//                            if(body[i].contains("_")){
-//                                body[i] = body[i].replaceAll("_", " ");
-//                            }
-//                            Log.i(Data.getLOG_TAG(), "body[i] " + body[i]);
-//                            battlefieldBody.add(body[i]);
-//                        }
-//                        battleField = new BattleField(battlefieldBody);
-//                        initFlipView(view, battleFieldSize);
-//                        if(receiving){
-//                            for (int i = 0; i < clickable.size(); i++) {
-//                                if (clickable.get(i)) {
-//                                    flipViews.get(i).setEnabled(false);
-//                                }
-//                            }
-//                        }
-//                    }
-//                });
-//            }
-//        });
-//    }
-
     public void sending(HttpClient httpClient, String roomIndex, String step){
         final Handler mainHandler = new Handler(Looper.getMainLooper());
 
@@ -600,7 +530,6 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
                 mainHandler.post(new Runnable() {
                     @Override
                     public void run() {
-//                        view.setText(battlefield);
                         Log.i(Data.getLOG_TAG(), "run: " + "Fail!!!!!!!!!!!!");
                     }
                 });
@@ -615,18 +544,6 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
                     @Override
                     public void run() {
 
-//                        if (readStart && (Integer.parseInt(answer[1]) != dummy)){
-//                            flipViews.get(Integer.parseInt(answer[1])).flip(true);
-//                            flipViews.get(Integer.parseInt(answer[2])).flip(true);
-////                            delayedTask(Integer.parseInt(answer[1]),Integer.parseInt(answer[2]));
-////                            delayedClickable(Integer.parseInt(answer[1]),Integer.parseInt(answer[2]));
-////                            if (sendFinish){
-////                                readFinish = true;
-////                                sendFinish = false;
-////                                sendStart = true;
-////                                readStart = false;
-////                            }
-//                        }
                     }
                 });
             }
@@ -652,10 +569,14 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-//                final String[] answer = response.body().string().split(" ");
                 final String answer = response.body().string();
                 Log.i(Data.getLOG_TAG(), "onResponse run for RECEIVING methods: " + answer);
-                final Integer index = Integer.parseInt(answer);
+                final Integer index;
+                if (!answer.equals("esc")){
+                    index = Integer.parseInt(answer);
+                }else {
+                    index = -1;
+                }
                 mainHandler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -672,16 +593,37 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         });
     }
 
-//    private void pullDB(){
-//        playerName = sqLiteTableManager.getName() == null ?
-//                sqLiteTableManager.getLogin() : sqLiteTableManager.getName();
-//        origin = sqLiteTableManager.getCountry() == null ?
-//                "Olympics" : sqLiteTableManager.getCountry();
-//        username = sqLiteTableManager.getLogin();
-//        Log.i(Data.getLOG_TAG(), "pullDB: playerName = " + playerName);
-//        Log.i(Data.getLOG_TAG(), "pullDB: username = " + username);
-//        Log.i(Data.getLOG_TAG(), "pullDB: origin = " + origin);
-//    }
+    public void removeRoom(String roomIndex){
+        final Handler mainHandler = new Handler(Looper.getMainLooper());
+
+        client.newCall(httpClient.removeRoom(roomIndex)).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+//                ;
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+//                        view.setText(battlefield);
+                        Log.i(Data.getLOG_TAG(), "run: " + "Fail!!!!!!!!!!!!");
+                    }
+                });
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String answer = response.body().string();
+                Log.i(Data.getLOG_TAG(), "onResponse run for REMOVE_ROOM methods: rooms size = " + answer);
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+
+                    }
+                });
+            }
+        });
+    }
+
 
     @Override
     protected void onDestroy() {
@@ -693,6 +635,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         requestTimer.cancel();
+        removeRoom(Integer.toString(roomIndex));
         Log.i(Data.getLOG_TAG(), "onStop: RoomBattlefieldActivity");
     }
 
@@ -710,45 +653,6 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         }
         Log.i(Data.getLOG_TAG(), "onRestart: RoomBattlefieldActivity");
     }
-
-    //    public void stepWait(HttpClient httpClient, String roomIndex, String activePlayer){
-//        final Handler mainHandler = new Handler(Looper.getMainLooper());
-//
-//        client.newCall(httpClient.stepWait(roomIndex, activePlayer)).enqueue(new Callback() {
-//            @Override
-//            public void onFailure(Call call, IOException e) {
-////                ;
-//                mainHandler.post(new Runnable() {
-//                    @Override
-//                    public void run() {
-////                        view.setText(battlefield);
-//                        Log.i(Data.getLOG_TAG(), "run: " + "Fail!!!!!!!!!!!!");
-//                    }
-//                });
-//
-//            }
-//
-//            @Override
-//            public void onResponse(Call call, Response response) throws IOException {
-//                final String[] answer = response.body().string().split(" ");
-//                Log.i(Data.getLOG_TAG(), "onResponse run: " + answer);
-//                mainHandler.post(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        activeFlag = Boolean.parseBoolean(answer[1]);
-//                if (activeFlag){
-//                    requestTimer.cancel();
-//                }
-//                if (Integer.parseInt(answer[0]) == 0){
-//
-//                }else{
-//                    flipViews.get(Integer.parseInt(answer[0])).flip(true);
-//                }
-//                    }
-//                });
-//            }
-//        });
-//    }
 
     //region Private fields
     private ArrayList<FlipView> flipViews;

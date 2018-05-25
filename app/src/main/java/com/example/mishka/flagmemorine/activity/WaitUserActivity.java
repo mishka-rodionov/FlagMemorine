@@ -40,6 +40,8 @@ public class WaitUserActivity extends AppCompatActivity {
 //        acBar.setTitle("This is text");
         acBar.setDisplayHomeAsUpEnabled(true);
 
+        removingFlag = true;
+
         sqLiteTableManager = new SqLiteTableManager(WaitUserActivity.this);
 
         client = new OkHttpClient();
@@ -172,6 +174,7 @@ public class WaitUserActivity extends AppCompatActivity {
                             for (int i = 0; i < battlefieldBody.size(); i++) {
                                 body += battlefieldBody.get(i) + " ";
                             }
+                            removingFlag = false;
                             Intent roomBattlefieldIntent = new Intent(WaitUserActivity.this, RoomBattleFieldActivity.class);
                             roomBattlefieldIntent.putExtra(Data.getRoomIndexLabel(), roomIndex);
                             roomBattlefieldIntent.putExtra(Data.getPlayerName(), playerNumber);
@@ -185,7 +188,39 @@ public class WaitUserActivity extends AppCompatActivity {
                             roomBattlefieldIntent.putExtra("battlefieldBody", body);
                             roomBattlefieldIntent.putExtra(Data.getSize(), Integer.toString(battlefieldSize));
                             startActivity(roomBattlefieldIntent);
+                            requestTimer.cancel();
                         }
+                    }
+                });
+            }
+        });
+    }
+
+    public void removeRoom(String roomIndex){
+        final Handler mainHandler = new Handler(Looper.getMainLooper());
+
+        client.newCall(httpClient.removeRoom(roomIndex)).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+//                ;
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+//                        view.setText(battlefield);
+                        Log.i(Data.getLOG_TAG(), "run: " + "Fail!!!!!!!!!!!!");
+                    }
+                });
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String answer = response.body().string();
+                Log.i(Data.getLOG_TAG(), "onResponse run for REMOVE_ROOM methods: rooms size = " + answer);
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+
                     }
                 });
             }
@@ -231,6 +266,9 @@ public class WaitUserActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         requestTimer.cancel();
+        if (removingFlag){
+            removeRoom(Integer.toString(roomIndex));
+        }
         Log.i(Data.getLOG_TAG(), "onStop: WaitUserActivity");
     }
 
@@ -260,6 +298,7 @@ public class WaitUserActivity extends AppCompatActivity {
     private String username;
     private String origin;
     private ArrayList<String> battlefieldBody;
+    private Boolean removingFlag;
 
     private HttpClient httpClient;
     private OkHttpClient client;
