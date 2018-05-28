@@ -95,6 +95,8 @@ public class BattleFieldActivity extends AppCompatActivity {
         scoreTV =   (TextView)  findViewById(R.id.currentScore);
         currentScoreSecondPlayer = (TextView) findViewById(R.id.currentScoreSecondPlayer);
         currentStepCountSecondPlayer = (TextView) findViewById(R.id.currentStepCountSecondPlayer);
+        findViewById(R.id.scoreSecondPlayer).setVisibility(View.INVISIBLE);
+        findViewById(R.id.stepSecondPlayer).setVisibility(View.INVISIBLE);
         currentScoreSecondPlayer.setVisibility(View.INVISIBLE);
         currentStepCountSecondPlayer.setVisibility(View.INVISIBLE);
         scoreTV.setText(Integer.toString(score));

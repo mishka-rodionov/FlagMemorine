@@ -31,11 +31,8 @@ public class UserInfoActivity extends AppCompatActivity {
         userinfoToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.userinfo_toolbar);
         setSupportActionBar(userinfoToolbar);
         ActionBar acBar  = getSupportActionBar();
-//        acBar.setTitle("This is text");
         acBar.setDisplayHomeAsUpEnabled(true);
 
-//        contentValues = new ContentValues();
-//        sqLiteDatabase = dbHelper.getWritableDatabase();
         sqLiteTableManager = new SqLiteTableManager(UserInfoActivity.this);
 
         // Чтение из таблицы UserInfo логина, записанного в последней строке
@@ -48,16 +45,11 @@ public class UserInfoActivity extends AppCompatActivity {
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                insertIntoUserInfoTable();
                 sqLiteTableManager.insertIntoUserInfoTable(
                         userNameEditText.getText().toString(),
                         login,
-//                        userCountryEditText.getText().toString(),
                         country,
                         Data.getCurrentDate());
-//                Log.i(Data.getLOG_TAG(), "onClick calc position: " + cSpinnerAdapter.getUsername());
-//                Log.i(Data.getLOG_TAG(), "onClick calc position: " + cSpinnerAdapter.getPosition());
-//                Log.i(Data.getLOG_TAG(), "onClick: " + userNameEditText.getText().toString());
                 Intent startActivityIntent = new Intent(UserInfoActivity.this, StartActivity.class);
                 startActivity(startActivityIntent);
             }
@@ -83,7 +75,6 @@ public class UserInfoActivity extends AppCompatActivity {
         };
         countrySpinner.setOnItemSelectedListener(onItemSelectedListener);
         countrySpinner.setAdapter(cSpinnerAdapter);
-
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 //
@@ -121,11 +112,6 @@ public class UserInfoActivity extends AppCompatActivity {
     private EditText userCountryEditText;
     private String country;
     private android.support.v7.widget.Toolbar userinfoToolbar;
-
-//    private ContentValues contentValues;
-//
-//    private SQLiteDatabase sqLiteDatabase;
-//    private DBHelper dbHelper = new DBHelper(UserInfoActivity.this);
     private SqLiteTableManager sqLiteTableManager;
     private String login;
     private Spinner countrySpinner;

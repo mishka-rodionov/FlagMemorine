@@ -8,14 +8,17 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.design.BuildConfig;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.mishka.flagmemorine.R;
 import com.example.mishka.flagmemorine.logic.Data;
@@ -48,6 +51,10 @@ public class StartActivity extends AppCompatActivity {
         sqLiteTableManager = new SqLiteTableManager(StartActivity.this);
         client = new OkHttpClient();
         httpClient = new HttpClient();
+
+        activityStartLayout = (LinearLayout) findViewById(R.id.activity_start_layout);
+        snackbarFlag = true;
+        multiplayerFlag = false;
 
         requestTimer = new Timer();
 
@@ -158,7 +165,6 @@ public class StartActivity extends AppCompatActivity {
                     case R.id.statistic:
                         Intent statisticActivityIntent = new Intent(StartActivity.this, StatisticActivity.class);
                         startActivity(statisticActivityIntent);
-//                        statisticCursor("test");
                         break;
                     case R.id.userInfo:
                         Intent userInfoActivityIntent = new Intent(StartActivity.this, UserInfoActivity.class);
@@ -166,29 +172,27 @@ public class StartActivity extends AppCompatActivity {
                         startActivity(userInfoActivityIntent);
                         break;
                     case R.id.multiplayer:
-//                        Intent multiplayerIntent = new Intent(StartActivity.this, RoomBattleFieldActivity.class);
-//                        multiplayerIntent.putExtra("size", size);
-//                        startActivity(multiplayerIntent);
-                        Intent waitUserIntent = new Intent(StartActivity.this, WaitUserActivity.class);
-                        waitUserIntent.putExtra(Data.getSize(), size);
-                        startActivity(waitUserIntent);
+                        if (multiplayerFlag){
+                            Intent waitUserIntent = new Intent(StartActivity.this, WaitUserActivity.class);
+                            waitUserIntent.putExtra(Data.getSize(), size);
+                            startActivity(waitUserIntent);
+                        }else {
+                            final Snackbar snackbar = Snackbar.make(activityStartLayout, "Server is not available!", Snackbar.LENGTH_INDEFINITE);;
+                            View.OnClickListener snackbarOnClickListener = new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    snackbar.dismiss();
+                                }
+                            };
+                            snackbar.setAction("OK", snackbarOnClickListener);
+                            snackbar.show();
+                        }
+
                         break;
                     case R.id.stopAds:
 
                         Intent interactionIntent = new Intent(StartActivity.this, TestInteraction.class);
                         startActivity(interactionIntent);
-//                        HttpClient httpClient = new HttpClient();
-//                        String answer = "temp";
-//                        try{
-//                            answer = httpClient.connectToRoom("player1", "user", "Russia", "8");
-//                        }catch (InterruptedException e){
-//                            e.printStackTrace();
-//                        }catch (ExecutionException e){
-//                            e.printStackTrace();
-//                        }catch (Exception e){
-//                            e.printStackTrace();
-//                        }
-//                        Log.i(Data.getLOG_TAG(), "onClick: answer = " + answer);
                         break;
                 }
             }
@@ -306,16 +310,31 @@ public class StartActivity extends AppCompatActivity {
 
     public void availableUsers(){
         final Handler mainHandler = new Handler(Looper.getMainLooper());
+        final Snackbar snackbar = Snackbar.make(activityStartLayout, "Server is not available!", Snackbar.LENGTH_INDEFINITE);;
+        View.OnClickListener snackbarOnClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snackbar.dismiss();
+            }
+        };
+
+        snackbar.setAction("OK", snackbarOnClickListener);
 
         client.newCall(httpClient.availableUsers()).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-//                ;
                 mainHandler.post(new Runnable() {
                     @Override
                     public void run() {
 //                        view.setText(battlefield);
                         Log.i(Data.getLOG_TAG(), "StartActivity run: " + "Fail!!!!!!!!!!!!");
+//                        Toast.makeText(StartActivity.this, "Network is not available!", Toast.LENGTH_SHORT).show();
+                        multiplayerFlag = false;
+                        if (snackbarFlag){
+                            snackbar.show();
+                            snackbarFlag = false;
+                        }
+
                     }
                 });
 
@@ -324,6 +343,7 @@ public class StartActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
 //                final String[] answer = response.body().string().split(" ");
+                multiplayerFlag = true;
                 final String[] answer = response.body().string().split(" ");
                 Log.i(Data.getLOG_TAG(), "onResponse run for RECEIVING methods: " + answer);
                 xsUsers = Integer.parseInt(answer[0]);
@@ -363,6 +383,7 @@ public class StartActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
+        snackbarFlag = true;
         requestTimer = new Timer();
         requestTimer.schedule(new TimerTask() {
             @Override
@@ -396,6 +417,8 @@ public class StartActivity extends AppCompatActivity {
     private Button stopAds;
     private Button userInfo;
 
+    private LinearLayout activityStartLayout;
+
     private ContentValues contentValues;
 
     private SQLiteDatabase sqLiteDatabase;
@@ -416,6 +439,8 @@ public class StartActivity extends AppCompatActivity {
     private Integer xxlUsers;
     private long delay = 1000;
     private long period = 2000;
+    private Boolean snackbarFlag;
+    private Boolean multiplayerFlag;
 
     private Timer requestTimer;
 

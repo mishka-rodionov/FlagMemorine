@@ -282,6 +282,7 @@ public class WaitUserActivity extends AppCompatActivity {
                 waitUser(httpClient, Integer.toString(roomIndex));
             }
         }, delay, period);
+        removingFlag = true;
         Log.i(Data.getLOG_TAG(), "onRestart: WaitUserActivity");
     }
 

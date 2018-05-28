@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_earth"
+    android:background="@color/colorBackground"
     tools:context="com.example.mishka.flagmemorine.activity.UserInfoActivity">
 
     <include layout="@layout/content_user_info" />
