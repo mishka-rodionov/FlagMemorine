@@ -376,6 +376,14 @@ public class Data {
         Data.removeRoomServlet = removeRoomServlet;
     }
 
+    public static String getStartServlet() {
+        return startServlet;
+    }
+
+    public static void setStartServlet(String startServlet) {
+        Data.startServlet = startServlet;
+    }
+
     //region Private static fields
     private static String customURL = "192.168.42.227";
     private static String LOG_TAG = "flagmemorine";
@@ -393,6 +401,7 @@ public class Data {
     private static String availableUsersServlet = "availableUsersServlet";
     private static String usernameServlet = "usernameServlet";
     private static String removeRoomServlet = "removeRoomServlet";
+    private static String startServlet = "startServlet";
     //endregion
     private static String dbName  = "FlagMem";
     private static String dbStatisticTable  = "Statistic";

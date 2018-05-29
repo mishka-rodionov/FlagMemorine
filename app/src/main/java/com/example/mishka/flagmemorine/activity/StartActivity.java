@@ -334,7 +334,6 @@ public class StartActivity extends AppCompatActivity {
                             snackbar.show();
                             snackbarFlag = false;
                         }
-
                     }
                 });
 

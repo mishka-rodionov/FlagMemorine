@@ -2,6 +2,8 @@ package com.example.mishka.flagmemorine.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -12,13 +14,20 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toolbar;
 
 import com.example.mishka.flagmemorine.R;
 import com.example.mishka.flagmemorine.cView.CSpinnerAdapter;
 import com.example.mishka.flagmemorine.logic.CountryList;
 import com.example.mishka.flagmemorine.logic.Data;
+import com.example.mishka.flagmemorine.logic.HttpClient;
 import com.example.mishka.flagmemorine.service.SqLiteTableManager;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Response;
 
 public class UserInfoActivity extends AppCompatActivity {
 
@@ -34,6 +43,8 @@ public class UserInfoActivity extends AppCompatActivity {
         acBar.setDisplayHomeAsUpEnabled(true);
 
         sqLiteTableManager = new SqLiteTableManager(UserInfoActivity.this);
+        httpClient = new HttpClient();
+        client = new OkHttpClient();
 
         // Чтение из таблицы UserInfo логина, записанного в последней строке
         login = sqLiteTableManager.readLastRowFromUserInfo()[1];
@@ -50,6 +61,7 @@ public class UserInfoActivity extends AppCompatActivity {
                         login,
                         country,
                         Data.getCurrentDate());
+                getUsername( userNameEditText.getText().toString(), country);
                 Intent startActivityIntent = new Intent(UserInfoActivity.this, StartActivity.class);
                 startActivity(startActivityIntent);
             }
@@ -105,6 +117,43 @@ public class UserInfoActivity extends AppCompatActivity {
         );
     }
 
+    public void getUsername(String playername, String origin){
+        final Handler mainHandler = new Handler(Looper.getMainLooper());
+//        final Snackbar snackbar = Snackbar.make(activityStartLayout, "Server is not available!", Snackbar.LENGTH_INDEFINITE);;
+//        View.OnClickListener snackbarOnClickListener = new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                snackbar.dismiss();
+//            }
+//        };
+//
+//        snackbar.setAction("OK", snackbarOnClickListener);
+
+        client.newCall(httpClient.getUsername(playername, origin)).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                    }
+                });
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String answer = response.body().string();
+                Log.i(Data.getLOG_TAG(), "onResponse run for RECEIVING methods: " + answer);
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.i(Data.getLOG_TAG(), "onResponse from USERINFO_ACTIVITY " + answer);
+                    }
+                });
+            }
+        });
+    }
+
     private ArrayAdapter<String> spinnerAdapter;
     private Button userInfoApplyButton;
     private CSpinnerAdapter cSpinnerAdapter;
@@ -115,5 +164,7 @@ public class UserInfoActivity extends AppCompatActivity {
     private SqLiteTableManager sqLiteTableManager;
     private String login;
     private Spinner countrySpinner;
+    private HttpClient httpClient;
+    private OkHttpClient client;
 
 }
