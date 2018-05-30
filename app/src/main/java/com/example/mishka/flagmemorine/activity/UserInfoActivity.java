@@ -46,24 +46,31 @@ public class UserInfoActivity extends AppCompatActivity {
         httpClient = new HttpClient();
         client = new OkHttpClient();
 
-        // Чтение из таблицы UserInfo логина, записанного в последней строке
-        login = sqLiteTableManager.readLastRowFromUserInfo()[1];
-
         userNameEditText = (EditText) findViewById(R.id.userName);
         userInfoApplyButton = (Button) findViewById(R.id.userInfoApply);
         countrySpinner = (Spinner) findViewById(R.id.spinner);
+        final String parentActivityName = getIntent().getStringExtra("activityName");
 
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sqLiteTableManager.insertIntoUserInfoTable(
-                        userNameEditText.getText().toString(),
-                        login,
-                        country,
-                        Data.getCurrentDate());
-                getUsername( userNameEditText.getText().toString(), country);
-                Intent startActivityIntent = new Intent(UserInfoActivity.this, StartActivity.class);
-                startActivity(startActivityIntent);
+                // Чтение из таблицы UserInfo логина, записанного в последней строке
+
+
+                if (parentActivityName.equals("StartActivity")){
+                    login = sqLiteTableManager.readLastRowFromUserInfo()[1];
+                    sqLiteTableManager.insertIntoUserInfoTable(
+                            userNameEditText.getText().toString(),
+                            login,
+                            country,
+                            Data.getCurrentDate());
+                    Intent startActivityIntent = new Intent(UserInfoActivity.this, StartActivity.class);
+                    startActivity(startActivityIntent);
+                }else {
+                    getUsername( userNameEditText.getText().toString(), country);
+
+                }
+
             }
         };
 
@@ -135,6 +142,7 @@ public class UserInfoActivity extends AppCompatActivity {
                 mainHandler.post(new Runnable() {
                     @Override
                     public void run() {
+
                     }
                 });
 
@@ -143,11 +151,19 @@ public class UserInfoActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 final String answer = response.body().string();
-                Log.i(Data.getLOG_TAG(), "onResponse run for RECEIVING methods: " + answer);
+//                Log.i(Data.getLOG_TAG(), "onResponse run for USERINFO_ACTIVITY methods: " + answer);
                 mainHandler.post(new Runnable() {
                     @Override
                     public void run() {
                         Log.i(Data.getLOG_TAG(), "onResponse from USERINFO_ACTIVITY " + answer);
+                        login = answer;
+                        sqLiteTableManager.insertIntoUserInfoTable(
+                                userNameEditText.getText().toString(),
+                                login,
+                                country,
+                                Data.getCurrentDate());
+                        Intent startActivityIntent = new Intent(UserInfoActivity.this, StartActivity.class);
+                        startActivity(startActivityIntent);
                     }
                 });
             }

@@ -169,6 +169,7 @@ public class StartActivity extends AppCompatActivity {
                     case R.id.userInfo:
                         Intent userInfoActivityIntent = new Intent(StartActivity.this, UserInfoActivity.class);
                         userInfoActivityIntent.putExtra("login", "User1");
+                        userInfoActivityIntent.putExtra("activityName", "StartActivity");
                         startActivity(userInfoActivityIntent);
                         break;
                     case R.id.multiplayer:
@@ -275,13 +276,16 @@ public class StartActivity extends AppCompatActivity {
             //**********
             // Запись свободного логина (типа User1234) в таблицу UserInfo при первом запуске приложения.
             // Свободный логин получается от сервера. Позже будет введена реализация этого.
-            String freeLogin = "User1234";
-            sqLiteTableManager.insertIntoUserInfoTable(
-                    null,
-                    freeLogin,
-                    null,
-                    Data.getCurrentDate());
-            //Обновление настроек для закрытия ветки первого включения.
+            Intent userInfointent = new Intent(StartActivity.this, UserInfoActivity.class);
+            userInfointent.putExtra("activityName", "StartActivityFirstRun");
+            startActivity(userInfointent);
+//            String freeLogin = "User1234";
+//            sqLiteTableManager.insertIntoUserInfoTable(
+//                    null,
+//                    freeLogin,
+//                    null,
+//                    Data.getCurrentDate());
+//            //Обновление настроек для закрытия ветки первого включения.
             prefs.edit().putInt(PREF_VERSION_CODE_KEY, currentVersionCode).apply();
             Log.d(Data.getLOG_TAG(), "It's next sending after intent!");
 //            // TODO This is a new install (or the user cleared the shared preferences)
@@ -392,6 +396,20 @@ public class StartActivity extends AppCompatActivity {
         }, delay, period);
         Log.i(Data.getLOG_TAG(), "onRestart: StartActivity");
     }
+
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        String username = data.getStringExtra("username");
+//        String playername = data.getStringExtra("playername");
+//        sqLiteTableManager.insertIntoUserInfoTable(
+//                null,
+//                username,
+//                null,
+//                Data.getCurrentDate());
+//        //Обновление настроек для закрытия ветки первого включения.
+//
+//        Log.d(Data.getLOG_TAG(), "It's next sending after intent!");
+//    }
 
     private RadioButton xSmall;
     private RadioButton small;
