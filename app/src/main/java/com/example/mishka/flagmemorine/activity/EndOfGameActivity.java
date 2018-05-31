@@ -3,8 +3,11 @@ package com.example.mishka.flagmemorine.activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageButton;
@@ -14,6 +17,14 @@ import android.widget.TextView;
 import com.example.mishka.flagmemorine.R;
 import com.example.mishka.flagmemorine.logic.Data;
 import com.example.mishka.flagmemorine.logic.Facts;
+import com.example.mishka.flagmemorine.logic.HttpClient;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Response;
 
 public class EndOfGameActivity extends AppCompatActivity {
 
@@ -28,6 +39,8 @@ public class EndOfGameActivity extends AppCompatActivity {
         ActionBar acBar  = getSupportActionBar();
 //        acBar.setTitle("This is text");
         acBar.setDisplayHomeAsUpEnabled(true);
+        client = new OkHttpClient();
+        httpClient = new HttpClient();
 
         activityName = getIntent().getStringExtra("activityName");
         scoreValue = getIntent().getStringExtra("score");
@@ -55,6 +68,7 @@ public class EndOfGameActivity extends AppCompatActivity {
 
 
         if (activityName.equals("RoomBattlefield")){
+            roomIndex = getIntent().getStringExtra("roomIndex");
             result = getIntent().getStringExtra("result");
             scoreValueSecondPLayer = getIntent().getStringExtra("scoreValueSecondPlayer");
             stepValueSecondPLayer = getIntent().getStringExtra("stepValueSecondPlayer");
@@ -88,6 +102,9 @@ public class EndOfGameActivity extends AppCompatActivity {
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (activityName.equals("RoomBattlefield")){
+                    removeRoom(roomIndex);
+                }
                 switch(v.getId()){
                     case R.id.restartButton:
                         if (activityName.equals("Battlefield")){
@@ -169,6 +186,37 @@ public class EndOfGameActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    public void removeRoom(String roomIndex){
+        final Handler mainHandler = new Handler(Looper.getMainLooper());
+
+        client.newCall(httpClient.removeRoom(roomIndex)).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+//                ;
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+//                        view.setText(battlefield);
+                        Log.i(Data.getLOG_TAG(), "run: " + "Fail!!!!!!!!!!!!");
+                    }
+                });
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String answer = response.body().string();
+                Log.i(Data.getLOG_TAG(), "onResponse run for REMOVE_ROOM methods: rooms size = " + answer);
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+
+                    }
+                });
+            }
+        });
+    }
+
     private TextView score;
     private TextView step;
     private TextView time;
@@ -189,6 +237,9 @@ public class EndOfGameActivity extends AppCompatActivity {
     private ImageButton restart;
     private ImageButton home;
 
+    private HttpClient httpClient;
+    private OkHttpClient client;
+
     private String scoreValue;
     private String stepValue;
     private String timeValue;
@@ -198,5 +249,6 @@ public class EndOfGameActivity extends AppCompatActivity {
     private String size;
     private String result;
     private String activityName;
+    private String roomIndex;
 
 }

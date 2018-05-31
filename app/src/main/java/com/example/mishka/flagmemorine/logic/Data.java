@@ -384,6 +384,22 @@ public class Data {
         Data.startServlet = startServlet;
     }
 
+    public static String getVirgin() {
+        return virgin;
+    }
+
+    public static void setVirgin(String virgin) {
+        Data.virgin = virgin;
+    }
+
+    public static String getUsername() {
+        return username;
+    }
+
+    public static void setUsername(String username) {
+        Data.username = username;
+    }
+
     //region Private static fields
     private static String customURL = "192.168.42.227";
     private static String LOG_TAG = "flagmemorine";
@@ -433,6 +449,8 @@ public class Data {
     private static String user = "user";
     private static String origin = "origin";
     private static String size = "size";
+    private static String virgin = "virgin";
+    private static String username = "username";
 
     private static Long millisInHour = 3600000l;
     private static Long millisInDay = 84000000l;

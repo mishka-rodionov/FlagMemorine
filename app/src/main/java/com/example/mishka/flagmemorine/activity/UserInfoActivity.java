@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -49,27 +50,28 @@ public class UserInfoActivity extends AppCompatActivity {
         userNameEditText = (EditText) findViewById(R.id.userName);
         userInfoApplyButton = (Button) findViewById(R.id.userInfoApply);
         countrySpinner = (Spinner) findViewById(R.id.spinner);
-        final String parentActivityName = getIntent().getStringExtra("activityName");
+        parentActivityName = getIntent().getStringExtra("activityName");
 
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Чтение из таблицы UserInfo логина, записанного в последней строке
+                getUsername(userNameEditText.getText().toString(), country);
 
-
-                if (parentActivityName.equals("StartActivity")){
-                    login = sqLiteTableManager.readLastRowFromUserInfo()[1];
-                    sqLiteTableManager.insertIntoUserInfoTable(
-                            userNameEditText.getText().toString(),
-                            login,
-                            country,
-                            Data.getCurrentDate());
-                    Intent startActivityIntent = new Intent(UserInfoActivity.this, StartActivity.class);
-                    startActivity(startActivityIntent);
-                }else {
-                    getUsername( userNameEditText.getText().toString(), country);
-
-                }
+//                if (parentActivityName.equals("StartActivity")){
+//                    login = sqLiteTableManager.readLastRowFromUserInfo()[1];
+//                    getUsername( userNameEditText.getText().toString(), country, login);
+//                    sqLiteTableManager.insertIntoUserInfoTable(
+//                            userNameEditText.getText().toString(),
+//                            login,
+//                            country,
+//                            Data.getCurrentDate());
+//                    Intent startActivityIntent = new Intent(UserInfoActivity.this, StartActivity.class);
+//                    startActivity(startActivityIntent);
+//                }else {
+//                    getUsername( userNameEditText.getText().toString(), country, Data.getVirgin());
+//
+//                }
 
             }
         };
@@ -126,23 +128,32 @@ public class UserInfoActivity extends AppCompatActivity {
 
     public void getUsername(String playername, String origin){
         final Handler mainHandler = new Handler(Looper.getMainLooper());
-//        final Snackbar snackbar = Snackbar.make(activityStartLayout, "Server is not available!", Snackbar.LENGTH_INDEFINITE);;
-//        View.OnClickListener snackbarOnClickListener = new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                snackbar.dismiss();
-//            }
-//        };
-//
-//        snackbar.setAction("OK", snackbarOnClickListener);
+        final Snackbar snackbar = Snackbar.make(getCurrentFocus(), "Server is not available!", Snackbar.LENGTH_INDEFINITE);;
+        View.OnClickListener snackbarOnClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snackbar.dismiss();
+            }
+        };
 
-        client.newCall(httpClient.getUsername(playername, origin)).enqueue(new Callback() {
+        final String username;
+
+        snackbar.setAction("OK", snackbarOnClickListener);
+        if (parentActivityName.equals("StartActivity")){
+            username = sqLiteTableManager.readLastRowFromUserInfo()[1];
+        }else{
+            username = Data.getVirgin();
+        }
+
+        Log.i(Data.getLOG_TAG(), "getUsername: USERNAME in APPLICATION is = " + username);
+
+        client.newCall(httpClient.getUsername(playername, origin, username)).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 mainHandler.post(new Runnable() {
                     @Override
                     public void run() {
-
+                        snackbar.show();
                     }
                 });
 
@@ -156,14 +167,27 @@ public class UserInfoActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         Log.i(Data.getLOG_TAG(), "onResponse from USERINFO_ACTIVITY " + answer);
-                        login = answer;
-                        sqLiteTableManager.insertIntoUserInfoTable(
-                                userNameEditText.getText().toString(),
-                                login,
-                                country,
-                                Data.getCurrentDate());
-                        Intent startActivityIntent = new Intent(UserInfoActivity.this, StartActivity.class);
-                        startActivity(startActivityIntent);
+                        if (parentActivityName.equals("StartActivity")){
+                            login = username;
+                            sqLiteTableManager.insertIntoUserInfoTable(
+                                    userNameEditText.getText().toString(),
+                                    login,
+                                    country,
+                                    Data.getCurrentDate());
+                            Intent startActivityIntent = new Intent(UserInfoActivity.this, StartActivity.class);
+                            startActivity(startActivityIntent);
+                        }else{
+                            login = answer;
+                            sqLiteTableManager.insertIntoUserInfoTable(
+                                    userNameEditText.getText().toString(),
+                                    login,
+                                    country,
+                                    Data.getCurrentDate());
+                            Intent startActivityIntent = new Intent(UserInfoActivity.this, StartActivity.class);
+                            startActivity(startActivityIntent);
+                        }
+
+
                     }
                 });
             }
@@ -179,6 +203,7 @@ public class UserInfoActivity extends AppCompatActivity {
     private android.support.v7.widget.Toolbar userinfoToolbar;
     private SqLiteTableManager sqLiteTableManager;
     private String login;
+    private String parentActivityName;
     private Spinner countrySpinner;
     private HttpClient httpClient;
     private OkHttpClient client;

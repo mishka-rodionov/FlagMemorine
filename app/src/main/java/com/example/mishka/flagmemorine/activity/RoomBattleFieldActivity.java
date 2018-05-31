@@ -635,7 +635,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         requestTimer.cancel();
-        removeRoom(Integer.toString(roomIndex));
+//        removeRoom(Integer.toString(roomIndex));
         Log.i(Data.getLOG_TAG(), "onStop: RoomBattlefieldActivity");
     }
 

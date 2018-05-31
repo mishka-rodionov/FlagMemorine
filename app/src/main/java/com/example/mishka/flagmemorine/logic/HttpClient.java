@@ -386,7 +386,7 @@ public class HttpClient/* extends AsyncTask<String, Void, String>*/{
         return request;
     }
 
-    public Request getUsername(String playername, String origin)
+    public Request getUsername(String playername, String origin, String username)
     {
 
         HttpUrl httpUrl = new HttpUrl.Builder()
@@ -397,6 +397,7 @@ public class HttpClient/* extends AsyncTask<String, Void, String>*/{
                 .addPathSegment(Data.getStartServlet())
                 .addQueryParameter(Data.getPlayerName(), playername)
                 .addQueryParameter(Data.getOrigin(), origin)
+                .addQueryParameter(Data.getUsername(), username)
                 .build();
 
         Request request = new Request.Builder()
