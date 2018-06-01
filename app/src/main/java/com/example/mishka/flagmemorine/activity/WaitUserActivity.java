@@ -91,24 +91,8 @@ public class WaitUserActivity extends AppCompatActivity {
                         roomIndex = Integer.parseInt(body[0]);
                         Log.i(Data.getLOG_TAG(), "room index is = " + roomIndex);
                         playerNumber = body[1];
-//                        if (playerNumber.equals("firstPlayer")){
-//                            sending = true;
-//                            receiving = false;
-//                        }else{
-//                            sending = false;
-//                            receiving = true;
-//                            requestTimer.schedule(new TimerTask() {
-//                                @Override
-//                                public void run() {
-//                                    receiving(httpClient, Integer.toString(roomIndex));
-//                                }
-//                            }, delay, period);
-//                        }
 
                         for (int i = 3; i < body.length; i+=2) {
-//                            if(body[i].contains("_")){
-//                                body[i] = body[i].replaceAll("_", " ");
-//                            }
                             Log.i(Data.getLOG_TAG(), "body[i] " + body[i]);
                             battlefieldBody.add(body[i]);
                         }
@@ -117,32 +101,23 @@ public class WaitUserActivity extends AppCompatActivity {
                             requestTimer.schedule(new TimerTask() {
                                 @Override
                                 public void run() {
-                                    waitUser(httpClient, Integer.toString(roomIndex));
+                                    waitUser(httpClient, Integer.toString(roomIndex), playerNumber);
                                 }
                             }, delay, period);
                         }
                         if (playerNumber.equals("secondPlayer")){
-                            waitUser(httpClient, Integer.toString(roomIndex));
+                            waitUser(httpClient, Integer.toString(roomIndex), playerNumber);
                         }
-//                        battleField = new BattleField(battlefieldBody);
-//                        initFlipView(view, battleFieldSize);
-//                        if(receiving){
-//                            for (int i = 0; i < clickable.size(); i++) {
-//                                if (clickable.get(i)) {
-//                                    flipViews.get(i).setEnabled(false);
-//                                }
-//                            }
-//                        }
                     }
                 });
             }
         });
     }
 
-    public void waitUser(HttpClient httpClient, final String roomIndex){
+    public void waitUser(HttpClient httpClient, final String roomIndex, String plNumber){
         final Handler mainHandler = new Handler(Looper.getMainLooper());
 
-        client.newCall(httpClient.waitUser(roomIndex)).enqueue(new Callback() {
+        client.newCall(httpClient.waitUser(roomIndex, plNumber)).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
 //                ;
@@ -163,6 +138,8 @@ public class WaitUserActivity extends AppCompatActivity {
                 Log.i(Data.getLOG_TAG(), "onResponse run for WAITUSER methods: " + answer);
                 final String firstPlayer = answer[0];
                 final String secondPlayer = answer[1];
+                final String username = answer[2];
+                final String origin = answer[3];
                 Log.i(Data.getLOG_TAG(), "onResponse secondplayer: " + secondPlayer);
                 mainHandler.post(new Runnable() {
                     @Override
@@ -179,6 +156,8 @@ public class WaitUserActivity extends AppCompatActivity {
                             roomBattlefieldIntent.putExtra(Data.getRoomIndexLabel(), roomIndex);
                             roomBattlefieldIntent.putExtra(Data.getPlayerName(), playerNumber);
                             roomBattlefieldIntent.putExtra("localPlayerName", playerName);
+                            roomBattlefieldIntent.putExtra("anotherPlayerUsername", username);
+                            roomBattlefieldIntent.putExtra("anotherPlayerOrigin", origin);
                             if (playerNumber.equals("firstPlayer")){
                                 roomBattlefieldIntent.putExtra("anotherPlayer", secondPlayer);
                             }
@@ -279,7 +258,7 @@ public class WaitUserActivity extends AppCompatActivity {
         requestTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                waitUser(httpClient, Integer.toString(roomIndex));
+                waitUser(httpClient, Integer.toString(roomIndex), playerNumber);
             }
         }, delay, period);
         removingFlag = true;

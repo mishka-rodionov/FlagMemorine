@@ -85,6 +85,8 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         battleFieldSize = Integer.parseInt(getIntent().getStringExtra(Data.getSize()));
         roomIndex = Integer.parseInt(getIntent().getStringExtra(Data.getRoomIndexLabel()));
         playerNumber = getIntent().getStringExtra(Data.getPlayerName());
+        anotherPlayerUsername = getIntent().getStringExtra("anotherPlayerUsername");
+        anotherPlayerOrigin = getIntent().getStringExtra("anotherPlayerOrigin");
 //        if (playerNumber.equals("firstPlayer")){
 //            secondPlayerName = getIntent().getStringExtra("anotherPlayer");
 //        }
@@ -169,6 +171,10 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
                 endOfGameActivityIntent.putExtra("size", Integer.toString(battleFieldSize));
                 endOfGameActivityIntent.putExtra("result", Integer.toString(score - scoreSecondPlayer));
                 endOfGameActivityIntent.putExtra("activityName", "RoomBattlefield");
+                endOfGameActivityIntent.putExtra("localPlayername", localPlayerName.getText().toString());
+                endOfGameActivityIntent.putExtra("enemyPlayername", enemyPlayerName.getText().toString());
+                endOfGameActivityIntent.putExtra("anotherPlayerUsername", anotherPlayerUsername);
+                endOfGameActivityIntent.putExtra("anotherPlayerOrigin", anotherPlayerOrigin);
                 startActivity(endOfGameActivityIntent);
             }
         };
@@ -727,6 +733,8 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
     private String origin;
     private String firstPlayerName;
     private String secondPlayerName;
+    private String anotherPlayerUsername;
+    private String anotherPlayerOrigin;
 
     private ArrayList<String> battlefieldBody;
 

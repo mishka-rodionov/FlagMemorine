@@ -400,6 +400,78 @@ public class Data {
         Data.username = username;
     }
 
+    public static String getPushResultToDB() {
+        return pushResultToDB;
+    }
+
+    public static void setPushResultToDB(String pushResultToDB) {
+        Data.pushResultToDB = pushResultToDB;
+    }
+
+    public static String getEnemyUsername() {
+        return enemyUsername;
+    }
+
+    public static void setEnemyUsername(String enemyUsername) {
+        Data.enemyUsername = enemyUsername;
+    }
+
+    public static String getEnemyPlayername() {
+        return enemyPlayername;
+    }
+
+    public static void setEnemyPlayername(String enemyPlayername) {
+        Data.enemyPlayername = enemyPlayername;
+    }
+
+    public static String getEnemyOrigin() {
+        return enemyOrigin;
+    }
+
+    public static void setEnemyOrigin(String enemyOrigin) {
+        Data.enemyOrigin = enemyOrigin;
+    }
+
+    public static String getEnemyScore() {
+        return enemyScore;
+    }
+
+    public static void setEnemyScore(String enemyScore) {
+        Data.enemyScore = enemyScore;
+    }
+
+    public static String getScore() {
+        return score;
+    }
+
+    public static void setScore(String score) {
+        Data.score = score;
+    }
+
+    public static String getResult() {
+        return result;
+    }
+
+    public static void setResult(String result) {
+        Data.result = result;
+    }
+
+    public static String getDate() {
+        return date;
+    }
+
+    public static void setDate(String date) {
+        Data.date = date;
+    }
+
+    public static String getPlayerNumber() {
+        return playerNumber;
+    }
+
+    public static void setPlayerNumber(String playerNumber) {
+        Data.playerNumber = playerNumber;
+    }
+
     //region Private static fields
     private static String customURL = "192.168.42.227";
     private static String LOG_TAG = "flagmemorine";
@@ -418,6 +490,7 @@ public class Data {
     private static String usernameServlet = "usernameServlet";
     private static String removeRoomServlet = "removeRoomServlet";
     private static String startServlet = "startServlet";
+    private static String pushResultToDB = "pushResultToDB";
     //endregion
     private static String dbName  = "FlagMem";
     private static String dbStatisticTable  = "Statistic";
@@ -451,6 +524,14 @@ public class Data {
     private static String size = "size";
     private static String virgin = "virgin";
     private static String username = "username";
+    private static String enemyUsername = "enemyUsername";
+    private static String enemyPlayername = "enemyPlayername";
+    private static String enemyOrigin = "enemyOrigin";
+    private static String enemyScore = "enemyScore";
+    private static String score = "score";
+    private static String result = "result";
+    private static String date = "date";
+    private static String playerNumber = "playerNumber";
 
     private static Long millisInHour = 3600000l;
     private static Long millisInDay = 84000000l;

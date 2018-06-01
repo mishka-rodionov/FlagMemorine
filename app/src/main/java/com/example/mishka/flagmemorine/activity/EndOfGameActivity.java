@@ -18,6 +18,7 @@ import com.example.mishka.flagmemorine.R;
 import com.example.mishka.flagmemorine.logic.Data;
 import com.example.mishka.flagmemorine.logic.Facts;
 import com.example.mishka.flagmemorine.logic.HttpClient;
+import com.example.mishka.flagmemorine.service.SqLiteTableManager;
 
 import java.io.IOException;
 
@@ -39,6 +40,8 @@ public class EndOfGameActivity extends AppCompatActivity {
         ActionBar acBar  = getSupportActionBar();
 //        acBar.setTitle("This is text");
         acBar.setDisplayHomeAsUpEnabled(true);
+
+        sqLiteTableManager = new SqLiteTableManager(EndOfGameActivity.this);
         client = new OkHttpClient();
         httpClient = new HttpClient();
 
@@ -64,14 +67,21 @@ public class EndOfGameActivity extends AppCompatActivity {
         stepEndOfGamePlayerSecond = (TextView) view.findViewById(R.id.stepEndOfGamePlayerSecond);
         timeEndOfGamePlayerSecond = (TextView) view.findViewById(R.id.timeEndOfGamePlayerSecond);
         messageEndOfGamePlayerSecond = (TextView) view.findViewById(R.id.messageEndOfGamePlayerSecond);
-
-
+        firstPlayername = (TextView) view.findViewById(R.id.firstPlayerName);
+        secondPlayername = (TextView) view.findViewById(R.id.secondPlayerName);
 
         if (activityName.equals("RoomBattlefield")){
             roomIndex = getIntent().getStringExtra("roomIndex");
             result = getIntent().getStringExtra("result");
             scoreValueSecondPLayer = getIntent().getStringExtra("scoreValueSecondPlayer");
             stepValueSecondPLayer = getIntent().getStringExtra("stepValueSecondPlayer");
+            String fpn = getIntent().getStringExtra("localPlayername");
+            String spn = getIntent().getStringExtra("enemyPlayername");
+            firstPlayername.setText(fpn);
+            secondPlayername.setText(spn);
+            anotherPlayerUsername = getIntent().getStringExtra("anotherPlayerUsername");
+            anotherPlayerOrigin = getIntent().getStringExtra("anotherPlayerOrigin");
+            pushResultToDB(anotherPlayerUsername, spn, anotherPlayerOrigin, scoreValue, scoreValueSecondPLayer, result, Data.getCurrentDate(), sqLiteTableManager.getLogin());
             if (Integer.parseInt(result) < 0){
                 createResult("Loser!", Color.RED, "Winner!", Color.GREEN);
             }
@@ -131,17 +141,6 @@ public class EndOfGameActivity extends AppCompatActivity {
 
         restart.setOnClickListener(onClickListener);
         home.setOnClickListener(onClickListener);
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
     }
 
     private void createResult(String playerFirst, int colorPlayerFirst, String playerSecond, int colorPlayerSecond) {
@@ -217,6 +216,39 @@ public class EndOfGameActivity extends AppCompatActivity {
         });
     }
 
+    public void pushResultToDB(String enemyUsername, String enemyPlayername, String enemyOrigin,
+                               String score, String enemyScore, String result, String date, String username){
+        final Handler mainHandler = new Handler(Looper.getMainLooper());
+
+        client.newCall(httpClient.pushResultToDB( enemyUsername,  enemyPlayername,  enemyOrigin,
+                 score,  enemyScore,  result,  date,  username)).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+//                ;
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+//                        view.setText(battlefield);
+                        Log.i(Data.getLOG_TAG(), "run: " + "Fail!!!!!!!!!!!!");
+                    }
+                });
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String answer = response.body().string();
+                Log.i(Data.getLOG_TAG(), "onResponse run for REMOVE_ROOM methods: rooms size = " + answer);
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+
+                    }
+                });
+            }
+        });
+    }
+
     private TextView score;
     private TextView step;
     private TextView time;
@@ -230,6 +262,8 @@ public class EndOfGameActivity extends AppCompatActivity {
     private TextView timeEndOfGamePlayerSecond;
     private TextView messageEndOfGamePlayerSecond;
     private TextView factsTextView;
+    private TextView firstPlayername;
+    private TextView secondPlayername;
     private android.support.v7.widget.Toolbar endOfGameToolbar;
 
     private LinearLayout gameInformation;
@@ -250,5 +284,9 @@ public class EndOfGameActivity extends AppCompatActivity {
     private String result;
     private String activityName;
     private String roomIndex;
+    private String anotherPlayerUsername;
+    private String anotherPlayerOrigin;
+
+    private SqLiteTableManager sqLiteTableManager;
 
 }

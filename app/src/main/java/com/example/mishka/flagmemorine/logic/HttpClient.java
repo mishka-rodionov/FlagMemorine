@@ -303,7 +303,7 @@ public class HttpClient/* extends AsyncTask<String, Void, String>*/{
         return request;
     }
 
-    public Request waitUser(String roomIndex)
+    public Request waitUser(String roomIndex, String playerNumber)
     {
 
         HttpUrl httpUrl = new HttpUrl.Builder()
@@ -313,6 +313,7 @@ public class HttpClient/* extends AsyncTask<String, Void, String>*/{
                 .addPathSegment(Data.getServerAppName())
                 .addPathSegment(Data.getUsernameServlet())
                 .addQueryParameter(Data.getRoomIndexLabel(), roomIndex)
+                .addQueryParameter(Data.getPlayerNumber(), playerNumber)
                 .build();
 
         Request request = new Request.Builder()
@@ -335,6 +336,34 @@ public class HttpClient/* extends AsyncTask<String, Void, String>*/{
                 .addQueryParameter(Data.getType(), Data.getReceive())
                 .addQueryParameter(Data.getPlayerName(), name)
                 .addQueryParameter(Data.getRoomIndexLabel(), roomIndex)
+                .build();
+
+        Request request = new Request.Builder()
+                .url(httpUrl)
+                .header("User-Agent", "OkHttp Headers.java")
+                .build();
+
+        return request;
+    }
+
+    public Request pushResultToDB(String enemyUsername, String enemyPlayername, String enemyOrigin,
+                                  String score, String enemyScore, String result, String date, String username)
+    {
+
+        HttpUrl httpUrl = new HttpUrl.Builder()
+                .scheme("http")
+                .host(Data.getCustomURL())
+                .port(8080)
+                .addPathSegment(Data.getServerAppName())
+                .addPathSegment(Data.getPushResultToDB())
+                .addQueryParameter(Data.getUsername(), username)
+                .addQueryParameter(Data.getEnemyPlayername(), enemyPlayername)
+                .addQueryParameter(Data.getEnemyUsername(), enemyUsername)
+                .addQueryParameter(Data.getEnemyOrigin(), enemyOrigin)
+                .addQueryParameter(Data.getEnemyScore(), enemyScore)
+                .addQueryParameter(Data.getScore(), score)
+                .addQueryParameter(Data.getResult(), result)
+                .addQueryParameter(Data.getDate(), date)
                 .build();
 
         Request request = new Request.Builder()
