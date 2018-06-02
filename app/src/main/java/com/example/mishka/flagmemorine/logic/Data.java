@@ -473,7 +473,7 @@ public class Data {
     }
 
     //region Private static fields
-    private static String customURL = "192.168.42.227";
+    private static String customURL = "82.202.226.186";//"192.168.42.227";
     private static String LOG_TAG = "flagmemorine";
     private static String serverAppName = "TestGet";
     private static String mainServlet = "hello";
@@ -490,7 +490,7 @@ public class Data {
     private static String usernameServlet = "usernameServlet";
     private static String removeRoomServlet = "removeRoomServlet";
     private static String startServlet = "startServlet";
-    private static String pushResultToDB = "pushResultToDB";
+    private static String pushResultToDB = "pushResultToDBServlet";
     //endregion
     private static String dbName  = "FlagMem";
     private static String dbStatisticTable  = "Statistic";
