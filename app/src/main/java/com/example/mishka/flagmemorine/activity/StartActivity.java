@@ -36,12 +36,23 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Response;
 
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+
 public class StartActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+
+        //region mobile ads
+        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");//*/"ca-app-pub-1313654392091353~6971891289");
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");//*/"ca-app-pub-1313654392091353/4903230758");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+        //endregion
 
         hideSystemUI();
 
@@ -171,6 +182,12 @@ public class StartActivity extends AppCompatActivity {
                         userInfoActivityIntent.putExtra("login", "User1");
                         userInfoActivityIntent.putExtra("activityName", "StartActivity");
                         startActivity(userInfoActivityIntent);
+                        if (mInterstitialAd.isLoaded()){
+                            mInterstitialAd.show();
+                            Log.i(Data.getLOG_TAG(), "onClick: The interstitial loaded yet!!!!!!!!!!!!!!!");
+                        }else {
+                            Log.i(Data.getLOG_TAG(), "onClick: The interstitial wasn't loaded yet.");
+                        }
                         break;
                     case R.id.multiplayer:
                         if (multiplayerFlag){
@@ -460,5 +477,7 @@ public class StartActivity extends AppCompatActivity {
     private Boolean multiplayerFlag;
 
     private Timer requestTimer;
+
+    private InterstitialAd mInterstitialAd;
 
 }
