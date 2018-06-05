@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.mishka.flagmemorine.R;
 import com.example.mishka.flagmemorine.cView.CSpinnerAdapter;
@@ -36,27 +38,36 @@ public class UserInfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
+
         hideSystemUI();
 
         userinfoToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.userinfo_toolbar);
         setSupportActionBar(userinfoToolbar);
         ActionBar acBar  = getSupportActionBar();
         acBar.setDisplayHomeAsUpEnabled(true);
+        acBar.setTitle("");
+//        Log.i(Data.getLOG_TAG(), "onCreate: TITLE IS = " + acBar.getTitle());
 
         sqLiteTableManager = new SqLiteTableManager(UserInfoActivity.this);
         httpClient = new HttpClient();
         client = new OkHttpClient();
 
         userNameEditText = (EditText) findViewById(R.id.userName);
-        userInfoApplyButton = (Button) findViewById(R.id.userInfoApply);
+//        userInfoApplyButton = (Button) findViewById(R.id.userInfoApply);
         countrySpinner = (Spinner) findViewById(R.id.spinner);
         parentActivityName = getIntent().getStringExtra("activityName");
+        fabDone = (FloatingActionButton) findViewById(R.id.fabDone);
 
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Чтение из таблицы UserInfo логина, записанного в последней строке
-                getUsername(userNameEditText.getText().toString(), country);
+                if (userNameEditText.getText().toString().trim().equals("")){
+                    Toast.makeText(UserInfoActivity.this, "Pease, enter your playername!", Toast.LENGTH_SHORT).show();
+                }else {
+                    getUsername(userNameEditText.getText().toString().trim(), country);
+                }
+
 
 //                if (parentActivityName.equals("StartActivity")){
 //                    login = sqLiteTableManager.readLastRowFromUserInfo()[1];
@@ -76,7 +87,8 @@ public class UserInfoActivity extends AppCompatActivity {
             }
         };
 
-        userInfoApplyButton.setOnClickListener(onClickListener);
+//        userInfoApplyButton.setOnClickListener(onClickListener);
+        fabDone.setOnClickListener(onClickListener);
 
         CountryList.loadCountryMap();
         spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, CountryList.getCountries());
@@ -195,7 +207,8 @@ public class UserInfoActivity extends AppCompatActivity {
     }
 
     private ArrayAdapter<String> spinnerAdapter;
-    private Button userInfoApplyButton;
+//    private Button userInfoApplyButton;
+    private FloatingActionButton fabDone;
     private CSpinnerAdapter cSpinnerAdapter;
     private EditText userNameEditText;
     private EditText userCountryEditText;

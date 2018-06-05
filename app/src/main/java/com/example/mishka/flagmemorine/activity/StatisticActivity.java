@@ -46,6 +46,7 @@ public class StatisticActivity extends AppCompatActivity {
         setSupportActionBar(statisticToolbar);
         statisticActionBar = getSupportActionBar();
         statisticActionBar.setDisplayHomeAsUpEnabled(true);
+        statisticActionBar.setTitle("");
         // Инициализация менеджера по работе с БД.
         sqLiteTableManager = new SqLiteTableManager(StatisticActivity.this);
 

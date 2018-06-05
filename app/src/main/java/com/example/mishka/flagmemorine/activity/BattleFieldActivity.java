@@ -69,6 +69,7 @@ public class BattleFieldActivity extends AppCompatActivity {
         setSupportActionBar(battlefieldToolbar);
         battlefieldActionBar = getSupportActionBar();
         battlefieldActionBar.setDisplayHomeAsUpEnabled(true);
+        battlefieldActionBar.setTitle("");
 
         //******************************************************************************************
         sqLiteTableManager = new SqLiteTableManager(BattleFieldActivity.this);
@@ -344,22 +345,22 @@ public class BattleFieldActivity extends AppCompatActivity {
     public void getView(int size){
         if(size == Data.getXsmallSize()){
             view = getLayoutInflater().inflate(R.layout.layout_xsmall, null);
-            battlefieldActionBar.setTitle("xSmall field");
+//            battlefieldActionBar.setTitle("xSmall field");
         }else if (size == Data.getSmallSize()){
             view = getLayoutInflater().inflate(R.layout.layout_small, null);
-            battlefieldActionBar.setTitle("Small field");
+//            battlefieldActionBar.setTitle("Small field");
         }else if (size == Data.getMediumSize()){
             view = getLayoutInflater().inflate(R.layout.layout_medium, null);
-            battlefieldActionBar.setTitle("Medium field");
+//            battlefieldActionBar.setTitle("Medium field");
         }else if (size == Data.getLargeSize()){
             view = getLayoutInflater().inflate(R.layout.layout_large, null);
-            battlefieldActionBar.setTitle("Large field");
+//            battlefieldActionBar.setTitle("Large field");
         }else if (size == Data.getXlargeSize()){
             view = getLayoutInflater().inflate(R.layout.layout_xlarge, null);
-            battlefieldActionBar.setTitle("xLarge field");
+//            battlefieldActionBar.setTitle("xLarge field");
         }else if (size == Data.getXxlargeSize()){
 //            view = getLayoutInflater().inflate(R.layout.layout_xxlarge, null);
-            battlefieldActionBar.setTitle("xxLarge field");
+//            battlefieldActionBar.setTitle("xxLarge field");
             view = getLayoutInflater().inflate(R.layout.layout_xxlarge, null);
         }
     }

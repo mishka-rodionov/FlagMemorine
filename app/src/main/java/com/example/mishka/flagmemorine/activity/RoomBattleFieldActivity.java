@@ -25,6 +25,9 @@ import com.example.mishka.flagmemorine.logic.CountryList;
 import com.example.mishka.flagmemorine.logic.Data;
 import com.example.mishka.flagmemorine.logic.HttpClient;
 import com.example.mishka.flagmemorine.service.SqLiteTableManager;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -61,12 +64,21 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_battlefield);
 
+        //region mobile ads
+        MobileAds.initialize(this, /*"ca-app-pub-3940256099942544~3347511713");//*/"ca-app-pub-1313654392091353~6971891289");
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId(/*"ca-app-pub-3940256099942544/1033173712");//*/"ca-app-pub-1313654392091353/4903230758");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+        //endregion
+
         //Toolbar initialization
         hideSystemUI();
         battlefieldToolbar = (Toolbar) findViewById(R.id.battlefield_toolbar);
         setSupportActionBar(battlefieldToolbar);
         battlefieldActionBar = getSupportActionBar();
         battlefieldActionBar.setDisplayHomeAsUpEnabled(true);
+        battlefieldActionBar.setTitle("");
+
         client = new OkHttpClient();
         httpClient = new HttpClient();
 
@@ -162,6 +174,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         handlerIntent = new Handler(){
             @Override
             public void handleMessage(Message msg) {
+                Integer res = score - scoreSecondPlayer;
                 Intent endOfGameActivityIntent= new Intent(RoomBattleFieldActivity.this, EndOfGameActivity.class);
                 endOfGameActivityIntent.putExtra("score", Integer.toString(score));
                 endOfGameActivityIntent.putExtra("scoreValueSecondPlayer", Integer.toString(scoreSecondPlayer));
@@ -169,13 +182,21 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
                 endOfGameActivityIntent.putExtra("stepValueSecondPlayer", Integer.toString(stepCounterSecondPlayer));
                 endOfGameActivityIntent.putExtra("time", time.getText().toString());
                 endOfGameActivityIntent.putExtra("size", Integer.toString(battleFieldSize));
-                endOfGameActivityIntent.putExtra("result", Integer.toString(score - scoreSecondPlayer));
+                endOfGameActivityIntent.putExtra("result", Integer.toString(res));
                 endOfGameActivityIntent.putExtra("activityName", "RoomBattlefield");
                 endOfGameActivityIntent.putExtra("localPlayername", localPlayerName.getText().toString());
                 endOfGameActivityIntent.putExtra("enemyPlayername", enemyPlayerName.getText().toString());
                 endOfGameActivityIntent.putExtra("anotherPlayerUsername", anotherPlayerUsername);
                 endOfGameActivityIntent.putExtra("anotherPlayerOrigin", anotherPlayerOrigin);
                 startActivity(endOfGameActivityIntent);
+                if (res < 0){
+                    if (mInterstitialAd.isLoaded()){
+                        mInterstitialAd.show();
+                        Log.i(Data.getLOG_TAG(), "onClick: The interstitial loaded yet!!!!!!!!!!!!!!!");
+                    }else {
+                        Log.i(Data.getLOG_TAG(), "onClick: The interstitial wasn't loaded yet.");
+                    }
+                }
             }
         };
 
@@ -427,22 +448,22 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
     public void getView(int size){
         if(size == Data.getXsmallSize()){
             view = getLayoutInflater().inflate(R.layout.layout_xsmall, null);
-            battlefieldActionBar.setTitle("xSmall field");
+//            battlefieldActionBar.setTitle("xSmall field");
         }else if (size == Data.getSmallSize()){
             view = getLayoutInflater().inflate(R.layout.layout_small, null);
-            battlefieldActionBar.setTitle("Small field");
+//            battlefieldActionBar.setTitle("Small field");
         }else if (size == Data.getMediumSize()){
             view = getLayoutInflater().inflate(R.layout.layout_medium, null);
-            battlefieldActionBar.setTitle("Medium field");
+//            battlefieldActionBar.setTitle("Medium field");
         }else if (size == Data.getLargeSize()){
             view = getLayoutInflater().inflate(R.layout.layout_large, null);
-            battlefieldActionBar.setTitle("Large field");
+//            battlefieldActionBar.setTitle("Large field");
         }else if (size == Data.getXlargeSize()){
             view = getLayoutInflater().inflate(R.layout.layout_xlarge, null);
-            battlefieldActionBar.setTitle("xLarge field");
+//            battlefieldActionBar.setTitle("xLarge field");
         }else if (size == Data.getXxlargeSize()){
 //            view = getLayoutInflater().inflate(R.layout.layout_xxlarge, null);
-            battlefieldActionBar.setTitle("xxLarge field");
+//            battlefieldActionBar.setTitle("xxLarge field");
             view = getLayoutInflater().inflate(R.layout.layout_xxlarge, null);
         }
     }
@@ -630,7 +651,6 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         });
     }
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -737,6 +757,8 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
     private String anotherPlayerOrigin;
 
     private ArrayList<String> battlefieldBody;
+
+    private InterstitialAd mInterstitialAd;
 
     //endregion
 

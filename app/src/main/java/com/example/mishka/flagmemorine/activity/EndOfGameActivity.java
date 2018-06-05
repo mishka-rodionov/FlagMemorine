@@ -19,6 +19,9 @@ import com.example.mishka.flagmemorine.logic.Data;
 import com.example.mishka.flagmemorine.logic.Facts;
 import com.example.mishka.flagmemorine.logic.HttpClient;
 import com.example.mishka.flagmemorine.service.SqLiteTableManager;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
 
 import java.io.IOException;
 
@@ -33,12 +36,14 @@ public class EndOfGameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end_of_game);
+
         hideSystemUI();
 
         endOfGameToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.endofgame_toolbar);
         setSupportActionBar(endOfGameToolbar);
         ActionBar acBar  = getSupportActionBar();
 //        acBar.setTitle("This is text");
+        acBar.setTitle("");
         acBar.setDisplayHomeAsUpEnabled(true);
 
         sqLiteTableManager = new SqLiteTableManager(EndOfGameActivity.this);
