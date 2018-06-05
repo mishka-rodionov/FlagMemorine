@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context="com.example.mishka.flagmemorine.activity.EndOfGameActivity">
+    tools:context="com.rodionov.mishka.flagmemorine.activity.EndOfGameActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

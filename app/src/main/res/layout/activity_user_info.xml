@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context="com.example.mishka.flagmemorine.activity.UserInfoActivity">
+    tools:context="com.rodionov.mishka.flagmemorine.activity.UserInfoActivity">
 
     <include layout="@layout/content_user_info" />
 
