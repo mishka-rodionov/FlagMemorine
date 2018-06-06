@@ -207,8 +207,8 @@ public class StartActivity extends AppCompatActivity {
                         break;
                     case R.id.stopAds:
 
-                        Intent interactionIntent = new Intent(StartActivity.this, TestInteraction.class);
-                        startActivity(interactionIntent);
+//                        Intent interactionIntent = new Intent(StartActivity.this, TestInteraction.class);
+//                        startActivity(interactionIntent);
                         break;
                 }
             }

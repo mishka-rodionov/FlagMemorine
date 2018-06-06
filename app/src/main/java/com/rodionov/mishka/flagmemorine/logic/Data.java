@@ -491,6 +491,7 @@ public class Data {
     private static String removeRoomServlet = "removeRoomServlet";
     private static String startServlet = "startServlet";
     private static String pushResultToDB = "pushResultToDBServlet";
+    private static String opponentIsGoneServlet = "opponentIsGoneServlet";
     //endregion
     private static String dbName  = "FlagMem";
     private static String dbStatisticTable  = "Statistic";
