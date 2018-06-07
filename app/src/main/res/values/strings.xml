@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FlagMemorine</string>
+    <string name="app_name">Flagomem</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -41,4 +41,5 @@
     <string name="lose">Loser!</string>
     <string name="home">Home</string>
     <string name="versus">VS</string>
+    <string name="actionLabel">Action:</string>
 </resources>

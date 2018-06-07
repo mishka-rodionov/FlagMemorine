@@ -16,8 +16,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.rodionov.mishka.flagmemorine.R;
 import com.rodionov.mishka.flagmemorine.logic.BattleField;
@@ -54,6 +56,9 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
             case R.id.action_restart:
                 recreate();
                 break;
+            case R.id.home:
+                removeRoom(Integer.toString(roomIndex));
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -86,6 +91,9 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         sqLiteTableManager = new SqLiteTableManager(RoomBattleFieldActivity.this);
 //        pullDB();
 
+        gone = false;
+        goneCount = 3;
+        goneToast = Toast.makeText(RoomBattleFieldActivity.this, "", Toast.LENGTH_SHORT);
         requestTimer = new Timer();
         record = getPreferences(MODE_PRIVATE);                                                      //
         timer = new Timer();                                                                        // Инициализация таймера для задержки переворота табличек
@@ -131,6 +139,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         currentStepCountSecondPlayer = (TextView) findViewById(R.id.currentStepCountSecondPlayer);
         localPlayerName = (TextView) findViewById(R.id.localPlayerName);
         enemyPlayerName = (TextView) findViewById(R.id.enemyPlayerName);
+        actionImage = (ImageView) findViewById(R.id.actionImage);
 
         localPlayerName.setText(getIntent().getStringExtra("localPlayerName"));
         enemyPlayerName.setText(getIntent().getStringExtra("anotherPlayer"));
@@ -203,10 +212,24 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
+                final Handler mainHandler = new Handler(Looper.getMainLooper());
                 seconds++;
                 if (seconds == 60){
                     minutes++;
                     seconds = 0;
+                }
+                if(gone && goneCount >= 1){
+                    mainHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            goneToast.setText("The opponent is gone! Go to main menu in " + goneCount--);
+                            goneToast.show();
+                            if (goneCount == 0){
+                                goneToast.cancel();
+                                startActivity(new Intent(RoomBattleFieldActivity.this, StartActivity.class));
+                            }
+                        }
+                    });
                 }
                 Message msg = handlerTime.obtainMessage(1, minutes, seconds);
                 handlerTime.sendMessage(msg);
@@ -250,9 +273,11 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         if (playerNumber.equals("firstPlayer")){
             sending = true;
             receiving = false;
+            actionImage.setImageResource(R.drawable.ic_play_arrow_white_48dp);
         }else{
             sending = false;
             receiving = true;
+            actionImage.setImageResource(R.drawable.ic_pause_white_48dp);
             requestTimer.schedule(new TimerTask() {
                 @Override
                 public void run() {
@@ -329,6 +354,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
             if (sending){
                 sending = false;
                 receiving = true;
+                actionImage.setImageResource(R.drawable.ic_pause_white_48dp);
                 for (int i = 0; i < clickable.size(); i++) {
                     if (clickable.get(i)) {
                         flipViews.get(i).setEnabled(false);
@@ -344,6 +370,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
             }else if (receiving){
                 sending = true;
                 receiving = false;
+                actionImage.setImageResource(R.drawable.ic_play_arrow_white_48dp);
                 for (int i = 0; i < clickable.size(); i++) {
                     if (clickable.get(i)) {
                         flipViews.get(i).setEnabled(true);
@@ -493,6 +520,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         Log.i(Data.getLOG_TAG(), "onBackPressed: back is pressed");
+        removeRoom(Integer.toString(roomIndex));
         Intent startActivityIntent = new Intent(RoomBattleFieldActivity.this, StartActivity.class);
         startActivity(startActivityIntent);
     }
@@ -570,7 +598,13 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
                 mainHandler.post(new Runnable() {
                     @Override
                     public void run() {
+                        if (answer.equals("esc")){
+                            gone = true;
+//                            Toast.makeText(RoomBattleFieldActivity.this, "The opponent is gone", Toast.LENGTH_SHORT).show();
+//                            Log.i(Data.getLOG_TAG(), "SENDING opponent is gone! ");
 
+                        }else {
+                        }
                     }
                 });
             }
@@ -598,15 +632,18 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
             public void onResponse(Call call, Response response) throws IOException {
                 final String answer = response.body().string();
                 Log.i(Data.getLOG_TAG(), "onResponse run for RECEIVING methods: " + answer);
-                final Integer index;
-                if (!answer.equals("esc")){
-                    index = Integer.parseInt(answer);
-                }else {
-                    index = -1;
-                }
                 mainHandler.post(new Runnable() {
                     @Override
                     public void run() {
+                        Integer index;
+                        if (!answer.equals("esc")){
+                            index = Integer.parseInt(answer);
+                        }else {
+                            index = -1;
+                            gone = true;
+//                            Toast.makeText(RoomBattleFieldActivity.this, "The opponent is gone", Toast.LENGTH_SHORT).show();
+//                            Log.i(Data.getLOG_TAG(), "RECEIVING opponent is gone! ");
+                        }
                         if (index == -1){
                             //do nothing
                         }else{
@@ -651,16 +688,21 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         });
     }
 
+
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        removeRoom(Integer.toString(roomIndex));
         requestTimer.cancel();
+        timer.cancel();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         requestTimer.cancel();
+//        timer.cancel();
 //        removeRoom(Integer.toString(roomIndex));
         Log.i(Data.getLOG_TAG(), "onStop: RoomBattlefieldActivity");
     }
@@ -718,6 +760,8 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
     private TextView localPlayerName;
     private TextView enemyPlayerName;
 
+    private ImageView actionImage;
+
     private Timer timer;
     private Timer requestTimer;
     private TimerTask requestTask;
@@ -725,6 +769,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
     private View view;
     private Toolbar battlefieldToolbar;
     private ActionBar battlefieldActionBar;
+    private Toast goneToast;
 
     private String BF;
     private int battleFieldSize = 6;
@@ -743,7 +788,9 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
     private long time2 = 0;
     private long delay = 1000;
     private long period = 200;
+    private long goneCount;
     private boolean flipFlag = true;
+    private boolean gone;
     private Boolean sending;
     private Boolean receiving;
 
