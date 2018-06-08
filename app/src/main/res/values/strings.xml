@@ -15,9 +15,10 @@
     <string name="record">Record:</string>
     <string name="time">Time:</string>
     <string name="restart">Restart</string>
-    <string name="play">Play</string>
+    <string name="play">Singleplayer</string>
     <string name="multiplayer">Multiplayer</string>
-    <string name="statistic">Statistic</string>
+    <string name="statistic">Local Statistic</string>
+    <string name="topMultiplayer">Top Multiplayer</string>
     <string name="stopAds">Stop ads</string>
     <string name="xsmall">xS</string>
     <string name="small">S</string>
@@ -42,4 +43,6 @@
     <string name="home">Home</string>
     <string name="versus">VS</string>
     <string name="actionLabel">Action:</string>
+    <string name="online">On-line: </string>
+    <string name="textSize">18sp</string>
 </resources>

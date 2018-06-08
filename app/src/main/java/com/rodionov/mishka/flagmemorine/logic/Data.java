@@ -472,6 +472,14 @@ public class Data {
         Data.playerNumber = playerNumber;
     }
 
+    public static String getOnline() {
+        return online;
+    }
+
+    public static void setOnline(String online) {
+        Data.online = online;
+    }
+
     //region Private static fields
     private static String customURL = /*"82.202.226.186";//*/"192.168.42.227";
     private static String LOG_TAG = "flagmemorine";
@@ -533,6 +541,7 @@ public class Data {
     private static String result = "result";
     private static String date = "date";
     private static String playerNumber = "playerNumber";
+    private static String online = "online";
 
     private static Long millisInHour = 3600000l;
     private static Long millisInDay = 84000000l;

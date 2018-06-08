@@ -68,6 +68,7 @@ public class StartActivity extends AppCompatActivity {
         requestTimer = new Timer();
 
         checkFirstRun();
+        username = sqLiteTableManager.getLogin();
 
         xSmall = (RadioButton) findViewById(R.id.xsmall);
         small = (RadioButton) findViewById(R.id.small);
@@ -82,6 +83,7 @@ public class StartActivity extends AppCompatActivity {
         largeAvailableUsers = (TextView) findViewById(R.id.largeAvailableUsers);
         xlargeAvailableUsers = (TextView) findViewById(R.id.xlargeAvailableUsers);
         xxlargeAvailableUsers = (TextView) findViewById(R.id.xxlargeAvailableUsers);
+        onlineValue = (TextView) findViewById(R.id.onlineValue);
 
 //        rg1 = (RadioGroup) findViewById(R.id.rg1);
 //        rg2 = (RadioGroup) findViewById(R.id.rg2);
@@ -223,7 +225,7 @@ public class StartActivity extends AppCompatActivity {
         requestTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                availableUsers();
+                availableUsers(username, Boolean.toString(true));
             }
         }, delay, period);
 
@@ -278,6 +280,7 @@ public class StartActivity extends AppCompatActivity {
         if (currentVersionCode == savedVersionCode) {
             // При выполнении данного условия происходит обычная загрузка приложения
             Log.d(Data.getLOG_TAG(), "currentVersionCode == savedVersionCode");
+            username = sqLiteTableManager.getLogin();
 
             return;
         } else if (savedVersionCode == DOESNT_EXIST) {
@@ -327,7 +330,7 @@ public class StartActivity extends AppCompatActivity {
         );
     }
 
-    public void availableUsers(){
+    public void availableUsers(String un, String online){
         final Handler mainHandler = new Handler(Looper.getMainLooper());
         final Snackbar snackbar = Snackbar.make(activityStartLayout, "Server is not available!", Snackbar.LENGTH_INDEFINITE);;
         View.OnClickListener snackbarOnClickListener = new View.OnClickListener() {
@@ -338,8 +341,8 @@ public class StartActivity extends AppCompatActivity {
         };
 
         snackbar.setAction("OK", snackbarOnClickListener);
-
-        client.newCall(httpClient.availableUsers()).enqueue(new Callback() {
+        Log.i(Data.getLOG_TAG(), "availableUsers: SENDING USERNAME IS ---------> " + un + " " + online);
+        client.newCall(httpClient.availableUsers(un, online)).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 mainHandler.post(new Runnable() {
@@ -363,7 +366,11 @@ public class StartActivity extends AppCompatActivity {
 //                final String[] answer = response.body().string().split(" ");
                 multiplayerFlag = true;
                 final String[] answer = response.body().string().split(" ");
-                Log.i(Data.getLOG_TAG(), "onResponse run for RECEIVING methods: " + answer);
+                String debug = "";
+                for (int i = 0; i < answer.length; i++) {
+                    debug += answer[i] + " ";
+                }
+                Log.i(Data.getLOG_TAG(), "onResponse run for RECEIVING methods: " + debug);
                 xsUsers = Integer.parseInt(answer[0]);
                 sUsers = Integer.parseInt(answer[1]);
                 mUsers = Integer.parseInt(answer[2]);
@@ -379,6 +386,7 @@ public class StartActivity extends AppCompatActivity {
                         largeAvailableUsers.setText(answer[3]);
                         xlargeAvailableUsers.setText(answer[4]);
                         xxlargeAvailableUsers.setText(answer[5]);
+                        onlineValue.setText(answer[6]);
                     }
                 });
             }
@@ -395,6 +403,7 @@ public class StartActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         requestTimer.cancel();
+        availableUsers(username, Boolean.toString(false));
         Log.i(Data.getLOG_TAG(), "onStop: StartActivity");
     }
 
@@ -406,7 +415,7 @@ public class StartActivity extends AppCompatActivity {
         requestTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                availableUsers();
+                availableUsers(username, Boolean.toString(true));
             }
         }, delay, period);
         Log.i(Data.getLOG_TAG(), "onRestart: StartActivity");
@@ -439,6 +448,7 @@ public class StartActivity extends AppCompatActivity {
     private TextView largeAvailableUsers;
     private TextView xlargeAvailableUsers;
     private TextView xxlargeAvailableUsers;
+    private TextView onlineValue;
 
     private RadioGroup rg1;
     private RadioGroup rg2;
@@ -473,6 +483,7 @@ public class StartActivity extends AppCompatActivity {
     private long period = 2000;
     private Boolean snackbarFlag;
     private Boolean multiplayerFlag;
+    private String username;
 
     private Timer requestTimer;
 

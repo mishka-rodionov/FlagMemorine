@@ -65,9 +65,9 @@ public class StatisticActivity extends AppCompatActivity {
         xL = (ToggleButton) findViewById(R.id.xlTB);
         xxL = (ToggleButton) findViewById(R.id.xxlTB);
 
-        hour = (ToggleButton) findViewById(R.id.hourTB);
-        day = (ToggleButton) findViewById(R.id.dayTB);
-        all = (ToggleButton) findViewById(R.id.allTB);
+//        hour = (ToggleButton) findViewById(R.id.hourTB);
+//        day = (ToggleButton) findViewById(R.id.dayTB);
+//        all = (ToggleButton) findViewById(R.id.allTB);
 
         // Обработчик нажатия на кнопку выбора размкра поля
         View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -108,31 +108,31 @@ public class StatisticActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 switch (v.getId()){
-                    case R.id.hourTB:
-                        if (hour.isChecked()){
-                            day.setChecked(false);
-                            all.setChecked(false);
-                        }else{
-                            all.setChecked(true);
-                        }
-                        break;
-                    case R.id.dayTB:
-                        if (day.isChecked()){
-                            hour.setChecked(false);
-                            all.setChecked(false);
-                        }else{
-                            all.setChecked(true);
-                        }
-                        break;
-                    case R.id.allTB:
-                        if (all.isChecked()){
-                            day.setChecked(false);
-                            hour.setChecked(false);
-                        }else {
-                            hour.setChecked(true);
-                        }
-
-                        break;
+//                    case R.id.hourTB:
+//                        if (hour.isChecked()){
+//                            day.setChecked(false);
+//                            all.setChecked(false);
+//                        }else{
+//                            all.setChecked(true);
+//                        }
+//                        break;
+//                    case R.id.dayTB:
+//                        if (day.isChecked()){
+//                            hour.setChecked(false);
+//                            all.setChecked(false);
+//                        }else{
+//                            all.setChecked(true);
+//                        }
+//                        break;
+//                    case R.id.allTB:
+//                        if (all.isChecked()){
+//                            day.setChecked(false);
+//                            hour.setChecked(false);
+//                        }else {
+//                            hour.setChecked(true);
+//                        }
+//
+//                        break;
                 }
             }
         };
@@ -146,12 +146,12 @@ public class StatisticActivity extends AppCompatActivity {
         xL.setOnClickListener(onClickListener);
         xxL.setOnClickListener(onClickListener);
 
-        hour.setOnClickListener(periodToggleButton);
-        day.setOnClickListener(periodToggleButton);
-        all.setOnClickListener(periodToggleButton);
+//        hour.setOnClickListener(periodToggleButton);
+//        day.setOnClickListener(periodToggleButton);
+//        all.setOnClickListener(periodToggleButton);
 
         //Start conditions
-        all.setChecked(true);
+//        all.setChecked(true);
         xS.setChecked(true);
         specification(Data.getXsmallSize(), new Date().getTime());
         setBackgroundColorTB(xS);
@@ -161,20 +161,21 @@ public class StatisticActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
+        menu.findItem(R.id.action_restart).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 
     private void statisticTimeInterval(Integer size){
-        if (hour.isChecked()){
-            specification(size, Data.getMillisInHour());
-        }else if (day.isChecked()){
-            specification(size, Data.getMillisInDay());
-        }else {
+//        if (hour.isChecked()){
+//            specification(size, Data.getMillisInHour());
+//        }else if (day.isChecked()){
+//            specification(size, Data.getMillisInDay());
+//        }else {
             Date currentDate = new Date();
             Long currentTime = currentDate.getTime();
             Log.i(Data.getLOG_TAG(), "onClick current time: " + currentTime);
             specification(size, currentTime);
-        }
+//        }
     }
 
     // 24.03.18

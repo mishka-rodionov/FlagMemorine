@@ -12,7 +12,7 @@ import okhttp3.Request;
 
 public class HttpClient{
     public Request connectToRoom(String playerName, String user, String origin, String size)
-            {
+    {
 
         HttpUrl httpUrl = new HttpUrl.Builder()
                 .scheme("http")
@@ -36,7 +36,6 @@ public class HttpClient{
         return request;
     }
 
-
     public Request send(String text)
     {
 
@@ -59,7 +58,7 @@ public class HttpClient{
         return request;
     }
 
-    public Request availableUsers()
+    public Request availableUsers(String username, String online)
     {
 
         HttpUrl httpUrl = new HttpUrl.Builder()
@@ -68,6 +67,8 @@ public class HttpClient{
                 .port(8080)
                 .addPathSegment(Data.getServerAppName())
                 .addPathSegment(Data.getAvailableUsersServlet())
+                .addQueryParameter(Data.getOnline(), online)
+                .addQueryParameter(Data.getUsername(), username)
                 .build();
 
         Request request = new Request.Builder()

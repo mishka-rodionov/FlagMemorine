@@ -2,7 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".activity">
+    tools:context=".activity"
+    >
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
@@ -10,8 +11,8 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_restart"
-        android:icon="@drawable/ic_refresh_white_36dp"
+        android:id="@+id/playerAction"
+        android:icon="@drawable/ic_pause_white_36dp"
         android:orderInCategory="100"
         android:title="Action"
         app:showAsAction="ifRoom" />

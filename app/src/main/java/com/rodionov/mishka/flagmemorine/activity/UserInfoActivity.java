@@ -22,6 +22,7 @@ import com.rodionov.mishka.flagmemorine.cView.CSpinnerAdapter;
 import com.rodionov.mishka.flagmemorine.logic.CountryList;
 import com.rodionov.mishka.flagmemorine.logic.Data;
 import com.rodionov.mishka.flagmemorine.logic.HttpClient;
+import com.rodionov.mishka.flagmemorine.logic.Player;
 import com.rodionov.mishka.flagmemorine.service.SqLiteTableManager;
 
 import java.io.IOException;
@@ -56,6 +57,13 @@ public class UserInfoActivity extends AppCompatActivity {
         countrySpinner = (Spinner) findViewById(R.id.spinner);
         parentActivityName = getIntent().getStringExtra("activityName");
         fabDone = (FloatingActionButton) findViewById(R.id.fabDone);
+
+        String playername = sqLiteTableManager.getName();
+        Log.i(Data.getLOG_TAG(), "onCreate: PLAYERNAME " + playername);
+        if (!playername.equals(null)){
+//            userNameEditText.setHint(playername);
+            userNameEditText.setText(playername);
+        }
 
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
@@ -123,6 +131,7 @@ public class UserInfoActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
+        menu.findItem(R.id.action_restart).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 

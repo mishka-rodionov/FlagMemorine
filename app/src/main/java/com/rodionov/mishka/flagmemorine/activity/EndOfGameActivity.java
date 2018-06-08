@@ -134,15 +134,20 @@ public class EndOfGameActivity extends AppCompatActivity {
                         Intent intentStartActivity = new Intent(EndOfGameActivity.this, StartActivity.class);
                         startActivity(intentStartActivity);
                         break;
+                    case R.id.statisticButton:
+                        startActivity(new Intent(EndOfGameActivity.this, StatisticActivity.class));
+                        break;
                 }
             }
         };
 
         restart = (ImageButton) findViewById(R.id.restartButton);
         home = (ImageButton) findViewById(R.id.homeButton);
+        statistic = (ImageButton) findViewById(R.id.statisticButton);
 
         restart.setOnClickListener(onClickListener);
         home.setOnClickListener(onClickListener);
+        statistic.setOnClickListener(onClickListener);
     }
 
     private void createResult(String playerFirst, int colorPlayerFirst, String playerSecond, int colorPlayerSecond) {
@@ -184,6 +189,7 @@ public class EndOfGameActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
+        menu.findItem(R.id.action_restart).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -272,6 +278,7 @@ public class EndOfGameActivity extends AppCompatActivity {
 
     private ImageButton restart;
     private ImageButton home;
+    private ImageButton statistic;
 
     private HttpClient httpClient;
     private OkHttpClient client;
