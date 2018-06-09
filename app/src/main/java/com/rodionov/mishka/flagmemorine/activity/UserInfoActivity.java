@@ -182,11 +182,11 @@ public class UserInfoActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 final String answer = response.body().string();
-//                Log.i(Data.getLOG_TAG(), "onResponse run for USERINFO_ACTIVITY methods: " + answer.split(" ")[1]);
+                Log.i(Data.getLOG_TAG(), "onResponse run for USERINFO_ACTIVITY methods: " + answer.split(" ")[1]);
                 mainHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        Log.i(Data.getLOG_TAG(), "onResponse from USERINFO_ACTIVITY " + answer);
+                        Log.i(Data.getLOG_TAG(), "onResponse from USERINFO_ACTIVITY " + answer.split(" ")[0]);
                         if (parentActivityName.equals("StartActivity")){
                             login = username;
                             sqLiteTableManager.insertIntoUserInfoTable(
@@ -197,7 +197,7 @@ public class UserInfoActivity extends AppCompatActivity {
                             Intent startActivityIntent = new Intent(UserInfoActivity.this, StartActivity.class);
                             startActivity(startActivityIntent);
                         }else{
-                            login = answer;//.split(" ")[0];
+                            login = answer.split(" ")[0];
                             sqLiteTableManager.insertIntoUserInfoTable(
                                     userNameEditText.getText().toString(),
                                     login,

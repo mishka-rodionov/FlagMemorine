@@ -83,7 +83,7 @@ public class EndOfGameActivity extends AppCompatActivity {
             secondPlayername.setText(spn);
             anotherPlayerUsername = getIntent().getStringExtra("anotherPlayerUsername");
             anotherPlayerOrigin = getIntent().getStringExtra("anotherPlayerOrigin");
-            pushResultToDB(anotherPlayerUsername, spn, anotherPlayerOrigin, scoreValue, scoreValueSecondPLayer, result, Data.getCurrentDate(), sqLiteTableManager.getLogin());
+            pushResultToDB(anotherPlayerUsername, scoreValue, scoreValueSecondPLayer, result, Data.getCurrentDate(), sqLiteTableManager.getLogin());
             if (Integer.parseInt(result) < 0){
                 createResult("Loser!", Color.RED, "Winner!", Color.GREEN);
             }
@@ -224,11 +224,10 @@ public class EndOfGameActivity extends AppCompatActivity {
         });
     }
 
-    public void pushResultToDB(String enemyUsername, String enemyPlayername, String enemyOrigin,
-                               String score, String enemyScore, String result, String date, String username){
+    public void pushResultToDB(String enemyUsername, String score, String enemyScore, String result, String date, String username){
         final Handler mainHandler = new Handler(Looper.getMainLooper());
 
-        client.newCall(httpClient.pushResultToDB( enemyUsername,  enemyPlayername,  enemyOrigin,
+        client.newCall(httpClient.pushResultToDB( enemyUsername,
                  score,  enemyScore,  result,  date,  username)).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {

@@ -145,8 +145,7 @@ public class HttpClient{
         return request;
     }
 
-    public Request pushResultToDB(String enemyUsername, String enemyPlayername, String enemyOrigin,
-                                  String score, String enemyScore, String result, String date, String username)
+    public Request pushResultToDB(String enemyUsername, String score, String enemyScore, String result, String date, String username)
     {
 
         HttpUrl httpUrl = new HttpUrl.Builder()
@@ -156,9 +155,7 @@ public class HttpClient{
                 .addPathSegment(Data.getServerAppName())
                 .addPathSegment(Data.getPushResultToDB())
                 .addQueryParameter(Data.getUsername(), username)
-                .addQueryParameter(Data.getEnemyPlayername(), enemyPlayername)
                 .addQueryParameter(Data.getEnemyUsername(), enemyUsername)
-                .addQueryParameter(Data.getEnemyOrigin(), enemyOrigin)
                 .addQueryParameter(Data.getEnemyScore(), enemyScore)
                 .addQueryParameter(Data.getScore(), score)
                 .addQueryParameter(Data.getResult(), result)
