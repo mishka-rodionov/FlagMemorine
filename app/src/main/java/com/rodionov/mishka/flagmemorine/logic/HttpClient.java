@@ -233,6 +233,26 @@ public class HttpClient{
         return request;
     }
 
+    public Request getTotalTop(String username)
+    {
+
+        HttpUrl httpUrl = new HttpUrl.Builder()
+                .scheme("http")
+                .host(Data.getCustomURL())
+                .port(8080)
+                .addPathSegment(Data.getServerAppName())
+                .addPathSegment(Data.getTotalTopServlet())
+                .addQueryParameter(Data.getUsername(), username)
+                .build();
+
+        Request request = new Request.Builder()
+                .url(httpUrl)
+                .header("User-Agent", "OkHttp Headers.java")
+                .build();
+
+        return request;
+    }
+
     private String LOG_TAG = "flagmemorine";
     private final OkHttpClient client = new OkHttpClient();
     private String battlefield;

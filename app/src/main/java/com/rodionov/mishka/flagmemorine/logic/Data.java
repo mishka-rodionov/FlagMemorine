@@ -480,8 +480,24 @@ public class Data {
         Data.online = online;
     }
 
+    public static String getOpponentIsGoneServlet() {
+        return opponentIsGoneServlet;
+    }
+
+    public static void setOpponentIsGoneServlet(String opponentIsGoneServlet) {
+        Data.opponentIsGoneServlet = opponentIsGoneServlet;
+    }
+
+    public static String getTotalTopServlet() {
+        return totalTopServlet;
+    }
+
+    public static void setTotalTopServlet(String totalTopServlet) {
+        Data.totalTopServlet = totalTopServlet;
+    }
+
     //region Private static fields
-    private static String customURL = /*"82.202.226.186";//*/"192.168.42.227";
+    private static String customURL = "82.202.226.186";//*/"192.168.42.227";
     private static String LOG_TAG = "flagmemorine";
     private static String serverAppName = "TestGet";
     private static String mainServlet = "hello";
@@ -500,6 +516,7 @@ public class Data {
     private static String startServlet = "startServlet";
     private static String pushResultToDB = "pushResultToDBServlet";
     private static String opponentIsGoneServlet = "opponentIsGoneServlet";
+    private static String totalTopServlet = "totalTopServlet";
     //endregion
     private static String dbName  = "FlagMem";
     private static String dbStatisticTable  = "Statistic";

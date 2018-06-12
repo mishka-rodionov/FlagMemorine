@@ -18,19 +18,19 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.rodionov.mishka.flagmemorine.activity.BattleFieldActivity"
+            android:name=".activity.BattleFieldActivity"
             android:configChanges="orientation"
             android:label="@string/title_activity_battle_field"
-            android:parentActivityName="com.rodionov.mishka.flagmemorine.activity.StartActivity"
+            android:parentActivityName=".activity.StartActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.rodionov.mishka.flagmemorine.activity.RoomBattleFieldActivity"
+            android:name=".activity.RoomBattleFieldActivity"
             android:configChanges="orientation"
-            android:parentActivityName="com.rodionov.mishka.flagmemorine.activity.StartActivity"
+            android:parentActivityName=".activity.StartActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.rodionov.mishka.flagmemorine.activity.StartActivity"
+            android:name=".activity.StartActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -40,31 +40,33 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.rodionov.mishka.flagmemorine.activity.StatisticActivity"
+            android:name=".activity.StatisticActivity"
             android:configChanges="orientation"
-            android:parentActivityName="com.rodionov.mishka.flagmemorine.activity.StartActivity"
+            android:parentActivityName=".activity.StartActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.rodionov.mishka.flagmemorine.activity.UserInfoActivity"
+            android:name=".activity.UserInfoActivity"
             android:configChanges="orientation"
             android:label="@string/title_activity_user_info"
-            android:parentActivityName="com.rodionov.mishka.flagmemorine.activity.StartActivity"
+            android:parentActivityName=".activity.StartActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.rodionov.mishka.flagmemorine.activity.EndOfGameActivity"
+            android:name=".activity.EndOfGameActivity"
             android:configChanges="orientation"
             android:label="@string/title_activity_end_of_game"
-            android:parentActivityName="com.rodionov.mishka.flagmemorine.activity.StartActivity"
+            android:parentActivityName=".activity.StartActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name="com.rodionov.mishka.flagmemorine.activity.TestInteraction" />
-        <activity android:name="com.rodionov.mishka.flagmemorine.activity.WaitUserActivity"
+        <activity android:name=".activity.TestInteraction" />
+        <activity
+            android:name=".activity.WaitUserActivity"
             android:configChanges="orientation"
             android:label="@string/title_wait_user_activity"
-            android:parentActivityName="com.rodionov.mishka.flagmemorine.activity.StartActivity"
+            android:parentActivityName=".activity.StartActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.TotalTopActivity"></activity>
     </application>
 
 </manifest>

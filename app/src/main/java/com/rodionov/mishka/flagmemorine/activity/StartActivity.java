@@ -93,7 +93,9 @@ public class StartActivity extends AppCompatActivity {
         statistic = (Button) findViewById(R.id.statistic);
         stopAds = (Button) findViewById(R.id.stopAds);
         userInfo = (Button) findViewById(R.id.userInfo);
+        totalTop = (Button) findViewById(R.id.totalTop);
 
+        // region RadioButton Listener
         View.OnClickListener onClickListenerRB = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -162,6 +164,8 @@ public class StartActivity extends AppCompatActivity {
         large.setOnClickListener(onClickListenerRB);
         xLarge.setOnClickListener(onClickListenerRB);
         xxLarge.setOnClickListener(onClickListenerRB);
+// endregion RadioButton Listener
+
         String answer = "temp";
 
         View.OnClickListener onClickListenerButton = new View.OnClickListener() {
@@ -207,6 +211,9 @@ public class StartActivity extends AppCompatActivity {
                         }
 
                         break;
+                    case R.id.totalTop:
+                        getTotalTop(username);
+                        break;
                     case R.id.stopAds:
 
 //                        Intent interactionIntent = new Intent(StartActivity.this, TestInteraction.class);
@@ -221,6 +228,7 @@ public class StartActivity extends AppCompatActivity {
         statistic.setOnClickListener(onClickListenerButton);
         userInfo.setOnClickListener(onClickListenerButton);
         stopAds.setOnClickListener(onClickListenerButton);
+        totalTop.setOnClickListener(onClickListenerButton);
 
         requestTimer.schedule(new TimerTask() {
             @Override
@@ -393,6 +401,52 @@ public class StartActivity extends AppCompatActivity {
         });
     }
 
+    public void getTotalTop(String un){
+        final Handler mainHandler = new Handler(Looper.getMainLooper());
+        final Snackbar snackbar = Snackbar.make(activityStartLayout, "Server is not available!", Snackbar.LENGTH_INDEFINITE);;
+        View.OnClickListener snackbarOnClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snackbar.dismiss();
+            }
+        };
+
+        snackbar.setAction("OK", snackbarOnClickListener);
+        Log.i(Data.getLOG_TAG(), "getTotalTop: SENDING USERNAME IS ---------> " + un);
+        client.newCall(httpClient.getTotalTop(un)).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+//                        view.setText(battlefield);
+                        Log.i(Data.getLOG_TAG(), "StartActivity run: " + "Fail!!!!!!!!!!!!");
+//                        Toast.makeText(StartActivity.this, "Network is not available!", Toast.LENGTH_SHORT).show();
+                        multiplayerFlag = false;
+                        if (snackbarFlag){
+                            snackbar.show();
+                            snackbarFlag = false;
+                        }
+                    }
+                });
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+//                final String[] answer = response.body().string().split(" ");
+                multiplayerFlag = true;
+                final String answer = response.body().string();
+                Log.i(Data.getLOG_TAG(), "onResponse run for TOPTOTAL methods: " + answer);
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                    }
+                });
+            }
+        });
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -458,6 +512,7 @@ public class StartActivity extends AppCompatActivity {
     private Button statistic;
     private Button stopAds;
     private Button userInfo;
+    private Button totalTop;
 
     private LinearLayout activityStartLayout;
 
