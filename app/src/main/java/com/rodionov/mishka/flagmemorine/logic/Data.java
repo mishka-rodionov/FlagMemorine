@@ -474,7 +474,7 @@ public class Data {
     //endregion
 
     //region Private static fields
-    private static String customURL = /*"82.202.226.186";//*/"192.168.42.227";
+    private static String customURL = "82.202.226.186";//*/"192.168.42.227";
     private static String LOG_TAG = "flagmemorine";
     private static String serverAppName = "TestGet";
     private static String mainServlet = "hello";

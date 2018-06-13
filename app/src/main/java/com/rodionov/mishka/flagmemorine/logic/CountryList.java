@@ -18,9 +18,9 @@ public class CountryList {
 
     public static void loadCountryMap(){
         countryMap = new HashMap<>();
-//                countryMap.put("Abkhazia",R.drawable.abkhazia);
+                countryMap.put("Abkhazia",R.drawable.abkhazia);
                 countryMap.put("Afghanistan",R.drawable.afghanistan);
-//                countryMap.put("Aland",R.drawable.aland);
+                countryMap.put("Aland",R.drawable.aland);
                 countryMap.put("Albania",R.drawable.albania);
                 countryMap.put("Algeria",R.drawable.algeria);
                 countryMap.put("American Samoa",R.drawable.american_samoa);
@@ -39,7 +39,7 @@ public class CountryList {
                 countryMap.put("Bahrain",R.drawable.bahrain);
                 countryMap.put("Bangladesh",R.drawable.bangladesh);
                 countryMap.put("Barbados",R.drawable.barbados);
-//                countryMap.put("Basque Country",R.drawable.basque_country);
+                countryMap.put("Basque Country",R.drawable.basque_country);
                 countryMap.put("Belarus",R.drawable.belarus);
                 countryMap.put("Belgium",R.drawable.belgium);
                 countryMap.put("Belize",R.drawable.belize);
@@ -47,7 +47,7 @@ public class CountryList {
                 countryMap.put("Bermuda",R.drawable.bermuda);
                 countryMap.put("Bhutan",R.drawable.bhutan);
                 countryMap.put("Bolivia",R.drawable.bolivia);
-//                countryMap.put("Bosnia and Herzegovina",R.drawable.bosnia_and_herzegovina);
+                countryMap.put("Bosnia and Herzegovina",R.drawable.bosnia_and_herzegovina);
                 countryMap.put("Botswana",R.drawable.botswana);
                 countryMap.put("Brazil",R.drawable.brazil);
                 countryMap.put("British Antarctic Territory",R.drawable.british_antarctic_territory);
@@ -59,7 +59,7 @@ public class CountryList {
                 countryMap.put("Cambodia",R.drawable.cambodia);
                 countryMap.put("Cameroon",R.drawable.cameroon);
                 countryMap.put("Canada",R.drawable.canada);
-//                countryMap.put("Canary Islands",R.drawable.canary_islands);
+                countryMap.put("Canary Islands",R.drawable.canary_islands);
                 countryMap.put("Cape Verde",R.drawable.cape_verde);
                 countryMap.put("Cayman Islands",R.drawable.cayman_islands);
                 countryMap.put("Central African Republic",R.drawable.central_african_republic);
@@ -67,19 +67,19 @@ public class CountryList {
                 countryMap.put("Chile",R.drawable.chile);
                 countryMap.put("China",R.drawable.china);
                 countryMap.put("Christmas Island",R.drawable.christmas_island);
-//                countryMap.put("Cocos Keeling Islands",R.drawable.cocos_keeling_islands);
+                countryMap.put("Cocos Keeling Islands",R.drawable.cocos_keeling_islands);
                 countryMap.put("Colombia",R.drawable.colombia);
-//                countryMap.put("Commonwealth",R.drawable.commonwealth);
+                countryMap.put("Commonwealth",R.drawable.commonwealth);
                 countryMap.put("Comoros",R.drawable.comoros);
                 countryMap.put("Cook Islands",R.drawable.cook_islands);
                 countryMap.put("Costa Rica",R.drawable.costa_rica);
-//                countryMap.put("Cote dIvoire",R.drawable.cote_divoire);
-//                countryMap.put("Croatia",R.drawable.croatia);
+                countryMap.put("Cote dIvoire",R.drawable.cote_divoire);
+                countryMap.put("Croatia",R.drawable.croatia);
                 countryMap.put("Cuba",R.drawable.cuba);
                 countryMap.put("Curacao",R.drawable.curacao);
                 countryMap.put("Cyprus",R.drawable.cyprus);
                 countryMap.put("Czech Republic",R.drawable.czech_republic);
-//                countryMap.put("Democratic Republic of the Congo",R.drawable.democratic_republic_of_the_congo);
+                countryMap.put("Democratic Republic of the Congo",R.drawable.democratic_republic_of_the_congo);
                 countryMap.put("Denmark",R.drawable.denmark);
                 countryMap.put("Djibouti",R.drawable.djibouti);
                 countryMap.put("Dominica",R.drawable.dominica);
@@ -95,7 +95,7 @@ public class CountryList {
                 countryMap.put("Ethiopia",R.drawable.ethiopia);
                 countryMap.put("European Union",R.drawable.european_union);
                 countryMap.put("Falkland Islands",R.drawable.falkland_islands);
-//                countryMap.put("Faroes",R.drawable.faroes);
+                countryMap.put("Faroes",R.drawable.faroes);
                 countryMap.put("Fiji",R.drawable.fiji);
                 countryMap.put("Finland",R.drawable.finland);
                 countryMap.put("France",R.drawable.france);
@@ -107,7 +107,7 @@ public class CountryList {
                 countryMap.put("Germany",R.drawable.germany);
                 countryMap.put("Ghana",R.drawable.ghana);
                 countryMap.put("Gibraltar",R.drawable.gibraltar);
-//                countryMap.put("GoSquared",R.drawable.gosquared);
+                countryMap.put("GoSquared",R.drawable.gosquared);
                 countryMap.put("Greece",R.drawable.greece);
                 countryMap.put("Greenland",R.drawable.greenland);
                 countryMap.put("Grenada",R.drawable.grenada);
@@ -157,7 +157,7 @@ public class CountryList {
                 countryMap.put("Maldives",R.drawable.maldives);
                 countryMap.put("Mali",R.drawable.mali);
                 countryMap.put("Malta",R.drawable.malta);
-//                countryMap.put("Mars",R.drawable.mars);
+                countryMap.put("Mars",R.drawable.mars);
                 countryMap.put("Marshall Islands",R.drawable.marshall_islands);
                 countryMap.put("Martinique",R.drawable.martinique);
                 countryMap.put("Mauritania",R.drawable.mauritania);
@@ -173,9 +173,9 @@ public class CountryList {
                 countryMap.put("Morocco",R.drawable.morocco);
                 countryMap.put("Mozambique",R.drawable.mozambique);
                 countryMap.put("Myanmar",R.drawable.myanmar);
-//                countryMap.put("Nagorno Karabakh",R.drawable.nagorno_karabakh);
+                countryMap.put("Nagorno Karabakh",R.drawable.nagorno_karabakh);
                 countryMap.put("Namibia",R.drawable.namibia);
-//                countryMap.put("NATO",R.drawable.nato);
+                countryMap.put("NATO",R.drawable.nato);
                 countryMap.put("Nauru",R.drawable.nauru);
                 countryMap.put("Nepal",R.drawable.nepal);
                 countryMap.put("Netherlands Antilles",R.drawable.netherlands_antilles);
@@ -188,26 +188,26 @@ public class CountryList {
                 countryMap.put("Niue",R.drawable.niue);
                 countryMap.put("Norfolk Island",R.drawable.norfolk_island);
                 countryMap.put("North Korea",R.drawable.north_korea);
-//                countryMap.put("Northern Cyprus",R.drawable.northern_cyprus);
+                countryMap.put("Northern Cyprus",R.drawable.northern_cyprus);
                 countryMap.put("Northern Mariana Islands",R.drawable.northern_mariana_islands);
                 countryMap.put("Norway",R.drawable.norway);
                 countryMap.put("Olympics",R.drawable.olympics);
                 countryMap.put("Oman",R.drawable.oman);
                 countryMap.put("Pakistan",R.drawable.pakistan);
                 countryMap.put("Palau",R.drawable.palau);
-//                countryMap.put("Palestine",R.drawable.palestine);
+                countryMap.put("Palestine",R.drawable.palestine);
                 countryMap.put("Panama",R.drawable.panama);
                 countryMap.put("Papua New Guinea",R.drawable.papua_new_guinea);
                 countryMap.put("Paraguay",R.drawable.paraguay);
                 countryMap.put("Peru",R.drawable.peru);
                 countryMap.put("Philippines",R.drawable.philippines);
-//                countryMap.put("Pitcairn Islands",R.drawable.pitcairn_islands);
+                countryMap.put("Pitcairn Islands",R.drawable.pitcairn_islands);
                 countryMap.put("Poland",R.drawable.poland);
                 countryMap.put("Portugal",R.drawable.portugal);
                 countryMap.put("Puerto Rico",R.drawable.puerto_rico);
                 countryMap.put("Qatar",R.drawable.qatar);
-//                countryMap.put("Red Cross",R.drawable.red_cross);
-//                countryMap.put("Republic of the Congo",R.drawable.republic_of_the_congo);
+                countryMap.put("Red Cross",R.drawable.red_cross);
+                countryMap.put("Republic of the Congo",R.drawable.republic_of_the_congo);
                 countryMap.put("Romania",R.drawable.romania);
                 countryMap.put("Russia",R.drawable.russia);
                 countryMap.put("Rwanda",R.drawable.rwanda);
@@ -231,11 +231,11 @@ public class CountryList {
                 countryMap.put("Slovenia",R.drawable.slovenia);
                 countryMap.put("Solomon Islands",R.drawable.solomon_islands);
                 countryMap.put("Somalia",R.drawable.somalia);
-//                countryMap.put("Somaliland",R.drawable.somaliland);
+                countryMap.put("Somaliland",R.drawable.somaliland);
                 countryMap.put("South Africa",R.drawable.south_africa);
-//                countryMap.put("South Georgia and the South Sandwich Islands",R.drawable.south_georgia_and_the_south_sandwich_islands);
-//                countryMap.put("South Korea",R.drawable.south_korea);
-//                countryMap.put("South Ossetia",R.drawable.south_ossetia);
+                countryMap.put("South Georgia and the South Sandwich Islands",R.drawable.south_georgia_and_the_south_sandwich_islands);
+                countryMap.put("South Korea",R.drawable.south_korea);
+                countryMap.put("South Ossetia",R.drawable.south_ossetia);
                 countryMap.put("South Sudan",R.drawable.south_sudan);
                 countryMap.put("Spain",R.drawable.spain);
                 countryMap.put("Sri Lanka",R.drawable.sri_lanka);
@@ -262,11 +262,11 @@ public class CountryList {
                 countryMap.put("Ukraine",R.drawable.ukraine);
                 countryMap.put("United Arab Emirates",R.drawable.united_arab_emirates);
                 countryMap.put("United Kingdom",R.drawable.united_kingdom);
-//                countryMap.put("United Nations",R.drawable.united_nations);
+                countryMap.put("United Nations",R.drawable.united_nations);
                 countryMap.put("United States",R.drawable.united_states);
                 countryMap.put("Unknown",R.drawable.unknown);
                 countryMap.put("Uruguay",R.drawable.uruguay);
-//                countryMap.put("US Virgin Islands",R.drawable.us_virgin_islands);
+                countryMap.put("US Virgin Islands",R.drawable.us_virgin_islands);
                 countryMap.put("Uzbekistan",R.drawable.uzbekistan);
                 countryMap.put("Vanuatu",R.drawable.vanuatu);
                 countryMap.put("Vatican City",R.drawable.vatican_city);
@@ -329,9 +329,9 @@ public class CountryList {
     private static HashMap<String, Integer> countryMap;
 
     private static String[] countryList = {
-//            "Abkhazia",
+            "Abkhazia",
             "Afghanistan",
-//            "Aland",
+            "Aland",
             "Albania",
             "Algeria",
             "American Samoa",
@@ -350,7 +350,7 @@ public class CountryList {
             "Bahrain",
             "Bangladesh",
             "Barbados",
-//            "Basque Country",
+            "Basque Country",
             "Belarus",
             "Belgium",
             "Belize",
@@ -358,7 +358,7 @@ public class CountryList {
             "Bermuda",
             "Bhutan",
             "Bolivia",
-//            "Bosnia and Herzegovina",
+            "Bosnia and Herzegovina",
             "Botswana",
             "Brazil",
             "British Antarctic Territory",
@@ -370,7 +370,7 @@ public class CountryList {
             "Cambodia",
             "Cameroon",
             "Canada",
-//            "Canary Islands",
+            "Canary Islands",
             "Cape Verde",
             "Cayman Islands",
             "Central African Republic",
@@ -378,19 +378,19 @@ public class CountryList {
             "Chile",
             "China",
             "Christmas Island",
-//            "Cocos Keeling Islands",
+            "Cocos Keeling Islands",
             "Colombia",
-//            "Commonwealth",
+            "Commonwealth",
             "Comoros",
             "Cook Islands",
             "Costa Rica",
-//            "Cote dIvoire",
-//            "Croatia",
+            "Cote dIvoire",
+            "Croatia",
             "Cuba",
             "Curacao",
             "Cyprus",
             "Czech Republic",
-//            "Democratic Republic of the Congo",
+            "Democratic Republic of the Congo",
             "Denmark",
             "Djibouti",
             "Dominica",
@@ -404,9 +404,9 @@ public class CountryList {
             "Eritrea",
             "Estonia",
             "Ethiopia",
-//            "European Union",
+            "European Union",
             "Falkland Islands",
-//            "Faroes",
+            "Faroes",
             "Fiji",
             "Finland",
             "France",
@@ -418,7 +418,7 @@ public class CountryList {
             "Germany",
             "Ghana",
             "Gibraltar",
-//            "GoSquared",
+            "GoSquared",
             "Greece",
             "Greenland",
             "Grenada",
@@ -468,7 +468,7 @@ public class CountryList {
             "Maldives",
             "Mali",
             "Malta",
-//            "Mars",
+            "Mars",
             "Marshall Islands",
             "Martinique",
             "Mauritania",
@@ -484,9 +484,9 @@ public class CountryList {
             "Morocco",
             "Mozambique",
             "Myanmar",
-//            "Nagorno Karabakh",
+            "Nagorno Karabakh",
             "Namibia",
-//            "NATO",
+            "NATO",
             "Nauru",
             "Nepal",
             "Netherlands Antilles",
@@ -499,26 +499,26 @@ public class CountryList {
             "Niue",
             "Norfolk Island",
             "North Korea",
-//            "Northern Cyprus",
+            "Northern Cyprus",
             "Northern Mariana Islands",
             "Norway",
             "Olympics",
             "Oman",
             "Pakistan",
             "Palau",
-//            "Palestine",
+            "Palestine",
             "Panama",
             "Papua New Guinea",
             "Paraguay",
             "Peru",
             "Philippines",
-//            "Pitcairn Islands",
+            "Pitcairn Islands",
             "Poland",
             "Portugal",
             "Puerto Rico",
             "Qatar",
-//            "Red Cross",
-//            "Republic of the Congo",
+            "Red Cross",
+            "Republic of the Congo",
             "Romania",
             "Russia",
             "Rwanda",
@@ -542,11 +542,11 @@ public class CountryList {
             "Slovenia",
             "Solomon Islands",
             "Somalia",
-//            "Somaliland",
+            "Somaliland",
             "South Africa",
-//            "South Georgia and the South Sandwich Islands",
-//            "South Korea",
-//            "South Ossetia",
+            "South Georgia and the South Sandwich Islands",
+            "South Korea",
+            "South Ossetia",
             "South Sudan",
             "Spain",
             "Sri Lanka",
@@ -573,11 +573,11 @@ public class CountryList {
             "Ukraine",
             "United Arab Emirates",
             "United Kingdom",
-//            "United Nations",
+            "United Nations",
             "United States",
             "Unknown",
             "Uruguay",
-//            "US Virgin Islands",
+            "US Virgin Islands",
             "Uzbekistan",
             "Vanuatu",
             "Vatican City",

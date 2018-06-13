@@ -485,8 +485,14 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
             }
         }else if (battleFieldSize == Data.getXxlargeSize()){
             for (int i = 0; i < Data.getXxlargeSize(); i++) {
-                flipViews.add((FlipView) view.findViewById(Data.getIdxxlarge(i)));
-                flipViews.get(i).setRearImage(CountryList.getCountry(battleField.getElement(i)));
+                try{
+                    flipViews.add((FlipView) view.findViewById(Data.getIdxxlarge(i)));
+                    flipViews.get(i).setRearImage(CountryList.getCountry(battleField.getElement(i)));
+                }catch (NullPointerException np){
+                    Log.i(Data.getLOG_TAG(), "initFlipView: BAD COUNTRY = " + battleField.getElement(i));
+                    np.toString();
+                }
+
             }
         }
         for (int i = 0; i < flipViews.size(); i++) {
