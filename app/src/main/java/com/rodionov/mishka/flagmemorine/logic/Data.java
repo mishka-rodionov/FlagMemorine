@@ -86,9 +86,112 @@ public class Data {
     public static void setStep2(String step2) {
         Data.step2 = step2;
     }
+
+    public static void setPlayerName(String playerName) {
+        Data.playerName = playerName;
+    }
+
+    public static void setType(String type) {
+        Data.type = type;
+    }
+
+    public static void setStep(String step) {
+        Data.step = step;
+    }
+
+    public static void setSend(String send) {
+        Data.send = send;
+    }
+
+    public static void setReceive(String receive) {
+        Data.receive = receive;
+    }
+
+    public static void setUser(String user) {
+        Data.user = user;
+    }
+
+    public static void setOrigin(String origin) {
+        Data.origin = origin;
+    }
+
+    public static void setSize(String size) {
+        Data.size = size;
+    }
+
+    public static void setAvailableUsersServlet(String availableUsersServlet) {
+        Data.availableUsersServlet = availableUsersServlet;
+    }
+
+    public static void setUsernameServlet(String usernameServlet) {
+        Data.usernameServlet = usernameServlet;
+    }
+
+    public static void setRemoveRoomServlet(String removeRoomServlet) {
+        Data.removeRoomServlet = removeRoomServlet;
+    }
+
+    public static void setStartServlet(String startServlet) {
+        Data.startServlet = startServlet;
+    }
+
+    public static void setVirgin(String virgin) {
+        Data.virgin = virgin;
+    }
+
+    public static void setUsername(String username) {
+        Data.username = username;
+    }
+
+    public static void setPushResultToDB(String pushResultToDB) {
+        Data.pushResultToDB = pushResultToDB;
+    }
+
+    public static void setEnemyUsername(String enemyUsername) {
+        Data.enemyUsername = enemyUsername;
+    }
+
+    public static void setEnemyPlayername(String enemyPlayername) {
+        Data.enemyPlayername = enemyPlayername;
+    }
+
+    public static void setEnemyOrigin(String enemyOrigin) {
+        Data.enemyOrigin = enemyOrigin;
+    }
+
+    public static void setEnemyScore(String enemyScore) {
+        Data.enemyScore = enemyScore;
+    }
+
+    public static void setScore(String score) {
+        Data.score = score;
+    }
+
+    public static void setResult(String result) {
+        Data.result = result;
+    }
+
+    public static void setDate(String date) {
+        Data.date = date;
+    }
+
+    public static void setPlayerNumber(String playerNumber) {
+        Data.playerNumber = playerNumber;
+    }
+
+    public static void setOnline(String online) {
+        Data.online = online;
+    }
+
+    public static void setOpponentIsGoneServlet(String opponentIsGoneServlet) {
+        Data.opponentIsGoneServlet = opponentIsGoneServlet;
+    }
+
+    public static void setTotalTopServlet(String totalTopServlet) {
+        Data.totalTopServlet = totalTopServlet;
+    }
+
     //endregion
-
-
 
     //region Getters
     public static String getCustomURL(){
@@ -281,223 +384,97 @@ public class Data {
         return step2;
     }
 
-    //endregion
-
-
-    public static String getPlayerName() {
-        return playerName;
-    }
-
-    public static void setPlayerName(String playerName) {
-        Data.playerName = playerName;
-    }
-
-    public static String getType() {
-        return type;
-    }
-
-    public static void setType(String type) {
-        Data.type = type;
-    }
-
-    public static String getStep() {
-        return step;
-    }
-
-    public static void setStep(String step) {
-        Data.step = step;
+    public static String getReceive() {
+        return receive;
     }
 
     public static String getSend() {
         return send;
     }
 
-    public static void setSend(String send) {
-        Data.send = send;
+    public static String getStep() {
+        return step;
     }
 
-    public static String getReceive() {
-        return receive;
+    public static String getType() {
+        return type;
     }
 
-    public static void setReceive(String receive) {
-        Data.receive = receive;
-    }
-
-    public static String getCurrentDate(){
-        return new Date().toString();
-    }
-
-    public static String getUser() {
-        return user;
-    }
-
-    public static void setUser(String user) {
-        Data.user = user;
-    }
-
-    public static String getOrigin() {
-        return origin;
-    }
-
-    public static void setOrigin(String origin) {
-        Data.origin = origin;
-    }
-
-    public static String getSize() {
-        return size;
-    }
-
-    public static void setSize(String size) {
-        Data.size = size;
-    }
-
-    public static String getAvailableUsersServlet() {
-        return availableUsersServlet;
-    }
-
-    public static void setAvailableUsersServlet(String availableUsersServlet) {
-        Data.availableUsersServlet = availableUsersServlet;
-    }
-
-    public static String getUsernameServlet() {
-        return usernameServlet;
-    }
-
-    public static void setUsernameServlet(String usernameServlet) {
-        Data.usernameServlet = usernameServlet;
-    }
-
-    public static String getRemoveRoomServlet() {
-        return removeRoomServlet;
-    }
-
-    public static void setRemoveRoomServlet(String removeRoomServlet) {
-        Data.removeRoomServlet = removeRoomServlet;
-    }
-
-    public static String getStartServlet() {
-        return startServlet;
-    }
-
-    public static void setStartServlet(String startServlet) {
-        Data.startServlet = startServlet;
-    }
-
-    public static String getVirgin() {
-        return virgin;
-    }
-
-    public static void setVirgin(String virgin) {
-        Data.virgin = virgin;
+    public static String getPlayerName() {
+        return playerName;
     }
 
     public static String getUsername() {
         return username;
     }
-
-    public static void setUsername(String username) {
-        Data.username = username;
+    public static String getVirgin() {
+        return virgin;
     }
-
-    public static String getPushResultToDB() {
-        return pushResultToDB;
+    public static String getStartServlet() {
+        return startServlet;
     }
-
-    public static void setPushResultToDB(String pushResultToDB) {
-        Data.pushResultToDB = pushResultToDB;
+    public static String getRemoveRoomServlet() {
+        return removeRoomServlet;
     }
-
-    public static String getEnemyUsername() {
-        return enemyUsername;
+    public static String getUsernameServlet() {
+        return usernameServlet;
     }
-
-    public static void setEnemyUsername(String enemyUsername) {
-        Data.enemyUsername = enemyUsername;
+    public static String getOrigin() {
+        return origin;
     }
-
-    public static String getEnemyPlayername() {
-        return enemyPlayername;
+    public static String getAvailableUsersServlet() {
+        return availableUsersServlet;
     }
-
-    public static void setEnemyPlayername(String enemyPlayername) {
-        Data.enemyPlayername = enemyPlayername;
+    public static String getCurrentDate(){
+        return new Date().toString();
     }
-
+    public static String getSize() {
+        return size;
+    }
+    public static String getUser() {
+        return user;
+    }
     public static String getEnemyOrigin() {
         return enemyOrigin;
     }
-
-    public static void setEnemyOrigin(String enemyOrigin) {
-        Data.enemyOrigin = enemyOrigin;
-    }
-
     public static String getEnemyScore() {
         return enemyScore;
     }
-
-    public static void setEnemyScore(String enemyScore) {
-        Data.enemyScore = enemyScore;
-    }
-
     public static String getScore() {
         return score;
     }
-
-    public static void setScore(String score) {
-        Data.score = score;
-    }
-
     public static String getResult() {
         return result;
     }
-
-    public static void setResult(String result) {
-        Data.result = result;
-    }
-
     public static String getDate() {
         return date;
     }
-
-    public static void setDate(String date) {
-        Data.date = date;
-    }
-
     public static String getPlayerNumber() {
         return playerNumber;
     }
-
-    public static void setPlayerNumber(String playerNumber) {
-        Data.playerNumber = playerNumber;
+    public static String getOpponentIsGoneServlet() {
+        return opponentIsGoneServlet;
     }
-
+    public static String getTotalTopServlet() {
+        return totalTopServlet;
+    }
+    public static String getEnemyPlayername() {
+        return enemyPlayername;
+    }
+    public static String getEnemyUsername() {
+        return enemyUsername;
+    }
+    public static String getPushResultToDB() {
+        return pushResultToDB;
+    }
     public static String getOnline() {
         return online;
     }
 
-    public static void setOnline(String online) {
-        Data.online = online;
-    }
-
-    public static String getOpponentIsGoneServlet() {
-        return opponentIsGoneServlet;
-    }
-
-    public static void setOpponentIsGoneServlet(String opponentIsGoneServlet) {
-        Data.opponentIsGoneServlet = opponentIsGoneServlet;
-    }
-
-    public static String getTotalTopServlet() {
-        return totalTopServlet;
-    }
-
-    public static void setTotalTopServlet(String totalTopServlet) {
-        Data.totalTopServlet = totalTopServlet;
-    }
+    //endregion
 
     //region Private static fields
-    private static String customURL = "82.202.226.186";//*/"192.168.42.227";
+    private static String customURL = /*"82.202.226.186";//*/"192.168.42.227";
     private static String LOG_TAG = "flagmemorine";
     private static String serverAppName = "TestGet";
     private static String mainServlet = "hello";

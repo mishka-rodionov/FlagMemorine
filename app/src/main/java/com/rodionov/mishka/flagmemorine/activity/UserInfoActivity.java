@@ -182,7 +182,7 @@ public class UserInfoActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 final String answer = response.body().string();
-                Log.i(Data.getLOG_TAG(), "onResponse run for USERINFO_ACTIVITY methods: " + answer.split(" ")[1]);
+//                Log.i(Data.getLOG_TAG(), "onResponse run for USERINFO_ACTIVITY methods: " + answer.split(" ")[1]);
                 mainHandler.post(new Runnable() {
                     @Override
                     public void run() {

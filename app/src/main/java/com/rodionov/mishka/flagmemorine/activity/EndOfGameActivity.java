@@ -108,7 +108,7 @@ public class EndOfGameActivity extends AppCompatActivity {
 
 
 
-        factsTextView.setText(Facts.randomCountryFacts());
+        factsTextView.setText(Facts.randomRussiaFacts());
 
 
         View.OnClickListener onClickListener = new View.OnClickListener() {

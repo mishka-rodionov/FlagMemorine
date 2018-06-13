@@ -1,9 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:orientation="vertical"
+    android:paddingBottom="10dp"
+    android:paddingEnd="10dp"
+    android:paddingStart="10dp"
     tools:context="com.rodionov.mishka.flagmemorine.activity.TotalTopActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/toolbar_background"
+        android:paddingTop="10dp"
+        android:theme="@style/AppTheme.NoActionBar.AppBarOverlay"
+        app:elevation="0dp">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/totalStatistic_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/toolbar_background"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:elevation="0dp"
+            app:popupTheme="@style/AppTheme.NoActionBar.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:orientation="horizontal">-->
+
+    <!--<ToggleButton-->
+    <!--android:id="@+id/hourTB"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginLeft="10dp"-->
+    <!--android:layout_weight="1"-->
+    <!--android:background="@drawable/rounded_button"-->
+    <!--android:checked="false"-->
+    <!--android:textOff="@string/hour"-->
+    <!--android:textOn="@string/hour" />-->
+
+    <!--<ToggleButton-->
+    <!--android:id="@+id/dayTB"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginLeft="10dp"-->
+    <!--android:layout_weight="1"-->
+    <!--android:background="@drawable/rounded_button"-->
+    <!--android:textOff="@string/day"-->
+    <!--android:textOn="@string/day" />-->
+
+    <!--<ToggleButton-->
+    <!--android:id="@+id/allTB"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginLeft="10dp"-->
+    <!--android:layout_weight="1"-->
+    <!--android:background="@drawable/rounded_button"-->
+    <!--android:textOff="@string/all"-->
+    <!--android:textOn="@string/all" />-->
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginBottom="3dp"-->
+        <!--android:orientation="horizontal">-->
+
+        <!--<ToggleButton-->
+            <!--android:id="@+id/xsTB"-->
+            <!--style="?android:attr/buttonStyleSmall"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/rounded_button"-->
+            <!--android:textOff="@string/xsmall"-->
+            <!--android:textOn="@string/xsmall" />-->
+
+        <!--<ToggleButton-->
+            <!--android:id="@+id/sTB"-->
+            <!--style="?android:attr/buttonStyleSmall"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/rounded_button"-->
+            <!--android:textOff="@string/small"-->
+            <!--android:textOn="@string/small" />-->
+
+        <!--<ToggleButton-->
+            <!--android:id="@+id/mTB"-->
+            <!--style="?android:attr/buttonStyleSmall"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/rounded_button"-->
+            <!--android:textOff="@string/medium"-->
+            <!--android:textOn="@string/medium" />-->
+
+        <!--<ToggleButton-->
+            <!--android:id="@+id/lTB"-->
+            <!--style="?android:attr/buttonStyleSmall"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/rounded_button"-->
+            <!--android:textOff="@string/large"-->
+            <!--android:textOn="@string/large" />-->
+
+        <!--<ToggleButton-->
+            <!--android:id="@+id/xlTB"-->
+            <!--style="?android:attr/buttonStyleSmall"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/rounded_button"-->
+            <!--android:textOff="@string/xlarge"-->
+            <!--android:textOn="@string/xlarge" />-->
+
+        <!--<ToggleButton-->
+            <!--android:id="@+id/xxlTB"-->
+            <!--style="?android:attr/buttonStyleSmall"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/rounded_button"-->
+            <!--android:textOff="@string/xxlarge"-->
+            <!--android:textOn="@string/xxlarge" />-->
+    <!--</LinearLayout>-->
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerviewTopTotal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp"
+        android:paddingTop="10dp">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <!--<ListView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:id="@+id/statisticLV" />-->
+</LinearLayout>

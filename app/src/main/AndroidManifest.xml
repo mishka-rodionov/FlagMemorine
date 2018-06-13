@@ -66,7 +66,12 @@
             android:parentActivityName=".activity.StartActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.TotalTopActivity"></activity>
+        <activity
+            android:name=".activity.TotalTopActivity"
+            android:parentActivityName=".activity.StartActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

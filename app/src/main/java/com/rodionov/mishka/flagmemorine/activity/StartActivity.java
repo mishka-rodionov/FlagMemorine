@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.icu.text.UnicodeSetSpanner;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.design.BuildConfig;
@@ -37,6 +38,10 @@ import okhttp3.Response;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -213,6 +218,7 @@ public class StartActivity extends AppCompatActivity {
                         break;
                     case R.id.totalTop:
                         getTotalTop(username);
+
                         break;
                     case R.id.stopAds:
 
@@ -438,9 +444,26 @@ public class StartActivity extends AppCompatActivity {
                 multiplayerFlag = true;
                 final String answer = response.body().string();
                 Log.i(Data.getLOG_TAG(), "onResponse run for TOPTOTAL methods: " + answer);
+                jsonString = answer;
                 mainHandler.post(new Runnable() {
                     @Override
                     public void run() {
+                        Intent totalTopIntent = new Intent(StartActivity.this, TotalTopActivity.class);
+                        totalTopIntent.putExtra("total", jsonString);
+                        startActivity(totalTopIntent);
+                        try{
+                            JSONObject jsonObject = new JSONObject(jsonString);
+                            int size = jsonObject.getInt("size");
+                            for (int i = 1; i < size; i++) {
+                                JSONArray array = jsonObject.getJSONArray("" + i);
+                                Log.i(Data.getLOG_TAG(), "JSON ARRAY INDEX 0 " + array.getString(0));
+                                Log.i(Data.getLOG_TAG(), "JSON ARRAY INDEX 1 " + array.getString(1));
+                                Log.i(Data.getLOG_TAG(), "JSON ARRAY INDEX 2 " + array.getString(2));
+                                Log.i(Data.getLOG_TAG(), "JSON ARRAY INDEX 3 " + array.getString(3));
+                            }
+                        }catch(JSONException jex){
+                            Log.i(Data.getLOG_TAG(), "CREATE JSON OBJECT " + jex.toString());
+                        }
                     }
                 });
             }
@@ -539,6 +562,7 @@ public class StartActivity extends AppCompatActivity {
     private Boolean snackbarFlag;
     private Boolean multiplayerFlag;
     private String username;
+    private String jsonString;
 
     private Timer requestTimer;
 
