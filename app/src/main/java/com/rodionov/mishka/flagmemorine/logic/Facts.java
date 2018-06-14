@@ -240,7 +240,7 @@ public class Facts {
                 R.drawable.saint_kitts_and_nevis,
                 R.drawable.saint_lucia,
                 R.drawable.saint_martin,
-                R.drawable.saint_vincent_and_the_grenadines,
+                R.drawable.svg,
                 R.drawable.samoa,
                 R.drawable.san_marino,
                 R.drawable.sao_tome_and_principe,

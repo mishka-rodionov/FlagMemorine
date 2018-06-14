@@ -1,5 +1,7 @@
 package com.rodionov.mishka.flagmemorine.logic;
 
+import android.util.Log;
+
 import com.rodionov.mishka.flagmemorine.R;
 
 import java.util.ArrayList;
@@ -96,6 +98,7 @@ public class CountryList {
                 countryMap.put("Estonia",R.drawable.estonia);
                 countryMap.put("Ethiopia",R.drawable.ethiopia);
                 countryMap.put("European Union",R.drawable.european_union);
+                countryMap.put("Ex Yugoslavia",R.drawable.ex_yugoslavia);
                 countryMap.put("Falkland Islands",R.drawable.falkland_islands);
                 countryMap.put("Faroe Islands",R.drawable.faroe_islands);
                 countryMap.put("Fiji",R.drawable.fiji);
@@ -113,6 +116,7 @@ public class CountryList {
                 countryMap.put("Greenland",R.drawable.greenland);
                 countryMap.put("Grenada",R.drawable.grenada);
                 countryMap.put("Guam",R.drawable.guam);
+                countryMap.put("Guadeloupe",R.drawable.guadeloupe);
                 countryMap.put("Guatemala",R.drawable.guatemala);
                 countryMap.put("Guernsey",R.drawable.guernsey);
                 countryMap.put("Guinea Bissau",R.drawable.guinea_bissau);
@@ -132,6 +136,7 @@ public class CountryList {
                 countryMap.put("Isle of Man",R.drawable.isle_of_man);
                 countryMap.put("Israel",R.drawable.israel);
                 countryMap.put("Italy",R.drawable.italy);
+                countryMap.put("Ivory Coast",R.drawable.ivory_coast);
                 countryMap.put("Jamaica",R.drawable.jamaica);
                 countryMap.put("Jan Mayen",R.drawable.jan_mayen);
                 countryMap.put("Japan",R.drawable.japan);
@@ -236,6 +241,7 @@ public class CountryList {
                 countryMap.put("Solomon Islands",R.drawable.solomon_islands);
                 countryMap.put("Somalia",R.drawable.somalia);
                 countryMap.put("South Africa",R.drawable.south_africa);
+                countryMap.put("South Georgia",R.drawable.south_georgia);
                 countryMap.put("South Korea",R.drawable.korea);
                 countryMap.put("South Sudan",R.drawable.south_sudan);
                 countryMap.put("Spain",R.drawable.spain);
@@ -278,7 +284,7 @@ public class CountryList {
                 countryMap.put("Vietnam",R.drawable.vietnam);
                 countryMap.put("Virgin Islands",R.drawable.virgin_islands);
                 countryMap.put("Wales",R.drawable.wales);
-                countryMap.put("Wallis And Futuna",R.drawable.wallis_and_futuna);
+                countryMap.put("Wallis and Futuna",R.drawable.wallis_and_futuna);
                 countryMap.put("Western Sahara",R.drawable.western_sahara);
                 countryMap.put("Yemen",R.drawable.yemen);
                 countryMap.put("Yugoslavia",R.drawable.yugoslavia);
@@ -299,6 +305,7 @@ public class CountryList {
 //                    resources[i++] = countryMap.get(iterator.next());
 //            }
             for (String c: getCountries()) {
+                    Log.i(Data.getLOG_TAG(), "COUNTRY MAP: " + c);
                     resources[i++] = countryMap.get(c);
             }
         return resources;
@@ -412,7 +419,7 @@ public class CountryList {
                     "Eritrea",
                     "Estonia",
                     "Ethiopia",
-                    "European Uunion",
+                    "European Union",
                     "Ex Yugoslavia",
                     "Falkland Islands",
                     "Faroe Islands",
@@ -461,7 +468,6 @@ public class CountryList {
                     "Kazakhstan",
                     "Kenya",
                     "Kiribati",
-                    "Korea",
                     "Kosovo",
                     "Kuwait",
                     "Kyrgyzstan",
