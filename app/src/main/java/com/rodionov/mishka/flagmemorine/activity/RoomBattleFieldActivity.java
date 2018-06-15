@@ -49,6 +49,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
+//        menu.findItem(R.id.action_restart).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 

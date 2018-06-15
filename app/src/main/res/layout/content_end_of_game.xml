@@ -26,13 +26,21 @@
         android:gravity="center"
         android:orientation="vertical">
 
+        <ImageView
+            android:id="@+id/factsView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/unknown" />
+
         <TextView
             android:id="@+id/factsTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center_horizontal|center"
-            android:text="Facts" />
+            android:text="Facts"
+            android:textColor="@color/textColor"
+            android:textSize="18sp" />
 
     </LinearLayout>
 

@@ -5,16 +5,15 @@
     tools:context=".activity"
     >
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
-
-    <item
         android:id="@+id/playerAction"
         android:icon="@drawable/ic_pause_white_36dp"
         android:orderInCategory="100"
         android:title="Action"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:title="@string/action_settings"
+        app:showAsAction="never" />
 
 </menu>

@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -71,6 +72,7 @@ public class EndOfGameActivity extends AppCompatActivity {
         messageEndOfGamePlayerSecond = (TextView) view.findViewById(R.id.messageEndOfGamePlayerSecond);
         firstPlayername = (TextView) view.findViewById(R.id.firstPlayerName);
         secondPlayername = (TextView) view.findViewById(R.id.secondPlayerName);
+        factsView = (ImageView) findViewById(R.id.factsView);
 
         if (activityName.equals("RoomBattlefield")){
             roomIndex = getIntent().getStringExtra("roomIndex");
@@ -108,7 +110,8 @@ public class EndOfGameActivity extends AppCompatActivity {
 
 
 
-        factsTextView.setText(Facts.randomRussiaFacts());
+//        factsTextView.setText(Facts.randomRussiaFacts());
+        factsTextView.setText(Facts.randomCountryFacts(factsView));
 
 
         View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -278,6 +281,7 @@ public class EndOfGameActivity extends AppCompatActivity {
     private ImageButton restart;
     private ImageButton home;
     private ImageButton statistic;
+    private ImageView factsView;
 
     private HttpClient httpClient;
     private OkHttpClient client;
