@@ -305,7 +305,7 @@ public class CountryList {
 //                    resources[i++] = countryMap.get(iterator.next());
 //            }
             for (String c: getCountries()) {
-                    Log.i(Data.getLOG_TAG(), "COUNTRY MAP: " + c);
+//                    Log.i(Data.getLOG_TAG(), "COUNTRY MAP: " + c);
                     resources[i++] = countryMap.get(c);
             }
         return resources;

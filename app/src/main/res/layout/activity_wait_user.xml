@@ -42,35 +42,74 @@
             android:paddingEnd="10dp"
             android:paddingStart="10dp">
 
-            <TextView
-                android:id="@+id/firstPlayerName"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
                 android:layout_weight="1"
-                android:ellipsize="middle"
                 android:gravity="center"
-                android:singleLine="true"
-                android:textColor="@android:color/white" />
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/VS"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/versus"
-                android:textColor="@android:color/white"
-                android:textSize="36sp" />
+                <TextView
+                    android:id="@+id/firstPlayerName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="0"
+                    android:ellipsize="middle"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/secondPlayerName"
+                <ImageView
+                    android:id="@+id/firstPlayerOrigin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="0"
+                    app:srcCompat="@drawable/unknown" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:ellipsize="marquee"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/VS"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/versus"
+                    android:textColor="@android:color/white"
+                    android:textSize="36sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:gravity="center"
-                android:singleLine="true"
-                android:textColor="@android:color/white" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/secondPlayerName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="marquee"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:textColor="@android:color/white" />
+
+                <ImageView
+                    android:id="@+id/secondPlayerOrigin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/unknown" />
+            </LinearLayout>
 
         </LinearLayout>
 

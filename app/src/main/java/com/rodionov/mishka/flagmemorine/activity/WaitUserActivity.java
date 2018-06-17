@@ -9,10 +9,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.rodionov.mishka.flagmemorine.R;
+import com.rodionov.mishka.flagmemorine.logic.CountryList;
 import com.rodionov.mishka.flagmemorine.logic.Data;
 import com.rodionov.mishka.flagmemorine.logic.HttpClient;
 import com.rodionov.mishka.flagmemorine.service.SqLiteTableManager;
@@ -42,6 +44,7 @@ public class WaitUserActivity extends AppCompatActivity {
         acBar.setDisplayHomeAsUpEnabled(true);
 
         removingFlag = true;
+        CountryList.loadCountryMap();
 
         sqLiteTableManager = new SqLiteTableManager(WaitUserActivity.this);
 
@@ -54,12 +57,15 @@ public class WaitUserActivity extends AppCompatActivity {
         firstPlayerName = (TextView) findViewById(R.id.firstPlayerName);
         secondPlayerName = (TextView) findViewById(R.id.secondPlayerName);
         progressBar = (ProgressBar) findViewById(R.id.progBar);
+        firstPlayerOrigin = (ImageView) findViewById(R.id.firstPlayerOrigin);
+        secondPlayerOrigin = (ImageView) findViewById(R.id.secondPlayerOrigin);
 
         battlefieldSize = Integer.parseInt(getIntent().getStringExtra(Data.getSize()));
         Log.d(Data.getLOG_TAG(), "onCreate: battlefieldSize = " + battlefieldSize);
 
         pullDB();
         connectToRoom(httpClient, playerName, username, origin, Integer.toString(battlefieldSize));
+        firstPlayerOrigin.setImageResource(CountryList.getCountry(origin));
 
     }
 
@@ -150,6 +156,7 @@ public class WaitUserActivity extends AppCompatActivity {
                         if (!secondPlayer.equals("null")){
                             progressBar.setVisibility(View.INVISIBLE);
                             secondPlayerName.setText(secondPlayer);
+                            secondPlayerOrigin.setImageResource(CountryList.getCountry(origin));
                             String body = "";
                             for (int i = 0; i < battlefieldBody.size(); i++) {
                                 body += battlefieldBody.get(i) + " ";
@@ -293,4 +300,6 @@ public class WaitUserActivity extends AppCompatActivity {
 
     private TextView firstPlayerName;
     private TextView secondPlayerName;
+    private ImageView firstPlayerOrigin;
+    private ImageView secondPlayerOrigin;
 }

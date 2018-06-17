@@ -21,13 +21,11 @@
             android:name=".activity.BattleFieldActivity"
             android:configChanges="orientation"
             android:label="@string/title_activity_battle_field"
-            android:parentActivityName=".activity.StartActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.RoomBattleFieldActivity"
             android:configChanges="orientation"
-            android:parentActivityName=".activity.StartActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.StartActivity"
@@ -68,10 +66,11 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.TotalTopActivity"
-            android:parentActivityName=".activity.StartActivity"
             android:configChanges="orientation"
+            android:parentActivityName=".activity.StartActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.MulriplayerBotActivity"></activity>
     </application>
 
 </manifest>

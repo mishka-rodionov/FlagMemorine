@@ -18,6 +18,9 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
 import com.rodionov.mishka.flagmemorine.R;
 import com.rodionov.mishka.flagmemorine.logic.BattleField;
 import com.rodionov.mishka.flagmemorine.logic.CountryList;
@@ -45,6 +48,14 @@ public class BattleFieldActivity extends AppCompatActivity {
                 recreate();
                 break;
             case android.R.id.home:
+                Intent startActivityIntent = new Intent(BattleFieldActivity.this, StartActivity.class);
+                startActivity(startActivityIntent);
+                if (mInterstitialAd.isLoaded()){
+                    mInterstitialAd.show();
+                    Log.i(Data.getLOG_TAG(), "onClick: The interstitial loaded yet!!!!!!!!!!!!!!!");
+                }else {
+                    Log.i(Data.getLOG_TAG(), "onClick: The interstitial wasn't loaded yet.");
+                }
                 Log.i(Data.getLOG_TAG(), "android.R.id.home is pressed");
                 break;
         }
@@ -62,6 +73,11 @@ public class BattleFieldActivity extends AppCompatActivity {
         time1 = System.currentTimeMillis();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_battlefield);
+
+        MobileAds.initialize(this, /*"ca-app-pub-3940256099942544~3347511713");//*/"ca-app-pub-1313654392091353~6971891289");
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId(/*"ca-app-pub-3940256099942544/1033173712");//*/"ca-app-pub-1313654392091353/4903230758");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
         //Toolbar initialization
         hideSystemUI();
@@ -381,6 +397,12 @@ public class BattleFieldActivity extends AppCompatActivity {
         Log.i(Data.getLOG_TAG(), "onBackPressed: back is pressed");
         Intent startActivityIntent = new Intent(BattleFieldActivity.this, StartActivity.class);
         startActivity(startActivityIntent);
+        if (mInterstitialAd.isLoaded()){
+            mInterstitialAd.show();
+            Log.i(Data.getLOG_TAG(), "onClick: The interstitial loaded yet!!!!!!!!!!!!!!!");
+        }else {
+            Log.i(Data.getLOG_TAG(), "onClick: The interstitial wasn't loaded yet.");
+        }
     }
 
     public void delayedTask(final int but0, final int but1/*, final int resource*/){
@@ -482,6 +504,8 @@ public class BattleFieldActivity extends AppCompatActivity {
     private String username;
     private String login;
     private String country;
+
+    private InterstitialAd mInterstitialAd;
 
     //endregion
 

@@ -61,6 +61,14 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
 //                break;
             case R.id.home:
                 removeRoom(Integer.toString(roomIndex));
+                Intent startActivityIntent = new Intent(RoomBattleFieldActivity.this, StartActivity.class);
+                startActivity(startActivityIntent);
+                if (mInterstitialAd.isLoaded()){
+                    mInterstitialAd.show();
+                    Log.i(Data.getLOG_TAG(), "onClick: The interstitial loaded yet!!!!!!!!!!!!!!!");
+                }else {
+                    Log.i(Data.getLOG_TAG(), "onClick: The interstitial wasn't loaded yet.");
+                }
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -557,6 +565,12 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         removeRoom(Integer.toString(roomIndex));
         Intent startActivityIntent = new Intent(RoomBattleFieldActivity.this, StartActivity.class);
         startActivity(startActivityIntent);
+        if (mInterstitialAd.isLoaded()){
+            mInterstitialAd.show();
+            Log.i(Data.getLOG_TAG(), "onClick: The interstitial loaded yet!!!!!!!!!!!!!!!");
+        }else {
+            Log.i(Data.getLOG_TAG(), "onClick: The interstitial wasn't loaded yet.");
+        }
     }
 
     public void delayedTask(final int but0, final int but1/*, final int resource*/){
@@ -721,8 +735,6 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
             }
         });
     }
-
-
 
     @Override
     protected void onDestroy() {
