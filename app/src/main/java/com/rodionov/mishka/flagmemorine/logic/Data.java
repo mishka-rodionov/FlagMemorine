@@ -473,6 +473,31 @@ public class Data {
 
     //endregion
 
+
+    public static int getEasy() {
+        return easy;
+    }
+
+    public static void setEasy(int easy) {
+        Data.easy = easy;
+    }
+
+    public static int getMedium() {
+        return medium;
+    }
+
+    public static void setMedium(int medium) {
+        Data.medium = medium;
+    }
+
+    public static int getHard() {
+        return hard;
+    }
+
+    public static void setHard(int hard) {
+        Data.hard = hard;
+    }
+
     //region Private static fields
     private static String customURL = "82.202.226.186";//*/"192.168.42.227";
     private static String LOG_TAG = "flagmemorine";
@@ -546,6 +571,9 @@ public class Data {
     private static int largeSize = 24;
     private static int xlargeSize = 30;
     private static int xxlargeSize = 36;
+    private static int easy = 3;
+    private static int medium = 5;
+    private static int hard = 7;
     private static int[] idxxlarge = {R.id.xxlarge1,R.id.xxlarge2,R.id.xxlarge3,R.id.xxlarge4,
         R.id.xxlarge5,R.id.xxlarge6,R.id.xxlarge7,R.id.xxlarge8,R.id.xxlarge9,R.id.xxlarge10,R.id.xxlarge11,
         R.id.xxlarge12,R.id.xxlarge13,R.id.xxlarge14,R.id.xxlarge15,R.id.xxlarge16,R.id.xxlarge17,R.id.xxlarge18,

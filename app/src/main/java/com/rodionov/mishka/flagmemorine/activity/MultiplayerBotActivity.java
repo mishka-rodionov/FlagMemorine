@@ -39,7 +39,7 @@ import java.util.TimerTask;
 import eu.davidea.flipview.FlipView;
 import okhttp3.OkHttpClient;
 
-public class MulriplayerBotActivity extends AppCompatActivity {
+public class MultiplayerBotActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -56,7 +56,7 @@ public class MulriplayerBotActivity extends AppCompatActivity {
 //                break;
             case R.id.home:
 //                removeRoom(Integer.toString(roomIndex));
-                Intent startActivityIntent = new Intent(MulriplayerBotActivity.this, StartActivity.class);
+                Intent startActivityIntent = new Intent(MultiplayerBotActivity.this, StartActivity.class);
                 startActivity(startActivityIntent);
                 if (mInterstitialAd.isLoaded()){
                     mInterstitialAd.show();
@@ -109,12 +109,12 @@ public class MulriplayerBotActivity extends AppCompatActivity {
         httpClient = new HttpClient();
 
         //******************************************************************************************
-        sqLiteTableManager = new SqLiteTableManager(MulriplayerBotActivity.this);
+        sqLiteTableManager = new SqLiteTableManager(MultiplayerBotActivity.this);
 //        pullDB();
 
         gone = false;
         goneCount = 3;
-        goneToast = Toast.makeText(MulriplayerBotActivity.this, "", Toast.LENGTH_SHORT);
+        goneToast = Toast.makeText(MultiplayerBotActivity.this, "", Toast.LENGTH_SHORT);
         requestTimer = new Timer();
         record = getPreferences(MODE_PRIVATE);                                                      //
         timer = new Timer();                                                                        // Инициализация таймера для задержки переворота табличек
@@ -207,7 +207,7 @@ public class MulriplayerBotActivity extends AppCompatActivity {
             @Override
             public void handleMessage(Message msg) {
                 Integer res = score - scoreSecondPlayer;
-                Intent endOfGameActivityIntent= new Intent(MulriplayerBotActivity.this, EndOfGameActivity.class);
+                Intent endOfGameActivityIntent= new Intent(MultiplayerBotActivity.this, EndOfGameActivity.class);
                 endOfGameActivityIntent.putExtra("score", Integer.toString(score));
                 endOfGameActivityIntent.putExtra("scoreValueSecondPlayer", Integer.toString(scoreSecondPlayer));
                 endOfGameActivityIntent.putExtra("step", Integer.toString(stepCounter));
@@ -249,7 +249,7 @@ public class MulriplayerBotActivity extends AppCompatActivity {
                             goneToast.show();
                             if (goneCount == 0){
                                 goneToast.cancel();
-                                startActivity(new Intent(MulriplayerBotActivity.this, StartActivity.class));
+                                startActivity(new Intent(MultiplayerBotActivity.this, StartActivity.class));
                             }
                         }
                     });
@@ -558,7 +558,7 @@ public class MulriplayerBotActivity extends AppCompatActivity {
         super.onBackPressed();
         Log.i(Data.getLOG_TAG(), "onBackPressed: back is pressed");
 //        removeRoom(Integer.toString(roomIndex));
-        Intent startActivityIntent = new Intent(MulriplayerBotActivity.this, StartActivity.class);
+        Intent startActivityIntent = new Intent(MultiplayerBotActivity.this, StartActivity.class);
         startActivity(startActivityIntent);
         if (mInterstitialAd.isLoaded()){
             mInterstitialAd.show();

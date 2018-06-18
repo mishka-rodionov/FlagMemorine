@@ -70,7 +70,7 @@
             android:parentActivityName=".activity.StartActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.MulriplayerBotActivity"></activity>
+        <activity android:name=".activity.MultiplayerBotActivity"></activity>
     </application>
 
 </manifest>
