@@ -1,9 +1,12 @@
 package com.rodionov.mishka.flagmemorine.service;
 
+import com.rodionov.mishka.flagmemorine.activity.MultiplayerBotActivity;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * Created by mishka on 17/06/18.
@@ -29,16 +32,16 @@ public class MultiplayerBot implements FlipListener{
     }
 
     @Override
-    public void flipEvent(int i, String value) {
+    public void flipEvent(int tag, String value) {
         couple = new HashMap<String, Integer>();
-        couple.put(value, i);
+        couple.put(value, tag);
         gameSteps.add(couple);
     }
 
     @Override
     public int botFlip() {
-
-        return 0;
+        Random random = new Random();
+        return battlefield.get(random.nextInt(battlefield.size()-1));
     }
 
     private List<Map> gameSteps;
@@ -46,4 +49,5 @@ public class MultiplayerBot implements FlipListener{
     private List<Integer> battlefield;
     private int battlefieldSize;
     private int level;
+    private MultiplayerBotActivity mpba;
 }

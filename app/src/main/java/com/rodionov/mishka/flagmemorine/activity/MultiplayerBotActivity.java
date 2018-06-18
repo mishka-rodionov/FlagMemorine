@@ -29,6 +29,8 @@ import com.rodionov.mishka.flagmemorine.logic.BattleField;
 import com.rodionov.mishka.flagmemorine.logic.CountryList;
 import com.rodionov.mishka.flagmemorine.logic.Data;
 import com.rodionov.mishka.flagmemorine.logic.HttpClient;
+import com.rodionov.mishka.flagmemorine.service.FlipListener;
+import com.rodionov.mishka.flagmemorine.service.MultiplayerBot;
 import com.rodionov.mishka.flagmemorine.service.SqLiteTableManager;
 
 import java.util.ArrayList;
@@ -39,7 +41,7 @@ import java.util.TimerTask;
 import eu.davidea.flipview.FlipView;
 import okhttp3.OkHttpClient;
 
-public class MultiplayerBotActivity extends AppCompatActivity {
+public class MultiplayerBotActivity extends AppCompatActivity implements FlipListener{
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -124,26 +126,32 @@ public class MultiplayerBotActivity extends AppCompatActivity {
         basicLayout = (LinearLayout) findViewById(R.id.basicLayout);
         //region get intent parameters
         battleFieldSize = Integer.parseInt(getIntent().getStringExtra(Data.getSize()));
-        roomIndex = Integer.parseInt(getIntent().getStringExtra(Data.getRoomIndexLabel()));
-        playerNumber = getIntent().getStringExtra(Data.getPlayerName());
-        anotherPlayerUsername = getIntent().getStringExtra("anotherPlayerUsername");
-        anotherPlayerOrigin = getIntent().getStringExtra("anotherPlayerOrigin");
+        roomIndex = 1;
+        playerNumber = "firstPlayer";
+        anotherPlayerUsername = "bot";
+        anotherPlayerOrigin = "Botswana";
+        int level = getIntent().getIntExtra("level", Data.getEasy());
+
+        //region bot
+        multiplayerBot = new MultiplayerBot(battleFieldSize, level);
+        //endregion
+
 //        if (playerNumber.equals("firstPlayer")){
 //            secondPlayerName = getIntent().getStringExtra("anotherPlayer");
 //        }
 //        if (playerNumber.equals("secondPlayer")){
 //            firstPlayerName = getIntent().getStringExtra("anotherPlayer");
 //        }
-        String[] body = getIntent().getStringExtra("battlefieldBody").split(" ");
-        //endregion
-        topRecord = 10000/*topRecord(battleFieldSize)*/;
-        battlefieldBody = new ArrayList<String>();
-        for (int i = 0; i < body.length; i++) {
-            battlefieldBody.add(body[i].replaceAll("_", " "));
-//            if(battlefieldBody.get(i).contains("_")){
-//                battlefieldBody.add(i, battlefieldBody.get(i).replaceAll("_", " "));
-//            }
-        }
+//        String[] body = getIntent().getStringExtra("battlefieldBody").split(" ");
+//        //endregion
+//        topRecord = 10000/*topRecord(battleFieldSize)*/;
+//        battlefieldBody = new ArrayList<String>();
+//        for (int i = 0; i < body.length; i++) {
+//            battlefieldBody.add(body[i].replaceAll("_", " "));
+////            if(battlefieldBody.get(i).contains("_")){
+////                battlefieldBody.add(i, battlefieldBody.get(i).replaceAll("_", " "));
+////            }
+//        }
 //        battleField = new BattleField(battleFieldSize);
 
         clickable = new HashMap<Integer, Boolean>();
@@ -182,6 +190,20 @@ public class MultiplayerBotActivity extends AppCompatActivity {
                 } else {
 
                 }
+            }
+        };
+
+        botHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                Log.i(Data.getLOG_TAG(), "BOTS HANDLER" + flipViews.get(msg.arg1).isEnabled());
+                flipViews.get(msg.arg1).setEnabled(true);
+                flipViews.get(msg.arg2).setEnabled(true);
+                flipViews.get(msg.arg1).setClickable(false);
+                flipViews.get(msg.arg2).setClickable(false);
+                Log.i(Data.getLOG_TAG(), "BOTS HANDLER NEW" + flipViews.get(msg.arg1).isEnabled());
+                flipViews.get(msg.arg1).flip(true);
+                flipViews.get(msg.arg2).flip(true);
             }
         };
 
@@ -312,7 +334,7 @@ public class MultiplayerBotActivity extends AppCompatActivity {
                 }
             }, delay, period);
         }
-        battleField = new BattleField(battlefieldBody);
+        battleField = new BattleField(battleFieldSize);
         initFlipView(view, battleFieldSize);
         if(receiving){
             for (int i = 0; i < clickable.size(); i++) {
@@ -359,9 +381,19 @@ public class MultiplayerBotActivity extends AppCompatActivity {
         result.setTextColor(Color.GREEN);
         result.setText(country);
         scoreDisplay(true);
+        Log.i(Data.getLOG_TAG(), "BOTS TAG = " + viewTag.get(0));
+        Log.i(Data.getLOG_TAG(), "BOTS TAG = " + viewTag.get(1));
+        multiplayerBot.deactivatePoint(Integer.parseInt(viewTag.get(0)));
+        multiplayerBot.deactivatePoint(Integer.parseInt(viewTag.get(1)));
         flipFlag = true;
         flipViews.get(Integer.parseInt(viewTag.get(0))).setEnabled(false);
         flipViews.get(Integer.parseInt(viewTag.get(1))).setEnabled(false);
+        if (receiving){
+            int one = multiplayerBot.botFlip();
+            int two = multiplayerBot.botFlip();
+            Log.i(Data.getLOG_TAG(), "BOTS RETURN = " + one + " " + two);
+            delayedBotTask(one, two);
+        }
 
         clickable.put(Integer.parseInt(viewTag.get(0)), false);
         clickable.put(Integer.parseInt(viewTag.get(1)), false);
@@ -374,6 +406,8 @@ public class MultiplayerBotActivity extends AppCompatActivity {
             scoreDisplay(false);
             final int but0 = Integer.parseInt(viewTag.get(0));                  // вычисляем тег первой нажатой кнопки
             final int but1 = Integer.parseInt(viewTag.get(1));                  // вычисляем тег второй нажатой кнопки
+            multiplayerBot.flipEvent(but0, userChoice.get(0));
+            multiplayerBot.flipEvent(but1, userChoice.get(1));
             delayedTask(but0, but1);
             delayedClickable(but0, but1);
             flipFlag = false;
@@ -389,13 +423,17 @@ public class MultiplayerBotActivity extends AppCompatActivity {
                         flipViews.get(i).setEnabled(false);
                     }
                 }
-                requestTimer = new Timer();
-                requestTimer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-//                        receiving(httpClient, Integer.toString(roomIndex));
-                    }
-                }, delay, period);
+                int one = multiplayerBot.botFlip();
+                int two = multiplayerBot.botFlip();
+                Log.i(Data.getLOG_TAG(), "BOTS RETURN = " + one + " " + two);
+                delayedBotTask(one, two);
+//                requestTimer = new Timer();
+//                requestTimer.schedule(new TimerTask() {
+//                    @Override
+//                    public void run() {
+////                        receiving(httpClient, Integer.toString(roomIndex));
+//                    }
+//                }, delay, period);
             }else if (receiving){
                 sending = true;
                 receiving = false;
@@ -580,6 +618,18 @@ public class MultiplayerBotActivity extends AppCompatActivity {
         thread.start();
     }
 
+    public void delayedBotTask(final int but0, final int but1/*, final int resource*/){
+        Thread thread = new Thread(new Runnable() {                             // создаем новый поток для закрытия первого, из выбранных пользователем флагов, рубашкой
+            Message msg;
+            @Override
+            public void run() {
+                msg = botHandler.obtainMessage(1, but0, but1);                // подготавливаем сообщение
+                botHandler.sendMessageDelayed(msg, 4000);                      // помещаем в очередь хэндлера отложенное на секунду сообщение
+            }
+        });
+        thread.start();
+    }
+
     public void delayedIntent(){
         Thread thread = new Thread(new Runnable() {
             Message msg;
@@ -616,6 +666,21 @@ public class MultiplayerBotActivity extends AppCompatActivity {
         );
     }
 
+    @Override
+    public void flipEvent(int tag, String value) {
+
+    }
+
+    @Override
+    public void deactivatePoint(int tag) {
+
+    }
+
+    @Override
+    public int botFlip() {
+        return 0;
+    }
+
     //region Private fields
     private ArrayList<FlipView> flipViews;
     private ArrayList<String> userChoice;
@@ -628,7 +693,7 @@ public class MultiplayerBotActivity extends AppCompatActivity {
     private Handler handlerClickable;
     private Handler handlerTime;
     private Handler handlerIntent;
-    private Handler handlerCreateRoom;
+    private Handler botHandler;
     private HashMap<Integer, Boolean> clickable;
 
     private HttpClient httpClient;
@@ -666,6 +731,8 @@ public class MultiplayerBotActivity extends AppCompatActivity {
     private Toolbar battlefieldToolbar;
     private ActionBar battlefieldActionBar;
     private Toast goneToast;
+
+    private FlipListener multiplayerBot;
 
     private String BF;
     private int battleFieldSize = 6;

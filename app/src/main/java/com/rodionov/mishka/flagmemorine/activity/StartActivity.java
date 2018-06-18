@@ -221,7 +221,9 @@ public class StartActivity extends AppCompatActivity {
 
                         break;
                     case R.id.stopAds:
-
+                        Intent multiplayerBotActivity = new Intent(StartActivity.this, MultiplayerBotActivity.class);
+                        multiplayerBotActivity.putExtra(Data.getSize(), size);
+                        startActivity(multiplayerBotActivity);
 //                        Intent interactionIntent = new Intent(StartActivity.this, TestInteraction.class);
 //                        startActivity(interactionIntent);
                         break;
