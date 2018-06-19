@@ -130,11 +130,7 @@ public class MultiplayerBotActivity extends AppCompatActivity implements FlipLis
         playerNumber = "firstPlayer";
         anotherPlayerUsername = "bot";
         anotherPlayerOrigin = "Botswana";
-        int level = getIntent().getIntExtra("level", Data.getEasy());
-
-        //region bot
-        multiplayerBot = new MultiplayerBot(battleFieldSize, level);
-        //endregion
+        int level = getIntent().getIntExtra("level", Data.getHard());
 
 //        if (playerNumber.equals("firstPlayer")){
 //            secondPlayerName = getIntent().getStringExtra("anotherPlayer");
@@ -286,8 +282,8 @@ public class MultiplayerBotActivity extends AppCompatActivity implements FlipLis
         onFlippingListener = new FlipView.OnFlippingListener() {
             @Override
             public void onFlipped(FlipView view, boolean checked) {
-                Log.d(Data.getLOG_TAG(), "press button");
                 final int index = Integer.parseInt(view.getTag().toString());                       // Вычисление индекса кнопки в контейнере кнопок по тэгу кнопки
+                Log.d(Data.getLOG_TAG(), "pressed button " + index);
                 flipViews.get(index).setEnabled(false);
                 flipViews.get(index).setClickable(false);
 //                new Thread(){
@@ -335,6 +331,9 @@ public class MultiplayerBotActivity extends AppCompatActivity implements FlipLis
             }, delay, period);
         }
         battleField = new BattleField(battleFieldSize);
+        //region bot
+        multiplayerBot = new MultiplayerBot(battleFieldSize, level, battleField);
+        //endregion
         initFlipView(view, battleFieldSize);
         if(receiving){
             for (int i = 0; i < clickable.size(); i++) {
@@ -389,9 +388,10 @@ public class MultiplayerBotActivity extends AppCompatActivity implements FlipLis
         flipViews.get(Integer.parseInt(viewTag.get(0))).setEnabled(false);
         flipViews.get(Integer.parseInt(viewTag.get(1))).setEnabled(false);
         if (receiving){
-            int one = multiplayerBot.botFlip();
-            int two = multiplayerBot.botFlip();
-            Log.i(Data.getLOG_TAG(), "BOTS RETURN = " + one + " " + two);
+            ArrayList<Integer> botChoice = multiplayerBot.botFlip();
+            int one = botChoice.get(0);
+            int two = botChoice.get(1);
+            Log.i(Data.getLOG_TAG(), "BOTS RETURN IN RECEIVING = " + one + " " + two);
             delayedBotTask(one, two);
         }
 
@@ -423,9 +423,10 @@ public class MultiplayerBotActivity extends AppCompatActivity implements FlipLis
                         flipViews.get(i).setEnabled(false);
                     }
                 }
-                int one = multiplayerBot.botFlip();
-                int two = multiplayerBot.botFlip();
-                Log.i(Data.getLOG_TAG(), "BOTS RETURN = " + one + " " + two);
+                ArrayList<Integer> botChoice = multiplayerBot.botFlip();
+                int one = botChoice.get(0);
+                int two = botChoice.get(1);
+                Log.i(Data.getLOG_TAG(), "BOTS RETURN IN MISTAKE = " + one + " " + two);
                 delayedBotTask(one, two);
 //                requestTimer = new Timer();
 //                requestTimer.schedule(new TimerTask() {
@@ -624,7 +625,7 @@ public class MultiplayerBotActivity extends AppCompatActivity implements FlipLis
             @Override
             public void run() {
                 msg = botHandler.obtainMessage(1, but0, but1);                // подготавливаем сообщение
-                botHandler.sendMessageDelayed(msg, 4000);                      // помещаем в очередь хэндлера отложенное на секунду сообщение
+                botHandler.sendMessageDelayed(msg, 3000);                      // помещаем в очередь хэндлера отложенное на секунду сообщение
             }
         });
         thread.start();
@@ -677,8 +678,8 @@ public class MultiplayerBotActivity extends AppCompatActivity implements FlipLis
     }
 
     @Override
-    public int botFlip() {
-        return 0;
+    public ArrayList botFlip() {
+        return new ArrayList();
     }
 
     //region Private fields

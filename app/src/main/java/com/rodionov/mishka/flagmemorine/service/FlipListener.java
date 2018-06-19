@@ -1,5 +1,7 @@
 package com.rodionov.mishka.flagmemorine.service;
 
+import java.util.ArrayList;
+
 /**
  * Created by Lab1 on 18.06.2018.
  */
@@ -7,5 +9,5 @@ package com.rodionov.mishka.flagmemorine.service;
 public interface FlipListener {
     void flipEvent(int tag, String value);
     void deactivatePoint(int tag);
-    int botFlip();
+    ArrayList<Integer> botFlip();
 }
