@@ -32,26 +32,43 @@ public class MultiplayerBot implements FlipListener{
         this.prevValue = -1;
         this.battleField = bf;
         this.botChoice = new ArrayList<>();
+        this.entryFlag = false;
     }
 
     @Override
     public void deactivatePoint(int tag) {
-        Log.i(Data.getLOG_TAG(), "deactivatePoint: BATTLEFIELD SIZE = " + battlefieldList.size());
+        Log.i(Data.getMultibotTag(), "deactivatePoint: BATTLEFIELD SIZE = " + battlefieldList.size());
         String string = "";
         for (int i = 0; i < battlefieldList.size(); i++) {
             string += battlefieldList.get(i) + " ";
         }
-        Log.i(Data.getLOG_TAG(), "deactivatePoint: BATTLEFIELD LIST = " + string);
-        Log.i(Data.getLOG_TAG(), "deactivatePoint: TAG = " + tag);
-        Log.i(Data.getLOG_TAG(), "deactivatePoint: BATTLEFIELD INDEX OF = " + battlefieldList.indexOf(tag));
+        Log.i(Data.getMultibotTag(), "deactivatePoint: BATTLEFIELD LIST = " + string);
+        Log.i(Data.getMultibotTag(), "deactivatePoint: TAG = " + tag);
+        Log.i(Data.getMultibotTag(), "deactivatePoint: BATTLEFIELD INDEX OF = " + battlefieldList.indexOf(tag));
         battlefieldList.remove(battlefieldList.indexOf(tag));
+        int first = -1;
+        int second = -1;
+        for (int i = 0; i < gameSteps.size(); i++) {
+            if (Integer.parseInt(gameSteps.get(i).get(1).toString()) == tag){
+                if(first == -1){
+                    first = i;
+                }else{
+                    second = i;
+                }
+            }
+        }
+        if (first != -1 && second != -1){
+            gameSteps.remove(second);
+            gameSteps.remove(first);
+        }
 //        battlefieldList.remove(tag);
     }
 
     @Override
     public void flipEvent(int tag, String value) {
-        couple = new HashMap<String, Integer>();
-        couple.put(value, tag);
+        couple = new ArrayList<>();
+        couple.add(value);
+        couple.add(Integer.toString(tag));
         gameSteps.add(couple);
     }
 
@@ -59,86 +76,99 @@ public class MultiplayerBot implements FlipListener{
     public ArrayList<Integer> botFlip() {
         botChoice.clear();
         Random random = new Random();
-        int value = battlefieldList.get(random.nextInt(battlefieldList.size()-1));
-        Log.i(Data.getLOG_TAG(), "FIRST CALCULATE RANDOM VALUE  = " + value);
-        String country;
-        if (gameSteps.size() >= level){
-            Log.i(Data.getLOG_TAG(), "gameSteps.size() > LEVEL " + gameSteps.size());
-            country = battleField.getElement(value);
-            List<HashMap> gameStepsTemp = new ArrayList<>();;
-            for (int i = gameSteps.size() - 1; i > gameSteps.size() - level; i--) {
-//                gameStepsTemp.add()
-            }
-            for (int i = gameSteps.size() - 1; i > gameSteps.size() - level; i--) {
-                if (gameSteps.get(i).containsKey(country) && (Integer) gameSteps.get(i).get(country) != value){
-//                    int idsf = (Integer) gameSteps.get(i).get(country);
-                    HashMap<String, Integer> tag = gameSteps.get(i);
-                    int choice = tag.get(country);
-                    botChoice.add(choice);
-                    botChoice.add(value);
-                    break;
+        if (battlefieldList.size() > 0){
+            int value = battlefieldList.get(random.nextInt(battlefieldList.size()));
+            Log.i(Data.getMultibotTag(), "FIRST CALCULATE RANDOM VALUE  = " + value);
+            String country;
+            if (gameSteps.size() >= level){
+                Log.i(Data.getMultibotTag(), "gameSteps.size() > LEVEL " + gameSteps.size());
+                String gameS = "";
+                for (int i = 0; i < gameSteps.size(); i++) {
+                    gameS += i + " = { " + gameSteps.get(i).get(0) + " " + gameSteps.get(i).get(1) + "}, ";
                 }
-            }
-            if (botChoice.size() < 2){
-                Log.i(Data.getLOG_TAG(), "NOT OCCURENCE IN GAME STEPS. BOT CHOICE = " + botChoice.size());
-                List<Integer> temp = new ArrayList<>(battlefieldList);
+                Log.i(Data.getMultibotTag(), "botFlip: gameSteps = " + gameS);
+                country = battleField.getElement(value);
+                for (int i = gameSteps.size() - 1; i > gameSteps.size() - level; i--) {
+                    Log.i(Data.getMultibotTag(), "i = " + i);
+                    country = gameSteps.get(i).get(0).toString();
+                    Log.i(Data.getMultibotTag(), "country = " + country);
+                    for (int j = i - 1; j > gameSteps.size() - level; j--) {
+                        Log.i(Data.getMultibotTag(), "j = " + j);
+                        String country2 = gameSteps.get(j).get(0).toString();
+                        Log.i(Data.getMultibotTag(), "country2 = " + country2);
+                        if (country.equals(country2)){
+                            botChoice.add(Integer.parseInt(gameSteps.get(i).get(1).toString()));
+                            botChoice.add(Integer.parseInt(gameSteps.get(j).get(1).toString()));
+                            gameSteps.remove(i);
+                            gameSteps.remove(j);
+                            entryFlag = true;
+                            break;
+                        }
+                    }
+                    if (entryFlag){
+                        entryFlag = false;
+                        break;
+                    }
+//                    Log.i(Data.getMultibotTag(), "botFlip: ADDED VALUES FROM gameSteps = " + botChoice.get(0) + " " + botChoice.get(1));
+                }
+//                if (entryFlag){
+//                    gameSteps.re
+//                }
+
+                if (botChoice.size() < 2) {
+                    for (int i = gameSteps.size() - 1; i > gameSteps.size() - level; i--) {
+                        if (gameSteps.get(i).get(0).equals(country) && Integer.parseInt(gameSteps.get(i).get(1).toString()) != value) {
+//                    int idsf = (Integer) gameSteps.get(i).get(country);
+                            int choice = Integer.parseInt(gameSteps.get(i).get(1).toString());
+                            botChoice.add(choice);
+                            botChoice.add(value);
+//                            break;
+                        }
+                    }
+//                    Log.i(Data.getMultibotTag(), "botFlip: ADDED VALUES FROM gameSteps AND NOT gameSteps = " + botChoice.get(0) + " " + botChoice.get(1));
+                }
+                if (botChoice.size() < 2){
+                    Log.i(Data.getMultibotTag(), "NOT OCCURENCE IN GAME STEPS. BOT CHOICE = " + botChoice.size());
+                    List<Integer> temp = new ArrayList<>(battlefieldList);
 //                temp = battlefieldList;
-                Log.i(Data.getLOG_TAG(), "NOT OCCURENCE IN GAME STEPS. temp size = " + temp.size());
-                Log.i(Data.getLOG_TAG(), "NOT OCCURENCE IN GAME STEPS. battlefieldList size = " + battlefieldList.size());
+                    Log.i(Data.getMultibotTag(), "NOT OCCURENCE IN GAME STEPS. temp size = " + temp.size());
+                    Log.i(Data.getMultibotTag(), "NOT OCCURENCE IN GAME STEPS. battlefieldList size = " + battlefieldList.size());
+                    temp.remove((Integer) value);
+                    Log.i(Data.getMultibotTag(), "NOT OCCURENCE IN GAME STEPS. temp size = " + temp.size());
+                    Log.i(Data.getMultibotTag(), "NOT OCCURENCE IN GAME STEPS. battlefieldList size = " + battlefieldList.size());
+                    int value2 = temp.get(random.nextInt(temp.size()));
+                    Log.i(Data.getMultibotTag(), "NOT OCCURENCE IN GAME STEPS. VALUE 2 = " + value2);
+                    botChoice.add(value);
+                    botChoice.add(value2);
+
+                }
+            }else{
+                Log.i(Data.getMultibotTag(), "GAME STEPS < LEVEL. BOT CHOICE = " + botChoice.size());
+                value = battlefieldList.get(random.nextInt(battlefieldList.size()-1));
+                List<Integer> temp = new ArrayList<>(battlefieldList);
+//            temp = battlefieldList;
+                Log.i(Data.getMultibotTag(), "NOT OCCURENCE IN GAME STEPS. temp size = " + temp.size());
+                Log.i(Data.getMultibotTag(), "NOT OCCURENCE IN GAME STEPS. battlefieldList size = " + battlefieldList.size());
                 temp.remove((Integer) value);
-                Log.i(Data.getLOG_TAG(), "NOT OCCURENCE IN GAME STEPS. temp size = " + temp.size());
-                Log.i(Data.getLOG_TAG(), "NOT OCCURENCE IN GAME STEPS. battlefieldList size = " + battlefieldList.size());
+                Log.i(Data.getMultibotTag(), "NOT OCCURENCE IN GAME STEPS. temp size = " + temp.size());
+                Log.i(Data.getMultibotTag(), "NOT OCCURENCE IN GAME STEPS. battlefieldList size = " + battlefieldList.size());
                 int value2 = temp.get(random.nextInt(temp.size()));
-                Log.i(Data.getLOG_TAG(), "NOT OCCURENCE IN GAME STEPS. VALUE 2 = " + value2);
+                Log.i(Data.getMultibotTag(), "NOT OCCURENCE IN GAME STEPS. VALUE 2 = " + value2);
                 botChoice.add(value);
                 botChoice.add(value2);
-
             }
-        }else{
-            Log.i(Data.getLOG_TAG(), "GAME STEPS < LEVEL. BOT CHOICE = " + botChoice.size());
-            value = battlefieldList.get(random.nextInt(battlefieldList.size()-1));
-            List<Integer> temp = new ArrayList<>(battlefieldList);
-//            temp = battlefieldList;
-            Log.i(Data.getLOG_TAG(), "NOT OCCURENCE IN GAME STEPS. temp size = " + temp.size());
-            Log.i(Data.getLOG_TAG(), "NOT OCCURENCE IN GAME STEPS. battlefieldList size = " + battlefieldList.size());
-            temp.remove((Integer) value);
-            Log.i(Data.getLOG_TAG(), "NOT OCCURENCE IN GAME STEPS. temp size = " + temp.size());
-            Log.i(Data.getLOG_TAG(), "NOT OCCURENCE IN GAME STEPS. battlefieldList size = " + battlefieldList.size());
-            int value2 = temp.get(random.nextInt(temp.size()));
-            Log.i(Data.getLOG_TAG(), "NOT OCCURENCE IN GAME STEPS. VALUE 2 = " + value2);
-            botChoice.add(value);
-            botChoice.add(value2);
+            Log.i(Data.getMultibotTag(), "FINISH VALUE BOT CHOICE 0 = " + botChoice.get(0));
+            Log.i(Data.getMultibotTag(), "FINISH VALUE BOT CHOICE 1 = " + botChoice.get(1));
+            return botChoice;
         }
-        Log.i(Data.getLOG_TAG(), "FINISH VALUE BOT CHOICE 0 = " + botChoice.get(0));
-        Log.i(Data.getLOG_TAG(), "FINISH VALUE BOT CHOICE 1 = " + botChoice.get(1));
-//        Log.i(Data.getLOG_TAG(), "botFlip: RANDOM PREVVALUE = " + prevValue);
-//        Log.i(Data.getLOG_TAG(), "botFlip: RANDOM VALUE = " + value);
-//        if (gameSteps.size() > 3)
-//        {
-//            Log.i(Data.getLOG_TAG(), "botFlip: GAMESTEP VALUE 1 = " + gameSteps.get(gameSteps.size() - 1));
-//            Log.i(Data.getLOG_TAG(), "botFlip: GAMESTEP VALUE 2 = " + gameSteps.get(gameSteps.size() - 2));
-//            Log.i(Data.getLOG_TAG(), "botFlip: GAMESTEP VALUE 3 = " + gameSteps.get(gameSteps.size() - 3));
-//        }
-//
-//        if (battlefieldList.size() == 2){
-//            value = battlefieldList.get(0);
-//        }
-//
-//        if (value == prevValue){
-//            if (battlefieldList.size() == 2){
-//                value = battlefieldList.get(1);
-//            }else{
-//                value = battlefieldList.get(random.nextInt(battlefieldList.size()-1));
-//            }
-//
-//        }else{
-//            prevValue = value;
-//        }
+        botChoice.add(0);
+        botChoice.add(1);
+        Log.i(Data.getMultibotTag(), "botFlip: ADDED DEFAULT VALUES = " + botChoice.get(0) + " " + botChoice.get(1));
         return botChoice;
     }
 
-    private List<HashMap> gameSteps;
-    private HashMap<String, Integer> couple;
+    private List<ArrayList> gameSteps;
+    private ArrayList<String> couple;
     private List<Integer> battlefieldList;
     private int battlefieldSize;
     private int level;
@@ -146,4 +176,5 @@ public class MultiplayerBot implements FlipListener{
     private MultiplayerBotActivity mpba;
     private BattleField battleField;
     private ArrayList<Integer> botChoice;
+    private Boolean entryFlag;
 }

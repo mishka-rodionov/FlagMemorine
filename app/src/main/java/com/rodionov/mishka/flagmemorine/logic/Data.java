@@ -498,9 +498,18 @@ public class Data {
         Data.hard = hard;
     }
 
+    public static String getMultibotTag() {
+        return MULTIBOT_TAG;
+    }
+
+    public static void setMultibotTag(String multibotTag) {
+        MULTIBOT_TAG = multibotTag;
+    }
+
     //region Private static fields
     private static String customURL = "82.202.226.186";//*/"192.168.42.227";
     private static String LOG_TAG = "flagmemorine";
+    private static String MULTIBOT_TAG = "multibottag";
     private static String serverAppName = "TestGet";
     private static String mainServlet = "hello";
     //region servlets names
