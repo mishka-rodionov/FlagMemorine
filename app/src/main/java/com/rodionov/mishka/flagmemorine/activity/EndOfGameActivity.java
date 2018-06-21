@@ -19,6 +19,7 @@ import com.rodionov.mishka.flagmemorine.R;
 import com.rodionov.mishka.flagmemorine.logic.Data;
 import com.rodionov.mishka.flagmemorine.logic.Facts;
 import com.rodionov.mishka.flagmemorine.logic.HttpClient;
+import com.rodionov.mishka.flagmemorine.service.MultiplayerBot;
 import com.rodionov.mishka.flagmemorine.service.SqLiteTableManager;
 
 import java.io.IOException;
@@ -97,6 +98,28 @@ public class EndOfGameActivity extends AppCompatActivity {
             }
         }
 
+        if (activityName.equals("MultiplayerBot")){
+            result = getIntent().getStringExtra("result");
+            scoreValueSecondPLayer = getIntent().getStringExtra("scoreValueSecondPlayer");
+            stepValueSecondPLayer = getIntent().getStringExtra("stepValueSecondPlayer");
+            String fpn = getIntent().getStringExtra("localPlayername");
+            String spn = getIntent().getStringExtra("enemyPlayername");
+            firstPlayername.setText(fpn);
+            secondPlayername.setText(spn);
+            anotherPlayerUsername = getIntent().getStringExtra("anotherPlayerUsername");
+            anotherPlayerOrigin = getIntent().getStringExtra("anotherPlayerOrigin");
+            pushResultToDB(anotherPlayerUsername, scoreValue, scoreValueSecondPLayer, result, Data.getCurrentDate(), sqLiteTableManager.getLogin());
+            if (Integer.parseInt(result) < 0){
+                createResult("Loser!", Color.RED, "Winner!", Color.GREEN);
+            }
+            if (Integer.parseInt(result) > 0){
+                createResult("Winner!", Color.GREEN, "Loser!", Color.RED);
+            }
+            if (Integer.parseInt(result) == 0){
+                createResult("Draw!", Color.GREEN, "Draw!", Color.GREEN);
+            }
+        }
+
         if (activityName.equals("Battlefield")){
             message.setText("Congratulations!");
             message.setTextColor(Color.GREEN);
@@ -131,6 +154,12 @@ public class EndOfGameActivity extends AppCompatActivity {
                             Intent waitUserIntent = new Intent(EndOfGameActivity.this, WaitUserActivity.class);
                             waitUserIntent.putExtra(Data.getSize(), size);
                             startActivity(waitUserIntent);
+                        }
+                        if (activityName.equals("MultiplayerBot")){
+                            Intent intentMultiplayerBot = new Intent(EndOfGameActivity.this, MultiplayerBotActivity.class);
+                            intentMultiplayerBot.putExtra(Data.getSize(), size);
+                            intentMultiplayerBot.putExtra("localPlayerName", firstPlayername.getText().toString());
+                            startActivity(intentMultiplayerBot);
                         }
                         break;
                     case R.id.homeButton:

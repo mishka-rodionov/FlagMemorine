@@ -8,6 +8,7 @@
     <string name="action_restart">Restart</string>
     <string name="title_activity_battle_field">BattleFieldActivity</string>
     <string name="title_activity_rooms">RoomsActivity</string>
+    <string name="title_botactivity">BotActivity</string>
     <string name="create">create</string>
     <string name="title_activity_room_battle_field">RoomBattleFieldActivity</string>
     <string name="step">Step:</string>
@@ -17,6 +18,7 @@
     <string name="restart">Restart</string>
     <string name="play">Singleplayer</string>
     <string name="multiplayer">Multiplayer</string>
+    <string name="botplay">Play with bot</string>
     <string name="statistic">Local Statistic</string>
     <string name="topMultiplayer">Top Multiplayer</string>
     <string name="stopAds">Stop ads</string>

@@ -130,25 +130,7 @@ public class MultiplayerBotActivity extends AppCompatActivity implements FlipLis
         playerNumber = "firstPlayer";
         anotherPlayerUsername = "bot";
         anotherPlayerOrigin = "Botswana";
-        int level = getIntent().getIntExtra("level", Data.getHard());
-
-//        if (playerNumber.equals("firstPlayer")){
-//            secondPlayerName = getIntent().getStringExtra("anotherPlayer");
-//        }
-//        if (playerNumber.equals("secondPlayer")){
-//            firstPlayerName = getIntent().getStringExtra("anotherPlayer");
-//        }
-//        String[] body = getIntent().getStringExtra("battlefieldBody").split(" ");
-//        //endregion
-//        topRecord = 10000/*topRecord(battleFieldSize)*/;
-//        battlefieldBody = new ArrayList<String>();
-//        for (int i = 0; i < body.length; i++) {
-//            battlefieldBody.add(body[i].replaceAll("_", " "));
-////            if(battlefieldBody.get(i).contains("_")){
-////                battlefieldBody.add(i, battlefieldBody.get(i).replaceAll("_", " "));
-////            }
-//        }
-//        battleField = new BattleField(battleFieldSize);
+        int level = getIntent().getIntExtra("level", 15);
 
         clickable = new HashMap<Integer, Boolean>();
         for (int i = 0; i < battleFieldSize; i++) {
@@ -169,7 +151,7 @@ public class MultiplayerBotActivity extends AppCompatActivity implements FlipLis
 //        getMenuInflater().inflate(R.menu.main, roomsMenu);
 
         localPlayerName.setText(getIntent().getStringExtra("localPlayerName"));
-        enemyPlayerName.setText(getIntent().getStringExtra("anotherPlayer"));
+        enemyPlayerName.setText("bot");
         scoreTV.setText(Integer.toString(score));
         currentScoreSecondPlayer.setText(Integer.toString(score));
 
@@ -186,6 +168,8 @@ public class MultiplayerBotActivity extends AppCompatActivity implements FlipLis
                 } else {
 
                 }
+                result.setTextColor(Color.WHITE);
+                result.setText("");
             }
         };
 
@@ -233,7 +217,7 @@ public class MultiplayerBotActivity extends AppCompatActivity implements FlipLis
                 endOfGameActivityIntent.putExtra("time", time.getText().toString());
                 endOfGameActivityIntent.putExtra("size", Integer.toString(battleFieldSize));
                 endOfGameActivityIntent.putExtra("result", Integer.toString(res));
-                endOfGameActivityIntent.putExtra("activityName", "RoomBattlefield");
+                endOfGameActivityIntent.putExtra("activityName", "MultiplayerBot");
                 endOfGameActivityIntent.putExtra("localPlayername", localPlayerName.getText().toString());
                 endOfGameActivityIntent.putExtra("enemyPlayername", enemyPlayerName.getText().toString());
                 endOfGameActivityIntent.putExtra("anotherPlayerUsername", anotherPlayerUsername);

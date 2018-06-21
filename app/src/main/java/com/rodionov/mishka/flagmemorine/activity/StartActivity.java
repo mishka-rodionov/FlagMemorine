@@ -99,6 +99,7 @@ public class StartActivity extends AppCompatActivity {
         stopAds = (Button) findViewById(R.id.stopAds);
         userInfo = (Button) findViewById(R.id.userInfo);
         totalTop = (Button) findViewById(R.id.totalTop);
+        botplay = (Button) findViewById(R.id.botplay);
 
         // region RadioButton Listener
         View.OnClickListener onClickListenerRB = new View.OnClickListener() {
@@ -220,10 +221,16 @@ public class StartActivity extends AppCompatActivity {
                         getTotalTop(username);
 
                         break;
-                    case R.id.stopAds:
+                    case R.id.botplay:
                         Intent multiplayerBotActivity = new Intent(StartActivity.this, MultiplayerBotActivity.class);
                         multiplayerBotActivity.putExtra(Data.getSize(), size);
+                        multiplayerBotActivity.putExtra("localPlayerName", sqLiteTableManager.getName());
                         startActivity(multiplayerBotActivity);
+                        break;
+                    case R.id.stopAds:
+//                        Intent multiplayerBotActivity = new Intent(StartActivity.this, MultiplayerBotActivity.class);
+//                        multiplayerBotActivity.putExtra(Data.getSize(), size);
+//                        startActivity(multiplayerBotActivity);
 //                        Intent interactionIntent = new Intent(StartActivity.this, TestInteraction.class);
 //                        startActivity(interactionIntent);
                         break;
@@ -237,6 +244,7 @@ public class StartActivity extends AppCompatActivity {
         userInfo.setOnClickListener(onClickListenerButton);
         stopAds.setOnClickListener(onClickListenerButton);
         totalTop.setOnClickListener(onClickListenerButton);
+        botplay.setOnClickListener(onClickListenerButton);
 
         requestTimer.schedule(new TimerTask() {
             @Override
@@ -538,6 +546,7 @@ public class StartActivity extends AppCompatActivity {
     private Button stopAds;
     private Button userInfo;
     private Button totalTop;
+    private Button botplay;
 
     private LinearLayout activityStartLayout;
 
