@@ -170,16 +170,24 @@
                 android:elevation="4dp"
                 android:text="@string/multiplayer" />
 
-            <Button
-                android:id="@+id/botplay"
+            <LinearLayout
+                android:id="@+id/botLinearLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/rounded_button"
-                android:elevation="4dp"
-                android:text="@string/botplay" />
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/botplay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_button"
+                    android:elevation="4dp"
+                    android:text="@string/botplay" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

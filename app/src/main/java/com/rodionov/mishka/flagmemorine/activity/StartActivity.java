@@ -15,10 +15,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.rodionov.mishka.flagmemorine.R;
 import com.rodionov.mishka.flagmemorine.logic.Data;
@@ -67,6 +70,13 @@ public class StartActivity extends AppCompatActivity {
         httpClient = new HttpClient();
 
         activityStartLayout = (LinearLayout) findViewById(R.id.activity_start_layout);
+        botLinearLayout = (LinearLayout) findViewById(R.id.botLinearLayout);
+        botLevelList = getLayoutInflater().inflate(R.layout.bot_level_list, null);
+        easySwitch = (Switch) botLevelList.findViewById(R.id.easySwitch);
+        normalSwitch = (Switch) botLevelList.findViewById(R.id.normalSwitch);
+        hardSwitch = (Switch) botLevelList.findViewById(R.id.hardSwitch);
+        veryhardSwitch = (Switch) botLevelList.findViewById(R.id.veryhardSwitch);
+
         snackbarFlag = true;
         multiplayerFlag = false;
 
@@ -174,20 +184,24 @@ public class StartActivity extends AppCompatActivity {
 
         String answer = "temp";
 
+        //region Button Listener
         View.OnClickListener onClickListenerButton = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 switch (view.getId()){
                     case R.id.play:
+                        removeBotLevelList();
                         Intent intent = new Intent(StartActivity.this, BattleFieldActivity.class);
                         intent.putExtra("size", size);
                         startActivity(intent);
                         break;
                     case R.id.statistic:
+                        removeBotLevelList();
                         Intent statisticActivityIntent = new Intent(StartActivity.this, StatisticActivity.class);
                         startActivity(statisticActivityIntent);
                         break;
                     case R.id.userInfo:
+                        removeBotLevelList();
                         Intent userInfoActivityIntent = new Intent(StartActivity.this, UserInfoActivity.class);
                         userInfoActivityIntent.putExtra("login", "User1");
                         userInfoActivityIntent.putExtra("activityName", "StartActivity");
@@ -200,6 +214,7 @@ public class StartActivity extends AppCompatActivity {
                         }
                         break;
                     case R.id.multiplayer:
+                        removeBotLevelList();
                         if (multiplayerFlag){
                             Intent waitUserIntent = new Intent(StartActivity.this, WaitUserActivity.class);
                             waitUserIntent.putExtra(Data.getSize(), size);
@@ -218,16 +233,19 @@ public class StartActivity extends AppCompatActivity {
 
                         break;
                     case R.id.totalTop:
+                        removeBotLevelList();
                         getTotalTop(username);
 
                         break;
                     case R.id.botplay:
-                        Intent multiplayerBotActivity = new Intent(StartActivity.this, MultiplayerBotActivity.class);
-                        multiplayerBotActivity.putExtra(Data.getSize(), size);
-                        multiplayerBotActivity.putExtra("localPlayerName", sqLiteTableManager.getName());
-                        startActivity(multiplayerBotActivity);
+                        if (botLinearLayout.indexOfChild(botLevelList) == -1){
+                            botLinearLayout.addView(botLevelList);
+                        }else {
+                            botLinearLayout.removeViewAt(botLinearLayout.indexOfChild(botLevelList));
+                        }
                         break;
                     case R.id.stopAds:
+                        removeBotLevelList();
 //                        Intent multiplayerBotActivity = new Intent(StartActivity.this, MultiplayerBotActivity.class);
 //                        multiplayerBotActivity.putExtra(Data.getSize(), size);
 //                        startActivity(multiplayerBotActivity);
@@ -237,6 +255,88 @@ public class StartActivity extends AppCompatActivity {
                 }
             }
         };
+        //endregion
+
+        //region Switch Listener
+        final CompoundButton.OnCheckedChangeListener switchChangedListener = new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                switch (buttonView.getId()){
+                    case R.id.easySwitch:
+                        if (isChecked){
+                            Intent multiplayerBotActivity = new Intent(StartActivity.this, MultiplayerBotActivity.class);
+                            multiplayerBotActivity.putExtra(Data.getSize(), size);
+                            multiplayerBotActivity.putExtra(Data.getLevel(), Data.getEasy());
+                            multiplayerBotActivity.putExtra("localPlayerName", sqLiteTableManager.getName());
+                            startActivity(multiplayerBotActivity);
+                            normalSwitch.setChecked(false);
+                            hardSwitch.setChecked(false);
+                            veryhardSwitch.setChecked(false);
+                        }
+                    break;
+                    case R.id.normalSwitch:
+                        if (isChecked){
+                            Intent multiplayerBotActivity = new Intent(StartActivity.this, MultiplayerBotActivity.class);
+                            multiplayerBotActivity.putExtra(Data.getSize(), size);
+                            multiplayerBotActivity.putExtra(Data.getLevel(), Data.getNormal());
+                            multiplayerBotActivity.putExtra("localPlayerName", sqLiteTableManager.getName());
+                            startActivity(multiplayerBotActivity);
+                            easySwitch.setChecked(false);
+                            hardSwitch.setChecked(false);
+                            veryhardSwitch.setChecked(false);
+                        }
+                    break;
+                    case R.id.hardSwitch:
+                        if (isChecked) {
+                            Intent multiplayerBotActivity = new Intent(StartActivity.this, MultiplayerBotActivity.class);
+                            multiplayerBotActivity.putExtra(Data.getSize(), size);
+                            multiplayerBotActivity.putExtra(Data.getLevel(), Data.getHard());
+                            multiplayerBotActivity.putExtra("localPlayerName", sqLiteTableManager.getName());
+                            startActivity(multiplayerBotActivity);
+                            normalSwitch.setChecked(false);
+                            easySwitch.setChecked(false);
+                            veryhardSwitch.setChecked(false);
+                        }
+                    break;
+                    case R.id.veryhardSwitch:
+                        if (isChecked){
+                            Intent multiplayerBotActivity = new Intent(StartActivity.this, MultiplayerBotActivity.class);
+                            multiplayerBotActivity.putExtra(Data.getSize(), size);
+                            multiplayerBotActivity.putExtra(Data.getLevel(), Data.getVeryhard());
+                            multiplayerBotActivity.putExtra("localPlayerName", sqLiteTableManager.getName());
+                            startActivity(multiplayerBotActivity);
+                            normalSwitch.setChecked(false);
+                            hardSwitch.setChecked(false);
+                            easySwitch.setChecked(false);
+                        }
+                    break;
+                }
+            }
+        };
+        //endregion
+
+//        View.OnFocusChangeListener onFocusChangeListener = new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                switch(v.getId()){
+//                    case R.id.botplay:
+//                        if(hasFocus){
+//                            Toast.makeText(StartActivity.this, "Focus left", Toast.LENGTH_SHORT).show();
+//                        }else{
+//                            Toast.makeText(StartActivity.this, "Focus yep!", Toast.LENGTH_SHORT).show();
+//                        }
+//                        break;
+//                }
+//
+//            }
+//        };
+//
+//        botplay.setOnFocusChangeListener(onFocusChangeListener);
+
+        easySwitch.setOnCheckedChangeListener(switchChangedListener);
+        normalSwitch.setOnCheckedChangeListener(switchChangedListener);
+        hardSwitch.setOnCheckedChangeListener(switchChangedListener);
+        veryhardSwitch.setOnCheckedChangeListener(switchChangedListener);
 
         play.setOnClickListener(onClickListenerButton);
         multiplayer.setOnClickListener(onClickListenerButton);
@@ -280,6 +380,12 @@ public class StartActivity extends AppCompatActivity {
         } else
             Log.d(Data.getLOG_TAG(), "0 rows in " + tableName);
         c.close();
+    }
+
+    private void removeBotLevelList(){
+        if (botLinearLayout.indexOfChild(botLevelList) != -1){
+            botLinearLayout.removeViewAt(botLinearLayout.indexOfChild(botLevelList));
+        }
     }
 
     private void checkFirstRun() {
@@ -548,7 +654,14 @@ public class StartActivity extends AppCompatActivity {
     private Button totalTop;
     private Button botplay;
 
+    private Switch easySwitch;
+    private Switch normalSwitch;
+    private Switch hardSwitch;
+    private Switch veryhardSwitch;
+
     private LinearLayout activityStartLayout;
+    private LinearLayout botLinearLayout;
+    private View botLevelList;
 
     private ContentValues contentValues;
 

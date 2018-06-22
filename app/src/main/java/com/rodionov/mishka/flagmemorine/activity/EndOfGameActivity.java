@@ -104,6 +104,7 @@ public class EndOfGameActivity extends AppCompatActivity {
             stepValueSecondPLayer = getIntent().getStringExtra("stepValueSecondPlayer");
             String fpn = getIntent().getStringExtra("localPlayername");
             String spn = getIntent().getStringExtra("enemyPlayername");
+            level = getIntent().getIntExtra(Data.getLevel(), 15);
             firstPlayername.setText(fpn);
             secondPlayername.setText(spn);
             anotherPlayerUsername = getIntent().getStringExtra("anotherPlayerUsername");
@@ -158,6 +159,7 @@ public class EndOfGameActivity extends AppCompatActivity {
                         if (activityName.equals("MultiplayerBot")){
                             Intent intentMultiplayerBot = new Intent(EndOfGameActivity.this, MultiplayerBotActivity.class);
                             intentMultiplayerBot.putExtra(Data.getSize(), size);
+                            intentMultiplayerBot.putExtra(Data.getLevel(), level);
                             intentMultiplayerBot.putExtra("localPlayerName", firstPlayername.getText().toString());
                             startActivity(intentMultiplayerBot);
                         }
@@ -327,6 +329,8 @@ public class EndOfGameActivity extends AppCompatActivity {
     private String roomIndex;
     private String anotherPlayerUsername;
     private String anotherPlayerOrigin;
+
+    private int level;
 
     private SqLiteTableManager sqLiteTableManager;
 

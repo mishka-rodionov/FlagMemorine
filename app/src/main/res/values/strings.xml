@@ -37,6 +37,7 @@
     <string name="apply_button">Apply</string>
     <string name="user_name">User name:</string>
     <string name="user_country">Country:</string>
+    <string name="hintCountry">Country</string>
     <string name="title_activity_end_of_game">EndOfGameActivity</string>
     <string name="title_wait_user_activity">WaitUserActivity</string>
     <string name="congratulations">Congratulations!</string>
@@ -47,4 +48,8 @@
     <string name="actionLabel">Action:</string>
     <string name="online">On-line: </string>
     <string name="textSize">18sp</string>
+    <string name="easy">Easy</string>
+    <string name="normal">Normal</string>
+    <string name="hard">Hard</string>
+    <string name="veryhard">Very hard</string>
 </resources>

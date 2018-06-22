@@ -77,12 +77,14 @@ public class MultiplayerBotActivity extends AppCompatActivity implements FlipLis
         getMenuInflater().inflate(R.menu.main, menu);
         if (action){
             menu.findItem(R.id.action_restart).setIcon(R.drawable.ic_play_arrow_white_48dp);
+            menu.findItem(R.id.action_restart).setVisible(true);
 //            menuItem = menu.getItem(1);
 //            menuItem.setIcon(R.drawable.ic_play_arrow_white_48dp);
         }else{
 //            menuItem = menu.getItem(1);
 //            menuItem.setIcon(R.drawable.ic_pause_white_48dp);
             menu.findItem(R.id.action_restart).setIcon(R.drawable.ic_pause_white_48dp);
+            menu.findItem(R.id.action_restart).setVisible(true);
         }
         return super.onPrepareOptionsMenu(menu);
     }
@@ -130,7 +132,7 @@ public class MultiplayerBotActivity extends AppCompatActivity implements FlipLis
         playerNumber = "firstPlayer";
         anotherPlayerUsername = "bot";
         anotherPlayerOrigin = "Botswana";
-        int level = getIntent().getIntExtra("level", 15);
+        final int level = getIntent().getIntExtra(Data.getLevel(), 15);
 
         clickable = new HashMap<Integer, Boolean>();
         for (int i = 0; i < battleFieldSize; i++) {
@@ -178,12 +180,18 @@ public class MultiplayerBotActivity extends AppCompatActivity implements FlipLis
             public void handleMessage(Message msg) {
                 Log.i(Data.getLOG_TAG(), "BOTS HANDLER" + flipViews.get(msg.arg1).isEnabled());
                 flipViews.get(msg.arg1).setEnabled(true);
-                flipViews.get(msg.arg2).setEnabled(true);
+//                flipViews.get(msg.arg2).setEnabled(true);
                 flipViews.get(msg.arg1).setClickable(false);
-                flipViews.get(msg.arg2).setClickable(false);
+//                flipViews.get(msg.arg2).setClickable(false);
                 Log.i(Data.getLOG_TAG(), "BOTS HANDLER NEW" + flipViews.get(msg.arg1).isEnabled());
                 flipViews.get(msg.arg1).flip(true);
-                flipViews.get(msg.arg2).flip(true);
+                if (msg.arg2 != -1){
+                    delayedBotSecond(msg.arg2, -1);
+                }else{
+
+                }
+
+//                flipViews.get(msg.arg2).flip(true);
             }
         };
 
@@ -210,13 +218,14 @@ public class MultiplayerBotActivity extends AppCompatActivity implements FlipLis
             public void handleMessage(Message msg) {
                 Integer res = score - scoreSecondPlayer;
                 Intent endOfGameActivityIntent= new Intent(MultiplayerBotActivity.this, EndOfGameActivity.class);
-                endOfGameActivityIntent.putExtra("score", Integer.toString(score));
+                endOfGameActivityIntent.putExtra(Data.getScore(), Integer.toString(score));
                 endOfGameActivityIntent.putExtra("scoreValueSecondPlayer", Integer.toString(scoreSecondPlayer));
-                endOfGameActivityIntent.putExtra("step", Integer.toString(stepCounter));
+                endOfGameActivityIntent.putExtra(Data.getStep(), Integer.toString(stepCounter));
                 endOfGameActivityIntent.putExtra("stepValueSecondPlayer", Integer.toString(stepCounterSecondPlayer));
                 endOfGameActivityIntent.putExtra("time", time.getText().toString());
-                endOfGameActivityIntent.putExtra("size", Integer.toString(battleFieldSize));
-                endOfGameActivityIntent.putExtra("result", Integer.toString(res));
+                endOfGameActivityIntent.putExtra(Data.getSize(), Integer.toString(battleFieldSize));
+                endOfGameActivityIntent.putExtra(Data.getResult(), Integer.toString(res));
+                endOfGameActivityIntent.putExtra(Data.getLevel(), level);
                 endOfGameActivityIntent.putExtra("activityName", "MultiplayerBot");
                 endOfGameActivityIntent.putExtra("localPlayername", localPlayerName.getText().toString());
                 endOfGameActivityIntent.putExtra("enemyPlayername", enemyPlayerName.getText().toString());
@@ -377,6 +386,8 @@ public class MultiplayerBotActivity extends AppCompatActivity implements FlipLis
             int two = botChoice.get(1);
             Log.i(Data.getLOG_TAG(), "BOTS RETURN IN RECEIVING = " + one + " " + two);
             delayedBotTask(one, two);
+//            delayedBotFirst(one);
+//            delayedBotSecond(two);
         }
 
         clickable.put(Integer.parseInt(viewTag.get(0)), false);
@@ -597,7 +608,7 @@ public class MultiplayerBotActivity extends AppCompatActivity implements FlipLis
             @Override
             public void run() {
                 msg = handler.obtainMessage(1, but0, but1);                // подготавливаем сообщение
-                handler.sendMessageDelayed(msg, 1000);                      // помещаем в очередь хэндлера отложенное на секунду сообщение
+                handler.sendMessageDelayed(msg, 1200);                      // помещаем в очередь хэндлера отложенное на секунду сообщение
             }
         });
         thread.start();
@@ -609,7 +620,31 @@ public class MultiplayerBotActivity extends AppCompatActivity implements FlipLis
             @Override
             public void run() {
                 msg = botHandler.obtainMessage(1, but0, but1);                // подготавливаем сообщение
-                botHandler.sendMessageDelayed(msg, 3000);                      // помещаем в очередь хэндлера отложенное на секунду сообщение
+                botHandler.sendMessageDelayed(msg, 2500);                      // помещаем в очередь хэндлера отложенное на секунду сообщение
+            }
+        });
+        thread.start();
+    }
+
+    public void delayedBotFirst(final int but0){
+        Thread thread = new Thread(new Runnable() {                             // создаем новый поток для закрытия первого, из выбранных пользователем флагов, рубашкой
+            Message msg;
+            @Override
+            public void run() {
+                msg = botHandler.obtainMessage(1, but0);                // подготавливаем сообщение
+                botHandler.sendMessageDelayed(msg, 2000);                      // помещаем в очередь хэндлера отложенное на секунду сообщение
+            }
+        });
+        thread.start();
+    }
+
+    public void delayedBotSecond(final int but0, final int but1){
+        Thread thread = new Thread(new Runnable() {                             // создаем новый поток для закрытия первого, из выбранных пользователем флагов, рубашкой
+            Message msg;
+            @Override
+            public void run() {
+                msg = botHandler.obtainMessage(1, but0, but1);                // подготавливаем сообщение
+                botHandler.sendMessageDelayed(msg, 1400);                      // помещаем в очередь хэндлера отложенное на секунду сообщение
             }
         });
         thread.start();

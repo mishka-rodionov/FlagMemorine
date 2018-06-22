@@ -482,12 +482,12 @@ public class Data {
         Data.easy = easy;
     }
 
-    public static int getMedium() {
-        return medium;
+    public static int getNormal() {
+        return normal;
     }
 
-    public static void setMedium(int medium) {
-        Data.medium = medium;
+    public static void setNormal(int medium) {
+        Data.normal = medium;
     }
 
     public static int getHard() {
@@ -498,12 +498,28 @@ public class Data {
         Data.hard = hard;
     }
 
+    public static int getVeryhard() {
+        return veryhard;
+    }
+
+    public static void setVeryhard(int veryhard) {
+        Data.veryhard = veryhard;
+    }
+
     public static String getMultibotTag() {
         return MULTIBOT_TAG;
     }
 
     public static void setMultibotTag(String multibotTag) {
         MULTIBOT_TAG = multibotTag;
+    }
+
+    public static String getLevel() {
+        return level;
+    }
+
+    public static void setLevel(String level) {
+        Data.level = level;
     }
 
     //region Private static fields
@@ -570,6 +586,7 @@ public class Data {
     private static String date = "date";
     private static String playerNumber = "playerNumber";
     private static String online = "online";
+    private static String level = "level";
 
     private static Long millisInHour = 3600000l;
     private static Long millisInDay = 84000000l;
@@ -580,9 +597,10 @@ public class Data {
     private static int largeSize = 24;
     private static int xlargeSize = 30;
     private static int xxlargeSize = 36;
-    private static int easy = 3;
-    private static int medium = 5;
-    private static int hard = 7;
+    private static int easy = 5;
+    private static int normal = 9;
+    private static int hard = 17;
+    private static int veryhard = 25;
     private static int[] idxxlarge = {R.id.xxlarge1,R.id.xxlarge2,R.id.xxlarge3,R.id.xxlarge4,
         R.id.xxlarge5,R.id.xxlarge6,R.id.xxlarge7,R.id.xxlarge8,R.id.xxlarge9,R.id.xxlarge10,R.id.xxlarge11,
         R.id.xxlarge12,R.id.xxlarge13,R.id.xxlarge14,R.id.xxlarge15,R.id.xxlarge16,R.id.xxlarge17,R.id.xxlarge18,
