@@ -600,7 +600,7 @@ public class Data {
     private static int easy = 5;
     private static int normal = 9;
     private static int hard = 17;
-    private static int veryhard = 25;
+    private static int veryhard = 40;
     private static int[] idxxlarge = {R.id.xxlarge1,R.id.xxlarge2,R.id.xxlarge3,R.id.xxlarge4,
         R.id.xxlarge5,R.id.xxlarge6,R.id.xxlarge7,R.id.xxlarge8,R.id.xxlarge9,R.id.xxlarge10,R.id.xxlarge11,
         R.id.xxlarge12,R.id.xxlarge13,R.id.xxlarge14,R.id.xxlarge15,R.id.xxlarge16,R.id.xxlarge17,R.id.xxlarge18,

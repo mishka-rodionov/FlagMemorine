@@ -28,7 +28,9 @@
             android:layout_marginBottom="10dp"
             android:background="@drawable/rounded_button"
             android:elevation="4dp"
-            android:text="@string/play" />
+            android:fontFamily="casual"
+            android:text="@string/play"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -44,6 +46,7 @@
                 android:layout_row="0"
                 android:layout_weight="1"
                 android:checked="false"
+                android:fontFamily="casual"
                 android:text="@string/xsmall" />
 
             <TextView
@@ -62,6 +65,7 @@
                 android:layout_gravity="left"
                 android:layout_row="0"
                 android:layout_weight="1"
+                android:fontFamily="casual"
                 android:text="@string/small" />
 
             <TextView
@@ -81,6 +85,7 @@
                 android:layout_row="1"
                 android:layout_weight="1"
                 android:checked="false"
+                android:fontFamily="casual"
                 android:text="@string/medium" />
 
             <TextView
@@ -105,6 +110,7 @@
                 android:layout_gravity="left"
                 android:layout_row="1"
                 android:layout_weight="1"
+                android:fontFamily="casual"
                 android:text="@string/large" />
 
             <TextView
@@ -123,6 +129,7 @@
                 android:layout_gravity="left"
                 android:layout_row="2"
                 android:layout_weight="1"
+                android:fontFamily="casual"
                 android:text="@string/xlarge" />
 
             <TextView
@@ -143,7 +150,8 @@
                 android:layout_weight="1"
                 android:checked="true"
                 android:text="@string/xxlarge"
-                android:textSize="10sp" />
+                android:textSize="10sp"
+                android:fontFamily="casual" />
 
             <TextView
                 android:id="@+id/xxlargeAvailableUsers"
@@ -168,7 +176,9 @@
                 android:layout_weight="1"
                 android:background="@drawable/rounded_button"
                 android:elevation="4dp"
-                android:text="@string/multiplayer" />
+                android:fontFamily="casual"
+                android:text="@string/multiplayer"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:id="@+id/botLinearLayout"
@@ -186,7 +196,9 @@
                     android:layout_weight="1"
                     android:background="@drawable/rounded_button"
                     android:elevation="4dp"
-                    android:text="@string/botplay" />
+                    android:fontFamily="casual"
+                    android:text="@string/botplay"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
@@ -207,7 +219,9 @@
                     android:layout_weight="1"
                     android:background="@drawable/rounded_button"
                     android:elevation="4dp"
-                    android:text="@string/statistic" />
+                    android:fontFamily="casual"
+                    android:text="@string/statistic"
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/totalTop"
@@ -217,7 +231,9 @@
                     android:layout_marginStart="2dp"
                     android:layout_weight="1"
                     android:background="@drawable/rounded_button"
-                    android:text="@string/topMultiplayer" />
+                    android:fontFamily="casual"
+                    android:text="@string/topMultiplayer"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <Button
@@ -229,7 +245,9 @@
                 android:layout_weight="1"
                 android:background="@drawable/rounded_button"
                 android:elevation="4dp"
-                android:text="@string/stopAds" />
+                android:fontFamily="casual"
+                android:text="@string/stopAds"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/userInfo"
@@ -240,7 +258,9 @@
                 android:layout_weight="1"
                 android:background="@drawable/rounded_button"
                 android:elevation="4dp"
-                android:text="@string/userInfo" />
+                android:fontFamily="casual"
+                android:text="@string/userInfo"
+                android:textStyle="bold" />
         </LinearLayout>
 
     </LinearLayout>
@@ -264,6 +284,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
+                android:fontFamily="casual"
                 android:text="@string/online"
                 android:textColor="@color/textColor"
                 android:textSize="18sp" />
@@ -278,6 +299,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="50"
+                android:fontFamily="casual"
                 android:textColor="@color/textColor"
                 android:textSize="18sp" />
 

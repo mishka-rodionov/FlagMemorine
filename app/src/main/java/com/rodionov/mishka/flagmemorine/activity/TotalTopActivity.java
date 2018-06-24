@@ -198,6 +198,7 @@ public class TotalTopActivity extends AppCompatActivity {
                         array.getString(2),
                         Integer.parseInt(array.getString(3)),0, 0, 0, 0, 0,
                         ""));
+                Log.i(Data.getLOG_TAG(), "specification: " + array.getString(1));
             }
         }catch (JSONException jex){
             Log.i(Data.getLOG_TAG(), "CREATE JSON OBJECT " + jex.toString());

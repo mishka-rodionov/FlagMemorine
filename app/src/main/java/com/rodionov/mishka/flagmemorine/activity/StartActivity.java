@@ -238,10 +238,37 @@ public class StartActivity extends AppCompatActivity {
 
                         break;
                     case R.id.botplay:
-                        if (botLinearLayout.indexOfChild(botLevelList) == -1){
-                            botLinearLayout.addView(botLevelList);
+                        if (easySwitch.isChecked()){
+                            Intent multiplayerBotActivity = new Intent(StartActivity.this, MultiplayerBotActivity.class);
+                            multiplayerBotActivity.putExtra(Data.getSize(), size);
+                            multiplayerBotActivity.putExtra(Data.getLevel(), Data.getEasy());
+                            multiplayerBotActivity.putExtra("localPlayerName", sqLiteTableManager.getName());
+                            startActivity(multiplayerBotActivity);
+                        }else if (normalSwitch.isChecked()){
+                            Intent multiplayerBotActivity = new Intent(StartActivity.this, MultiplayerBotActivity.class);
+                            multiplayerBotActivity.putExtra(Data.getSize(), size);
+                            multiplayerBotActivity.putExtra(Data.getLevel(), Data.getNormal());
+                            multiplayerBotActivity.putExtra("localPlayerName", sqLiteTableManager.getName());
+                            startActivity(multiplayerBotActivity);
+                        }else if (hardSwitch.isChecked()){
+                            Intent multiplayerBotActivity = new Intent(StartActivity.this, MultiplayerBotActivity.class);
+                            multiplayerBotActivity.putExtra(Data.getSize(), size);
+                            multiplayerBotActivity.putExtra(Data.getLevel(), Data.getHard());
+                            multiplayerBotActivity.putExtra("localPlayerName", sqLiteTableManager.getName());
+                            startActivity(multiplayerBotActivity);
+                        }else if (veryhardSwitch.isChecked()){
+                            Intent multiplayerBotActivity = new Intent(StartActivity.this, MultiplayerBotActivity.class);
+                            multiplayerBotActivity.putExtra(Data.getSize(), size);
+                            multiplayerBotActivity.putExtra(Data.getLevel(), Data.getVeryhard());
+                            multiplayerBotActivity.putExtra("localPlayerName", sqLiteTableManager.getName());
+//                            Log.i(Data.getLOG_TAG(), "onCheckedChanged: " + sqLiteTableManager.getName());
+                            startActivity(multiplayerBotActivity);
                         }else {
-                            botLinearLayout.removeViewAt(botLinearLayout.indexOfChild(botLevelList));
+                            if (botLinearLayout.indexOfChild(botLevelList) == -1){
+                                botLinearLayout.addView(botLevelList);
+                            }else {
+                                botLinearLayout.removeViewAt(botLinearLayout.indexOfChild(botLevelList));
+                            }
                         }
                         break;
                     case R.id.stopAds:
@@ -264,11 +291,11 @@ public class StartActivity extends AppCompatActivity {
                 switch (buttonView.getId()){
                     case R.id.easySwitch:
                         if (isChecked){
-                            Intent multiplayerBotActivity = new Intent(StartActivity.this, MultiplayerBotActivity.class);
-                            multiplayerBotActivity.putExtra(Data.getSize(), size);
-                            multiplayerBotActivity.putExtra(Data.getLevel(), Data.getEasy());
-                            multiplayerBotActivity.putExtra("localPlayerName", sqLiteTableManager.getName());
-                            startActivity(multiplayerBotActivity);
+//                            Intent multiplayerBotActivity = new Intent(StartActivity.this, MultiplayerBotActivity.class);
+//                            multiplayerBotActivity.putExtra(Data.getSize(), size);
+//                            multiplayerBotActivity.putExtra(Data.getLevel(), Data.getEasy());
+//                            multiplayerBotActivity.putExtra("localPlayerName", sqLiteTableManager.getName());
+//                            startActivity(multiplayerBotActivity);
                             normalSwitch.setChecked(false);
                             hardSwitch.setChecked(false);
                             veryhardSwitch.setChecked(false);
@@ -276,11 +303,11 @@ public class StartActivity extends AppCompatActivity {
                     break;
                     case R.id.normalSwitch:
                         if (isChecked){
-                            Intent multiplayerBotActivity = new Intent(StartActivity.this, MultiplayerBotActivity.class);
-                            multiplayerBotActivity.putExtra(Data.getSize(), size);
-                            multiplayerBotActivity.putExtra(Data.getLevel(), Data.getNormal());
-                            multiplayerBotActivity.putExtra("localPlayerName", sqLiteTableManager.getName());
-                            startActivity(multiplayerBotActivity);
+//                            Intent multiplayerBotActivity = new Intent(StartActivity.this, MultiplayerBotActivity.class);
+//                            multiplayerBotActivity.putExtra(Data.getSize(), size);
+//                            multiplayerBotActivity.putExtra(Data.getLevel(), Data.getNormal());
+//                            multiplayerBotActivity.putExtra("localPlayerName", sqLiteTableManager.getName());
+//                            startActivity(multiplayerBotActivity);
                             easySwitch.setChecked(false);
                             hardSwitch.setChecked(false);
                             veryhardSwitch.setChecked(false);
@@ -288,11 +315,11 @@ public class StartActivity extends AppCompatActivity {
                     break;
                     case R.id.hardSwitch:
                         if (isChecked) {
-                            Intent multiplayerBotActivity = new Intent(StartActivity.this, MultiplayerBotActivity.class);
-                            multiplayerBotActivity.putExtra(Data.getSize(), size);
-                            multiplayerBotActivity.putExtra(Data.getLevel(), Data.getHard());
-                            multiplayerBotActivity.putExtra("localPlayerName", sqLiteTableManager.getName());
-                            startActivity(multiplayerBotActivity);
+//                            Intent multiplayerBotActivity = new Intent(StartActivity.this, MultiplayerBotActivity.class);
+//                            multiplayerBotActivity.putExtra(Data.getSize(), size);
+//                            multiplayerBotActivity.putExtra(Data.getLevel(), Data.getHard());
+//                            multiplayerBotActivity.putExtra("localPlayerName", sqLiteTableManager.getName());
+//                            startActivity(multiplayerBotActivity);
                             normalSwitch.setChecked(false);
                             easySwitch.setChecked(false);
                             veryhardSwitch.setChecked(false);
@@ -300,11 +327,12 @@ public class StartActivity extends AppCompatActivity {
                     break;
                     case R.id.veryhardSwitch:
                         if (isChecked){
-                            Intent multiplayerBotActivity = new Intent(StartActivity.this, MultiplayerBotActivity.class);
-                            multiplayerBotActivity.putExtra(Data.getSize(), size);
-                            multiplayerBotActivity.putExtra(Data.getLevel(), Data.getVeryhard());
-                            multiplayerBotActivity.putExtra("localPlayerName", sqLiteTableManager.getName());
-                            startActivity(multiplayerBotActivity);
+//                            Intent multiplayerBotActivity = new Intent(StartActivity.this, MultiplayerBotActivity.class);
+//                            multiplayerBotActivity.putExtra(Data.getSize(), size);
+//                            multiplayerBotActivity.putExtra(Data.getLevel(), Data.getVeryhard());
+//                            multiplayerBotActivity.putExtra("localPlayerName", sqLiteTableManager.getName());
+////                            Log.i(Data.getLOG_TAG(), "onCheckedChanged: " + sqLiteTableManager.getName());
+//                            startActivity(multiplayerBotActivity);
                             normalSwitch.setChecked(false);
                             hardSwitch.setChecked(false);
                             easySwitch.setChecked(false);

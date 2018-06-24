@@ -41,22 +41,18 @@ import java.util.TimerTask;
 import eu.davidea.flipview.FlipView;
 import okhttp3.OkHttpClient;
 
-public class MultiplayerBotActivity extends AppCompatActivity implements FlipListener{
+public class MultiplayerBotActivity extends AppCompatActivity{
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-//        menu.findItem(R.id.action_restart).setVisible(false);
+        getMenuInflater().inflate(R.menu.rooms_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-//            case R.id.action_restart:
-//                recreate();
-//                break;
-            case R.id.home:
+            case android.R.id.home:
 //                removeRoom(Integer.toString(roomIndex));
                 Intent startActivityIntent = new Intent(MultiplayerBotActivity.this, StartActivity.class);
                 startActivity(startActivityIntent);
@@ -73,18 +69,11 @@ public class MultiplayerBotActivity extends AppCompatActivity implements FlipLis
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-//        MenuItem menuItem;
-        getMenuInflater().inflate(R.menu.main, menu);
+//        getMenuInflater().inflate(R.menu.rooms_menu, menu);
         if (action){
-            menu.findItem(R.id.action_restart).setIcon(R.drawable.ic_play_arrow_white_48dp);
-            menu.findItem(R.id.action_restart).setVisible(true);
-//            menuItem = menu.getItem(1);
-//            menuItem.setIcon(R.drawable.ic_play_arrow_white_48dp);
+            menu.findItem(R.id.playerAction).setIcon(R.drawable.ic_play_arrow_white_48dp);
         }else{
-//            menuItem = menu.getItem(1);
-//            menuItem.setIcon(R.drawable.ic_pause_white_48dp);
-            menu.findItem(R.id.action_restart).setIcon(R.drawable.ic_pause_white_48dp);
-            menu.findItem(R.id.action_restart).setVisible(true);
+            menu.findItem(R.id.playerAction).setIcon(R.drawable.ic_pause_white_48dp);
         }
         return super.onPrepareOptionsMenu(menu);
     }
@@ -279,12 +268,6 @@ public class MultiplayerBotActivity extends AppCompatActivity implements FlipLis
                 Log.d(Data.getLOG_TAG(), "pressed button " + index);
                 flipViews.get(index).setEnabled(false);
                 flipViews.get(index).setClickable(false);
-//                new Thread(){
-//                    public void run(){
-//                        mp = MediaPlayer.create(BattleFieldActivity.this, R.raw.flip_click);
-//                        mp.start();
-//                    }
-//                }.start();
                 String country  = battleField.getElement(Integer.parseInt(view.getTag().toString()));
                 userChoice.add(country);                                                            // Добавление выбранного значения в контейнер пользовательского выбора.
                 if (userChoice.size() == 1 && flipFlag){
@@ -309,19 +292,11 @@ public class MultiplayerBotActivity extends AppCompatActivity implements FlipLis
             receiving = false;
             action = true;
             invalidateOptionsMenu();
-//            actionImage.setImageResource(R.drawable.ic_play_arrow_white_48dp);
         }else{
             sending = false;
             receiving = true;
             action = false;
             invalidateOptionsMenu();
-//            actionImage.setImageResource(R.drawable.ic_pause_white_48dp);
-            requestTimer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-//                    receiving(httpClient, Integer.toString(roomIndex));
-                }
-            }, delay, period);
         }
         battleField = new BattleField(battleFieldSize);
         //region bot
@@ -423,25 +398,12 @@ public class MultiplayerBotActivity extends AppCompatActivity implements FlipLis
                 int two = botChoice.get(1);
                 Log.i(Data.getLOG_TAG(), "BOTS RETURN IN MISTAKE = " + one + " " + two);
                 delayedBotTask(one, two);
-//                requestTimer = new Timer();
-//                requestTimer.schedule(new TimerTask() {
-//                    @Override
-//                    public void run() {
-////                        receiving(httpClient, Integer.toString(roomIndex));
-//                    }
-//                }, delay, period);
+                delayedClickable(one, two);
             }else if (receiving){
                 sending = true;
                 receiving = false;
                 action = true;
                 invalidateOptionsMenu();
-//                actionImage.setImageResource(R.drawable.ic_play_arrow_white_48dp);
-                for (int i = 0; i < clickable.size(); i++) {
-                    if (clickable.get(i)) {
-                        flipViews.get(i).setEnabled(true);
-                    }
-                }
-                requestTimer.cancel();
             }
         }else{
             flipFlag = true;
@@ -626,18 +588,6 @@ public class MultiplayerBotActivity extends AppCompatActivity implements FlipLis
         thread.start();
     }
 
-    public void delayedBotFirst(final int but0){
-        Thread thread = new Thread(new Runnable() {                             // создаем новый поток для закрытия первого, из выбранных пользователем флагов, рубашкой
-            Message msg;
-            @Override
-            public void run() {
-                msg = botHandler.obtainMessage(1, but0);                // подготавливаем сообщение
-                botHandler.sendMessageDelayed(msg, 2000);                      // помещаем в очередь хэндлера отложенное на секунду сообщение
-            }
-        });
-        thread.start();
-    }
-
     public void delayedBotSecond(final int but0, final int but1){
         Thread thread = new Thread(new Runnable() {                             // создаем новый поток для закрытия первого, из выбранных пользователем флагов, рубашкой
             Message msg;
@@ -684,21 +634,6 @@ public class MultiplayerBotActivity extends AppCompatActivity implements FlipLis
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_IMMERSIVE
         );
-    }
-
-    @Override
-    public void flipEvent(int tag, String value) {
-
-    }
-
-    @Override
-    public void deactivatePoint(int tag) {
-
-    }
-
-    @Override
-    public ArrayList botFlip() {
-        return new ArrayList();
     }
 
     //region Private fields

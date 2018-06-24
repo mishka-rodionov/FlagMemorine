@@ -9,9 +9,9 @@
         android:icon="@drawable/ic_pause_white_36dp"
         android:orderInCategory="100"
         android:title="Action"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_settings_rooms"
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never" />

@@ -595,7 +595,7 @@ public class CountryList {
                     "United Arab Emirates",
                     "United Kingdom",
                     "United States",
-                    "Unknown",
+//                    "Unknown",
                     "Uruguay",
                     "Ussr",
                     "Uzbekistan",

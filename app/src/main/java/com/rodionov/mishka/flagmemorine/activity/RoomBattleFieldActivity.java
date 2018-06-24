@@ -407,11 +407,11 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
                 action = true;
                 invalidateOptionsMenu();
 //                actionImage.setImageResource(R.drawable.ic_play_arrow_white_48dp);
-                for (int i = 0; i < clickable.size(); i++) {
-                    if (clickable.get(i)) {
-                        flipViews.get(i).setEnabled(true);
-                    }
-                }
+//                for (int i = 0; i < clickable.size(); i++) {
+//                    if (clickable.get(i)) {
+//                        flipViews.get(i).setEnabled(true);
+//                    }
+//                }
                 requestTimer.cancel();
             }
         }else{

@@ -32,6 +32,11 @@ import okhttp3.Response;
 public class EndOfGameActivity extends AppCompatActivity {
 
     @Override
+    public void onBackPressed() {
+        startActivity(new Intent(EndOfGameActivity.this, StartActivity.class));
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end_of_game);

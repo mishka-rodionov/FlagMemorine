@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -33,6 +34,25 @@ import okhttp3.OkHttpClient;
 import okhttp3.Response;
 
 public class UserInfoActivity extends AppCompatActivity {
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+//            case R.id.action_restart:
+//                recreate();
+//                break;
+            case R.id.home:
+//                removeRoom(Integer.toString(roomIndex));
+                if (userNameEditText.getText().toString().trim().equals("")){
+                    Toast.makeText(UserInfoActivity.this, "Pease, enter your playername!", Toast.LENGTH_SHORT).show();
+                }else {
+                    Intent startActivityIntent = new Intent(UserInfoActivity.this, StartActivity.class);
+                    startActivity(startActivityIntent);
+                }
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

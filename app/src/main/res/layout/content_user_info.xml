@@ -26,6 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
+                android:fontFamily="casual"
                 android:singleLine="true"
                 android:text="@string/user_name"
                 android:textColor="@color/textColor"
@@ -36,6 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:fontFamily="casual"
                 android:inputType="textPersonName" />
 
         </LinearLayout>
@@ -50,6 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
+                android:fontFamily="casual"
                 android:text="@string/user_country"
                 android:textColor="@color/textColor"
                 android:textSize="18sp" />

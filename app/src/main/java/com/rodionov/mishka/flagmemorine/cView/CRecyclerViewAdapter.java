@@ -49,7 +49,7 @@ public class CRecyclerViewAdapter extends RecyclerView.Adapter<CRecyclerViewAdap
 
     @Override
     public void onBindViewHolder(CRecyclerViewAdapter.PlayerViewHolder holder, int position) {
-        holder.personName.setText(players.get(position).getName());
+        holder.personName.setText(players.get(position).getName().toString());
         holder.personAge.setText(Integer.toString(players.get(position).getTotalScore()));
         holder.personPhoto.setImageResource(CountryList.getCountry(players.get(position).getCountry()));
         holder.number.setText(Integer.toString(position + 1));
