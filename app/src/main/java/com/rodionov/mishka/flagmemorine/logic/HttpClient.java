@@ -3,8 +3,10 @@ package com.rodionov.mishka.flagmemorine.logic;
 import android.util.Log;
 
 import okhttp3.HttpUrl;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 
 /**
  * Created by Lab1 on 22.01.2018.
@@ -165,6 +167,28 @@ public class HttpClient{
         Request request = new Request.Builder()
                 .url(httpUrl)
                 .header("User-Agent", "OkHttp Headers.java")
+                .build();
+
+        return request;
+    }
+
+    public Request postResultToDB(String json){
+        HttpUrl httpUrl = new HttpUrl.Builder()
+                .scheme("http")
+                .host(Data.getCustomURL())
+                .port(8080)
+                .addPathSegment(Data.getServerAppName())
+                .addPathSegment(Data.getPushResultToDB())
+                .build();
+
+        final MediaType JSON = MediaType.parse("application/json;charset=utf-8");
+
+        RequestBody body = RequestBody.create(JSON, json);
+
+        Request request = new Request.Builder()
+                .url(httpUrl)
+                .header("User-Agent", "OkHttp Headers.java")
+                .post(body)
                 .build();
 
         return request;

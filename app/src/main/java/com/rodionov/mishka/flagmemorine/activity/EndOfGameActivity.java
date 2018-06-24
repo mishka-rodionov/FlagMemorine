@@ -22,6 +22,9 @@ import com.rodionov.mishka.flagmemorine.logic.HttpClient;
 import com.rodionov.mishka.flagmemorine.service.MultiplayerBot;
 import com.rodionov.mishka.flagmemorine.service.SqLiteTableManager;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 import okhttp3.Call;
@@ -268,6 +271,51 @@ public class EndOfGameActivity extends AppCompatActivity {
 
         client.newCall(httpClient.pushResultToDB( enemyUsername,
                  score,  enemyScore,  result,  date,  username)).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+//                ;
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+//                        view.setText(battlefield);
+                        Log.i(Data.getLOG_TAG(), "run: " + "Fail!!!!!!!!!!!!");
+                    }
+                });
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String answer = response.body().string();
+                Log.i(Data.getLOG_TAG(), "onResponse run for REMOVE_ROOM methods: rooms size = " + answer);
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+
+                    }
+                });
+            }
+        });
+    }
+
+    public void postResultToDB(String enemyUsername, String score, String enemyScore, String result, String date, String username){
+        final Handler mainHandler = new Handler(Looper.getMainLooper());
+
+        String json = "";
+        JSONObject tableRow = new JSONObject();
+        try{
+            tableRow.put(Data.getEnemyUsername(), enemyUsername);
+            tableRow.put(Data.getScore(), score);
+            tableRow.put(Data.getEnemyScore(), enemyScore);
+            tableRow.put(Data.getResult(), result);
+            tableRow.put(Data.getDate(), date);
+            tableRow.put(Data.getUsername(), username);
+            json = tableRow.toString();
+        }catch (JSONException js){
+            Log.i(Data.getLOG_TAG(), "postResultToDB: " + js.toString());
+        }
+
+        client.newCall(httpClient.postResultToDB(json)).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
 //                ;
