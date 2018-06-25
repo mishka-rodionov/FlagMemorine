@@ -147,8 +147,9 @@ public class WaitUserActivity extends AppCompatActivity {
                 final String firstPlayer = answer[0];
                 final String secondPlayer = answer[1];
                 final String username = answer[2];
-                final String origin = answer[3];
+                final String origin = answer[3].replaceAll("_", " ");
                 Log.i(Data.getLOG_TAG(), "onResponse secondplayer: " + secondPlayer);
+                Log.i(Data.getLOG_TAG(), "onResponse secondplayer origin: " + origin);
                 mainHandler.post(new Runnable() {
                     @Override
                     public void run() {

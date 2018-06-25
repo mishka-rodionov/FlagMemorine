@@ -181,9 +181,10 @@ public class HttpClient{
                 .addPathSegment(Data.getPushResultToDB())
                 .build();
 
-        final MediaType JSON = MediaType.parse("application/json;charset=utf-8");
+        final MediaType JSON = MediaType.parse("multipart/form-data");
 
         RequestBody body = RequestBody.create(JSON, json);
+        Log.i(Data.getLOG_TAG(), "url: " + httpUrl.toString() + " " + body.toString());
 
         Request request = new Request.Builder()
                 .url(httpUrl)

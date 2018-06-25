@@ -273,6 +273,7 @@ public class StartActivity extends AppCompatActivity {
                         break;
                     case R.id.stopAds:
                         removeBotLevelList();
+                        postResultToDB("enemyname", "SCORE_NAH", "enemyscore", "result", "date", "username");
 //                        Intent multiplayerBotActivity = new Intent(StartActivity.this, MultiplayerBotActivity.class);
 //                        multiplayerBotActivity.putExtra(Data.getSize(), size);
 //                        startActivity(multiplayerBotActivity);
@@ -343,23 +344,6 @@ public class StartActivity extends AppCompatActivity {
         };
         //endregion
 
-//        View.OnFocusChangeListener onFocusChangeListener = new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View v, boolean hasFocus) {
-//                switch(v.getId()){
-//                    case R.id.botplay:
-//                        if(hasFocus){
-//                            Toast.makeText(StartActivity.this, "Focus left", Toast.LENGTH_SHORT).show();
-//                        }else{
-//                            Toast.makeText(StartActivity.this, "Focus yep!", Toast.LENGTH_SHORT).show();
-//                        }
-//                        break;
-//                }
-//
-//            }
-//        };
-//
-//        botplay.setOnFocusChangeListener(onFocusChangeListener);
 
         easySwitch.setOnCheckedChangeListener(switchChangedListener);
         normalSwitch.setOnCheckedChangeListener(switchChangedListener);
@@ -642,19 +626,51 @@ public class StartActivity extends AppCompatActivity {
         Log.i(Data.getLOG_TAG(), "onRestart: StartActivity");
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        String username = data.getStringExtra("username");
-//        String playername = data.getStringExtra("playername");
-//        sqLiteTableManager.insertIntoUserInfoTable(
-//                null,
-//                username,
-//                null,
-//                Data.getCurrentDate());
-//        //Обновление настроек для закрытия ветки первого включения.
-//
-//        Log.d(Data.getLOG_TAG(), "It's next sending after intent!");
-//    }
+    public void postResultToDB(String enemyUsername, String score, String enemyScore, String result, String date, String username){
+        final Handler mainHandler = new Handler(Looper.getMainLooper());
+
+        String json = "";
+        JSONObject tableRow = new JSONObject();
+        try{
+            tableRow.put(Data.getEnemyUsername(), enemyUsername);
+            tableRow.put(Data.getScore(), score);
+            tableRow.put(Data.getEnemyScore(), enemyScore);
+            tableRow.put(Data.getResult(), result);
+            tableRow.put(Data.getDate(), date);
+            tableRow.put(Data.getUsername(), username);
+            json = tableRow.toString();
+            Log.i(Data.getLOG_TAG(), "run: " + json);
+        }catch (JSONException js){
+            Log.i(Data.getLOG_TAG(), "postResultToDB: " + js.toString());
+        }
+
+        client.newCall(httpClient.postResultToDB(json)).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+//                ;
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+//                        view.setText(battlefield);
+                        Log.i(Data.getLOG_TAG(), "run: " + "Fail!!!!!!!!!!!!");
+                    }
+                });
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String answer = response.body().string();
+                Log.i(Data.getLOG_TAG(), "onResponse run for REMOVE_ROOM methods: rooms size = " + answer);
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.i(Data.getLOG_TAG(), "run: " + answer);
+                    }
+                });
+            }
+        });
+    }
 
     private RadioButton xSmall;
     private RadioButton small;
