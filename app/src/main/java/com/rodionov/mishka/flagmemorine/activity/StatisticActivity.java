@@ -190,7 +190,7 @@ public class StatisticActivity extends AppCompatActivity {
             Log.i(Data.getLOG_TAG(), "specification: row[1] = " + row[1]);
             Player.addPlayer(new Player(sqLiteTableManager.getName() == null ?
                     sqLiteTableManager.getLogin() : sqLiteTableManager.getName(),
-                    sqLiteTableManager.getCountry() == null ? "Olympics" : sqLiteTableManager.getCountry(),
+                    sqLiteTableManager.getOrigin() == null ? "Olympics" : sqLiteTableManager.getOrigin(),
                     Integer.parseInt(row[0]),0, 0, 0, 0, 0,
                      row[3] + " " + row[2] + " " + row[6] + " " + row[4]));
         }

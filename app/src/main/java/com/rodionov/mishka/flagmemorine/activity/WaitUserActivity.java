@@ -19,6 +19,9 @@ import com.rodionov.mishka.flagmemorine.logic.Data;
 import com.rodionov.mishka.flagmemorine.logic.HttpClient;
 import com.rodionov.mishka.flagmemorine.service.SqLiteTableManager;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
@@ -69,6 +72,8 @@ public class WaitUserActivity extends AppCompatActivity {
 
     }
 
+    // Метод для создания (или подключения) комнаты для игры со случайным соперником. Используется
+    // запрос к сервлету по адресу /connectToRoom
     public void connectToRoom(final HttpClient httpClient, String playerName, String user, String origin, String size){
 
         final Handler mainHandler = new Handler(Looper.getMainLooper());
@@ -142,43 +147,53 @@ public class WaitUserActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
 //                final String[] answer = response.body().string().split(" ");
-                final String[] answer = response.body().string().split(" ");
+                final String answer = response.body().string();
                 Log.i(Data.getLOG_TAG(), "onResponse run for WAITUSER methods: " + answer);
-                final String firstPlayer = answer[0];
-                final String secondPlayer = answer[1];
-                final String username = answer[2];
-                final String origin = answer[3].replaceAll("_", " ");
-                Log.i(Data.getLOG_TAG(), "onResponse secondplayer: " + secondPlayer);
-                Log.i(Data.getLOG_TAG(), "onResponse secondplayer origin: " + origin);
+//                final String firstPlayer = answer[0];
+//                final String secondPlayer = answer[1];
+//                final String username = answer[2];
+//                final String origin = answer[3].replaceAll("_", " ");
                 mainHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        firstPlayerName.setText(firstPlayer);
-                        if (!secondPlayer.equals("null")){
-                            progressBar.setVisibility(View.INVISIBLE);
-                            secondPlayerName.setText(secondPlayer);
-                            secondPlayerOrigin.setImageResource(CountryList.getCountry(origin));
-                            String body = "";
-                            for (int i = 0; i < battlefieldBody.size(); i++) {
-                                body += battlefieldBody.get(i) + " ";
+                        try {
+                            JSONObject jsonObject = new JSONObject(answer);
+                            String firstPlayer = jsonObject.getString(Data.getFirstPlayername());
+
+                            Log.i(Data.getLOG_TAG(), "onResponse secondplayer origin: " + origin);
+                            firstPlayerName.setText(firstPlayer);
+                            if (jsonObject.has(Data.getAnotherPlayername())) {//!secondPlayer.equals("null")
+                                String secondPlayer = jsonObject.getString(Data.getAnotherPlayername());
+                                Log.i(Data.getLOG_TAG(), "onResponse secondplayer: " + secondPlayer);
+                                String username = jsonObject.getString(Data.getAnotherPlayerUsername());
+                                String origin = jsonObject.getString(Data.getAnotherPlayerOrigin());
+                                progressBar.setVisibility(View.INVISIBLE);
+                                secondPlayerName.setText(secondPlayer);
+                                secondPlayerOrigin.setImageResource(CountryList.getCountry(origin));
+                                String body = "";
+                                for (int i = 0; i < battlefieldBody.size(); i++) {
+                                    body += battlefieldBody.get(i) + " ";
+                                }
+                                removingFlag = false;
+                                Intent roomBattlefieldIntent = new Intent(WaitUserActivity.this, RoomBattleFieldActivity.class);
+                                roomBattlefieldIntent.putExtra(Data.getRoomIndexLabel(), roomIndex);
+                                roomBattlefieldIntent.putExtra(Data.getPlayername(), playerNumber);
+                                roomBattlefieldIntent.putExtra("localPlayerName", playerName);
+                                roomBattlefieldIntent.putExtra("anotherPlayerUsername", username);
+                                roomBattlefieldIntent.putExtra("anotherPlayerOrigin", origin);
+                                if (playerNumber.equals("firstPlayer")) {
+                                    roomBattlefieldIntent.putExtra("anotherPlayer", secondPlayer);
+                                }
+                                if (playerNumber.equals("secondPlayer")) {
+                                    roomBattlefieldIntent.putExtra("anotherPlayer", firstPlayer);
+                                }
+                                roomBattlefieldIntent.putExtra("battlefieldBody", body);
+                                roomBattlefieldIntent.putExtra(Data.getSize(), Integer.toString(battlefieldSize));
+                                startActivity(roomBattlefieldIntent);
+                                requestTimer.cancel();
                             }
-                            removingFlag = false;
-                            Intent roomBattlefieldIntent = new Intent(WaitUserActivity.this, RoomBattleFieldActivity.class);
-                            roomBattlefieldIntent.putExtra(Data.getRoomIndexLabel(), roomIndex);
-                            roomBattlefieldIntent.putExtra(Data.getPlayerName(), playerNumber);
-                            roomBattlefieldIntent.putExtra("localPlayerName", playerName);
-                            roomBattlefieldIntent.putExtra("anotherPlayerUsername", username);
-                            roomBattlefieldIntent.putExtra("anotherPlayerOrigin", origin);
-                            if (playerNumber.equals("firstPlayer")){
-                                roomBattlefieldIntent.putExtra("anotherPlayer", secondPlayer);
-                            }
-                            if (playerNumber.equals("secondPlayer")){
-                                roomBattlefieldIntent.putExtra("anotherPlayer", firstPlayer);
-                            }
-                            roomBattlefieldIntent.putExtra("battlefieldBody", body);
-                            roomBattlefieldIntent.putExtra(Data.getSize(), Integer.toString(battlefieldSize));
-                            startActivity(roomBattlefieldIntent);
-                            requestTimer.cancel();
+                        }catch (JSONException js){
+                            js.printStackTrace();
                         }
                     }
                 });
@@ -220,8 +235,8 @@ public class WaitUserActivity extends AppCompatActivity {
     private void pullDB(){
         playerName = sqLiteTableManager.getName() == null ?
                 sqLiteTableManager.getLogin() : sqLiteTableManager.getName();
-        origin = sqLiteTableManager.getCountry() == null ?
-                "Olympics" : sqLiteTableManager.getCountry();
+        origin = sqLiteTableManager.getOrigin() == null ?
+                "Olympics" : sqLiteTableManager.getOrigin();
         username = sqLiteTableManager.getLogin();
         Log.i(Data.getLOG_TAG(), "pullDB: playerName = " + playerName);
         Log.i(Data.getLOG_TAG(), "pullDB: username = " + username);

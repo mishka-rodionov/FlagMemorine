@@ -264,34 +264,34 @@ public class SqLiteTableManager {
     }
 
     public String getName(){
-        cursor = sqLiteDatabase.query(Data.getDbUserInfoTable(), null, null, null, null, null, null);
-        String username = "";
-        if (cursor.moveToLast()){
-            username = cursor.getString(cursor.getColumnIndex(Data.getDbUserNameColumn()));
-        }
-        cursor.close();
-        return username;
+//        cursor = sqLiteDatabase.query(Data.getDbUserInfoTable(), null, null, null, null, null, null);
+//        String username = "";
+//        if (cursor.moveToLast()){
+//            username = cursor.getString(cursor.getColumnIndex(Data.getDbUserNameColumn()));
+//        }
+//        cursor.close();
+        return readLastRowFromUserInfo()[0];
     }
 
     public String getLogin(){
-        cursor = sqLiteDatabase.query(Data.getDbUserInfoTable(), null, null, null, null, null, null);
-        String userLogin = "";
-        if (cursor.moveToLast()){
-            userLogin = cursor.getString(cursor.getColumnIndex(Data.getDbLoginColumn()));
-        }
-        cursor.close();
-        return userLogin;
+//        cursor = sqLiteDatabase.query(Data.getDbUserInfoTable(), null, null, null, null, null, null);
+//        String userLogin = "";
+//        if (cursor.moveToLast()){
+//            userLogin = cursor.getString(cursor.getColumnIndex(Data.getDbLoginColumn()));
+//        }
+//        cursor.close();
+        return readLastRowFromUserInfo()[1];
     }
 
-    public String getCountry(){
-        cursor = sqLiteDatabase.query(Data.getDbUserInfoTable(), null, null,
-                null, null, null, null);
-        String userCountry = "";
-        if (cursor.moveToLast()){
-            userCountry = cursor.getString(cursor.getColumnIndex(Data.getDbCountryColumn()));
-        }
-        cursor.close();
-        return userCountry;
+    public String getOrigin(){
+//        cursor = sqLiteDatabase.query(Data.getDbUserInfoTable(), null, null,
+//                null, null, null, null);
+//        String userCountry = "";
+//        if (cursor.moveToLast()){
+//            userCountry = cursor.getString(cursor.getColumnIndex(Data.getDbCountryColumn()));
+//        }
+//        cursor.close();
+        return readLastRowFromUserInfo()[2];
     }
 
     public ArrayList<String> getDate(){

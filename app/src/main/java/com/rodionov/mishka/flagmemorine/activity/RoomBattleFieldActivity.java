@@ -10,11 +10,9 @@ import android.os.Message;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -59,7 +57,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
 //            case R.id.action_restart:
 //                recreate();
 //                break;
-            case R.id.home:
+            case android.R.id.home:
                 removeRoom(Integer.toString(roomIndex));
                 Intent startActivityIntent = new Intent(RoomBattleFieldActivity.this, StartActivity.class);
                 startActivity(startActivityIntent);
@@ -77,7 +75,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
 //        MenuItem menuItem;
-        getMenuInflater().inflate(R.menu.main, menu);
+//        getMenuInflater().inflate(R.menu.main, menu);
         if (action){
             menu.findItem(R.id.action_restart).setIcon(R.drawable.ic_play_arrow_white_48dp);
 //            menuItem = menu.getItem(1);
@@ -130,7 +128,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         //region get intent parameters
         battleFieldSize = Integer.parseInt(getIntent().getStringExtra(Data.getSize()));
         roomIndex = Integer.parseInt(getIntent().getStringExtra(Data.getRoomIndexLabel()));
-        playerNumber = getIntent().getStringExtra(Data.getPlayerName());
+        playerNumber = getIntent().getStringExtra(Data.getPlayername());
         anotherPlayerUsername = getIntent().getStringExtra("anotherPlayerUsername");
         anotherPlayerOrigin = getIntent().getStringExtra("anotherPlayerOrigin");
 //        if (playerNumber.equals("firstPlayer")){

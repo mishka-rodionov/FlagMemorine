@@ -87,8 +87,8 @@ public class Data {
         Data.step2 = step2;
     }
 
-    public static void setPlayerName(String playerName) {
-        Data.playerName = playerName;
+    public static void setPlayername(String playername) {
+        Data.playername = playername;
     }
 
     public static void setType(String type) {
@@ -400,8 +400,8 @@ public class Data {
         return type;
     }
 
-    public static String getPlayerName() {
-        return playerName;
+    public static String getPlayername() {
+        return playername;
     }
 
     public static String getUsername() {
@@ -522,12 +522,44 @@ public class Data {
         Data.level = level;
     }
 
+    public static String getFirstPlayername() {
+        return firstPlayername;
+    }
+
+    public static void setFirstPlayername(String firstPlayername) {
+        Data.firstPlayername = firstPlayername;
+    }
+
+    public static String getAnotherPlayername() {
+        return anotherPlayername;
+    }
+
+    public static void setAnotherPlayername(String anotherPlayername) {
+        Data.anotherPlayername = anotherPlayername;
+    }
+
+    public static String getAnotherPlayerUsername() {
+        return anotherPlayerUsername;
+    }
+
+    public static void setAnotherPlayerUsername(String anotherPlayerUsername) {
+        Data.anotherPlayerUsername = anotherPlayerUsername;
+    }
+
+    public static String getAnotherPlayerOrigin() {
+        return anotherPlayerOrigin;
+    }
+
+    public static void setAnotherPlayerOrigin(String anotherPlayerOrigin) {
+        Data.anotherPlayerOrigin = anotherPlayerOrigin;
+    }
+
     //region Private static fields
     private static String customURL = /*"82.202.226.186";//*/"192.168.42.227";
     private static String LOG_TAG = "flagmemorine";
     private static String MULTIBOT_TAG = "multibottag";
     private static String serverAppName = "TestGet";
-    private static String mainServlet = "hello";
+    private static String mainServlet = "connectToRoom";
     //region servlets names
     private static String createRoomServlet = "createRoom";
     private static String roomListRequestServlet = "getRoomList";
@@ -567,7 +599,7 @@ public class Data {
     private static String roomIndexLabel = "roomIndex";
     private static String step1 = "step1";
     private static String step2 = "step2";
-    private static String playerName = "playerName";
+    private static String playername = "playername";
     private static String type = "type";
     private static String step = "step";
     private static String send = "send";
@@ -587,6 +619,10 @@ public class Data {
     private static String playerNumber = "playerNumber";
     private static String online = "online";
     private static String level = "level";
+    private static String firstPlayername = "firstPlayername";
+    private static String anotherPlayername = "anotherPlayername";
+    private static String anotherPlayerUsername = "anotherPlayerUsername";
+    private static String anotherPlayerOrigin = "anotherPlayerOrigin";
 
     private static Long millisInHour = 3600000l;
     private static Long millisInDay = 84000000l;

@@ -35,7 +35,7 @@
     <string name="all">All</string>
     <string name="title_activity_user_info">UserInfoActivity</string>
     <string name="apply_button">Apply</string>
-    <string name="user_name">User name:</string>
+    <string name="playername">Name:</string>
     <string name="user_country">Country:</string>
     <string name="hintCountry">Country</string>
     <string name="title_activity_end_of_game">EndOfGameActivity</string>

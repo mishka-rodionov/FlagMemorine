@@ -13,6 +13,28 @@ import okhttp3.RequestBody;
  */
 
 public class HttpClient{
+
+    public Request availableUsers(String username, String online)
+    {
+
+        HttpUrl httpUrl = new HttpUrl.Builder()
+                .scheme("http")
+                .host(Data.getCustomURL())
+                .port(8080)
+                .addPathSegment(Data.getServerAppName())
+                .addPathSegment(Data.getAvailableUsersServlet())
+                .addQueryParameter(Data.getOnline(), online)
+                .addQueryParameter(Data.getUsername(), username)
+                .build();
+
+        Request request = new Request.Builder()
+                .url(httpUrl)
+                .header("User-Agent", "OkHttp Headers.java")
+                .build();
+
+        return request;
+    }
+
     public Request connectToRoom(String playerName, String user, String origin, String size)
     {
 
@@ -22,7 +44,7 @@ public class HttpClient{
                 .port(8080)
                 .addPathSegment(Data.getServerAppName())
                 .addPathSegment(Data.getMainServlet())
-                .addQueryParameter(Data.getPlayerName(), playerName)
+                .addQueryParameter(Data.getPlayername(), playerName)
                 .addQueryParameter(Data.getUser(), user)
                 .addQueryParameter(Data.getOrigin(), origin)
                 .addQueryParameter(Data.getSize(), size)
@@ -34,6 +56,51 @@ public class HttpClient{
                 .build();
 
                 Log.d(LOG_TAG, "connect to room URL = " + httpUrl.toString());
+
+        return request;
+    }
+
+    public Request getTotalTop(String username)
+    {
+
+        HttpUrl httpUrl = new HttpUrl.Builder()
+                .scheme("http")
+                .host(Data.getCustomURL())
+                .port(8080)
+                .addPathSegment(Data.getServerAppName())
+                .addPathSegment(Data.getTotalTopServlet())
+                .addQueryParameter(Data.getUsername(), username)
+                .build();
+
+        Request request = new Request.Builder()
+                .url(httpUrl)
+                .header("User-Agent", "OkHttp Headers.java")
+                .build();
+
+        return request;
+    }
+
+    public Request getUsername(String json)
+    {
+
+        HttpUrl httpUrl = new HttpUrl.Builder()
+                .scheme("http")
+                .host(Data.getCustomURL())
+                .port(8080)
+                .addPathSegment(Data.getServerAppName())
+                .addPathSegment(Data.getStartServlet())
+                .build();
+
+        final MediaType JSON = MediaType.parse("multipart/form-data");
+
+        RequestBody body = RequestBody.create(JSON, json);
+        Log.i(Data.getLOG_TAG(), "url: " + httpUrl.toString() + " " + body.toString());
+
+        Request request = new Request.Builder()
+                .url(httpUrl)
+                .header("User-Agent", "OkHttp Headers.java")
+                .post(body)
+                .build();
 
         return request;
     }
@@ -60,27 +127,6 @@ public class HttpClient{
         return request;
     }
 
-    public Request availableUsers(String username, String online)
-    {
-
-        HttpUrl httpUrl = new HttpUrl.Builder()
-                .scheme("http")
-                .host(Data.getCustomURL())
-                .port(8080)
-                .addPathSegment(Data.getServerAppName())
-                .addPathSegment(Data.getAvailableUsersServlet())
-                .addQueryParameter(Data.getOnline(), online)
-                .addQueryParameter(Data.getUsername(), username)
-                .build();
-
-        Request request = new Request.Builder()
-                .url(httpUrl)
-                .header("User-Agent", "OkHttp Headers.java")
-                .build();
-
-        return request;
-    }
-
     public Request sendValue(String name, String step, String roomIndex)
     {
 
@@ -91,7 +137,7 @@ public class HttpClient{
                 .addPathSegment(Data.getServerAppName())
                 .addPathSegment(Data.getWaitServlet())
                 .addQueryParameter(Data.getType(), Data.getSend())
-                .addQueryParameter(Data.getPlayerName(), name)
+                .addQueryParameter(Data.getPlayername(), name)
                 .addQueryParameter(Data.getStep(), step)
                 .addQueryParameter(Data.getRoomIndexLabel(), roomIndex)
                 .build();
@@ -135,33 +181,8 @@ public class HttpClient{
                 .addPathSegment(Data.getServerAppName())
                 .addPathSegment(Data.getWaitServlet())
                 .addQueryParameter(Data.getType(), Data.getReceive())
-                .addQueryParameter(Data.getPlayerName(), name)
+                .addQueryParameter(Data.getPlayername(), name)
                 .addQueryParameter(Data.getRoomIndexLabel(), roomIndex)
-                .build();
-
-        Request request = new Request.Builder()
-                .url(httpUrl)
-                .header("User-Agent", "OkHttp Headers.java")
-                .build();
-
-        return request;
-    }
-
-    public Request pushResultToDB(String enemyUsername, String score, String enemyScore, String result, String date, String username)
-    {
-
-        HttpUrl httpUrl = new HttpUrl.Builder()
-                .scheme("http")
-                .host(Data.getCustomURL())
-                .port(8080)
-                .addPathSegment(Data.getServerAppName())
-                .addPathSegment(Data.getPushResultToDB())
-                .addQueryParameter(Data.getUsername(), username)
-                .addQueryParameter(Data.getEnemyUsername(), enemyUsername)
-                .addQueryParameter(Data.getEnemyScore(), enemyScore)
-                .addQueryParameter(Data.getScore(), score)
-                .addQueryParameter(Data.getResult(), result)
-                .addQueryParameter(Data.getDate(), date)
                 .build();
 
         Request request = new Request.Builder()
@@ -226,48 +247,6 @@ public class HttpClient{
                 .addPathSegment(Data.getServerAppName())
                 .addPathSegment(Data.getRemoveRoomServlet())
                 .addQueryParameter(Data.getRoomIndexLabel(), roomIndex)
-                .build();
-
-        Request request = new Request.Builder()
-                .url(httpUrl)
-                .header("User-Agent", "OkHttp Headers.java")
-                .build();
-
-        return request;
-    }
-
-    public Request getUsername(String playername, String origin, String username)
-    {
-
-        HttpUrl httpUrl = new HttpUrl.Builder()
-                .scheme("http")
-                .host(Data.getCustomURL())
-                .port(8080)
-                .addPathSegment(Data.getServerAppName())
-                .addPathSegment(Data.getStartServlet())
-                .addQueryParameter(Data.getPlayerName(), playername)
-                .addQueryParameter(Data.getOrigin(), origin)
-                .addQueryParameter(Data.getUsername(), username)
-                .build();
-
-        Request request = new Request.Builder()
-                .url(httpUrl)
-                .header("User-Agent", "OkHttp Headers.java")
-                .build();
-
-        return request;
-    }
-
-    public Request getTotalTop(String username)
-    {
-
-        HttpUrl httpUrl = new HttpUrl.Builder()
-                .scheme("http")
-                .host(Data.getCustomURL())
-                .port(8080)
-                .addPathSegment(Data.getServerAppName())
-                .addPathSegment(Data.getTotalTopServlet())
-                .addQueryParameter(Data.getUsername(), username)
                 .build();
 
         Request request = new Request.Builder()

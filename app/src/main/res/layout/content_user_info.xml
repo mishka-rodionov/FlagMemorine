@@ -28,7 +28,7 @@
                 android:layout_weight="2"
                 android:fontFamily="casual"
                 android:singleLine="true"
-                android:text="@string/user_name"
+                android:text="@string/playername"
                 android:textColor="@color/textColor"
                 android:textSize="18sp" />
 

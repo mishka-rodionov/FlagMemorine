@@ -94,7 +94,7 @@ public class EndOfGameActivity extends AppCompatActivity {
             secondPlayername.setText(spn);
             anotherPlayerUsername = getIntent().getStringExtra("anotherPlayerUsername");
             anotherPlayerOrigin = getIntent().getStringExtra("anotherPlayerOrigin");
-            pushResultToDB(anotherPlayerUsername, scoreValue, scoreValueSecondPLayer, result, Data.getCurrentDate(), sqLiteTableManager.getLogin());
+            postResultToDB(anotherPlayerUsername, scoreValue, scoreValueSecondPLayer, result, Data.getCurrentDate(), sqLiteTableManager.getLogin());
             if (Integer.parseInt(result) < 0){
                 createResult("Loser!", Color.RED, "Winner!", Color.GREEN);
             }
@@ -117,7 +117,7 @@ public class EndOfGameActivity extends AppCompatActivity {
             secondPlayername.setText(spn);
             anotherPlayerUsername = getIntent().getStringExtra("anotherPlayerUsername");
             anotherPlayerOrigin = getIntent().getStringExtra("anotherPlayerOrigin");
-            pushResultToDB(anotherPlayerUsername, scoreValue, scoreValueSecondPLayer, result, Data.getCurrentDate(), sqLiteTableManager.getLogin());
+            postResultToDB(anotherPlayerUsername, scoreValue, scoreValueSecondPLayer, result, Data.getCurrentDate(), sqLiteTableManager.getLogin());
             if (Integer.parseInt(result) < 0){
                 createResult("Loser!", Color.RED, "Winner!", Color.GREEN);
             }
@@ -239,38 +239,6 @@ public class EndOfGameActivity extends AppCompatActivity {
         final Handler mainHandler = new Handler(Looper.getMainLooper());
 
         client.newCall(httpClient.removeRoom(roomIndex)).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-//                ;
-                mainHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-//                        view.setText(battlefield);
-                        Log.i(Data.getLOG_TAG(), "run: " + "Fail!!!!!!!!!!!!");
-                    }
-                });
-
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                final String answer = response.body().string();
-                Log.i(Data.getLOG_TAG(), "onResponse run for REMOVE_ROOM methods: rooms size = " + answer);
-                mainHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-
-                    }
-                });
-            }
-        });
-    }
-
-    public void pushResultToDB(String enemyUsername, String score, String enemyScore, String result, String date, String username){
-        final Handler mainHandler = new Handler(Looper.getMainLooper());
-
-        client.newCall(httpClient.pushResultToDB( enemyUsername,
-                 score,  enemyScore,  result,  date,  username)).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
 //                ;
