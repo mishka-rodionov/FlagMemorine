@@ -42,11 +42,11 @@ public class UserInfoActivity extends AppCompatActivity {
     public void onBackPressed() {
         if (userNameEditText.getText().toString().trim().equals("")){
             countBackPress++;
-            Toast.makeText(UserInfoActivity.this, "Pease, enter your playername!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(UserInfoActivity.this, "Please, enter your playername!", Toast.LENGTH_SHORT).show();
             if(countBackPress > 1){
                 playername = sqLiteTableManager.getName();
                 Log.i(Data.getLOG_TAG(), "onCreate: PLAYERNAME " + playername);
-                if (!playername.equals(null)){
+                if (playername != null){
 //            userNameEditText.setHint(playername);
                     userNameEditText.setText(playername);
                 }else{
@@ -112,13 +112,26 @@ public class UserInfoActivity extends AppCompatActivity {
         if (parentActivityName.equals("StartActivity")){
             username = sqLiteTableManager.readLastRowFromUserInfo()[1];
             origin = sqLiteTableManager.getOrigin();
+            playername = sqLiteTableManager.getName();
+        }else{
+            username = Data.getVirgin();
+            playername = Data.getVirgin();
+        }
+
+        if(username != null){
+
         }else{
             username = Data.getVirgin();
         }
 
-        playername = sqLiteTableManager.getName();
-        Log.i(Data.getLOG_TAG(), "onCreate: PLAYERNAME " + playername);
-        if (!playername.equals(null)){
+        if (playername != null){
+            Log.i(Data.getLOG_TAG(), "onCreate: PLAYERNAME " + playername);
+        }else {
+            Log.i(Data.getLOG_TAG(), "onCreate: PLAYERNAME NULL " + playername);
+            playername = Data.getVirgin();
+            Log.i(Data.getLOG_TAG(), "onCreate: PLAYERNAME VIRGIN " + playername);
+        }
+        if (!playername.equals(Data.getVirgin())){
 //            userNameEditText.setHint(playername);
             userNameEditText.setText(playername);
         }
@@ -129,8 +142,8 @@ public class UserInfoActivity extends AppCompatActivity {
                 // Чтение из таблицы UserInfo логина, записанного в последней строке
                 if (userNameEditText.getText().toString().trim().equals("")){
                     countDoneButton++;
-                    Toast.makeText(UserInfoActivity.this, "Pease, enter your playername!", Toast.LENGTH_SHORT).show();
-                    if(countBackPress > 1){
+                    Toast.makeText(UserInfoActivity.this, "Please, enter your playername!", Toast.LENGTH_SHORT).show();
+                    if(countDoneButton > 1){
                         playername = sqLiteTableManager.getName();
                         Log.i(Data.getLOG_TAG(), "onCreate: PLAYERNAME " + playername);
                         if (!playername.equals(null)){
@@ -167,7 +180,7 @@ public class UserInfoActivity extends AppCompatActivity {
         };
         countrySpinner.setOnItemSelectedListener(onItemSelectedListener);
         countrySpinner.setAdapter(cSpinnerAdapter);
-        if (!origin.equals(null)){
+        if (origin != null){
             int index = 0;
             String[] origins = CountryList.getCountries();
             for (int i = 0; i < origins.length; i++) {

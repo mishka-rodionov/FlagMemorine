@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
@@ -45,7 +46,13 @@ public class BattleFieldActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_restart:
-                recreate();
+                if(countRestart > 1){
+                    recreate();
+                    countRestart = 0;
+                }else{
+                    countRestart++;
+                    Toast.makeText(this, " Click once again to restart.", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case android.R.id.home:
                 Intent startActivityIntent = new Intent(BattleFieldActivity.this, StartActivity.class);
@@ -90,6 +97,7 @@ public class BattleFieldActivity extends AppCompatActivity {
         //******************************************************************************************
         sqLiteTableManager = new SqLiteTableManager(BattleFieldActivity.this);
 
+        countRestart = 0;
         record = getPreferences(MODE_PRIVATE);                                                      //
         timer = new Timer();                                                                        // Инициализация таймера для задержки переворота табличек
         userChoice = new ArrayList<>(2);                                               // Инициализация контейнера для хранения страны с выбранной таблички табличек
@@ -490,6 +498,7 @@ public class BattleFieldActivity extends AppCompatActivity {
 
     private String BF;
     private int battleFieldSize = 6;
+    private int countRestart;
     private int battleFieldIndex = 0;
     private int minutes = 0;
     private int stepCounter = 0;

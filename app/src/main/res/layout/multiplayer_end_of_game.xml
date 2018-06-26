@@ -27,8 +27,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:ellipsize="middle"
                 android:fontFamily="casual"
                 android:gravity="center_horizontal"
+                android:singleLine="true"
                 android:text="@string/win"
                 android:textColor="@android:color/holo_green_light"
                 android:textSize="24sp" />
@@ -38,8 +40,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:ellipsize="middle"
                 android:fontFamily="casual"
                 android:gravity="center_horizontal"
+                android:singleLine="true"
                 android:text="@string/lose"
                 android:textColor="@android:color/holo_green_light"
                 android:textSize="24sp" />
