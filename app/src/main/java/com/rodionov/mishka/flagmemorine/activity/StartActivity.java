@@ -571,7 +571,12 @@ public class StartActivity extends AppCompatActivity {
 //                final String[] answer = response.body().string().split(" ");
                 multiplayerFlag = true;
                 final String answer = response.body().string();
-                Log.i(Data.getLOG_TAG(), "onResponse run for TOPTOTAL methods: " + answer);
+//                String bug = "";
+//                for (int i = 0; i < answer.length; i++) {
+//                    bug += " " + answer[i];
+//
+//                }
+//                Log.i(Data.getLOG_TAG(), "onResponse run for TOPTOTAL methods player name: " + bug);
                 jsonString = answer;
                 mainHandler.post(new Runnable() {
                     @Override
