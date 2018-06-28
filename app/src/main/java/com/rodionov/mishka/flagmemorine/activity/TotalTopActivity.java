@@ -26,6 +26,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -194,7 +195,7 @@ public class TotalTopActivity extends AppCompatActivity {
             String[] row = new String[2];
             for (int i = 1; i < size; i++) {
                 JSONArray array = jsonObject.getJSONArray("" + i);
-                Player.addPlayer(new Player(array.getString(1),
+                Player.addPlayer(new Player(new String(array.getString(1).getBytes("UTF-8"), "UTF-8"),
                         array.getString(2),
                         Integer.parseInt(array.getString(3)),0, 0, 0, 0, 0,
                         ""));
@@ -202,6 +203,8 @@ public class TotalTopActivity extends AppCompatActivity {
             }
         }catch (JSONException jex){
             Log.i(Data.getLOG_TAG(), "CREATE JSON OBJECT " + jex.toString());
+        }catch (UnsupportedEncodingException uns){
+            Log.i(Data.getLOG_TAG(), "CREATE JSON OBJECT " + uns.toString());
         }
 
         Player.sortPlayers();
