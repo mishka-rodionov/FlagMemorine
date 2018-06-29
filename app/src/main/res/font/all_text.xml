@@ -3,6 +3,6 @@
     <font
     android:fontStyle="normal"
     android:fontWeight="400"
-    android:font="@font/bad_script_regular" />
+    android:font="@font/jura_medium" />
 
 </font-family>

@@ -75,7 +75,7 @@ public class CountryList {
                 countryMap.put("Colombia",R.drawable.colombia);
                 countryMap.put("Comoros",R.drawable.comoros);
                 countryMap.put("Congo",R.drawable.congo);
-                countryMap.put("Congo Kinshasa",R.drawable.congo_kinshasa);
+                countryMap.put("Democratic Republic of the Congo",R.drawable.democratic_republic_of_the_congo);
                 countryMap.put("Cook Islands",R.drawable.cook_islands);
                 countryMap.put("Costa Rica",R.drawable.costa_rica);
                 countryMap.put("Croatian",R.drawable.croatian);
@@ -138,7 +138,7 @@ public class CountryList {
                 countryMap.put("Italy",R.drawable.italy);
                 countryMap.put("Ivory Coast",R.drawable.ivory_coast);
                 countryMap.put("Jamaica",R.drawable.jamaica);
-                countryMap.put("Jan Mayen",R.drawable.jan_mayen);
+//                countryMap.put("Jan Mayen",R.drawable.jan_mayen);
                 countryMap.put("Japan",R.drawable.japan);
                 countryMap.put("Jarvis Island",R.drawable.jarvis_island);
                 countryMap.put("Jersey",R.drawable.jersey);
@@ -245,12 +245,12 @@ public class CountryList {
                 countryMap.put("South Korea",R.drawable.korea);
                 countryMap.put("South Sudan",R.drawable.south_sudan);
                 countryMap.put("Spain",R.drawable.spain);
-                countryMap.put("Spm",R.drawable.spm);
+//                countryMap.put("Spm",R.drawable.spm);
                 countryMap.put("Sri Lanka",R.drawable.sri_lanka);
                 countryMap.put("Sudan",R.drawable.sudan);
                 countryMap.put("Suriname",R.drawable.suriname);
-                countryMap.put("Svalbard",R.drawable.svalbard);
-                countryMap.put("Svg",R.drawable.svg);
+//                countryMap.put("Svalbard",R.drawable.svalbard);
+                countryMap.put("Saint Vincent and the Grenadines",R.drawable.svg);
                 countryMap.put("Swaziland",R.drawable.swaziland);
                 countryMap.put("Sweden",R.drawable.sweden);
                 countryMap.put("Switzerland",R.drawable.switzerland);
@@ -398,7 +398,7 @@ public class CountryList {
                     "Colombia",
                     "Comoros",
                     "Congo",
-                    "Congo Kinshasa",
+                    "Democratic Republic of the Congo",
                     "Cook Islands",
                     "Costa Rica",
                     "Croatian",
@@ -460,7 +460,7 @@ public class CountryList {
                     "Italy",
                     "Ivory Coast",
                     "Jamaica",
-                    "Jan Mayen",
+//                    "Jan Mayen",
                     "Japan",
                     "Jarvis Island",
                     "Jersey",
@@ -566,12 +566,12 @@ public class CountryList {
                     "South Korea",
                     "South Sudan",
                     "Spain",
-                    "Spm",
+//                    "Spm",
                     "Sri Lanka",
                     "Sudan",
                     "Suriname",
-                    "Svalbard",
-                    "Svg",
+//                    "Svalbard",
+                    "Saint Vincent and the Grenadines",
                     "Swaziland",
                     "Sweden",
                     "Switzerland",

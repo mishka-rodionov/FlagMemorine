@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.icu.text.UnicodeSetSpanner;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.design.BuildConfig;
+//import android.support.design.BuildConfig;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,6 +23,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.rodionov.mishka.flagmemorine.BuildConfig;
 import com.rodionov.mishka.flagmemorine.R;
 import com.rodionov.mishka.flagmemorine.logic.Data;
 import com.rodionov.mishka.flagmemorine.logic.HttpClient;

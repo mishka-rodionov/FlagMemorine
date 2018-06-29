@@ -82,7 +82,7 @@
             android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:background="@drawable/rounded_button"
-            android:fontFamily="casual"
+            android:fontFamily="@font/bad_script_regular"
             android:textOff="@string/xsmall"
             android:textOn="@string/xsmall" />
 
@@ -95,7 +95,7 @@
             android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:background="@drawable/rounded_button"
-            android:fontFamily="casual"
+            android:fontFamily="@font/bad_script_regular"
             android:textOff="@string/small"
             android:textOn="@string/small" />
 
@@ -108,7 +108,7 @@
             android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:background="@drawable/rounded_button"
-            android:fontFamily="casual"
+            android:fontFamily="@font/bad_script_regular"
             android:textOff="@string/medium"
             android:textOn="@string/medium" />
 
@@ -121,7 +121,7 @@
             android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:background="@drawable/rounded_button"
-            android:fontFamily="casual"
+            android:fontFamily="@font/bad_script_regular"
             android:textOff="@string/large"
             android:textOn="@string/large" />
 
@@ -134,7 +134,7 @@
             android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:background="@drawable/rounded_button"
-            android:fontFamily="casual"
+            android:fontFamily="@font/bad_script_regular"
             android:textOff="@string/xlarge"
             android:textOn="@string/xlarge" />
 
@@ -147,7 +147,7 @@
             android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:background="@drawable/rounded_button"
-            android:fontFamily="casual"
+            android:fontFamily="@font/bad_script_regular"
             android:textOff="@string/xxlarge"
             android:textOn="@string/xxlarge" />
     </LinearLayout>
