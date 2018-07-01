@@ -250,7 +250,7 @@ public class CountryList {
                 countryMap.put("Sudan",R.drawable.sudan);
                 countryMap.put("Suriname",R.drawable.suriname);
 //                countryMap.put("Svalbard",R.drawable.svalbard);
-                countryMap.put("Saint Vincent and the Grenadines",R.drawable.svg);
+                countryMap.put("Saint Vincent and the Grenadines",R.drawable.saint_vincent_and_the_grenadines);
                 countryMap.put("Swaziland",R.drawable.swaziland);
                 countryMap.put("Sweden",R.drawable.sweden);
                 countryMap.put("Switzerland",R.drawable.switzerland);

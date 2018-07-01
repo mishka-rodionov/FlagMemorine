@@ -274,7 +274,7 @@ public class StartActivity extends AppCompatActivity {
                         break;
                     case R.id.stopAds:
                         removeBotLevelList();
-                        postResultToDB("enemyname", "SCORE_NAH", "enemyscore", "result", "date", "username");
+//                        postResultToDB("enemyname", "SCORE_NAH", "enemyscore", "result", "date", "username");
 //                        Intent multiplayerBotActivity = new Intent(StartActivity.this, MultiplayerBotActivity.class);
 //                        multiplayerBotActivity.putExtra(Data.getSize(), size);
 //                        startActivity(multiplayerBotActivity);
