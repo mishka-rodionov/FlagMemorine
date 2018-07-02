@@ -421,7 +421,6 @@ public class MultiplayerBotActivity extends AppCompatActivity{
     private void isFinish() {
         if (!clickable.containsValue(true)) {                               // данное условие выполняется когда все таблички перевернуты
             clickable.clear();
-
             userRecord = Integer.parseInt(test1.getText().toString());
             Log.d(Data.getLOG_TAG(), "All flags is plipped");
             timer.cancel();
@@ -461,6 +460,7 @@ public class MultiplayerBotActivity extends AppCompatActivity{
                 flipViews.add((FlipView) view.findViewById(Data.getIdxsmall(i)));
                 Log.i(Data.getLOG_TAG(), "initFlipView: COUNTRY = " + battleField.getElement(i));
                 flipViews.get(i).setRearImage(CountryList.getCountry(battleField.getElement(i)));
+                flipViews.get(i).setMinimumHeight(2 * flipViews.get(i).getHeight());
                 flipViews.get(i).isFlipped();
             }
         }else if (battleFieldSize == Data.getSmallSize()){
