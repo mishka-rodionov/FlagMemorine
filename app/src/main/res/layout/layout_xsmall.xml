@@ -10,6 +10,7 @@
     android:paddingStart="10dp">
 
     <LinearLayout
+        android:id="@+id/xsmall_row1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
@@ -165,6 +166,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/xsmall_row2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -178,9 +180,9 @@
         <!--android:layout_weight="1" />-->
 
         <!--<Space-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1" />-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1" />-->
 
         <eu.davidea.flipview.FlipView
             android:id="@+id/xsmall5"
@@ -206,9 +208,9 @@
             app:rearLayout="@layout/flip_rear_custom" />
 
         <!--<Space-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1" />-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1" />-->
 
         <eu.davidea.flipview.FlipView
             android:id="@+id/xsmall6"
@@ -234,9 +236,9 @@
             app:rearLayout="@layout/flip_rear_custom" />
 
         <!--<Space-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1" />-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1" />-->
 
         <eu.davidea.flipview.FlipView
             android:id="@+id/xsmall7"
@@ -262,9 +264,9 @@
             app:rearLayout="@layout/flip_rear_custom" />
 
         <!--<Space-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1" />-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1" />-->
 
         <eu.davidea.flipview.FlipView
             android:id="@+id/xsmall8"
@@ -290,9 +292,9 @@
             app:rearLayout="@layout/flip_rear_custom" />
 
         <!--<Space-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1" />-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1" />-->
 
         <!--<Space-->
         <!--android:layout_width="wrap_content"-->

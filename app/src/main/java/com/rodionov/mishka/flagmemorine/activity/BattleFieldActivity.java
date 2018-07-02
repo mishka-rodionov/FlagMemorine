@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Dimension;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -227,6 +229,21 @@ public class BattleFieldActivity extends AppCompatActivity {
         //******************************************************************************************
     }
 
+    @Override
+    protected void onStart() {
+
+        super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        LinearLayout xsmall_row1 = basicLayout;
+        ViewGroup.LayoutParams layoutParams = xsmall_row1.getLayoutParams();
+        basicLayout.measure(0,0);
+
+        Log.i(Data.getLOG_TAG(), "onSTART: layout widht = " + basicLayout.getMeasuredWidth());
+        super.onResume();
+    }
 
     private void clickHandler(String country) {
         if (userChoice.size() == 2 && flipFlag) {                                                // Проверка количества элементов в контейнере пользовательского выбора.
@@ -328,6 +345,16 @@ public class BattleFieldActivity extends AppCompatActivity {
             for (int i = 0; i < Data.getXsmallSize(); i++) {
                 flipViews.add((FlipView) view.findViewById(Data.getIdxsmall(i)));
                 flipViews.get(i).setRearImage(CountryList.getCountry(battleField.getElement(i)));
+                flipViews.get(i).measure(0,0);
+                view.measure(0,0);
+                int hght = view.getMeasuredWidth() / 4;
+                Log.i(Data.getLOG_TAG(), "initFlipView: layout) height = " + view.getMeasuredWidth());
+                Log.i(Data.getLOG_TAG(), "initFlipView: layout) height = " + hght);
+//                Log.i(Data.getLOG_TAG(), "initFlipView: height = " + flipViews.get(i).getHeight());
+//                Log.i(Data.getLOG_TAG(), "initFlipView: measuredHeight = " + flipViews.get(i).getMeasuredHeight());
+//                Log.i(Data.getLOG_TAG(), "initFlipView: width = " + flipViews.get(i).getWidth());
+//                Log.i(Data.getLOG_TAG(), "initFlipView: measuredWidth = " + flipViews.get(i).getMeasuredWidth());
+                flipViews.get(i).getLayoutParams().height = hght * 2;
                 flipViews.get(i).isFlipped();
             }
         }else if (battleFieldSize == Data.getSmallSize()){
