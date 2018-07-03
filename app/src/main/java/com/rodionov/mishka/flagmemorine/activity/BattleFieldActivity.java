@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -231,19 +232,23 @@ public class BattleFieldActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
-
+        DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
+        double dpHEight = displayMetrics.heightPixels/* / displayMetrics.density*/;
+        double dpWidth = displayMetrics.widthPixels/* / displayMetrics.density*/;
+        Log.i(Data.getLOG_TAG(), "onSTART: dp height = " + dpHEight);
+        Log.i(Data.getLOG_TAG(), "onSTART: dp width = " + dpWidth);
         super.onStart();
     }
 
-    @Override
-    protected void onResume() {
-        LinearLayout xsmall_row1 = basicLayout;
-        ViewGroup.LayoutParams layoutParams = xsmall_row1.getLayoutParams();
-        basicLayout.measure(0,0);
-
-        Log.i(Data.getLOG_TAG(), "onSTART: layout widht = " + basicLayout.getMeasuredWidth());
-        super.onResume();
-    }
+//    @Override
+//    protected void onResume() {
+//        LinearLayout xsmall_row1 = basicLayout;
+//        ViewGroup.LayoutParams layoutParams = xsmall_row1.getLayoutParams();
+//        basicLayout.measure(0,0);
+//
+//        Log.i(Data.getLOG_TAG(), "onSTART: layout widht = " + basicLayout.getMeasuredWidth());
+//        super.onResume();
+//    }
 
     private void clickHandler(String country) {
         if (userChoice.size() == 2 && flipFlag) {                                                // Проверка количества элементов в контейнере пользовательского выбора.
@@ -341,46 +346,84 @@ public class BattleFieldActivity extends AppCompatActivity {
 
     public void initFlipView(View view, int battleFieldSize){
         flipViews = new ArrayList<>(battleFieldSize);
+        DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
+        int dpHEight = displayMetrics.heightPixels/* / displayMetrics.density*/;
+        int dpWidth = displayMetrics.widthPixels/* / displayMetrics.density*/;
+        int widthInPixels = 184;
         if (battleFieldSize == Data.getXsmallSize()){
+            widthInPixels = dpWidth / 4;
+//            if (widthInPixels > 184){
+//                widthInPixels = 184;
+//            }
+            Log.i(Data.getLOG_TAG(), "initFlipView: widthInPixels = " + widthInPixels);
             for (int i = 0; i < Data.getXsmallSize(); i++) {
                 flipViews.add((FlipView) view.findViewById(Data.getIdxsmall(i)));
                 flipViews.get(i).setRearImage(CountryList.getCountry(battleField.getElement(i)));
-                flipViews.get(i).measure(0,0);
-                view.measure(0,0);
-                int hght = view.getMeasuredWidth() / 4;
-                Log.i(Data.getLOG_TAG(), "initFlipView: layout) height = " + view.getMeasuredWidth());
-                Log.i(Data.getLOG_TAG(), "initFlipView: layout) height = " + hght);
+//                view.measure(0,0);
+//                int hght = view.getMeasuredWidth() / 4;
+//                Log.i(Data.getLOG_TAG(), "initFlipView: layout) height = " + view.getMeasuredWidth());
+//                Log.i(Data.getLOG_TAG(), "initFlipView: layout) height = " + hght);
 //                Log.i(Data.getLOG_TAG(), "initFlipView: height = " + flipViews.get(i).getHeight());
 //                Log.i(Data.getLOG_TAG(), "initFlipView: measuredHeight = " + flipViews.get(i).getMeasuredHeight());
 //                Log.i(Data.getLOG_TAG(), "initFlipView: width = " + flipViews.get(i).getWidth());
 //                Log.i(Data.getLOG_TAG(), "initFlipView: measuredWidth = " + flipViews.get(i).getMeasuredWidth());
-                flipViews.get(i).getLayoutParams().height = hght * 2;
-                flipViews.get(i).isFlipped();
+                flipViews.get(i).getLayoutParams().width = widthInPixels;
+                flipViews.get(i).getLayoutParams().height = widthInPixels;
             }
         }else if (battleFieldSize == Data.getSmallSize()){
+            widthInPixels = dpWidth / 4;
+//            if (widthInPixels > 184){
+//                widthInPixels = 184;
+//            }
             for (int i = 0; i < Data.getSmallSize(); i++) {
                 flipViews.add((FlipView) view.findViewById(Data.getIdsmall(i)));
                 flipViews.get(i).setRearImage(CountryList.getCountry(battleField.getElement(i)));
+                flipViews.get(i).getLayoutParams().width = widthInPixels;
+                flipViews.get(i).getLayoutParams().height = widthInPixels;
             }
         }else if (battleFieldSize == Data.getMediumSize()){
+            widthInPixels = dpWidth / 4;
+//            if (widthInPixels > 184){
+//                widthInPixels = 184;
+//            }
             for (int i = 0; i < Data.getMediumSize(); i++) {
                 flipViews.add((FlipView) view.findViewById(Data.getIdmedium(i)));
                 flipViews.get(i).setRearImage(CountryList.getCountry(battleField.getElement(i)));
+                flipViews.get(i).getLayoutParams().width = widthInPixels;
+                flipViews.get(i).getLayoutParams().height = widthInPixels;
             }
         }else if (battleFieldSize == Data.getLargeSize()){
+            widthInPixels = dpWidth / 6;
+//            if (widthInPixels > 184){
+//                widthInPixels = 184;
+//            }
             for (int i = 0; i < Data.getLargeSize(); i++) {
                 flipViews.add((FlipView) view.findViewById(Data.getIdlarge(i)));
                 flipViews.get(i).setRearImage(CountryList.getCountry(battleField.getElement(i)));
+                flipViews.get(i).getLayoutParams().width = widthInPixels;
+                flipViews.get(i).getLayoutParams().height = widthInPixels;
             }
         }else if (battleFieldSize == Data.getXlargeSize()){
+            widthInPixels = dpWidth / 5;
+//            if (widthInPixels > 184){
+//                widthInPixels = 184;
+//            }
             for (int i = 0; i < Data.getXlargeSize(); i++) {
                 flipViews.add((FlipView) view.findViewById(Data.getIdxlarge(i)));
                 flipViews.get(i).setRearImage(CountryList.getCountry(battleField.getElement(i)));
+                flipViews.get(i).getLayoutParams().width = widthInPixels;
+                flipViews.get(i).getLayoutParams().height = widthInPixels;
             }
         }else if (battleFieldSize == Data.getXxlargeSize()){
+            widthInPixels = dpWidth / 6;
+//            if (widthInPixels > 184){
+//                widthInPixels = 184;
+//            }
             for (int i = 0; i < Data.getXxlargeSize(); i++) {
                 flipViews.add((FlipView) view.findViewById(Data.getIdxxlarge(i)));
                 flipViews.get(i).setRearImage(CountryList.getCountry(battleField.getElement(i)));
+                flipViews.get(i).getLayoutParams().width = widthInPixels;
+                flipViews.get(i).getLayoutParams().height = widthInPixels;
             }
         }
         for (int i = 0; i < flipViews.size(); i++) {
