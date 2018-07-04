@@ -97,245 +97,307 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingEnd="10dp"
-        android:paddingStart="10dp">
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/localPlayerName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ellipsize="end"
-            android:fontFamily="@font/all_text"
-            android:gravity="center"
-            android:singleLine="true"
-            android:textColor="@android:color/white"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/enemyPlayerName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ellipsize="end"
-            android:fontFamily="@font/all_text"
-            android:gravity="center"
-            android:paddingEnd="1dp"
-            android:paddingStart="1dp"
-            android:singleLine="true"
-            android:textColor="@android:color/white"
-            android:textSize="18sp" />
-    </LinearLayout>
-
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="5dp"
-        android:shrinkColumns="*"
-        android:stretchColumns="*">
-
-        <TableRow
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal"
             android:paddingEnd="10dp"
             android:paddingStart="10dp">
 
-            <TableLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
+            <ImageView
+                android:id="@+id/localOrigin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                app:srcCompat="@drawable/unknown" />
 
-                <TableRow
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <LinearLayout
                     android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/localPlayerName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/all_text"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/enemyPlayerName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/all_text"
+                        android:gravity="center"
+                        android:paddingEnd="1dp"
+                        android:paddingStart="1dp"
+                        android:singleLine="true"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/localAction"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:backgroundTint="@android:color/transparent"
+                        app:srcCompat="@drawable/ic_fiber_manual_record_white_36dp" />
+
+                    <ImageView
+                        android:id="@+id/enemyAction"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        app:srcCompat="@drawable/ic_fiber_manual_record_white_36dp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/enemyOrigin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                app:srcCompat="@drawable/unknown" />
+        </LinearLayout>
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="5dp"
+            android:shrinkColumns="*"
+            android:stretchColumns="*">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp">
+
+                <TableLayout
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
 
-                    <TextView
-                        android:id="@+id/score"
+                    <TableRow
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="false"
-                        android:layout_centerVertical="false"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/all_text"
-                        android:text="@string/score"
-                        android:textColor="@android:color/white"
-                        android:textSize="18sp" />
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
 
-                    <TextView
-                        android:id="@+id/currentScore"
+                        <TextView
+                            android:id="@+id/score"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="false"
+                            android:layout_centerVertical="false"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/all_text"
+                            android:text="@string/score"
+                            android:textColor="@android:color/white"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/currentScore"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBaseline="@+id/score"
+                            android:layout_alignBottom="@+id/score"
+                            android:layout_toEndOf="@+id/score"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/all_text"
+                            android:textColor="@android:color/white"
+                            android:textSize="18sp" />
+                    </TableRow>
+
+                    <TableRow
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBaseline="@+id/score"
-                        android:layout_alignBottom="@+id/score"
-                        android:layout_toEndOf="@+id/score"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/all_text"
-                        android:textColor="@android:color/white"
-                        android:textSize="18sp" />
-                </TableRow>
+                        android:layout_height="match_parent">
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                        <TextView
+                            android:id="@+id/step"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBaseline="@+id/currentStepCount"
+                            android:layout_alignBottom="@+id/currentStepCount"
+                            android:layout_toStartOf="@+id/currentStepCount"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/all_text"
+                            android:gravity="left"
+                            android:text="@string/step"
+                            android:textColor="@android:color/white"
+                            android:textSize="18sp" />
 
-                    <TextView
-                        android:id="@+id/step"
+                        <TextView
+                            android:id="@+id/currentStepCount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBaseline="@+id/currentScore"
+                            android:layout_alignBottom="@+id/currentScore"
+                            android:layout_alignParentEnd="true"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/all_text"
+                            android:textColor="@android:color/white"
+                            android:textSize="18sp" />
+
+                    </TableRow>
+
+                    <TableRow
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBaseline="@+id/currentStepCount"
-                        android:layout_alignBottom="@+id/currentStepCount"
-                        android:layout_toStartOf="@+id/currentStepCount"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/all_text"
-                        android:gravity="left"
-                        android:text="@string/step"
-                        android:textColor="@android:color/white"
-                        android:textSize="18sp" />
+                        android:layout_height="match_parent">
 
-                    <TextView
-                        android:id="@+id/currentStepCount"
+                        <TextView
+                            android:id="@+id/timeText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/currentScore"
+                            android:layout_toEndOf="@+id/currentScore"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/all_text"
+                            android:text="@string/time"
+                            android:textColor="@android:color/white"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/timeValue"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/step"
+                            android:layout_gravity="start"
+                            android:layout_toStartOf="@+id/step"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/all_text"
+                            android:gravity="start"
+                            android:text="0:00"
+                            android:textColor="@android:color/white"
+                            android:textSize="18sp" />
+                    </TableRow>
+                </TableLayout>
+
+                <TableLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <TableRow
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBaseline="@+id/currentScore"
-                        android:layout_alignBottom="@+id/currentScore"
-                        android:layout_alignParentEnd="true"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/all_text"
-                        android:textColor="@android:color/white"
-                        android:textSize="18sp" />
+                        android:layout_height="match_parent">
 
-                </TableRow>
+                        <TextView
+                            android:id="@+id/scoreSecondPlayer"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="false"
+                            android:layout_centerVertical="false"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/all_text"
+                            android:text="@string/score"
+                            android:textColor="@android:color/white"
+                            android:textSize="18sp" />
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                        <TextView
+                            android:id="@+id/currentScoreSecondPlayer"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBaseline="@+id/scoreSecondPlayer"
+                            android:layout_alignBottom="@+id/scoreSecondPlayer"
+                            android:layout_toEndOf="@+id/scoreSecondPlayer"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/all_text"
+                            android:textColor="@android:color/white"
+                            android:textSize="18sp" />
+                    </TableRow>
 
-                    <TextView
-                        android:id="@+id/timeText"
+                    <TableRow
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/currentScore"
-                        android:layout_toEndOf="@+id/currentScore"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/all_text"
-                        android:text="@string/time"
-                        android:textColor="@android:color/white"
-                        android:textSize="18sp" />
+                        android:layout_height="match_parent">
 
-                    <TextView
-                        android:id="@+id/timeValue"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/step"
-                        android:layout_gravity="start"
-                        android:layout_toStartOf="@+id/step"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/all_text"
-                        android:gravity="start"
-                        android:text="0:00"
-                        android:textColor="@android:color/white"
-                        android:textSize="18sp" />
-                </TableRow>
-            </TableLayout>
+                        <TextView
+                            android:id="@+id/stepSecondPlayer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBaseline="@+id/currentStepCountSecondPlayer"
+                            android:layout_alignBottom="@+id/currentStepCountSecondPlayer"
+                            android:layout_toStartOf="@+id/currentStepCountSecondPlayer"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/all_text"
+                            android:gravity="left"
+                            android:text="@string/step"
+                            android:textColor="@android:color/white"
+                            android:textSize="18sp" />
 
-            <TableLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
+                        <TextView
+                            android:id="@+id/currentStepCountSecondPlayer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBaseline="@+id/currentScoreSecondPlayer"
+                            android:layout_alignBottom="@+id/currentScoreSecondPlayer"
+                            android:layout_alignParentEnd="true"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/all_text"
+                            android:textColor="@android:color/white"
+                            android:textSize="18sp" />
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    </TableRow>
 
-                    <TextView
-                        android:id="@+id/scoreSecondPlayer"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="false"
-                        android:layout_centerVertical="false"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/all_text"
-                        android:text="@string/score"
-                        android:textColor="@android:color/white"
-                        android:textSize="18sp" />
+                    <!--<TableRow-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent">-->
 
-                    <TextView
-                        android:id="@+id/currentScoreSecondPlayer"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBaseline="@+id/scoreSecondPlayer"
-                        android:layout_alignBottom="@+id/scoreSecondPlayer"
-                        android:layout_toEndOf="@+id/scoreSecondPlayer"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/all_text"
-                        android:textColor="@android:color/white"
-                        android:textSize="18sp" />
-                </TableRow>
+                    <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:id="@+id/timeTextSecondPlayer"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_below="@+id/currentScoreSecondPlayer"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_toEndOf="@+id/currentScoreSecondPlayer"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:text="@string/time"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:textColor="@android:color/white"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:textSize="18sp" />&ndash;&gt;-->
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:id="@+id/timeValueSecondPlayer"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_below="@+id/stepSecondPlayer"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_toStartOf="@+id/stepSecondPlayer"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:text="0:00"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:textColor="@android:color/white"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:textSize="18sp" />&ndash;&gt;-->
+                    <!--</TableRow>-->
+                </TableLayout>
 
-                    <TextView
-                        android:id="@+id/stepSecondPlayer"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBaseline="@+id/currentStepCountSecondPlayer"
-                        android:layout_alignBottom="@+id/currentStepCountSecondPlayer"
-                        android:layout_toStartOf="@+id/currentStepCountSecondPlayer"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/all_text"
-                        android:gravity="left"
-                        android:text="@string/step"
-                        android:textColor="@android:color/white"
-                        android:textSize="18sp" />
+            </TableRow>
 
-                    <TextView
-                        android:id="@+id/currentStepCountSecondPlayer"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBaseline="@+id/currentScoreSecondPlayer"
-                        android:layout_alignBottom="@+id/currentScoreSecondPlayer"
-                        android:layout_alignParentEnd="true"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/all_text"
-                        android:textColor="@android:color/white"
-                        android:textSize="18sp" />
-
-                </TableRow>
-
-                <!--<TableRow-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent">-->
-
-                <!--&lt;!&ndash;<TextView&ndash;&gt;-->
-                <!--&lt;!&ndash;android:id="@+id/timeTextSecondPlayer"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_below="@+id/currentScoreSecondPlayer"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_toEndOf="@+id/currentScoreSecondPlayer"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:text="@string/time"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:textColor="@android:color/white"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:textSize="18sp" />&ndash;&gt;-->
-
-                <!--&lt;!&ndash;<TextView&ndash;&gt;-->
-                <!--&lt;!&ndash;android:id="@+id/timeValueSecondPlayer"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_below="@+id/stepSecondPlayer"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_toStartOf="@+id/stepSecondPlayer"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:text="0:00"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:textColor="@android:color/white"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:textSize="18sp" />&ndash;&gt;-->
-                <!--</TableRow>-->
-            </TableLayout>
-
-        </TableRow>
-
-    </TableLayout>
+        </TableLayout>
+    </LinearLayout>
 
 </LinearLayout>

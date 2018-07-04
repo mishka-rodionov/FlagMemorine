@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.icu.text.UnicodeSetSpanner;
+import android.media.Image;
 import android.os.Handler;
 import android.os.Looper;
 //import android.support.design.BuildConfig;
@@ -14,8 +15,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -100,6 +104,8 @@ public class StartActivity extends AppCompatActivity {
         xlargeAvailableUsers = (TextView) findViewById(R.id.xlargeAvailableUsers);
         xxlargeAvailableUsers = (TextView) findViewById(R.id.xxlargeAvailableUsers);
         onlineValue = (TextView) findViewById(R.id.onlineValue);
+        testImage = (ImageView) findViewById(R.id.testImage);
+        testImage2 = (ImageView) findViewById(R.id.testImage2);
 
 //        rg1 = (RadioGroup) findViewById(R.id.rg1);
 //        rg2 = (RadioGroup) findViewById(R.id.rg2);
@@ -274,6 +280,9 @@ public class StartActivity extends AppCompatActivity {
                         break;
                     case R.id.stopAds:
                         removeBotLevelList();
+                        Animation tr = AnimationUtils.loadAnimation(StartActivity.this, R.anim.translate);
+                        onlineValue.setAnimation(tr);
+                        testImage.setAnimation(tr);
 //                        postResultToDB("enemyname", "SCORE_NAH", "enemyscore", "result", "date", "username");
 //                        Intent multiplayerBotActivity = new Intent(StartActivity.this, MultiplayerBotActivity.class);
 //                        multiplayerBotActivity.putExtra(Data.getSize(), size);
@@ -703,6 +712,9 @@ public class StartActivity extends AppCompatActivity {
     private Button userInfo;
     private Button totalTop;
     private Button botplay;
+
+    private ImageView testImage;
+    private ImageView testImage2;
 
     private Switch easySwitch;
     private Switch normalSwitch;

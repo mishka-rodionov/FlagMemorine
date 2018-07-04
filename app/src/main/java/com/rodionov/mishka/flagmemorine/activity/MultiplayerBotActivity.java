@@ -7,14 +7,18 @@ import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.provider.ContactsContract;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -104,7 +108,8 @@ public class MultiplayerBotActivity extends AppCompatActivity{
         //******************************************************************************************
         sqLiteTableManager = new SqLiteTableManager(MultiplayerBotActivity.this);
 //        pullDB();
-
+        translating = AnimationUtils.loadAnimation(MultiplayerBotActivity.this, R.anim.translate);
+        backTranslating = AnimationUtils.loadAnimation(MultiplayerBotActivity.this, R.anim.backtranslate);
         gone = false;
         goneCount = 3;
         goneToast = Toast.makeText(MultiplayerBotActivity.this, "", Toast.LENGTH_SHORT);
@@ -137,6 +142,11 @@ public class MultiplayerBotActivity extends AppCompatActivity{
         currentStepCountSecondPlayer = (TextView) findViewById(R.id.currentStepCountSecondPlayer);
         localPlayerName = (TextView) findViewById(R.id.localPlayerName);
         enemyPlayerName = (TextView) findViewById(R.id.enemyPlayerName);
+        localOrigin = (ImageView) findViewById(R.id.localOrigin);
+        enemyOrigin = (ImageView) findViewById(R.id.enemyOrigin);
+        localAction = (ImageView) findViewById(R.id.localAction);
+        enemyAction = (ImageView) findViewById(R.id.enemyAction);
+
 //        actionImage = (ImageView) findViewById(R.id.actionImage);
 //        roomsMenu = getMenuInflater().inflate();
 //        getMenuInflater().inflate(R.menu.main, roomsMenu);
@@ -145,6 +155,8 @@ public class MultiplayerBotActivity extends AppCompatActivity{
         enemyPlayerName.setText("bot");
         scoreTV.setText(Integer.toString(score));
         currentScoreSecondPlayer.setText(Integer.toString(score));
+        localOrigin.setImageResource(CountryList.getCountry(sqLiteTableManager.getOrigin()));
+        enemyOrigin.setImageResource(CountryList.getCountry(anotherPlayerOrigin));
 
         handler = new Handler() {
             @Override
@@ -260,6 +272,31 @@ public class MultiplayerBotActivity extends AppCompatActivity{
         }, 0, 1000);
 
         stepCounter = 0;
+
+        Animation.AnimationListener animationListener = new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if (sending){
+                    enemyAction.setVisibility(View.INVISIBLE);
+                    localAction.setVisibility(View.VISIBLE);
+                }else {
+                    enemyAction.setVisibility(View.VISIBLE);
+                    localAction.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        };
+        translating.setAnimationListener(animationListener);
+        backTranslating.setAnimationListener(animationListener);
         //******************************************************************************************
         onFlippingListener = new FlipView.OnFlippingListener() {
             @Override
@@ -291,11 +328,15 @@ public class MultiplayerBotActivity extends AppCompatActivity{
             sending = true;
             receiving = false;
             action = true;
+            enemyAction.setVisibility(View.INVISIBLE);
+            localAction.setVisibility(View.VISIBLE);
             invalidateOptionsMenu();
         }else{
             sending = false;
             receiving = true;
             action = false;
+            enemyAction.setVisibility(View.VISIBLE);
+            localAction.setVisibility(View.INVISIBLE);
             invalidateOptionsMenu();
         }
         battleField = new BattleField(battleFieldSize);
@@ -386,6 +427,9 @@ public class MultiplayerBotActivity extends AppCompatActivity{
                 sending = false;
                 receiving = true;
                 action = false;
+                localAction.startAnimation(translating);
+//                enemyAction.setVisibility(View.VISIBLE);
+//                localAction.setVisibility(View.INVISIBLE);
                 invalidateOptionsMenu();
 //                actionImage.setImageResource(R.drawable.ic_pause_white_48dp);
                 for (int i = 0; i < clickable.size(); i++) {
@@ -403,6 +447,9 @@ public class MultiplayerBotActivity extends AppCompatActivity{
                 sending = true;
                 receiving = false;
                 action = true;
+                enemyAction.startAnimation(backTranslating);
+//                enemyAction.setVisibility(View.INVISIBLE);
+//                localAction.setVisibility(View.VISIBLE);
                 invalidateOptionsMenu();
             }
         }else{
@@ -454,45 +501,84 @@ public class MultiplayerBotActivity extends AppCompatActivity{
 
     public void initFlipView(View view, int battleFieldSize){
         flipViews = new ArrayList<>(battleFieldSize);
-        Log.i(Data.getLOG_TAG(), "initFlipView: flipviews SIZE = " + flipViews.size());
+        DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
+        int dpHEight = displayMetrics.heightPixels/* / displayMetrics.density*/;
+        int dpWidth = displayMetrics.widthPixels/* / displayMetrics.density*/;
+        int widthInPixels = 184;
         if (battleFieldSize == Data.getXsmallSize()){
+            widthInPixels = dpWidth / 4;
+//            if (widthInPixels > 184){
+//                widthInPixels = 184;
+//            }
+            Log.i(Data.getLOG_TAG(), "initFlipView: widthInPixels = " + widthInPixels);
             for (int i = 0; i < Data.getXsmallSize(); i++) {
                 flipViews.add((FlipView) view.findViewById(Data.getIdxsmall(i)));
-                Log.i(Data.getLOG_TAG(), "initFlipView: COUNTRY = " + battleField.getElement(i));
                 flipViews.get(i).setRearImage(CountryList.getCountry(battleField.getElement(i)));
-                flipViews.get(i).setMinimumHeight(2 * flipViews.get(i).getHeight());
-                flipViews.get(i).isFlipped();
+//                view.measure(0,0);
+//                int hght = view.getMeasuredWidth() / 4;
+//                Log.i(Data.getLOG_TAG(), "initFlipView: layout) height = " + view.getMeasuredWidth());
+//                Log.i(Data.getLOG_TAG(), "initFlipView: layout) height = " + hght);
+//                Log.i(Data.getLOG_TAG(), "initFlipView: height = " + flipViews.get(i).getHeight());
+//                Log.i(Data.getLOG_TAG(), "initFlipView: measuredHeight = " + flipViews.get(i).getMeasuredHeight());
+//                Log.i(Data.getLOG_TAG(), "initFlipView: width = " + flipViews.get(i).getWidth());
+//                Log.i(Data.getLOG_TAG(), "initFlipView: measuredWidth = " + flipViews.get(i).getMeasuredWidth());
+                flipViews.get(i).getLayoutParams().width = widthInPixels;
+                flipViews.get(i).getLayoutParams().height = widthInPixels;
             }
         }else if (battleFieldSize == Data.getSmallSize()){
+            widthInPixels = dpWidth / 4;
+//            if (widthInPixels > 184){
+//                widthInPixels = 184;
+//            }
             for (int i = 0; i < Data.getSmallSize(); i++) {
                 flipViews.add((FlipView) view.findViewById(Data.getIdsmall(i)));
                 flipViews.get(i).setRearImage(CountryList.getCountry(battleField.getElement(i)));
+                flipViews.get(i).getLayoutParams().width = widthInPixels;
+                flipViews.get(i).getLayoutParams().height = widthInPixels;
             }
         }else if (battleFieldSize == Data.getMediumSize()){
+            widthInPixels = dpWidth / 4;
+//            if (widthInPixels > 184){
+//                widthInPixels = 184;
+//            }
             for (int i = 0; i < Data.getMediumSize(); i++) {
                 flipViews.add((FlipView) view.findViewById(Data.getIdmedium(i)));
                 flipViews.get(i).setRearImage(CountryList.getCountry(battleField.getElement(i)));
+                flipViews.get(i).getLayoutParams().width = widthInPixels;
+                flipViews.get(i).getLayoutParams().height = widthInPixels;
             }
         }else if (battleFieldSize == Data.getLargeSize()){
+            widthInPixels = dpWidth / 6;
+//            if (widthInPixels > 184){
+//                widthInPixels = 184;
+//            }
             for (int i = 0; i < Data.getLargeSize(); i++) {
                 flipViews.add((FlipView) view.findViewById(Data.getIdlarge(i)));
                 flipViews.get(i).setRearImage(CountryList.getCountry(battleField.getElement(i)));
+                flipViews.get(i).getLayoutParams().width = widthInPixels;
+                flipViews.get(i).getLayoutParams().height = widthInPixels;
             }
         }else if (battleFieldSize == Data.getXlargeSize()){
+            widthInPixels = dpWidth / 5;
+//            if (widthInPixels > 184){
+//                widthInPixels = 184;
+//            }
             for (int i = 0; i < Data.getXlargeSize(); i++) {
                 flipViews.add((FlipView) view.findViewById(Data.getIdxlarge(i)));
                 flipViews.get(i).setRearImage(CountryList.getCountry(battleField.getElement(i)));
+                flipViews.get(i).getLayoutParams().width = widthInPixels;
+                flipViews.get(i).getLayoutParams().height = widthInPixels;
             }
         }else if (battleFieldSize == Data.getXxlargeSize()){
+            widthInPixels = dpWidth / 6;
+//            if (widthInPixels > 184){
+//                widthInPixels = 184;
+//            }
             for (int i = 0; i < Data.getXxlargeSize(); i++) {
-                try{
-                    flipViews.add((FlipView) view.findViewById(Data.getIdxxlarge(i)));
-                    flipViews.get(i).setRearImage(CountryList.getCountry(battleField.getElement(i)));
-                }catch (NullPointerException np){
-                    Log.i(Data.getLOG_TAG(), "initFlipView: BAD COUNTRY = " + battleField.getElement(i));
-                    np.toString();
-                }
-
+                flipViews.add((FlipView) view.findViewById(Data.getIdxxlarge(i)));
+                flipViews.get(i).setRearImage(CountryList.getCountry(battleField.getElement(i)));
+                flipViews.get(i).getLayoutParams().width = widthInPixels;
+                flipViews.get(i).getLayoutParams().height = widthInPixels;
             }
         }
         for (int i = 0; i < flipViews.size(); i++) {
@@ -675,8 +761,15 @@ public class MultiplayerBotActivity extends AppCompatActivity{
     private TextView enemyPlayerName;
 
     private ImageView actionImage;
+    private ImageView localOrigin;
+    private ImageView enemyOrigin;
+    private ImageView localAction;
+    private ImageView enemyAction;
 
     private Menu roomsMenu;
+
+    private Animation translating;
+    private Animation backTranslating;
 
     private Timer timer;
     private Timer requestTimer;
