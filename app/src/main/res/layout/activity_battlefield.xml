@@ -34,7 +34,8 @@
         android:layout_alignBottom="@+id/result"
         android:layout_alignStart="@+id/currentStepCount"
         android:layout_gravity="center"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:background="@drawable/telegram">
 
         <LinearLayout
             android:id="@+id/basicLayout"
@@ -168,7 +169,7 @@
                         android:layout_weight="1"
                         android:background="@android:color/transparent"
                         android:backgroundTint="@android:color/transparent"
-                        app:srcCompat="@drawable/ic_fiber_manual_record_white_36dp" />
+                        app:srcCompat="@drawable/ic_fiber_manual_record_white_18dp" />
 
                     <ImageView
                         android:id="@+id/enemyAction"
@@ -176,7 +177,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@android:color/transparent"
-                        app:srcCompat="@drawable/ic_fiber_manual_record_white_36dp" />
+                        app:srcCompat="@drawable/ic_fiber_manual_record_white_18dp" />
                 </LinearLayout>
 
             </LinearLayout>

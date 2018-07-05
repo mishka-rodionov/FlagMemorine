@@ -11,10 +11,14 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -163,6 +167,10 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         currentStepCountSecondPlayer = (TextView) findViewById(R.id.currentStepCountSecondPlayer);
         localPlayerName = (TextView) findViewById(R.id.localPlayerName);
         enemyPlayerName = (TextView) findViewById(R.id.enemyPlayerName);
+        localOrigin = (ImageView) findViewById(R.id.localOrigin);
+        enemyOrigin = (ImageView) findViewById(R.id.enemyOrigin);
+        localAction = (ImageView) findViewById(R.id.localAction);
+        enemyAction = (ImageView) findViewById(R.id.enemyAction);
 //        actionImage = (ImageView) findViewById(R.id.actionImage);
 //        roomsMenu = getMenuInflater().inflate();
 //        getMenuInflater().inflate(R.menu.main, roomsMenu);
@@ -171,6 +179,8 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         enemyPlayerName.setText(getIntent().getStringExtra("anotherPlayer"));
         scoreTV.setText(Integer.toString(score));
         currentScoreSecondPlayer.setText(Integer.toString(score));
+        localOrigin.setImageResource(CountryList.getCountry(sqLiteTableManager.getOrigin()));
+        enemyOrigin.setImageResource(CountryList.getCountry(anotherPlayerOrigin));
 
         handler = new Handler() {
             @Override
@@ -263,6 +273,28 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         }, 0, 1000);
 
         stepCounter = 0;
+        animationListener = new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if (sending){
+                    enemyAction.setVisibility(View.INVISIBLE);
+                    localAction.setVisibility(View.VISIBLE);
+                }else {
+                    enemyAction.setVisibility(View.VISIBLE);
+                    localAction.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        };
         //******************************************************************************************
         onFlippingListener = new FlipView.OnFlippingListener() {
             @Override
@@ -300,12 +332,16 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
             sending = true;
             receiving = false;
             action = true;
+            enemyAction.setVisibility(View.INVISIBLE);
+            localAction.setVisibility(View.VISIBLE);
             invalidateOptionsMenu();
 //            actionImage.setImageResource(R.drawable.ic_play_arrow_white_48dp);
         }else{
             sending = false;
             receiving = true;
             action = false;
+            enemyAction.setVisibility(View.VISIBLE);
+            localAction.setVisibility(View.INVISIBLE);
             invalidateOptionsMenu();
 //            actionImage.setImageResource(R.drawable.ic_pause_white_48dp);
             requestTimer.schedule(new TimerTask() {
@@ -385,6 +421,16 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
                 sending = false;
                 receiving = true;
                 action = false;
+                int[] positionlocalAction = new int[2];
+                int[] positionEnemyAction = new int[2];
+                localAction.getLocationOnScreen(positionlocalAction);
+                enemyAction.getLocationOnScreen(positionEnemyAction);
+                translating = new TranslateAnimation(0, positionEnemyAction[0] - positionlocalAction[0], 0, 0);
+                translating.setDuration(1000);
+                translating.setAnimationListener(animationListener);
+                translating.setInterpolator(new AccelerateInterpolator());
+                localAction.startAnimation(translating);
+                translating.start();
                 invalidateOptionsMenu();
 //                actionImage.setImageResource(R.drawable.ic_pause_white_48dp);
                 for (int i = 0; i < clickable.size(); i++) {
@@ -403,6 +449,16 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
                 sending = true;
                 receiving = false;
                 action = true;
+                int[] positionlocalAction = new int[2];
+                int[] positionEnemyAction = new int[2];
+                localAction.getLocationOnScreen(positionlocalAction);
+                enemyAction.getLocationOnScreen(positionEnemyAction);
+                backTranslating = new TranslateAnimation(0, positionlocalAction[0] - positionEnemyAction[0], 0, 0);
+                backTranslating.setDuration(1000);
+                backTranslating.setAnimationListener(animationListener);
+                backTranslating.setInterpolator(new AccelerateInterpolator());
+                enemyAction.startAnimation(backTranslating);
+                backTranslating.start();
                 invalidateOptionsMenu();
 //                actionImage.setImageResource(R.drawable.ic_play_arrow_white_48dp);
 //                for (int i = 0; i < clickable.size(); i++) {
@@ -462,44 +518,84 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
 
     public void initFlipView(View view, int battleFieldSize){
         flipViews = new ArrayList<>(battleFieldSize);
-        Log.i(Data.getLOG_TAG(), "initFlipView: flipviews SIZE = " + flipViews.size());
+        DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
+        int dpHEight = displayMetrics.heightPixels/* / displayMetrics.density*/;
+        int dpWidth = displayMetrics.widthPixels/* / displayMetrics.density*/;
+        int widthInPixels = 184;
         if (battleFieldSize == Data.getXsmallSize()){
+            widthInPixels = dpWidth / 4;
+//            if (widthInPixels > 184){
+//                widthInPixels = 184;
+//            }
+            Log.i(Data.getLOG_TAG(), "initFlipView: widthInPixels = " + widthInPixels);
             for (int i = 0; i < Data.getXsmallSize(); i++) {
                 flipViews.add((FlipView) view.findViewById(Data.getIdxsmall(i)));
-                Log.i(Data.getLOG_TAG(), "initFlipView: COUNTRY = " + battleField.getElement(i));
                 flipViews.get(i).setRearImage(CountryList.getCountry(battleField.getElement(i)));
-                flipViews.get(i).isFlipped();
+//                view.measure(0,0);
+//                int hght = view.getMeasuredWidth() / 4;
+//                Log.i(Data.getLOG_TAG(), "initFlipView: layout) height = " + view.getMeasuredWidth());
+//                Log.i(Data.getLOG_TAG(), "initFlipView: layout) height = " + hght);
+//                Log.i(Data.getLOG_TAG(), "initFlipView: height = " + flipViews.get(i).getHeight());
+//                Log.i(Data.getLOG_TAG(), "initFlipView: measuredHeight = " + flipViews.get(i).getMeasuredHeight());
+//                Log.i(Data.getLOG_TAG(), "initFlipView: width = " + flipViews.get(i).getWidth());
+//                Log.i(Data.getLOG_TAG(), "initFlipView: measuredWidth = " + flipViews.get(i).getMeasuredWidth());
+                flipViews.get(i).getLayoutParams().width = widthInPixels;
+                flipViews.get(i).getLayoutParams().height = widthInPixels;
             }
         }else if (battleFieldSize == Data.getSmallSize()){
+            widthInPixels = dpWidth / 4;
+//            if (widthInPixels > 184){
+//                widthInPixels = 184;
+//            }
             for (int i = 0; i < Data.getSmallSize(); i++) {
                 flipViews.add((FlipView) view.findViewById(Data.getIdsmall(i)));
                 flipViews.get(i).setRearImage(CountryList.getCountry(battleField.getElement(i)));
+                flipViews.get(i).getLayoutParams().width = widthInPixels;
+                flipViews.get(i).getLayoutParams().height = widthInPixels;
             }
         }else if (battleFieldSize == Data.getMediumSize()){
+            widthInPixels = dpWidth / 4;
+//            if (widthInPixels > 184){
+//                widthInPixels = 184;
+//            }
             for (int i = 0; i < Data.getMediumSize(); i++) {
                 flipViews.add((FlipView) view.findViewById(Data.getIdmedium(i)));
                 flipViews.get(i).setRearImage(CountryList.getCountry(battleField.getElement(i)));
+                flipViews.get(i).getLayoutParams().width = widthInPixels;
+                flipViews.get(i).getLayoutParams().height = widthInPixels;
             }
         }else if (battleFieldSize == Data.getLargeSize()){
+            widthInPixels = dpWidth / 6;
+//            if (widthInPixels > 184){
+//                widthInPixels = 184;
+//            }
             for (int i = 0; i < Data.getLargeSize(); i++) {
                 flipViews.add((FlipView) view.findViewById(Data.getIdlarge(i)));
                 flipViews.get(i).setRearImage(CountryList.getCountry(battleField.getElement(i)));
+                flipViews.get(i).getLayoutParams().width = widthInPixels;
+                flipViews.get(i).getLayoutParams().height = widthInPixels;
             }
         }else if (battleFieldSize == Data.getXlargeSize()){
+            widthInPixels = dpWidth / 5;
+//            if (widthInPixels > 184){
+//                widthInPixels = 184;
+//            }
             for (int i = 0; i < Data.getXlargeSize(); i++) {
                 flipViews.add((FlipView) view.findViewById(Data.getIdxlarge(i)));
                 flipViews.get(i).setRearImage(CountryList.getCountry(battleField.getElement(i)));
+                flipViews.get(i).getLayoutParams().width = widthInPixels;
+                flipViews.get(i).getLayoutParams().height = widthInPixels;
             }
         }else if (battleFieldSize == Data.getXxlargeSize()){
+            widthInPixels = dpWidth / 6;
+//            if (widthInPixels > 184){
+//                widthInPixels = 184;
+//            }
             for (int i = 0; i < Data.getXxlargeSize(); i++) {
-                try{
-                    flipViews.add((FlipView) view.findViewById(Data.getIdxxlarge(i)));
-                    flipViews.get(i).setRearImage(CountryList.getCountry(battleField.getElement(i)));
-                }catch (NullPointerException np){
-                    Log.i(Data.getLOG_TAG(), "initFlipView: BAD COUNTRY = " + battleField.getElement(i));
-                    np.toString();
-                }
-
+                flipViews.add((FlipView) view.findViewById(Data.getIdxxlarge(i)));
+                flipViews.get(i).setRearImage(CountryList.getCountry(battleField.getElement(i)));
+                flipViews.get(i).getLayoutParams().width = widthInPixels;
+                flipViews.get(i).getLayoutParams().height = widthInPixels;
             }
         }
         for (int i = 0; i < flipViews.size(); i++) {
@@ -805,6 +901,14 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
     private TextView enemyPlayerName;
 
     private ImageView actionImage;
+    private ImageView localOrigin;
+    private ImageView enemyOrigin;
+    private ImageView localAction;
+    private ImageView enemyAction;
+
+    private Animation translating;
+    private Animation backTranslating;
+    private Animation.AnimationListener animationListener;
 
     private Menu roomsMenu;
 

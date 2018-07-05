@@ -631,7 +631,7 @@ public class Data {
     private static int smallSize = 12;
     private static int mediumSize = 16;
     private static int largeSize = 24;
-    private static int xlargeSize = 30;
+    private static int xlargeSize = 25;//30
     private static int xxlargeSize = 36;
     private static int easy = 5;
     private static int normal = 9;
@@ -658,8 +658,8 @@ public class Data {
     private static int[] idxlarge = {R.id.xlarge1,R.id.xlarge2,R.id.xlarge3,R.id.xlarge4,
             R.id.xlarge5,R.id.xlarge6,R.id.xlarge7,R.id.xlarge8,R.id.xlarge9,R.id.xlarge10,R.id.xlarge11,
             R.id.xlarge12,R.id.xlarge13,R.id.xlarge14,R.id.xlarge15,R.id.xlarge16,R.id.xlarge17,R.id.xlarge18,
-            R.id.xlarge19,R.id.xlarge20,R.id.xlarge21,R.id.xlarge22,R.id.xlarge23,R.id.xlarge24,R.id.xlarge25,
-            R.id.xlarge26,R.id.xlarge27,R.id.xlarge28,R.id.xlarge29,R.id.xlarge30};
+            R.id.xlarge19,R.id.xlarge20,R.id.xlarge21,R.id.xlarge22,R.id.xlarge23,R.id.xlarge24,R.id.xlarge25};
+//            R.id.xlarge26,R.id.xlarge27,R.id.xlarge28,R.id.xlarge29,R.id.xlarge30};
     //endregion
 
 

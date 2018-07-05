@@ -17,8 +17,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -108,8 +112,8 @@ public class MultiplayerBotActivity extends AppCompatActivity{
         //******************************************************************************************
         sqLiteTableManager = new SqLiteTableManager(MultiplayerBotActivity.this);
 //        pullDB();
-        translating = AnimationUtils.loadAnimation(MultiplayerBotActivity.this, R.anim.translate);
-        backTranslating = AnimationUtils.loadAnimation(MultiplayerBotActivity.this, R.anim.backtranslate);
+//        translating = AnimationUtils.loadAnimation(MultiplayerBotActivity.this, R.anim.translate);
+//        backTranslating = AnimationUtils.loadAnimation(MultiplayerBotActivity.this, R.anim.backtranslate);
         gone = false;
         goneCount = 3;
         goneToast = Toast.makeText(MultiplayerBotActivity.this, "", Toast.LENGTH_SHORT);
@@ -273,7 +277,7 @@ public class MultiplayerBotActivity extends AppCompatActivity{
 
         stepCounter = 0;
 
-        Animation.AnimationListener animationListener = new Animation.AnimationListener() {
+        animationListener = new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
 
@@ -295,8 +299,6 @@ public class MultiplayerBotActivity extends AppCompatActivity{
 
             }
         };
-        translating.setAnimationListener(animationListener);
-        backTranslating.setAnimationListener(animationListener);
         //******************************************************************************************
         onFlippingListener = new FlipView.OnFlippingListener() {
             @Override
@@ -353,8 +355,27 @@ public class MultiplayerBotActivity extends AppCompatActivity{
         }
         basicLayout.addView(view);
         time2 = System.currentTimeMillis();
-        Log.d(Data.getLOG_TAG(), "loading time is = " + (time2 - time1));
+        Log.i(Data.getLOG_TAG(), "loading time is = " + (time2 - time1));
         //******************************************************************************************
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
+//        Log.i(Data.getLOG_TAG(), "local action X = " + positionlocalAction[0]);
+//        Log.i(Data.getLOG_TAG(), "local action Y = " + positionlocalAction[1]);
+//        Log.i(Data.getLOG_TAG(), "enemy action X = " + positionEnemyAction[0]);
+//        Log.i(Data.getLOG_TAG(), "enemy action Y = " + positionEnemyAction[1]);
+//        translating = AnimationUtils.loadAnimation(MultiplayerBotActivity.this, R.anim.translate);
+//        translating.setDuration(2000);
+//        backTranslating.setDuration(1000);
+//        translating.setInterpolator(new LinearInterpolator());
+//        translating.setInterpolator(new AccelerateInterpolator() );
+//        backTranslating.setInterpolator(new AccelerateInterpolator());
+//        translating.setAnimationListener(animationListener);
+//        backTranslating.setAnimationListener(animationListener);
     }
 
     private void clickHandler(String country) {
@@ -422,12 +443,21 @@ public class MultiplayerBotActivity extends AppCompatActivity{
             delayedTask(but0, but1);
             delayedClickable(but0, but1);
             flipFlag = false;
-            Log.d(Data.getLOG_TAG(), "flipFlag = " + flipFlag);
+            Log.i(Data.getLOG_TAG(), "flipFlag = " + flipFlag);
             if (sending){
                 sending = false;
                 receiving = true;
                 action = false;
+                int[] positionlocalAction = new int[2];
+                int[] positionEnemyAction = new int[2];
+                localAction.getLocationOnScreen(positionlocalAction);
+                enemyAction.getLocationOnScreen(positionEnemyAction);
+                translating = new TranslateAnimation(0, positionEnemyAction[0] - positionlocalAction[0], 0, 0);
+                translating.setDuration(1000);
+                translating.setAnimationListener(animationListener);
+                translating.setInterpolator(new AccelerateInterpolator());
                 localAction.startAnimation(translating);
+                translating.start();
 //                enemyAction.setVisibility(View.VISIBLE);
 //                localAction.setVisibility(View.INVISIBLE);
                 invalidateOptionsMenu();
@@ -447,14 +477,23 @@ public class MultiplayerBotActivity extends AppCompatActivity{
                 sending = true;
                 receiving = false;
                 action = true;
+                int[] positionlocalAction = new int[2];
+                int[] positionEnemyAction = new int[2];
+                localAction.getLocationOnScreen(positionlocalAction);
+                enemyAction.getLocationOnScreen(positionEnemyAction);
+                backTranslating = new TranslateAnimation(0, positionlocalAction[0] - positionEnemyAction[0], 0, 0);
+                backTranslating.setDuration(1000);
+                backTranslating.setAnimationListener(animationListener);
+                backTranslating.setInterpolator(new AccelerateInterpolator());
                 enemyAction.startAnimation(backTranslating);
+                backTranslating.start();
 //                enemyAction.setVisibility(View.INVISIBLE);
 //                localAction.setVisibility(View.VISIBLE);
                 invalidateOptionsMenu();
             }
         }else{
             flipFlag = true;
-            Log.d(Data.getLOG_TAG(), "flipFlag = " + flipFlag);
+            Log.i(Data.getLOG_TAG(), "flipFlag = " + flipFlag);
             if (sending){
                 for (int i = 0; i < clickable.size(); i++) {
                     if (clickable.get(i)) {
@@ -469,10 +508,10 @@ public class MultiplayerBotActivity extends AppCompatActivity{
         if (!clickable.containsValue(true)) {                               // данное условие выполняется когда все таблички перевернуты
             clickable.clear();
             userRecord = Integer.parseInt(test1.getText().toString());
-            Log.d(Data.getLOG_TAG(), "All flags is plipped");
+            Log.i(Data.getLOG_TAG(), "All flags is plipped");
             timer.cancel();
             sqLiteTableManager.insertIntoStatisticTable(null,null,null, Integer.toString(battleFieldSize), time.getText().toString(), stepCounter, score, Data.getCurrentDate());
-            Log.d(Data.getLOG_TAG(), "user record = " + userRecord);
+            Log.i(Data.getLOG_TAG(), "user record = " + userRecord);
             delayedIntent();
 
             if (userRecord < topRecord) {
@@ -770,6 +809,7 @@ public class MultiplayerBotActivity extends AppCompatActivity{
 
     private Animation translating;
     private Animation backTranslating;
+    private Animation.AnimationListener animationListener;
 
     private Timer timer;
     private Timer requestTimer;
