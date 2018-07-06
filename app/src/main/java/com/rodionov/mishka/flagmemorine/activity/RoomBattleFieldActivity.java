@@ -160,11 +160,11 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
 
         result =    (TextView)  findViewById(R.id.result);
         result.setTextColor(Color.WHITE);
-        test1 =     (TextView)  findViewById(R.id.currentStepCount);
-        time =      (TextView)  findViewById(R.id.timeValue);
+//        test1 =     (TextView)  findViewById(R.id.currentStepCount);
+//        time =      (TextView)  findViewById(R.id.timeValue);
         scoreTV =   (TextView)  findViewById(R.id.currentScore);
         currentScoreSecondPlayer = (TextView) findViewById(R.id.currentScoreSecondPlayer);
-        currentStepCountSecondPlayer = (TextView) findViewById(R.id.currentStepCountSecondPlayer);
+//        currentStepCountSecondPlayer = (TextView) findViewById(R.id.currentStepCountSecondPlayer);
         localPlayerName = (TextView) findViewById(R.id.localPlayerName);
         enemyPlayerName = (TextView) findViewById(R.id.enemyPlayerName);
         localOrigin = (ImageView) findViewById(R.id.localOrigin);

@@ -118,15 +118,15 @@ public class BattleFieldActivity extends AppCompatActivity {
 
         result =    (TextView)  findViewById(R.id.result);
         result.setTextColor(Color.WHITE);
-        test1 =     (TextView)  findViewById(R.id.currentStepCount);
-        time =      (TextView)  findViewById(R.id.timeValue);
+//        test1 =     (TextView)  findViewById(R.id.currentStepCount);
+//        time =      (TextView)  findViewById(R.id.timeValue);
         scoreTV =   (TextView)  findViewById(R.id.currentScore);
         currentScoreSecondPlayer = (TextView) findViewById(R.id.currentScoreSecondPlayer);
-        currentStepCountSecondPlayer = (TextView) findViewById(R.id.currentStepCountSecondPlayer);
+//        currentStepCountSecondPlayer = (TextView) findViewById(R.id.currentStepCountSecondPlayer);
         findViewById(R.id.scoreSecondPlayer).setVisibility(View.INVISIBLE);
-        findViewById(R.id.stepSecondPlayer).setVisibility(View.INVISIBLE);
+//        findViewById(R.id.stepSecondPlayer).setVisibility(View.INVISIBLE);
         currentScoreSecondPlayer.setVisibility(View.INVISIBLE);
-        currentStepCountSecondPlayer.setVisibility(View.INVISIBLE);
+//        currentStepCountSecondPlayer.setVisibility(View.INVISIBLE);
         scoreTV.setText(Integer.toString(score));
 
         handler = new Handler() {

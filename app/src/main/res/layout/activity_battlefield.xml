@@ -238,68 +238,68 @@
                             android:textSize="18sp" />
                     </TableRow>
 
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                    <!--<TableRow-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="match_parent">-->
 
-                        <TextView
-                            android:id="@+id/step"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_alignBaseline="@+id/currentStepCount"
-                            android:layout_alignBottom="@+id/currentStepCount"
-                            android:layout_toStartOf="@+id/currentStepCount"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/all_text"
-                            android:gravity="left"
-                            android:text="@string/step"
-                            android:textColor="@android:color/white"
-                            android:textSize="18sp" />
+                        <!--<TextView-->
+                            <!--android:id="@+id/step"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_alignBaseline="@+id/currentStepCount"-->
+                            <!--android:layout_alignBottom="@+id/currentStepCount"-->
+                            <!--android:layout_toStartOf="@+id/currentStepCount"-->
+                            <!--android:layout_weight="1"-->
+                            <!--android:fontFamily="@font/all_text"-->
+                            <!--android:gravity="left"-->
+                            <!--android:text="@string/step"-->
+                            <!--android:textColor="@android:color/white"-->
+                            <!--android:textSize="18sp" />-->
 
-                        <TextView
-                            android:id="@+id/currentStepCount"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_alignBaseline="@+id/currentScore"
-                            android:layout_alignBottom="@+id/currentScore"
-                            android:layout_alignParentEnd="true"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/all_text"
-                            android:textColor="@android:color/white"
-                            android:textSize="18sp" />
+                        <!--<TextView-->
+                            <!--android:id="@+id/currentStepCount"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_alignBaseline="@+id/currentScore"-->
+                            <!--android:layout_alignBottom="@+id/currentScore"-->
+                            <!--android:layout_alignParentEnd="true"-->
+                            <!--android:layout_weight="1"-->
+                            <!--android:fontFamily="@font/all_text"-->
+                            <!--android:textColor="@android:color/white"-->
+                            <!--android:textSize="18sp" />-->
 
-                    </TableRow>
+                    <!--</TableRow>-->
 
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                    <!--<TableRow-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="match_parent">-->
 
-                        <TextView
-                            android:id="@+id/timeText"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/currentScore"
-                            android:layout_toEndOf="@+id/currentScore"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/all_text"
-                            android:text="@string/time"
-                            android:textColor="@android:color/white"
-                            android:textSize="18sp" />
+                        <!--<TextView-->
+                            <!--android:id="@+id/timeText"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_below="@+id/currentScore"-->
+                            <!--android:layout_toEndOf="@+id/currentScore"-->
+                            <!--android:layout_weight="1"-->
+                            <!--android:fontFamily="@font/all_text"-->
+                            <!--android:text="@string/time"-->
+                            <!--android:textColor="@android:color/white"-->
+                            <!--android:textSize="18sp" />-->
 
-                        <TextView
-                            android:id="@+id/timeValue"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/step"
-                            android:layout_gravity="start"
-                            android:layout_toStartOf="@+id/step"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/all_text"
-                            android:gravity="start"
-                            android:text="0:00"
-                            android:textColor="@android:color/white"
-                            android:textSize="18sp" />
-                    </TableRow>
+                        <!--<TextView-->
+                            <!--android:id="@+id/timeValue"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_below="@+id/step"-->
+                            <!--android:layout_gravity="start"-->
+                            <!--android:layout_toStartOf="@+id/step"-->
+                            <!--android:layout_weight="1"-->
+                            <!--android:fontFamily="@font/all_text"-->
+                            <!--android:gravity="start"-->
+                            <!--android:text="0:00"-->
+                            <!--android:textColor="@android:color/white"-->
+                            <!--android:textSize="18sp" />-->
+                    <!--</TableRow>-->
                 </TableLayout>
 
                 <TableLayout
@@ -336,37 +336,37 @@
                             android:textSize="18sp" />
                     </TableRow>
 
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                    <!--<TableRow-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="match_parent">-->
 
-                        <TextView
-                            android:id="@+id/stepSecondPlayer"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignBaseline="@+id/currentStepCountSecondPlayer"
-                            android:layout_alignBottom="@+id/currentStepCountSecondPlayer"
-                            android:layout_toStartOf="@+id/currentStepCountSecondPlayer"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/all_text"
-                            android:gravity="left"
-                            android:text="@string/step"
-                            android:textColor="@android:color/white"
-                            android:textSize="18sp" />
+                        <!--<TextView-->
+                            <!--android:id="@+id/stepSecondPlayer"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_alignBaseline="@+id/currentStepCountSecondPlayer"-->
+                            <!--android:layout_alignBottom="@+id/currentStepCountSecondPlayer"-->
+                            <!--android:layout_toStartOf="@+id/currentStepCountSecondPlayer"-->
+                            <!--android:layout_weight="1"-->
+                            <!--android:fontFamily="@font/all_text"-->
+                            <!--android:gravity="left"-->
+                            <!--android:text="@string/step"-->
+                            <!--android:textColor="@android:color/white"-->
+                            <!--android:textSize="18sp" />-->
 
-                        <TextView
-                            android:id="@+id/currentStepCountSecondPlayer"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignBaseline="@+id/currentScoreSecondPlayer"
-                            android:layout_alignBottom="@+id/currentScoreSecondPlayer"
-                            android:layout_alignParentEnd="true"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/all_text"
-                            android:textColor="@android:color/white"
-                            android:textSize="18sp" />
+                        <!--<TextView-->
+                            <!--android:id="@+id/currentStepCountSecondPlayer"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_alignBaseline="@+id/currentScoreSecondPlayer"-->
+                            <!--android:layout_alignBottom="@+id/currentScoreSecondPlayer"-->
+                            <!--android:layout_alignParentEnd="true"-->
+                            <!--android:layout_weight="1"-->
+                            <!--android:fontFamily="@font/all_text"-->
+                            <!--android:textColor="@android:color/white"-->
+                            <!--android:textSize="18sp" />-->
 
-                    </TableRow>
+                    <!--</TableRow>-->
 
                     <!--<TableRow-->
                     <!--android:layout_width="match_parent"-->

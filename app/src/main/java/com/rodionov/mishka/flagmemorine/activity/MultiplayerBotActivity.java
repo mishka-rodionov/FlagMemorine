@@ -139,11 +139,11 @@ public class MultiplayerBotActivity extends AppCompatActivity{
 
         result =    (TextView)  findViewById(R.id.result);
         result.setTextColor(Color.WHITE);
-        test1 =     (TextView)  findViewById(R.id.currentStepCount);
-        time =      (TextView)  findViewById(R.id.timeValue);
+//        test1 =     (TextView)  findViewById(R.id.currentStepCount);
+//        time =      (TextView)  findViewById(R.id.timeValue);
         scoreTV =   (TextView)  findViewById(R.id.currentScore);
         currentScoreSecondPlayer = (TextView) findViewById(R.id.currentScoreSecondPlayer);
-        currentStepCountSecondPlayer = (TextView) findViewById(R.id.currentStepCountSecondPlayer);
+//        currentStepCountSecondPlayer = (TextView) findViewById(R.id.currentStepCountSecondPlayer);
         localPlayerName = (TextView) findViewById(R.id.localPlayerName);
         enemyPlayerName = (TextView) findViewById(R.id.enemyPlayerName);
         localOrigin = (ImageView) findViewById(R.id.localOrigin);
@@ -208,15 +208,15 @@ public class MultiplayerBotActivity extends AppCompatActivity{
             }
         };
 
-        handlerTime = new Handler(){
-            @Override
-            public void handleMessage(Message msg) {
-                if (msg.arg2 < 10)
-                    time.setText("" + msg.arg1 + " : 0" + msg.arg2);
-                else
-                    time.setText("" + msg.arg1 + " : " + msg.arg2);
-            }
-        };
+//        handlerTime = new Handler(){
+//            @Override
+//            public void handleMessage(Message msg) {
+//                if (msg.arg2 < 10)
+//                    time.setText("" + msg.arg1 + " : 0" + msg.arg2);
+//                else
+//                    time.setText("" + msg.arg1 + " : " + msg.arg2);
+//            }
+//        };
 
         handlerIntent = new Handler(){
             @Override
@@ -227,7 +227,7 @@ public class MultiplayerBotActivity extends AppCompatActivity{
                 endOfGameActivityIntent.putExtra("scoreValueSecondPlayer", Integer.toString(scoreSecondPlayer));
                 endOfGameActivityIntent.putExtra(Data.getStep(), Integer.toString(stepCounter));
                 endOfGameActivityIntent.putExtra("stepValueSecondPlayer", Integer.toString(stepCounterSecondPlayer));
-                endOfGameActivityIntent.putExtra("time", time.getText().toString());
+                endOfGameActivityIntent.putExtra("time", seconds < 10 ? ("" + minutes + " : 0" + seconds) : ("" + minutes + " : " + seconds)/*time.getText().toString()*/);
                 endOfGameActivityIntent.putExtra(Data.getSize(), Integer.toString(battleFieldSize));
                 endOfGameActivityIntent.putExtra(Data.getResult(), Integer.toString(res));
                 endOfGameActivityIntent.putExtra(Data.getLevel(), level);
@@ -270,8 +270,8 @@ public class MultiplayerBotActivity extends AppCompatActivity{
                         }
                     });
                 }
-                Message msg = handlerTime.obtainMessage(1, minutes, seconds);
-                handlerTime.sendMessage(msg);
+//                Message msg = handlerTime.obtainMessage(1, minutes, seconds);
+//                handlerTime.sendMessage(msg);
             }
         }, 0, 1000);
 
@@ -507,17 +507,17 @@ public class MultiplayerBotActivity extends AppCompatActivity{
     private void isFinish() {
         if (!clickable.containsValue(true)) {                               // данное условие выполняется когда все таблички перевернуты
             clickable.clear();
-            userRecord = Integer.parseInt(test1.getText().toString());
+            userRecord = stepCounter/*Integer.parseInt(test1.getText().toString())*/;
             Log.i(Data.getLOG_TAG(), "All flags is plipped");
             timer.cancel();
-            sqLiteTableManager.insertIntoStatisticTable(null,null,null, Integer.toString(battleFieldSize), time.getText().toString(), stepCounter, score, Data.getCurrentDate());
+            sqLiteTableManager.insertIntoStatisticTable(null,null,null, Integer.toString(battleFieldSize), seconds < 10 ? ("" + minutes + " : 0" + seconds) : ("" + minutes + " : " + seconds), stepCounter, score, Data.getCurrentDate());
             Log.i(Data.getLOG_TAG(), "user record = " + userRecord);
             delayedIntent();
 
             if (userRecord < topRecord) {
-                sqLiteTableManager.insertIntoRecordTable(null,null,null, Integer.toString(battleFieldSize), time.getText().toString(), stepCounter, score, Data.getCurrentDate());
+                sqLiteTableManager.insertIntoRecordTable(null,null,null, Integer.toString(battleFieldSize), seconds < 10 ? ("" + minutes + " : 0" + seconds) : ("" + minutes + " : " + seconds), stepCounter, score, Data.getCurrentDate());
                 SharedPreferences.Editor editor = record.edit();
-                editor.putString("REC", test1.getText().toString());
+                editor.putString("REC", Integer.toString(userRecord));
                 editor.commit();
             }
         }
@@ -526,7 +526,7 @@ public class MultiplayerBotActivity extends AppCompatActivity{
     private void scoreDisplay(Boolean state) {
         if(sending){
             stepCounter++;
-            test1.setText("" + stepCounter);
+//            test1.setText("" + stepCounter);
             scoreCount(state);
             scoreTV.setText(Integer.toString(score));
         }
@@ -534,7 +534,7 @@ public class MultiplayerBotActivity extends AppCompatActivity{
             stepCounterSecondPlayer++;
             scoreCount(state);
             currentScoreSecondPlayer.setText(Integer.toString(scoreSecondPlayer));
-            currentStepCountSecondPlayer.setText("" + stepCounterSecondPlayer);
+//            currentStepCountSecondPlayer.setText("" + stepCounterSecondPlayer);
         }
     }
 
@@ -787,15 +787,15 @@ public class MultiplayerBotActivity extends AppCompatActivity{
 
     private SqLiteTableManager sqLiteTableManager;
 
-    private Button restart;
-    private Button back;
+//    private Button restart;
+//    private Button back;
     private TextView result;
-    private TextView test1;
-    private TextView test2;
-    private TextView time;
+//    private TextView test1;
+//    private TextView test2;
+//    private TextView time;
     private TextView scoreTV;
     private TextView currentScoreSecondPlayer;
-    private TextView currentStepCountSecondPlayer;
+//    private TextView currentStepCountSecondPlayer;
     private TextView localPlayerName;
     private TextView enemyPlayerName;
 

@@ -59,10 +59,16 @@ public class Facts {
             "Mount Elbrus is the highest mountain in Russia (and Europe), it reaches a height of 5642 metres (18,510 feet).",
             "Russia’s Volga River is the longest in Europe, with a length of around 3690 kilometres (2293 miles).",
             "Russia produces a large amount of renewable energy thanks to its well developed hydropower stations.",
-            "Russia is located across 9 time zones."
+            "Russia is located across 11 time zones."
     };
 
     private static String[] afghanistan = {};
+    private static String[] australia = {
+            "Australia is the world's 6th largest country by area.",
+            "The largest cities in Australia are Sydney, Melbourne, Brisbane, Perth and Adelaide.",
+            "The highest mountain on mainland Australia is Mt Kosciuszko, standing 2228m (7310ft) above sea level.",
+            "The world's largest reef system, the Great Barrier Reef, is found off the north-eastern coast of Australia."
+    };
     private static String[] brazil = {
             "Brazil is the largest country in South America.",
             "The name Brazil comes from a tree named brazilwood.",
@@ -71,6 +77,32 @@ public class Facts {
             "Brazil has a large coastline on the eastern side of South America, stretching 7491 kilometres (4655 miles) in length.",
             "Brazil shares a border with all South American countries except for Chile and Ecuador."
     };
+
+    private static String[] canada = {
+            "The capital city of Canada is Ottawa. Major cities include Toronto, Montreal, Vancouver, Edmonton and Calgary.",
+            "Canada features the longest coastline in the world, stretching 202080 kilometres (125570 miles).",
+            "Canada has over 30000 lakes.",
+            "The name Canada comes from the word ‘kanata’ which means ‘settlement’ or ‘village’ in the language of the indigenous St Lawrence Iroquoians."
+    };
+
+    private static String[] egypt = {
+            "The longest river in the world, the Nile, runs through Egypt.",
+            "Mount Catherine is the highest mountain in Egypt, standing 2,629m high (8625 ft).",
+            "Egypt is famous for its ancient civilization, the Ancient Egyptians, who date back to around 3150 B.C."
+    };
+
+    private static String[] germany = {
+            "The capital of Germany is Berlin, it is also the largest city.",
+            "Large German companies include BMW, Adidas, SAP, Mercedes-Benz, Nivea, Audi, Bayer, Volkswagen and Siemens.",
+            "Germany has been home to famous composers such as Johann Bach, Ludwig van Beethoven and Richard Wagner."
+    };
+
+    private static String[] greece = {
+            "The capital and largest city in Greece is Athens. Other major cities include Thessaloniki, Patras and Heraklion.",
+            "Greece is one of the most mountainous countries in Europe.The highest mountain in Greece is Mount Olympus, it has over 50 peaks with the highest reaching 2917 metres (9570 feet).",
+            "The Olympic Games originated in Ancient Greece."
+    };
+
     private static String[] italy = {
             "Vatican City and San Marino are very small independent states located inside Italy.",
             "Rome is the capital city of Italy. Other major cities include Milan, Naples, Turin, and Palermo.",
@@ -78,6 +110,23 @@ public class Facts {
             "The volcanoes Etna and Vesuvius are a constant danger to humans due to their closeness to big cities.",
             "Ferrari, Lamborghini, Alfa Romeo and Maserati are well known Italian car manufacturers.",
             "The most popular sport in Italy is football (soccer). Italy has won four world cups, the last one being in 2006."
+    };
+
+    private static String[] netherlands = {
+            "The capital and largest city in the Netherlands is Amsterdam.",
+            "Around 20% of the Netherlands is located below sea level.",
+            "The Netherlands also includes islands in the Caribbean named Bonaire, Sint Eustatius and Saba."
+    };
+
+    private static String[] scotland = {
+            "Scotland is a part on the United Kingdom, along with England, Wales and Northern Ireland.",
+
+    };
+
+    private static String[] south_africa = {
+            "South Africa has 11 official languages, including Zulu, Afrikaans, Xhosa and English.",
+            "The largest city in South Africa is Johannesburg. Other major cities include Soweto and Durban.",
+            "South Africa's coastline stretches over 2500 kilometres (1553 miles) in length."
     };
 
     private static String[] united_states = {
