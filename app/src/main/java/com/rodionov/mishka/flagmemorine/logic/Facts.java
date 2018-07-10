@@ -23,8 +23,16 @@ public class Facts {
     private static void loadCountryFactsMap(){
         countryFactsMap = new HashMap<>();
         countryFactsMap.put(R.drawable.russia, russia);
+        countryFactsMap.put(R.drawable.australia, australia);
         countryFactsMap.put(R.drawable.brazil, brazil);
+        countryFactsMap.put(R.drawable.canada, canada);
+        countryFactsMap.put(R.drawable.egypt, egypt);
+        countryFactsMap.put(R.drawable.germany, germany);
+        countryFactsMap.put(R.drawable.greece, greece);
         countryFactsMap.put(R.drawable.italy, italy);
+        countryFactsMap.put(R.drawable.netherlands, netherlands);
+        countryFactsMap.put(R.drawable.scotland, scotland);
+        countryFactsMap.put(R.drawable.south_africa, south_africa);
         countryFactsMap.put(R.drawable.united_states, united_states);
         countryFactsMap.put(R.drawable.china, china);
 
@@ -119,7 +127,7 @@ public class Facts {
     };
 
     private static String[] scotland = {
-            "Scotland is a part on the United Kingdom, along with England, Wales and Northern Ireland.",
+            "Scotland is a part on the United Kingdom, along with England, Wales and Northern Ireland."
 
     };
 
@@ -160,7 +168,7 @@ public class Facts {
 //                R.drawable.argentina,
 //                R.drawable.armenia,
 //                R.drawable.aruba,
-//                R.drawable.australia,
+                R.drawable.australia,
 //                R.drawable.austria,
 //                R.drawable.azerbaijan,
 //                R.drawable.bahamas,
@@ -189,7 +197,7 @@ public class Facts {
 //                R.drawable.burundi,
 //                R.drawable.cambodia,
 //                R.drawable.cameroon,
-//                R.drawable.canada,
+                R.drawable.canada,
 //                R.drawable.cape_verde,
 //                R.drawable.cascadia,
 //                R.drawable.cayman_islands,
@@ -216,7 +224,7 @@ public class Facts {
 //                R.drawable.dominican_republic,
 //                R.drawable.east_timor,
 //                R.drawable.ecuador,
-//                R.drawable.egypt,
+                R.drawable.egypt,
 //                R.drawable.el_salvador,
 //                R.drawable.england,
 //                R.drawable.equatorial_guinea,
@@ -235,10 +243,10 @@ public class Facts {
 //                R.drawable.gabon
 //                R.drawable.gambia
 //                R.drawable.georgia,
-//                R.drawable.germany,
+                R.drawable.germany,
 //                R.drawable.ghana,
 //                R.drawable.gibraltar,
-//                R.drawable.greece,
+                R.drawable.greece,
 //                R.drawable.greenland,
 //                R.drawable.grenada,
 //                R.drawable.guam,
@@ -311,7 +319,7 @@ public class Facts {
 //                R.drawable.nauru,
 //                R.drawable.nepal,
 //                R.drawable.netherlands_antilles,
-//                R.drawable.netherlands,
+                R.drawable.netherlands,
 //                R.drawable.new_caledonia,
 //                R.drawable.new_zealand,
 //                R.drawable.nicaragua,
@@ -353,7 +361,7 @@ public class Facts {
 //                R.drawable.san_marino,
 //                R.drawable.sao_tome_and_principe,
 //                R.drawable.saudi_arabia,
-//                R.drawable.scotland,
+                R.drawable.scotland,
 //                R.drawable.senegal,
 //                R.drawable.serbia,
 //                R.drawable.seychelles,
@@ -366,7 +374,7 @@ public class Facts {
 //                R.drawable.smom,
 //                R.drawable.solomon_islands,
 //                R.drawable.somalia,
-//                R.drawable.south_africa,
+                R.drawable.south_africa,
 //                R.drawable.south_georgia,
 //                R.drawable.korea,
 //                R.drawable.south_sudan,

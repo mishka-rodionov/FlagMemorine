@@ -240,16 +240,6 @@ public class BattleFieldActivity extends AppCompatActivity {
         super.onStart();
     }
 
-//    @Override
-//    protected void onResume() {
-//        LinearLayout xsmall_row1 = basicLayout;
-//        ViewGroup.LayoutParams layoutParams = xsmall_row1.getLayoutParams();
-//        basicLayout.measure(0,0);
-//
-//        Log.i(Data.getLOG_TAG(), "onSTART: layout widht = " + basicLayout.getMeasuredWidth());
-//        super.onResume();
-//    }
-
     private void clickHandler(String country) {
         if (userChoice.size() == 2 && flipFlag) {                                                // Проверка количества элементов в контейнере пользовательского выбора.
             if (!userChoice.get(0).equals(userChoice.get(1))) {                       // Если значения пользовательского выбора не равны, то
@@ -268,19 +258,17 @@ public class BattleFieldActivity extends AppCompatActivity {
                 }
 //                endregion
         } else
-            if (userChoice.size() == 2 && !flipFlag) {
-                if (!userChoice.get(0).equals(userChoice.get(1))) {                     // Если значения пользовательского выбора не равны, то
-                    Log.i(Data.getLOG_TAG(), "clickHandler: backward flip, flag NO equals");
-                    mistake(country, flipFlag);
-                    userChoice.clear();                                                 // очищаем контейнер
-                    viewTag.clear();                                                    // очищаем контейнер тегов
-                }
+        if (userChoice.size() == 2 && !flipFlag) {
+            if (!userChoice.get(0).equals(userChoice.get(1))) {                     // Если значения пользовательского выбора не равны, то
+                Log.i(Data.getLOG_TAG(), "clickHandler: backward flip, flag NO equals");
+                mistake(country, flipFlag);
+                userChoice.clear();                                                 // очищаем контейнер
+                viewTag.clear();                                                    // очищаем контейнер тегов
+            }
         }
     }
 
     private void goal(String country) {
-        stepCounter++;
-        test1.setText("" + stepCounter);
         result.setTextColor(Color.GREEN);
         result.setText(country);
         scoreCount(true);

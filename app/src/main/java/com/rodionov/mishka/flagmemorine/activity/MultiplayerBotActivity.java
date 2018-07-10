@@ -77,7 +77,6 @@ public class MultiplayerBotActivity extends AppCompatActivity{
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.rooms_menu, menu);
         if (action){
             menu.findItem(R.id.playerAction).setIcon(R.drawable.ic_play_arrow_white_48dp);
         }else{
@@ -111,9 +110,6 @@ public class MultiplayerBotActivity extends AppCompatActivity{
 
         //******************************************************************************************
         sqLiteTableManager = new SqLiteTableManager(MultiplayerBotActivity.this);
-//        pullDB();
-//        translating = AnimationUtils.loadAnimation(MultiplayerBotActivity.this, R.anim.translate);
-//        backTranslating = AnimationUtils.loadAnimation(MultiplayerBotActivity.this, R.anim.backtranslate);
         gone = false;
         goneCount = 3;
         goneToast = Toast.makeText(MultiplayerBotActivity.this, "", Toast.LENGTH_SHORT);
@@ -357,25 +353,6 @@ public class MultiplayerBotActivity extends AppCompatActivity{
         time2 = System.currentTimeMillis();
         Log.i(Data.getLOG_TAG(), "loading time is = " + (time2 - time1));
         //******************************************************************************************
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-
-//        Log.i(Data.getLOG_TAG(), "local action X = " + positionlocalAction[0]);
-//        Log.i(Data.getLOG_TAG(), "local action Y = " + positionlocalAction[1]);
-//        Log.i(Data.getLOG_TAG(), "enemy action X = " + positionEnemyAction[0]);
-//        Log.i(Data.getLOG_TAG(), "enemy action Y = " + positionEnemyAction[1]);
-//        translating = AnimationUtils.loadAnimation(MultiplayerBotActivity.this, R.anim.translate);
-//        translating.setDuration(2000);
-//        backTranslating.setDuration(1000);
-//        translating.setInterpolator(new LinearInterpolator());
-//        translating.setInterpolator(new AccelerateInterpolator() );
-//        backTranslating.setInterpolator(new AccelerateInterpolator());
-//        translating.setAnimationListener(animationListener);
-//        backTranslating.setAnimationListener(animationListener);
     }
 
     private void clickHandler(String country) {

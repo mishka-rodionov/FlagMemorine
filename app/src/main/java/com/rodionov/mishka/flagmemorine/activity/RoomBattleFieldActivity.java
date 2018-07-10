@@ -58,9 +58,6 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-//            case R.id.action_restart:
-//                recreate();
-//                break;
             case android.R.id.home:
                 removeRoom(Integer.toString(roomIndex));
                 Intent startActivityIntent = new Intent(RoomBattleFieldActivity.this, StartActivity.class);
@@ -78,15 +75,9 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-//        MenuItem menuItem;
-//        getMenuInflater().inflate(R.menu.main, menu);
         if (action){
             menu.findItem(R.id.action_restart).setIcon(R.drawable.ic_play_arrow_white_48dp);
-//            menuItem = menu.getItem(1);
-//            menuItem.setIcon(R.drawable.ic_play_arrow_white_48dp);
         }else{
-//            menuItem = menu.getItem(1);
-//            menuItem.setIcon(R.drawable.ic_pause_white_48dp);
             menu.findItem(R.id.action_restart).setIcon(R.drawable.ic_pause_white_48dp);
         }
         return super.onPrepareOptionsMenu(menu);
@@ -117,8 +108,6 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
 
         //******************************************************************************************
         sqLiteTableManager = new SqLiteTableManager(RoomBattleFieldActivity.this);
-//        pullDB();
-
         gone = false;
         goneCount = 3;
         goneToast = Toast.makeText(RoomBattleFieldActivity.this, "", Toast.LENGTH_SHORT);
@@ -135,24 +124,13 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         playerNumber = getIntent().getStringExtra(Data.getPlayername());
         anotherPlayerUsername = getIntent().getStringExtra("anotherPlayerUsername");
         anotherPlayerOrigin = getIntent().getStringExtra("anotherPlayerOrigin");
-//        if (playerNumber.equals("firstPlayer")){
-//            secondPlayerName = getIntent().getStringExtra("anotherPlayer");
-//        }
-//        if (playerNumber.equals("secondPlayer")){
-//            firstPlayerName = getIntent().getStringExtra("anotherPlayer");
-//        }
         String[] body = getIntent().getStringExtra("battlefieldBody").split(" ");
         //endregion
         topRecord = 10000/*topRecord(battleFieldSize)*/;
         battlefieldBody = new ArrayList<String>();
         for (int i = 0; i < body.length; i++) {
             battlefieldBody.add(body[i].replaceAll("_", " "));
-//            if(battlefieldBody.get(i).contains("_")){
-//                battlefieldBody.add(i, battlefieldBody.get(i).replaceAll("_", " "));
-//            }
         }
-//        battleField = new BattleField(battleFieldSize);
-
         clickable = new HashMap<Integer, Boolean>();
         for (int i = 0; i < battleFieldSize; i++) {
             clickable.put(i, true);
@@ -303,12 +281,6 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
                 final int index = Integer.parseInt(view.getTag().toString());                       // Вычисление индекса кнопки в контейнере кнопок по тэгу кнопки
                 flipViews.get(index).setEnabled(false);
                 flipViews.get(index).setClickable(false);
-//                new Thread(){
-//                    public void run(){
-//                        mp = MediaPlayer.create(BattleFieldActivity.this, R.raw.flip_click);
-//                        mp.start();
-//                    }
-//                }.start();
                 String country  = battleField.getElement(Integer.parseInt(view.getTag().toString()));
                 userChoice.add(country);                                                            // Добавление выбранного значения в контейнер пользовательского выбора.
                 if (userChoice.size() == 1 && flipFlag){
@@ -335,7 +307,6 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
             enemyAction.setVisibility(View.INVISIBLE);
             localAction.setVisibility(View.VISIBLE);
             invalidateOptionsMenu();
-//            actionImage.setImageResource(R.drawable.ic_play_arrow_white_48dp);
         }else{
             sending = false;
             receiving = true;
@@ -343,7 +314,6 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
             enemyAction.setVisibility(View.VISIBLE);
             localAction.setVisibility(View.INVISIBLE);
             invalidateOptionsMenu();
-//            actionImage.setImageResource(R.drawable.ic_pause_white_48dp);
             requestTimer.schedule(new TimerTask() {
                 @Override
                 public void run() {
