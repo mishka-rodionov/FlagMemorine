@@ -175,7 +175,7 @@ public class WaitUserActivity extends AppCompatActivity {
                                     body += battlefieldBody.get(i) + " ";
                                 }
                                 removingFlag = false;
-                                Intent roomBattlefieldIntent = new Intent(WaitUserActivity.this, RoomBattleFieldActivity.class);
+                                Intent roomBattlefieldIntent = new Intent(WaitUserActivity.this, MultiplayerActivity.class);
                                 roomBattlefieldIntent.putExtra(Data.getRoomIndexLabel(), roomIndex);
                                 roomBattlefieldIntent.putExtra(Data.getPlayername(), playerNumber);
                                 roomBattlefieldIntent.putExtra("localPlayerName", playerName);

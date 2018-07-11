@@ -19,7 +19,6 @@ import com.rodionov.mishka.flagmemorine.R;
 import com.rodionov.mishka.flagmemorine.logic.Data;
 import com.rodionov.mishka.flagmemorine.logic.Facts;
 import com.rodionov.mishka.flagmemorine.logic.HttpClient;
-import com.rodionov.mishka.flagmemorine.service.MultiplayerBot;
 import com.rodionov.mishka.flagmemorine.service.SqLiteTableManager;
 
 import org.json.JSONException;
@@ -155,7 +154,7 @@ public class EndOfGameActivity extends AppCompatActivity {
                 switch(v.getId()){
                     case R.id.restartButton:
                         if (activityName.equals("Battlefield")){
-                            Intent intentBattleFieldActivity = new Intent(EndOfGameActivity.this, BattleFieldActivity.class);
+                            Intent intentBattleFieldActivity = new Intent(EndOfGameActivity.this, SingleplayerActivity.class);
                             intentBattleFieldActivity.putExtra(Data.getSize(), size);
                             startActivity(intentBattleFieldActivity);
                         }

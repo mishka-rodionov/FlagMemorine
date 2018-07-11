@@ -47,7 +47,7 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Response;
 
-public class RoomBattleFieldActivity extends AppCompatActivity {
+public class MultiplayerActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
@@ -60,7 +60,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case android.R.id.home:
                 removeRoom(Integer.toString(roomIndex));
-                Intent startActivityIntent = new Intent(RoomBattleFieldActivity.this, StartActivity.class);
+                Intent startActivityIntent = new Intent(MultiplayerActivity.this, StartActivity.class);
                 startActivity(startActivityIntent);
                 if (mInterstitialAd.isLoaded()){
                     mInterstitialAd.show();
@@ -107,10 +107,10 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         httpClient = new HttpClient();
 
         //******************************************************************************************
-        sqLiteTableManager = new SqLiteTableManager(RoomBattleFieldActivity.this);
+        sqLiteTableManager = new SqLiteTableManager(MultiplayerActivity.this);
         gone = false;
         goneCount = 3;
-        goneToast = Toast.makeText(RoomBattleFieldActivity.this, "", Toast.LENGTH_SHORT);
+        goneToast = Toast.makeText(MultiplayerActivity.this, "", Toast.LENGTH_SHORT);
         requestTimer = new Timer();
         record = getPreferences(MODE_PRIVATE);                                                      //
         timer = new Timer();                                                                        // Инициализация таймера для задержки переворота табличек
@@ -184,26 +184,26 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
             }
         };
 
-        handlerTime = new Handler(){
-            @Override
-            public void handleMessage(Message msg) {
-                if (msg.arg2 < 10)
-                    time.setText("" + msg.arg1 + " : 0" + msg.arg2);
-                else
-                    time.setText("" + msg.arg1 + " : " + msg.arg2);
-            }
-        };
+//        handlerTime = new Handler(){
+//            @Override
+//            public void handleMessage(Message msg) {
+//                if (msg.arg2 < 10)
+//                    time.setText("" + msg.arg1 + " : 0" + msg.arg2);
+//                else
+//                    time.setText("" + msg.arg1 + " : " + msg.arg2);
+//            }
+//        };
 
         handlerIntent = new Handler(){
             @Override
             public void handleMessage(Message msg) {
                 Integer res = score - scoreSecondPlayer;
-                Intent endOfGameActivityIntent= new Intent(RoomBattleFieldActivity.this, EndOfGameActivity.class);
+                Intent endOfGameActivityIntent= new Intent(MultiplayerActivity.this, EndOfGameActivity.class);
                 endOfGameActivityIntent.putExtra("score", Integer.toString(score));
                 endOfGameActivityIntent.putExtra("scoreValueSecondPlayer", Integer.toString(scoreSecondPlayer));
                 endOfGameActivityIntent.putExtra("step", Integer.toString(stepCounter));
                 endOfGameActivityIntent.putExtra("stepValueSecondPlayer", Integer.toString(stepCounterSecondPlayer));
-                endOfGameActivityIntent.putExtra("time", time.getText().toString());
+                endOfGameActivityIntent.putExtra("time", seconds < 10 ? ("" + minutes + " : 0" + seconds) : ("" + minutes + " : " + seconds)/*time.getText().toString()*/);
                 endOfGameActivityIntent.putExtra("size", Integer.toString(battleFieldSize));
                 endOfGameActivityIntent.putExtra("result", Integer.toString(res));
                 endOfGameActivityIntent.putExtra("activityName", "RoomBattlefield");
@@ -240,13 +240,13 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
                             goneToast.show();
                             if (goneCount == 0){
                                 goneToast.cancel();
-                                startActivity(new Intent(RoomBattleFieldActivity.this, StartActivity.class));
+                                startActivity(new Intent(MultiplayerActivity.this, StartActivity.class));
                             }
                         }
                     });
                 }
-                Message msg = handlerTime.obtainMessage(1, minutes, seconds);
-                handlerTime.sendMessage(msg);
+//                Message msg = handlerTime.obtainMessage(1, minutes, seconds);
+//                handlerTime.sendMessage(msg);
             }
         }, 0, 1000);
 
@@ -458,12 +458,12 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
             userRecord = Integer.parseInt(test1.getText().toString());
             Log.d(Data.getLOG_TAG(), "All flags is plipped");
             timer.cancel();
-            sqLiteTableManager.insertIntoStatisticTable(null,null,null, Integer.toString(battleFieldSize), time.getText().toString(), stepCounter, score, Data.getCurrentDate());
+            sqLiteTableManager.insertIntoStatisticTable(null,null,null, Integer.toString(battleFieldSize), seconds < 10 ? ("" + minutes + " : 0" + seconds) : ("" + minutes + " : " + seconds), stepCounter, score, Data.getCurrentDate());
             Log.d(Data.getLOG_TAG(), "user record = " + userRecord);
             delayedIntent();
 
             if (userRecord < topRecord) {
-                sqLiteTableManager.insertIntoRecordTable(null,null,null, Integer.toString(battleFieldSize), time.getText().toString(), stepCounter, score, Data.getCurrentDate());
+                sqLiteTableManager.insertIntoRecordTable(null,null,null, Integer.toString(battleFieldSize), seconds < 10 ? ("" + minutes + " : 0" + seconds) : ("" + minutes + " : " + seconds), stepCounter, score, Data.getCurrentDate());
                 SharedPreferences.Editor editor = record.edit();
                 editor.putString("REC", test1.getText().toString());
                 editor.commit();
@@ -627,7 +627,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
         super.onBackPressed();
         Log.i(Data.getLOG_TAG(), "onBackPressed: back is pressed");
         removeRoom(Integer.toString(roomIndex));
-        Intent startActivityIntent = new Intent(RoomBattleFieldActivity.this, StartActivity.class);
+        Intent startActivityIntent = new Intent(MultiplayerActivity.this, StartActivity.class);
         startActivity(startActivityIntent);
         if (mInterstitialAd.isLoaded()){
             mInterstitialAd.show();
@@ -712,7 +712,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
                     public void run() {
                         if (answer.equals("esc")){
                             gone = true;
-//                            Toast.makeText(RoomBattleFieldActivity.this, "The opponent is gone", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(MultiplayerActivity.this, "The opponent is gone", Toast.LENGTH_SHORT).show();
 //                            Log.i(Data.getLOG_TAG(), "SENDING opponent is gone! ");
 
                         }else {
@@ -753,7 +753,7 @@ public class RoomBattleFieldActivity extends AppCompatActivity {
                         }else {
                             index = -1;
                             gone = true;
-//                            Toast.makeText(RoomBattleFieldActivity.this, "The opponent is gone", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(MultiplayerActivity.this, "The opponent is gone", Toast.LENGTH_SHORT).show();
 //                            Log.i(Data.getLOG_TAG(), "RECEIVING opponent is gone! ");
                         }
                         if (index == -1){

@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.icu.text.UnicodeSetSpanner;
-import android.media.Image;
 import android.os.Handler;
 import android.os.Looper;
 //import android.support.design.BuildConfig;
@@ -52,6 +50,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class StartActivity extends AppCompatActivity {
+    @Override
+    public void onBackPressed() {
+        if(countFinish > 0){
+            countFinish = 0;
+            finish();
+        }else{
+            countFinish++;
+            Toast.makeText(this, " Click once again to quit.", Toast.LENGTH_SHORT).show();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +74,8 @@ public class StartActivity extends AppCompatActivity {
         //endregion
 
         hideSystemUI();
+
+        countFinish = 0;
 
         contentValues = new ContentValues();
 
@@ -104,8 +114,8 @@ public class StartActivity extends AppCompatActivity {
         xlargeAvailableUsers = (TextView) findViewById(R.id.xlargeAvailableUsers);
         xxlargeAvailableUsers = (TextView) findViewById(R.id.xxlargeAvailableUsers);
         onlineValue = (TextView) findViewById(R.id.onlineValue);
-        testImage = (ImageView) findViewById(R.id.testImage);
-        testImage2 = (ImageView) findViewById(R.id.testImage2);
+//        testImage = (ImageView) findViewById(R.id.testImage);
+//        testImage2 = (ImageView) findViewById(R.id.testImage2);
 
 //        rg1 = (RadioGroup) findViewById(R.id.rg1);
 //        rg2 = (RadioGroup) findViewById(R.id.rg2);
@@ -198,7 +208,7 @@ public class StartActivity extends AppCompatActivity {
                 switch (view.getId()){
                     case R.id.play:
                         removeBotLevelList();
-                        Intent intent = new Intent(StartActivity.this, BattleFieldActivity.class);
+                        Intent intent = new Intent(StartActivity.this, SingleplayerActivity.class);
                         intent.putExtra("size", size);
                         startActivity(intent);
                         break;
@@ -282,7 +292,7 @@ public class StartActivity extends AppCompatActivity {
                         removeBotLevelList();
                         Animation tr = AnimationUtils.loadAnimation(StartActivity.this, R.anim.translate);
                         onlineValue.setAnimation(tr);
-                        testImage.setAnimation(tr);
+//                        testImage.setAnimation(tr);
 //                        postResultToDB("enemyname", "SCORE_NAH", "enemyscore", "result", "date", "username");
 //                        Intent multiplayerBotActivity = new Intent(StartActivity.this, MultiplayerBotActivity.class);
 //                        multiplayerBotActivity.putExtra(Data.getSize(), size);
@@ -713,8 +723,8 @@ public class StartActivity extends AppCompatActivity {
     private Button totalTop;
     private Button botplay;
 
-    private ImageView testImage;
-    private ImageView testImage2;
+//    private ImageView testImage;
+//    private ImageView testImage2;
 
     private Switch easySwitch;
     private Switch normalSwitch;
@@ -743,6 +753,7 @@ public class StartActivity extends AppCompatActivity {
     private Integer lUsers;
     private Integer xlUsers;
     private Integer xxlUsers;
+    private int countFinish;
     private long delay = 1000;
     private long period = 2000;
     private Boolean snackbarFlag;

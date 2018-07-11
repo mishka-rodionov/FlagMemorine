@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Dimension;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,8 +15,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,7 +37,7 @@ import java.util.TimerTask;
 
 import eu.davidea.flipview.FlipView;
 
-public class BattleFieldActivity extends AppCompatActivity {
+public class SingleplayerActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
@@ -49,7 +48,7 @@ public class BattleFieldActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_restart:
-                if(countRestart > 1){
+                if(countRestart > 0){
                     recreate();
                     countRestart = 0;
                 }else{
@@ -58,7 +57,7 @@ public class BattleFieldActivity extends AppCompatActivity {
                 }
                 break;
             case android.R.id.home:
-                Intent startActivityIntent = new Intent(BattleFieldActivity.this, StartActivity.class);
+                Intent startActivityIntent = new Intent(SingleplayerActivity.this, StartActivity.class);
                 startActivity(startActivityIntent);
                 if (mInterstitialAd.isLoaded()){
                     mInterstitialAd.show();
@@ -98,7 +97,7 @@ public class BattleFieldActivity extends AppCompatActivity {
         battlefieldActionBar.setTitle("");
 
         //******************************************************************************************
-        sqLiteTableManager = new SqLiteTableManager(BattleFieldActivity.this);
+        sqLiteTableManager = new SqLiteTableManager(SingleplayerActivity.this);
 
         countRestart = 0;
         record = getPreferences(MODE_PRIVATE);                                                      //
@@ -110,6 +109,8 @@ public class BattleFieldActivity extends AppCompatActivity {
         battleFieldSize = Integer.parseInt(getIntent().getStringExtra("size"));
         topRecord = 10000/*topRecord(battleFieldSize)*/;
         battleField = new BattleField(battleFieldSize);
+        sending = true;
+        receiving = false;
 
         clickable = new HashMap<Integer, Boolean>();
         for (int i = 0; i < battleFieldSize; i++) {
@@ -128,6 +129,18 @@ public class BattleFieldActivity extends AppCompatActivity {
         currentScoreSecondPlayer.setVisibility(View.INVISIBLE);
 //        currentStepCountSecondPlayer.setVisibility(View.INVISIBLE);
         scoreTV.setText(Integer.toString(score));
+        localPlayerName = (TextView) findViewById(R.id.localPlayerName);
+        localOrigin = (ImageView) findViewById(R.id.localOrigin);
+        enemyOrigin = (ImageView) findViewById(R.id.enemyOrigin);
+        localAction = (ImageView) findViewById(R.id.localAction);
+        enemyAction = (ImageView) findViewById(R.id.enemyAction);
+
+        localPlayerName.setText(getIntent().getStringExtra("localPlayerName"));
+        localOrigin.setImageResource(CountryList.getCountry(sqLiteTableManager.getOrigin()));
+        enemyOrigin.setVisibility(View.INVISIBLE);
+        localAction.setVisibility(View.INVISIBLE);
+        enemyAction.setVisibility(View.INVISIBLE);
+
 
         handler = new Handler() {
             @Override
@@ -157,23 +170,23 @@ public class BattleFieldActivity extends AppCompatActivity {
             }
         };
 
-        handlerTime = new Handler(){
-            @Override
-            public void handleMessage(Message msg) {
-                if (msg.arg2 < 10)
-                    time.setText("" + msg.arg1 + " : 0" + msg.arg2);
-                else
-                    time.setText("" + msg.arg1 + " : " + msg.arg2);
-            }
-        };
+//        handlerTime = new Handler(){
+//            @Override
+//            public void handleMessage(Message msg) {
+//                if (msg.arg2 < 10)
+//                    time.setText("" + msg.arg1 + " : 0" + msg.arg2);
+//                else
+//                    time.setText("" + msg.arg1 + " : " + msg.arg2);
+//            }
+//        };
 
         handlerIntent = new Handler(){
             @Override
             public void handleMessage(Message msg) {
-                Intent endOfGameActivityIntent= new Intent(BattleFieldActivity.this, EndOfGameActivity.class);
+                Intent endOfGameActivityIntent= new Intent(SingleplayerActivity.this, EndOfGameActivity.class);
                 endOfGameActivityIntent.putExtra("score", Integer.toString(score));
                 endOfGameActivityIntent.putExtra("step", Integer.toString(stepCounter));
-                endOfGameActivityIntent.putExtra("time", time.getText().toString());
+                endOfGameActivityIntent.putExtra("time", seconds < 10 ? ("" + minutes + " : 0" + seconds) : ("" + minutes + " : " + seconds)/*time.getText().toString()*/);
                 endOfGameActivityIntent.putExtra("size", Integer.toString(battleFieldSize));
                 endOfGameActivityIntent.putExtra("activityName", "Battlefield");
                 startActivity(endOfGameActivityIntent);
@@ -188,8 +201,8 @@ public class BattleFieldActivity extends AppCompatActivity {
                     minutes++;
                     seconds = 0;
                 }
-                Message msg = handlerTime.obtainMessage(1, minutes, seconds);
-                handlerTime.sendMessage(msg);
+//                Message msg = handlerTime.obtainMessage(1, minutes, seconds);
+//                handlerTime.sendMessage(msg);
             }
         }, 0, 1000);
 
@@ -204,7 +217,7 @@ public class BattleFieldActivity extends AppCompatActivity {
                 flipViews.get(index).setClickable(false);
 //                new Thread(){
 //                    public void run(){
-//                        mp = MediaPlayer.create(BattleFieldActivity.this, R.raw.flip_click);
+//                        mp = MediaPlayer.create(SingleplayerActivity.this, R.raw.flip_click);
 //                        mp.start();
 //                    }
 //                }.start();
@@ -271,10 +284,8 @@ public class BattleFieldActivity extends AppCompatActivity {
     private void goal(String country) {
         result.setTextColor(Color.GREEN);
         result.setText(country);
-        scoreCount(true);
-        scoreTV.setText(Integer.toString(score));
+        scoreDisplay(true);
         flipFlag = true;
-
         flipViews.get(Integer.parseInt(viewTag.get(0))).setEnabled(false);
         flipViews.get(Integer.parseInt(viewTag.get(1))).setEnabled(false);
 
@@ -295,7 +306,7 @@ public class BattleFieldActivity extends AppCompatActivity {
             delayedClickable(but0, but1);
             flipFlag = false;
             Log.d(Data.getLOG_TAG(), "flipFlag = " + flipFlag);
-            test1.setText("" + stepCounter);
+//            test1.setText("" + stepCounter);
             for (int i = 0; i < clickable.size(); i++) {
                 if (clickable.get(i)) {
                     flipViews.get(i).setEnabled(false);
@@ -316,17 +327,17 @@ public class BattleFieldActivity extends AppCompatActivity {
         if (!clickable.containsValue(true)) {                               // данное условие выполняется когда все таблички перевернуты
             clickable.clear();
 
-            userRecord = Integer.parseInt(test1.getText().toString());
+            userRecord = stepCounter;
             Log.d(Data.getLOG_TAG(), "All flags is plipped");
             timer.cancel();
-            sqLiteTableManager.insertIntoStatisticTable(null,null,null, Integer.toString(battleFieldSize), time.getText().toString(), stepCounter, score, Data.getCurrentDate());
+            sqLiteTableManager.insertIntoStatisticTable(null,null,null, Integer.toString(battleFieldSize), seconds < 10 ? ("" + minutes + " : 0" + seconds) : ("" + minutes + " : " + seconds), stepCounter, score, Data.getCurrentDate());
             Log.d(Data.getLOG_TAG(), "user record = " + userRecord);
             delayedIntent();
 
             if (userRecord < topRecord) {
-                sqLiteTableManager.insertIntoRecordTable(null,null,null, Integer.toString(battleFieldSize), time.getText().toString(), stepCounter, score, Data.getCurrentDate());
+                sqLiteTableManager.insertIntoRecordTable(null,null,null, Integer.toString(battleFieldSize), seconds < 10 ? ("" + minutes + " : 0" + seconds) : ("" + minutes + " : " + seconds), stepCounter, score, Data.getCurrentDate());
                 SharedPreferences.Editor editor = record.edit();
-                editor.putString("REC", test1.getText().toString());
+                editor.putString("REC", Integer.toString(stepCounter));
                 editor.commit();
             }
         }
@@ -424,6 +435,21 @@ public class BattleFieldActivity extends AppCompatActivity {
         Log.d(Data.getLOG_TAG(), "flipview size = " + flipViews.size());
     }
 
+    private void scoreDisplay(Boolean state) {
+        if(sending){
+            stepCounter++;
+//            test1.setText("" + stepCounter);
+            scoreCount(state);
+            scoreTV.setText(Integer.toString(score));
+        }
+        if (receiving){
+            stepCounterSecondPlayer++;
+            scoreCount(state);
+            currentScoreSecondPlayer.setText(Integer.toString(scoreSecondPlayer));
+//            currentStepCountSecondPlayer.setText("" + stepCounterSecondPlayer);
+        }
+    }
+
     public void getView(int size){
         if(size == Data.getXsmallSize()){
             view = getLayoutInflater().inflate(R.layout.layout_xsmall, null);
@@ -448,11 +474,22 @@ public class BattleFieldActivity extends AppCompatActivity {
     }
 
     public void scoreCount(Boolean state){
-        if(state){
-            score += 100;
-        }else if (!state){
-            if (score > 0){
-                score -= 10;
+        if (sending) {
+            if (state) {
+                score += 100;
+            } else if (!state) {
+                if (score > 0) {
+                    score -= 10;
+                }
+            }
+        }
+        if (receiving){
+            if (state) {
+                scoreSecondPlayer += 100;
+            } else if (!state) {
+                if (scoreSecondPlayer > 0) {
+                    scoreSecondPlayer -= 10;
+                }
             }
         }
     }
@@ -461,7 +498,7 @@ public class BattleFieldActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         Log.i(Data.getLOG_TAG(), "onBackPressed: back is pressed");
-        Intent startActivityIntent = new Intent(BattleFieldActivity.this, StartActivity.class);
+        Intent startActivityIntent = new Intent(SingleplayerActivity.this, StartActivity.class);
         startActivity(startActivityIntent);
         if (mInterstitialAd.isLoaded()){
             mInterstitialAd.show();
@@ -549,10 +586,16 @@ public class BattleFieldActivity extends AppCompatActivity {
     private TextView scoreTV;
     private TextView currentScoreSecondPlayer;
     private TextView currentStepCountSecondPlayer;
+    private TextView localPlayerName;
     private Timer timer;
     private View view;
     private Toolbar battlefieldToolbar;
     private ActionBar battlefieldActionBar;
+
+    private ImageView localOrigin;
+    private ImageView enemyOrigin;
+    private ImageView localAction;
+    private ImageView enemyAction;
 
     private String BF;
     private int battleFieldSize = 6;
@@ -564,9 +607,13 @@ public class BattleFieldActivity extends AppCompatActivity {
     private int topRecord = 0;
     private int seconds = 0;
     private int score =  100;
+    private int stepCounterSecondPlayer;
+    private int scoreSecondPlayer;
     private long time1 = 0;
     private long time2 = 0;
     private boolean flipFlag = true;
+    private Boolean sending;
+    private Boolean receiving;
 
     private String username;
     private String login;
