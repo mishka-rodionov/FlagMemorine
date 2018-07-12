@@ -265,6 +265,19 @@
                 android:fontFamily="@font/all_text"
                 android:text="@string/userInfo"
                 android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/leanrInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_button"
+                android:elevation="4dp"
+                android:fontFamily="@font/all_text"
+                android:text="@string/learninfo"
+                android:textStyle="bold" />
         </LinearLayout>
 
     </LinearLayout>

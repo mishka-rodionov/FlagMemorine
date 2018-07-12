@@ -9,7 +9,7 @@
     android:paddingBottom="10dp"
     android:paddingEnd="10dp"
     android:paddingStart="10dp"
-    tools:context="com.rodionov.mishka.flagmemorine.activity.TotalTopActivity">
+    tools:context="com.rodionov.mishka.flagmemorine.activity.LearnInfoActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -20,7 +20,7 @@
         app:elevation="0dp">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/totalStatistic_toolbar"
+            android:id="@+id/learninfo_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@drawable/toolbar_background"
@@ -32,7 +32,7 @@
 
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerviewTopTotal"
+        android:id="@+id/recyclerviewLearnInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="10dp"

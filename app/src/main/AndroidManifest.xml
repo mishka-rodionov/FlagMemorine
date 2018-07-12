@@ -75,11 +75,13 @@
             android:configChanges="orientation"
             android:label="@string/title_botactivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <activity android:name=".activity.LearnInfoActivity"></activity>
     </application>
 
 </manifest>

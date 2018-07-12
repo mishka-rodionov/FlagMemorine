@@ -127,6 +127,7 @@ public class StartActivity extends AppCompatActivity {
         userInfo = (Button) findViewById(R.id.userInfo);
         totalTop = (Button) findViewById(R.id.totalTop);
         botplay = (Button) findViewById(R.id.botplay);
+        learnInfo = (Button) findViewById(R.id.leanrInfo);
 
         // region RadioButton Listener
         View.OnClickListener onClickListenerRB = new View.OnClickListener() {
@@ -300,6 +301,11 @@ public class StartActivity extends AppCompatActivity {
 //                        Intent interactionIntent = new Intent(StartActivity.this, TestInteraction.class);
 //                        startActivity(interactionIntent);
                         break;
+                    case R.id.leanrInfo:
+                        removeBotLevelList();
+                        Intent learnInfoIntent = new Intent(StartActivity.this, LearnInfoActivity.class);
+                        startActivity(learnInfoIntent);
+                        break;
                 }
             }
         };
@@ -377,6 +383,7 @@ public class StartActivity extends AppCompatActivity {
         stopAds.setOnClickListener(onClickListenerButton);
         totalTop.setOnClickListener(onClickListenerButton);
         botplay.setOnClickListener(onClickListenerButton);
+        learnInfo.setOnClickListener(onClickListenerButton);
 
         requestTimer.schedule(new TimerTask() {
             @Override
@@ -722,6 +729,7 @@ public class StartActivity extends AppCompatActivity {
     private Button userInfo;
     private Button totalTop;
     private Button botplay;
+    private Button learnInfo;
 
 //    private ImageView testImage;
 //    private ImageView testImage2;
