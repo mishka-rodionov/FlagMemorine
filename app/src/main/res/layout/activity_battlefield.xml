@@ -35,7 +35,7 @@
         android:layout_alignStart="@+id/currentStepCount"
         android:layout_gravity="center"
         android:layout_weight="1"
-        android:background="@drawable/telegram">
+        android:background="@android:color/white">
 
         <LinearLayout
             android:id="@+id/basicLayout"
