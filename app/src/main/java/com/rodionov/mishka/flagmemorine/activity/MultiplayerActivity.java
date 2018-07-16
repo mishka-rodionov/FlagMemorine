@@ -455,7 +455,7 @@ public class MultiplayerActivity extends AppCompatActivity {
         if (!clickable.containsValue(true)) {                               // данное условие выполняется когда все таблички перевернуты
             clickable.clear();
 
-            userRecord = Integer.parseInt(test1.getText().toString());
+            userRecord = stepCounter;
             Log.d(Data.getLOG_TAG(), "All flags is plipped");
             timer.cancel();
             sqLiteTableManager.insertIntoStatisticTable(null,null,null, Integer.toString(battleFieldSize), seconds < 10 ? ("" + minutes + " : 0" + seconds) : ("" + minutes + " : " + seconds), stepCounter, score, Data.getCurrentDate());
@@ -465,7 +465,7 @@ public class MultiplayerActivity extends AppCompatActivity {
             if (userRecord < topRecord) {
                 sqLiteTableManager.insertIntoRecordTable(null,null,null, Integer.toString(battleFieldSize), seconds < 10 ? ("" + minutes + " : 0" + seconds) : ("" + minutes + " : " + seconds), stepCounter, score, Data.getCurrentDate());
                 SharedPreferences.Editor editor = record.edit();
-                editor.putString("REC", test1.getText().toString());
+                editor.putString("REC", Integer.toString(stepCounter));
                 editor.commit();
             }
         }
@@ -474,7 +474,7 @@ public class MultiplayerActivity extends AppCompatActivity {
     private void scoreDisplay(Boolean state) {
         if(sending){
             stepCounter++;
-            test1.setText("" + stepCounter);
+//            test1.setText("" + stepCounter);
             scoreCount(state);
             scoreTV.setText(Integer.toString(score));
         }
@@ -482,7 +482,7 @@ public class MultiplayerActivity extends AppCompatActivity {
             stepCounterSecondPlayer++;
             scoreCount(state);
             currentScoreSecondPlayer.setText(Integer.toString(scoreSecondPlayer));
-            currentStepCountSecondPlayer.setText("" + stepCounterSecondPlayer);
+//            currentStepCountSecondPlayer.setText("" + stepCounterSecondPlayer);
         }
     }
 

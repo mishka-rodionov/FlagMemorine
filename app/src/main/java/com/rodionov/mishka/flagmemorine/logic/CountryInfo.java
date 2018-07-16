@@ -43,20 +43,20 @@ public class CountryInfo {
         countryInfoMap = new HashMap<>();
         countryInfoMap.put("Afghanistan",new String[]{"Kabul", "34 656 032", "652 864 km2"});
         countryInfoMap.put("Albania", new String[]{"Tirana", "2 876 591", "22 072 km2"});
-//        countryInfoMap.put("Algeria",
-//        countryInfoMap.put("American Samoa",
-//        countryInfoMap.put(                "Andorra",
-//        countryInfoMap.put("Angola",
-//        countryInfoMap.put("Anguilla",
+        countryInfoMap.put("Algeria", new String[]{"Algiers", "42 200 000", "2 381 741 km2"});
+        countryInfoMap.put("American Samoa", new String[]{"Pago Pago", "51 504", "199 km2"});
+        countryInfoMap.put("Andorra", new String[]{"Andorra la Vella", "77 281", "467.63 km2"});
+        countryInfoMap.put("Angola", new String[]{"Luanda", "25 789 024", "1 246 700 km2"});
+        countryInfoMap.put("Anguilla", new String[]{"The Valley", "14 764", "91 km2"});
 //        countryInfoMap.put("Antarctica",
-//        countryInfoMap.put("Antigua and Barbuda",
-//        countryInfoMap.put("Argentina",
-//        countryInfoMap.put("Armenia",
-//        countryInfoMap.put("Aruba",
-//        countryInfoMap.put("Australia",
-//        countryInfoMap.put("Austria",
-//        countryInfoMap.put("Azerbaijan",
-//        countryInfoMap.put("Bahamas",
+        countryInfoMap.put("Antigua and Barbuda", new String[]{"St. John's", "100 963", "440 km2"});
+        countryInfoMap.put("Argentina", new String[]{"Buenos Aires", "43 847 430", "2 780 400 km2"});
+        countryInfoMap.put("Armenia", new String[]{"Yerevan", "2 924 816", "29 743 km2"});
+        countryInfoMap.put("Aruba", new String[]{"Oranjestad", "104 822", "178.91 km2"});
+        countryInfoMap.put("Australia", new String[]{"Canberra", "24 993 800", "7 692 024 km2"});
+        countryInfoMap.put("Austria", new String[]{"Vienna", "8 823 054", "83 879 km2"});
+        countryInfoMap.put("Azerbaijan", new String[]{"Baku", "9 911 646", "86 600 km2"});
+        countryInfoMap.put("Bahamas", new String[]{"Nassau", "391 232", "13 878 km2"});
         countryInfoMap.put("Bahrain", new String[]{"Manama", "1 343 000", "766 km2"});
 //        countryInfoMap.put("Bangladesh",
 //        countryInfoMap.put("Barbados",

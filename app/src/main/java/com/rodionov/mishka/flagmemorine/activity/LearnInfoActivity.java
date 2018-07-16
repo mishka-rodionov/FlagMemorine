@@ -1,23 +1,41 @@
 package com.rodionov.mishka.flagmemorine.activity;
 
+import android.annotation.TargetApi;
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.rodionov.mishka.flagmemorine.R;
 import com.rodionov.mishka.flagmemorine.cView.CRecyclerViewAdapter;
 import com.rodionov.mishka.flagmemorine.cView.CRecyclerViewLearnInfoAdapter;
 import com.rodionov.mishka.flagmemorine.logic.CountryInfo;
 import com.rodionov.mishka.flagmemorine.logic.CountryList;
+import com.rodionov.mishka.flagmemorine.logic.Data;
 import com.rodionov.mishka.flagmemorine.logic.Player;
 import com.rodionov.mishka.flagmemorine.service.SqLiteTableManager;
 
 public class LearnInfoActivity extends AppCompatActivity {
 
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                Intent startActivityIntent = new Intent(LearnInfoActivity.this, StartActivity.class);
+                startActivity(startActivityIntent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @TargetApi(21)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,8 +63,11 @@ public class LearnInfoActivity extends AppCompatActivity {
         // Менеджер компоновки для данного активити.
         llm = new LinearLayoutManager(LearnInfoActivity.this);
         recyclerView.setLayoutManager(llm);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),llm.getOrientation());
+        dividerItemDecoration.setDrawable(recyclerView.getContext().getResources().getDrawable(R.drawable.learninfo_linedivider, null));
         adapter = new CRecyclerViewLearnInfoAdapter(CountryInfo.getCountries());
         recyclerView.setAdapter(adapter);
+        recyclerView.addItemDecoration(dividerItemDecoration);
 
     }
 
