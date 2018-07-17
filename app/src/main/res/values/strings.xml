@@ -53,4 +53,5 @@
     <string name="hard">Hard</string>
     <string name="veryhard">Very hard</string>
     <string name="learninfo">Learn info</string>
+    <string name="personal">Personal</string>
 </resources>

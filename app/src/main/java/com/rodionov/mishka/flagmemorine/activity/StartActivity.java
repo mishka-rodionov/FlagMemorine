@@ -606,6 +606,7 @@ public class StartActivity extends AppCompatActivity {
 //                }
 //                Log.i(Data.getLOG_TAG(), "onResponse run for TOPTOTAL methods player name: " + bug);
                 jsonString = answer;
+                Log.i(Data.getLOG_TAG(), "JSON_STRING " + jsonString);
                 mainHandler.post(new Runnable() {
                     @Override
                     public void run() {

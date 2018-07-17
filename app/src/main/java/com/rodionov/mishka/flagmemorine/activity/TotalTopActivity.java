@@ -13,7 +13,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ToggleButton;
 
 import com.rodionov.mishka.flagmemorine.R;
@@ -56,11 +58,12 @@ public class TotalTopActivity extends AppCompatActivity {
         // Инициализация контейнера плейеров.
         Player.initPlayers();
 
-        // Инициализация структуры отображения данных
+        topTotalLayout = (LinearLayout) findViewById(R.id.topTotalLayout);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerviewTopTotal);
 //        recyclerView.setHasFixedSize(true);
         // Менеджер компоновки для данного активити.
-        llm = new LinearLayoutManager(TotalTopActivity.this);
+//        llm = new LinearLayoutManager(TotalTopActivity.this);
+        llm = new LinearLayoutManager(topTotalLayout.getContext());
         recyclerView.setLayoutManager(llm);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),llm.getOrientation());
         dividerItemDecoration.setDrawable(recyclerView.getContext().getResources().getDrawable(R.drawable.learninfo_linedivider, null));
@@ -72,9 +75,31 @@ public class TotalTopActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.multiplayer_total_menu, menu);
         menu.findItem(R.id.action_restart).setVisible(false);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.personal_multiplayer_stat:
+                topTotalLayout.removeAllViews();
+                break;
+            case R.id.all_multiplayer_stat:
+                llm = new LinearLayoutManager(topTotalLayout.getContext());
+                recyclerView.setLayoutManager(llm);
+                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),llm.getOrientation());
+                dividerItemDecoration.setDrawable(recyclerView.getContext().getResources().getDrawable(R.drawable.learninfo_linedivider, null));
+                adapter = new CRecyclerViewAdapter(Player.getPlayers());
+                recyclerView.setAdapter(adapter);
+                recyclerView.addItemDecoration(dividerItemDecoration);
+                specification();
+                topTotalLayout.removeAllViews();
+                topTotalLayout.addView(recyclerView);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     // 24.03.18
@@ -122,6 +147,7 @@ public class TotalTopActivity extends AppCompatActivity {
     private SqLiteTableManager sqLiteTableManager;
     private RecyclerView recyclerView;
     private LinearLayoutManager llm;
+    private LinearLayout topTotalLayout;
     private CRecyclerViewAdapter adapter;
     private Toolbar statisticToolbar;
     private ActionBar statisticActionBar;
