@@ -41,6 +41,8 @@ public class SingleplayerActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
+        MenuItem item = menu.findItem(R.id.action_settings);
+        item.setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 

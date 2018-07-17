@@ -54,6 +54,7 @@ public class MultiplayerBotActivity extends AppCompatActivity{
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.rooms_menu, menu);
+        menu.findItem(R.id.action_settings_rooms).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 

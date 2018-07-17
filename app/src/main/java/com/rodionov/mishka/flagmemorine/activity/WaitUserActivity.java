@@ -258,6 +258,7 @@ public class WaitUserActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         menu.findItem(R.id.action_restart).setVisible(false);
+        menu.findItem(R.id.action_settings).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 

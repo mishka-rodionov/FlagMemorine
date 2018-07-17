@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -156,6 +157,7 @@ public class EndOfGameActivity extends AppCompatActivity {
                         if (activityName.equals("Battlefield")){
                             Intent intentBattleFieldActivity = new Intent(EndOfGameActivity.this, SingleplayerActivity.class);
                             intentBattleFieldActivity.putExtra(Data.getSize(), size);
+                            intentBattleFieldActivity.putExtra("localPlayerName", sqLiteTableManager.getName());
                             startActivity(intentBattleFieldActivity);
                         }
                         if (activityName.equals("RoomBattlefield")){
@@ -231,6 +233,7 @@ public class EndOfGameActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         menu.findItem(R.id.action_restart).setVisible(false);
+        menu.findItem(R.id.action_settings).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 

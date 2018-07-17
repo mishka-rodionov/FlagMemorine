@@ -28,6 +28,38 @@ public class CountryInfo {
         this.square = sq;
     }
 
+    public static void sortCountryInfo(){
+        CountryInfo countryInfo;
+        for (int i = 0; i < countries.size() - 1; i++) {
+            for (int j = i + 1; j < countries.size(); j++) {
+                if (compareStrings(countries.get(i).getCountryName(), countries.get(j).getCountryName())/*countries.get(i).getCountryName() < countries.get(j).getCountryName()*/){
+                    countryInfo = countries.get(i);
+                    countries.set(i,countries.get(j));
+                    countries.set(j,countryInfo);
+                }
+            }
+        }
+    }
+
+    public static boolean compareStrings(String str1, String str2){
+        int size;
+        if (str1.length() < str2.length()){
+            size = str1.length();
+        }else {
+            size = str2.length();
+        }
+        for (int i = 0; i < size; i++) {
+            if (str1.charAt(i) != str2.charAt(i)){
+                if (str1.charAt(i) > str2.charAt(i)){               // Must be <
+                    return true;
+                }else {
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+
     public static void initCountryInfo(){
         initCountryInfoMap();
         countries = new ArrayList<>();

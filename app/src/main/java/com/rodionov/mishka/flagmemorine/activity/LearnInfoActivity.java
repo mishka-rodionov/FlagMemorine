@@ -56,7 +56,7 @@ public class LearnInfoActivity extends AppCompatActivity {
 
         // Инициализация контейнера плейеров.
         CountryInfo.initCountryInfo();
-
+        CountryInfo.sortCountryInfo();
         // Инициализация структуры отображения данных
         recyclerView = (RecyclerView) findViewById(R.id.recyclerviewLearnInfo);
 //        recyclerView.setHasFixedSize(true);

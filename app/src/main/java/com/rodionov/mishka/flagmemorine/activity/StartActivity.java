@@ -211,6 +211,7 @@ public class StartActivity extends AppCompatActivity {
                         removeBotLevelList();
                         Intent intent = new Intent(StartActivity.this, SingleplayerActivity.class);
                         intent.putExtra("size", size);
+                        intent.putExtra("localPlayerName", sqLiteTableManager.getName());
                         startActivity(intent);
                         break;
                     case R.id.statistic:
