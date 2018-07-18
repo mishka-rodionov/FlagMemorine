@@ -554,6 +554,22 @@ public class Data {
         Data.anotherPlayerOrigin = anotherPlayerOrigin;
     }
 
+    public static String getTopTotal() {
+        return topTotal;
+    }
+
+    public static void setTopTotal(String topTotal) {
+        Data.topTotal = topTotal;
+    }
+
+    public static String getPersonalStat() {
+        return personalStat;
+    }
+
+    public static void setPersonalStat(String personalStat) {
+        Data.personalStat = personalStat;
+    }
+
     //region Private static fields
     private static String customURL = "82.202.226.186";//*/"192.168.42.227";
     private static String LOG_TAG = "flagmemorine";
@@ -623,6 +639,8 @@ public class Data {
     private static String anotherPlayername = "anotherPlayername";
     private static String anotherPlayerUsername = "anotherPlayerUsername";
     private static String anotherPlayerOrigin = "anotherPlayerOrigin";
+    private static String topTotal = "topTotal";
+    private static String personalStat = "personalStat";
 
     private static Long millisInHour = 3600000l;
     private static Long millisInDay = 84000000l;

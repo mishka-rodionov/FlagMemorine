@@ -292,8 +292,9 @@ public class StartActivity extends AppCompatActivity {
                         break;
                     case R.id.stopAds:
                         removeBotLevelList();
-                        Animation tr = AnimationUtils.loadAnimation(StartActivity.this, R.anim.translate);
-                        onlineValue.setAnimation(tr);
+                        getPersonalStat(username);
+//                        Animation tr = AnimationUtils.loadAnimation(StartActivity.this, R.anim.translate);
+//                        onlineValue.setAnimation(tr);
 //                        testImage.setAnimation(tr);
 //                        postResultToDB("enemyname", "SCORE_NAH", "enemyscore", "result", "date", "username");
 //                        Intent multiplayerBotActivity = new Intent(StartActivity.this, MultiplayerBotActivity.class);
@@ -575,7 +576,7 @@ public class StartActivity extends AppCompatActivity {
 
         snackbar.setAction("OK", snackbarOnClickListener);
         Log.i(Data.getLOG_TAG(), "getTotalTop: SENDING USERNAME IS ---------> " + un);
-        client.newCall(httpClient.getTotalTop(un)).enqueue(new Callback() {
+        client.newCall(httpClient.getTotalTop(un, Data.getTopTotal())).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 mainHandler.post(new Runnable() {
@@ -626,6 +627,75 @@ public class StartActivity extends AppCompatActivity {
                         }catch(JSONException jex){
                             Log.i(Data.getLOG_TAG(), "CREATE JSON OBJECT " + jex.toString());
                         }
+                    }
+                });
+            }
+        });
+    }
+
+    public void getPersonalStat(String un){
+        final Handler mainHandler = new Handler(Looper.getMainLooper());
+        final Snackbar snackbar = Snackbar.make(activityStartLayout, "Server is not available!", Snackbar.LENGTH_INDEFINITE);;
+        View.OnClickListener snackbarOnClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snackbar.dismiss();
+            }
+        };
+
+        snackbar.setAction("OK", snackbarOnClickListener);
+        Log.i(Data.getLOG_TAG(), "getTotalTop: SENDING USERNAME IS ---------> " + un);
+        client.newCall(httpClient.getTotalTop(un, Data.getPersonalStat())).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+//                        view.setText(battlefield);
+                        Log.i(Data.getLOG_TAG(), "StartActivity run: " + "Fail!!!!!!!!!!!!");
+//                        Toast.makeText(StartActivity.this, "Network is not available!", Toast.LENGTH_SHORT).show();
+                        multiplayerFlag = false;
+                        if (snackbarFlag){
+                            snackbar.show();
+                            snackbarFlag = false;
+                        }
+                    }
+                });
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+//                final String[] answer = response.body().string().split(" ");
+                multiplayerFlag = true;
+                final String answer = response.body().string();
+//                String bug = "";
+//                for (int i = 0; i < answer.length; i++) {
+//                    bug += " " + answer[i];
+//
+//                }
+//                Log.i(Data.getLOG_TAG(), "onResponse run for TOPTOTAL methods player name: " + bug);
+                jsonString = answer;
+                Log.i(Data.getLOG_TAG(), "JSON_STRING " + jsonString);
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+//                        Intent totalTopIntent = new Intent(StartActivity.this, TotalTopActivity.class);
+//                        totalTopIntent.putExtra("total", jsonString);
+//                        startActivity(totalTopIntent);
+//                        try{
+//                            JSONObject jsonObject = new JSONObject(jsonString);
+//                            int size = jsonObject.getInt("size");
+//                            for (int i = 1; i < size; i++) {
+//                                JSONArray array = jsonObject.getJSONArray("" + i);
+//                                Log.i(Data.getLOG_TAG(), "JSON ARRAY INDEX 0 " + array.getString(0));
+//                                Log.i(Data.getLOG_TAG(), "JSON ARRAY INDEX 1 " + array.getString(1));
+//                                Log.i(Data.getLOG_TAG(), "JSON ARRAY INDEX 2 " + array.getString(2));
+//                                Log.i(Data.getLOG_TAG(), "JSON ARRAY INDEX 3 " + array.getString(3));
+//                            }
+//                        }catch(JSONException jex){
+//                            Log.i(Data.getLOG_TAG(), "CREATE JSON OBJECT " + jex.toString());
+//                        }
                     }
                 });
             }

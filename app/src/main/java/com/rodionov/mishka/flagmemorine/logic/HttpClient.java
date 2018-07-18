@@ -60,7 +60,7 @@ public class HttpClient{
         return request;
     }
 
-    public Request getTotalTop(String username)
+    public Request getTotalTop(String username, String type)
     {
 
         HttpUrl httpUrl = new HttpUrl.Builder()
@@ -70,6 +70,7 @@ public class HttpClient{
                 .addPathSegment(Data.getServerAppName())
                 .addPathSegment(Data.getTotalTopServlet())
                 .addQueryParameter(Data.getUsername(), username)
+                .addQueryParameter(Data.getType(), type)
                 .build();
 
         Request request = new Request.Builder()
