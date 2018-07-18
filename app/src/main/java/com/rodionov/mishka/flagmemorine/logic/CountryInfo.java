@@ -90,19 +90,19 @@ public class CountryInfo {
         countryInfoMap.put("Azerbaijan", new String[]{"Baku", "9 911 646", "86 600 km2"});
         countryInfoMap.put("Bahamas", new String[]{"Nassau", "391 232", "13 878 km2"});
         countryInfoMap.put("Bahrain", new String[]{"Manama", "1 343 000", "766 km2"});
-//        countryInfoMap.put("Bangladesh",
-//        countryInfoMap.put("Barbados",
-//        countryInfoMap.put("Belarus",
-//        countryInfoMap.put("Belgium",
-//        countryInfoMap.put("Belize",
-//        countryInfoMap.put("Benin",
-//        countryInfoMap.put("Bermuda",
-//        countryInfoMap.put("Bhutan",
-//        countryInfoMap.put("Bolivia",
-//        countryInfoMap.put("Bonaire",
-//        countryInfoMap.put("Bosnian",
-//        countryInfoMap.put("Botswana",
-//        countryInfoMap.put("Brazil",
+        countryInfoMap.put("Bangladesh", new String[]{"Dhaka", "162 951 560", "147 570 km2"});
+        countryInfoMap.put("Barbados", new String[]{"Bridgetown", "277 821", "439 km2"});
+        countryInfoMap.put("Belarus", new String[]{"Minsk", "9 491 800", "207 595 km2"});
+        countryInfoMap.put("Belgium", new String[]{"Brussels", "11 358 357", "30 528 km2"});
+        countryInfoMap.put("Belize", new String[]{"Belmopan", "387 879", "22 966 km2"});
+        countryInfoMap.put("Benin", new String[]{"Porto-Novo", "10 872 298", "114 763 km2"});
+        countryInfoMap.put("Bermuda", new String[]{"Hamilton", "63 779", "53.2 km2"});
+        countryInfoMap.put("Bhutan", new String[]{"Thimphu", "797 765", "38 394 km2"});
+        countryInfoMap.put("Bolivia", new String[]{"Sucre", "11 217 864", "1 098 581 km2"});
+        countryInfoMap.put("Bonaire", new String[]{"Kralendijk", "18 905", "294 km2"});
+        countryInfoMap.put("Bosnian", new String[]{"Sarajevo", "3 856 181", "51 129 km2"});
+        countryInfoMap.put("Botswana", new String[]{"Gaborone", "2 250 260", "581 730 km2"});
+        countryInfoMap.put("Brazil", new String[]{"Brasilia", "209 129 000", "8 515 767 km2"});
 //        countryInfoMap.put("Brunei",
 //        countryInfoMap.put("Bulgaria",
 //        countryInfoMap.put("Burkina Faso",
