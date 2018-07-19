@@ -3,7 +3,10 @@ package com.rodionov.mishka.flagmemorine.activity;
 import android.annotation.TargetApi;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,12 +19,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.rodionov.mishka.flagmemorine.R;
 import com.rodionov.mishka.flagmemorine.cView.CRecyclerViewAdapter;
 import com.rodionov.mishka.flagmemorine.logic.CountryList;
 import com.rodionov.mishka.flagmemorine.logic.Data;
+import com.rodionov.mishka.flagmemorine.logic.HttpClient;
+import com.rodionov.mishka.flagmemorine.logic.PersonalStat;
 import com.rodionov.mishka.flagmemorine.logic.Player;
 import com.rodionov.mishka.flagmemorine.service.SqLiteTableManager;
 
@@ -29,9 +35,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Response;
 
 public class TotalTopActivity extends AppCompatActivity {
 
@@ -50,6 +62,12 @@ public class TotalTopActivity extends AppCompatActivity {
         statisticActionBar.setTitle("");
         // Инициализация менеджера по работе с БД.
         sqLiteTableManager = new SqLiteTableManager(TotalTopActivity.this);
+
+        client = new OkHttpClient();
+        httpClient = new HttpClient();
+
+        snackbarFlag = true;
+        multiplayerFlag = false;
 
         CountryList.loadCountryMap();
         jsonString = getIntent().getStringExtra("total");
@@ -85,6 +103,7 @@ public class TotalTopActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.personal_multiplayer_stat:
                 topTotalLayout.removeAllViews();
+                getPersonalStat(sqLiteTableManager.getLogin());
                 break;
             case R.id.all_multiplayer_stat:
                 llm = new LinearLayoutManager(topTotalLayout.getContext());
@@ -131,6 +150,56 @@ public class TotalTopActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
+    private void personalStatSpecification(String prsnlJSONstring){
+        PersonalStat.clearPersonalStatList();
+        try{
+            JSONObject jsonObject = new JSONObject(prsnlJSONstring);
+            int size = jsonObject.getInt("size");
+            for (int i = 1; i < size; i++) {
+                JSONArray array = jsonObject.getJSONArray("" + i);
+                if (array.getString(1).equals("bot")){
+                    int index = -1;
+                    int sz = PersonalStat.getPersonalStatList().size();
+                    if (sz > 0){
+                        for (int j = 0; j < sz; j++) {
+                            if (PersonalStat.getPersonalStatList().get(j).getEnemyName().equals("bot")){
+                                index = j;
+                                break;
+                            }
+                        }
+                    }
+                    if (index != -1){
+                        if (Integer.parseInt(array.getString(6)) >= 0){
+                            PersonalStat.getPersonalStatList().get(index).addScore();
+                            PersonalStat.getPersonalStatList().get(index).addGameCount();
+                        }else {
+                            PersonalStat.getPersonalStatList().get(index).addEnemyScore();
+                            PersonalStat.getPersonalStatList().get(index).addGameCount();
+                        }
+                    }else{
+                        PersonalStat personalStat = new PersonalStat("Botswana", "bot");
+                        if (Integer.parseInt(array.getString(6)) >= 0){
+                            personalStat.addScore();
+                            personalStat.addGameCount();
+                        }else {
+                            personalStat.addEnemyScore();
+                            personalStat.addGameCount();
+                        }
+                        PersonalStat.addPersonalStat(personalStat);
+                    }
+
+                }
+                Player.addPlayer(new Player(new String(array.getString(1).getBytes("UTF-8"), "UTF-8"),
+                        array.getString(2),
+                        Integer.parseInt(array.getString(3)),0, 0, 0, 0, 0,
+                        ""));
+                Log.i(Data.getLOG_TAG(), "specification: " + array.getString(1));
+            }
+        }catch (JSONException jex){
+            Log.i(Data.getLOG_TAG(), "CREATE JSON OBJECT " + jex.toString());
+        }
+    }
+
     private void hideSystemUI(){
         View mDecorView = getWindow().getDecorView();
         mDecorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -142,7 +211,81 @@ public class TotalTopActivity extends AppCompatActivity {
         );
     }
 
+    public void getPersonalStat(String un){
+        final Handler mainHandler = new Handler(Looper.getMainLooper());
+        final Snackbar snackbar = Snackbar.make(topTotalLayout, "Server is not available!", Snackbar.LENGTH_INDEFINITE);;
+        View.OnClickListener snackbarOnClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snackbar.dismiss();
+            }
+        };
+
+        snackbar.setAction("OK", snackbarOnClickListener);
+        Log.i(Data.getLOG_TAG(), "getTotalTop: SENDING USERNAME IS ---------> " + un);
+        client.newCall(httpClient.getTotalTop(un, Data.getPersonalStat())).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+//                        view.setText(battlefield);
+                        Log.i(Data.getLOG_TAG(), "StartActivity run: " + "Fail!!!!!!!!!!!!");
+//                        Toast.makeText(TotalTopActivity.this, "Network is not available!", Toast.LENGTH_SHORT).show();
+                        multiplayerFlag = false;
+                        if (snackbarFlag){
+                            snackbar.show();
+                            snackbarFlag = false;
+                        }
+                    }
+                });
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+//                final String[] answer = response.body().string().split(" ");
+                multiplayerFlag = true;
+                snackbarFlag = true;
+                final String answer = response.body().string();
+//                String bug = "";
+//                for (int i = 0; i < answer.length; i++) {
+//                    bug += " " + answer[i];
+//
+//                }
+//                Log.i(Data.getLOG_TAG(), "onResponse run for TOPTOTAL methods player name: " + bug);
+                personalStatJSONString = answer;
+                Log.i(Data.getLOG_TAG(), "JSON_STRING " + personalStatJSONString);
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+//                        Intent totalTopIntent = new Intent(StartActivity.this, TotalTopActivity.class);
+//                        totalTopIntent.putExtra("total", jsonString);
+//                        startActivity(totalTopIntent);
+//                        try{
+//                            JSONObject jsonObject = new JSONObject(jsonString);
+//                            int size = jsonObject.getInt("size");
+//                            for (int i = 1; i < size; i++) {
+//                                JSONArray array = jsonObject.getJSONArray("" + i);
+//                                Log.i(Data.getLOG_TAG(), "JSON ARRAY INDEX 0 " + array.getString(0));
+//                                Log.i(Data.getLOG_TAG(), "JSON ARRAY INDEX 1 " + array.getString(1));
+//                                Log.i(Data.getLOG_TAG(), "JSON ARRAY INDEX 2 " + array.getString(2));
+//                                Log.i(Data.getLOG_TAG(), "JSON ARRAY INDEX 3 " + array.getString(3));
+//                            }
+//                        }catch(JSONException jex){
+//                            Log.i(Data.getLOG_TAG(), "CREATE JSON OBJECT " + jex.toString());
+//                        }
+                    }
+                });
+            }
+        });
+    }
+
     private String jsonString;
+    private String personalStatJSONString;
+
+    private HttpClient httpClient;
+    private OkHttpClient client;
 
     private SqLiteTableManager sqLiteTableManager;
     private RecyclerView recyclerView;
@@ -151,4 +294,6 @@ public class TotalTopActivity extends AppCompatActivity {
     private CRecyclerViewAdapter adapter;
     private Toolbar statisticToolbar;
     private ActionBar statisticActionBar;
+    private Boolean snackbarFlag;
+    private Boolean multiplayerFlag;
 }
