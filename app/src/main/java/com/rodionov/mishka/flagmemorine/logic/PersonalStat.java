@@ -11,7 +11,10 @@ public class PersonalStat {
 
     public PersonalStat(){};
 
-    public PersonalStat(String enmOrgn, String enmNm){
+    public PersonalStat(String lclNm, String lclOrgn, String enmUsrnm, String enmNm, String enmOrgn){
+        this.localName = lclNm;
+        this.localOrigin = lclOrgn;
+        this.enemyUsername = enmUsrnm;
         this.enemyOrigin = enmOrgn;
         this.enemyName = enmNm;
         this.score = 0;
@@ -67,8 +70,43 @@ public class PersonalStat {
         this.score = score;
     }
 
+    public String getLocalOrigin() {
+        return localOrigin;
+    }
+
+    public void setLocalOrigin(String localOrigin) {
+        this.localOrigin = localOrigin;
+    }
+
+    public String getLocalName() {
+        return localName;
+    }
+
+    public void setLocalName(String localName) {
+        this.localName = localName;
+    }
+
+    public int getGameCount() {
+        return gameCount;
+    }
+
+    public void setGameCount(int gameCount) {
+        this.gameCount = gameCount;
+    }
+
+    public String getEnemyUsername() {
+        return enemyUsername;
+    }
+
+    public void setEnemyUsername(String enemyUsername) {
+        this.enemyUsername = enemyUsername;
+    }
+
     private String enemyOrigin;
     private String enemyName;
+    private String localOrigin;
+    private String localName;
+    private String enemyUsername;
     private int enemyScore;
     private int score;
     private int gameCount;

@@ -1,6 +1,7 @@
 package com.rodionov.mishka.flagmemorine.cView;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import com.rodionov.mishka.flagmemorine.R;
 import com.rodionov.mishka.flagmemorine.logic.CountryInfo;
 import com.rodionov.mishka.flagmemorine.logic.CountryList;
+import com.rodionov.mishka.flagmemorine.logic.Data;
 import com.rodionov.mishka.flagmemorine.logic.PersonalStat;
 import com.rodionov.mishka.flagmemorine.service.SqLiteTableManager;
 
@@ -50,25 +52,27 @@ public class CRecyclerViewPersonalStatAdapter extends RecyclerView.Adapter<CRecy
 
     @Override
     public void onBindViewHolder(CRecyclerViewPersonalStatAdapter.PersonalStatHolder holder, int position) {
-        holder.localOriginImage.setImageResource(CountryList.getCountry());
+        String localOrigin = personalStatList.get(position).getLocalOrigin();
+        Log.i(Data.getLOG_TAG(), "onBindViewHolder: localOrigin = " + localOrigin);
+        holder.localOriginImage.setImageResource(CountryList.getCountry(localOrigin));
         holder.enemyOriginImage.setImageResource(CountryList.getCountry(personalStatList.get(position).getEnemyOrigin()));
-        holder.localNamePersonalStat.setText(countries.get(position).getCountryName());
+        holder.localNamePersonalStat.setText(personalStatList.get(position).getLocalName());
         holder.enemyNamePersonalStat.setText(personalStatList.get(position).getEnemyName());
-        holder.scorePersonalStat.setText(personalStatList.get(position).getScore());
-        holder.enemyScorePersonalStat.setText(personalStatList.get(position).getEnemyScore());
+        holder.scorePersonalStat.setText(Integer.toString(personalStatList.get(position).getScore()));
+        holder.enemyScorePersonalStat.setText(Integer.toString(personalStatList.get(position).getEnemyScore()));
 
     }
 
     @Override
     public CRecyclerViewPersonalStatAdapter.PersonalStatHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.learn_item_cardview, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.personal_stat_cardview, parent, false);
         CRecyclerViewPersonalStatAdapter.PersonalStatHolder cvh = new CRecyclerViewPersonalStatAdapter.PersonalStatHolder(v);
         return cvh;
     }
 
     @Override
     public int getItemCount() {
-        return countries.size();
+        return personalStatList.size();
     }
 
     private List<PersonalStat> personalStatList;

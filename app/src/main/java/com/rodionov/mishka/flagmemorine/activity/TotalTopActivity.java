@@ -24,6 +24,7 @@ import android.widget.ToggleButton;
 
 import com.rodionov.mishka.flagmemorine.R;
 import com.rodionov.mishka.flagmemorine.cView.CRecyclerViewAdapter;
+import com.rodionov.mishka.flagmemorine.cView.CRecyclerViewPersonalStatAdapter;
 import com.rodionov.mishka.flagmemorine.logic.CountryList;
 import com.rodionov.mishka.flagmemorine.logic.Data;
 import com.rodionov.mishka.flagmemorine.logic.HttpClient;
@@ -69,7 +70,11 @@ public class TotalTopActivity extends AppCompatActivity {
         snackbarFlag = true;
         multiplayerFlag = false;
 
+        localName = sqLiteTableManager.getName();
+        localOrigin = sqLiteTableManager.getOrigin();
+
         CountryList.loadCountryMap();
+        PersonalStat.initPersonalStatList();
         jsonString = getIntent().getStringExtra("total");
 //        JSONObject jsonObject = new JSONObject(jsonString);
 
@@ -103,6 +108,11 @@ public class TotalTopActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.personal_multiplayer_stat:
                 topTotalLayout.removeAllViews();
+//                llm = new LinearLayoutManager(topTotalLayout.getContext());
+//                recyclerView.setLayoutManager(llm);
+//                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),llm.getOrientation());
+//                dividerItemDecoration.setDrawable(recyclerView.getContext().getResources().getDrawable(R.drawable.learninfo_linedivider, null));
+//                recyclerView.addItemDecoration(dividerItemDecoration);
                 getPersonalStat(sqLiteTableManager.getLogin());
                 break;
             case R.id.all_multiplayer_stat:
@@ -157,19 +167,20 @@ public class TotalTopActivity extends AppCompatActivity {
             int size = jsonObject.getInt("size");
             for (int i = 1; i < size; i++) {
                 JSONArray array = jsonObject.getJSONArray("" + i);
-                if (array.getString(1).equals("bot")){
+                Log.i(Data.getLOG_TAG(), "personalStatSpecification: array.getString(0) = " + array.getString(0));
+                if (array.getString(0).equals("bot")){
                     int index = -1;
                     int sz = PersonalStat.getPersonalStatList().size();
                     if (sz > 0){
                         for (int j = 0; j < sz; j++) {
-                            if (PersonalStat.getPersonalStatList().get(j).getEnemyName().equals("bot")){
+                            if (PersonalStat.getPersonalStatList().get(j).getEnemyUsername().equals("bot")){
                                 index = j;
                                 break;
                             }
                         }
                     }
                     if (index != -1){
-                        if (Integer.parseInt(array.getString(6)) >= 0){
+                        if (Integer.parseInt(array.getString(5)) >= 0){
                             PersonalStat.getPersonalStatList().get(index).addScore();
                             PersonalStat.getPersonalStatList().get(index).addGameCount();
                         }else {
@@ -177,8 +188,8 @@ public class TotalTopActivity extends AppCompatActivity {
                             PersonalStat.getPersonalStatList().get(index).addGameCount();
                         }
                     }else{
-                        PersonalStat personalStat = new PersonalStat("Botswana", "bot");
-                        if (Integer.parseInt(array.getString(6)) >= 0){
+                        PersonalStat personalStat = new PersonalStat(localName, localOrigin, "bot", "bot", "Botswana");
+                        if (Integer.parseInt(array.getString(5)) >= 0){
                             personalStat.addScore();
                             personalStat.addGameCount();
                         }else {
@@ -188,16 +199,53 @@ public class TotalTopActivity extends AppCompatActivity {
                         PersonalStat.addPersonalStat(personalStat);
                     }
 
+                }else{
+                    int index = -1;
+                    int sz = PersonalStat.getPersonalStatList().size();
+                    String enmUsrnm = array.getString(0);
+                    String enmNm = array.getString(1);
+                    String enmOrgn = array.getString(2);
+                    if (sz > 0){
+                        for (int j = 0; j < sz; j++) {
+                            if (PersonalStat.getPersonalStatList().get(j).getEnemyUsername().equals(enmUsrnm)){
+                                index = j;
+                                break;
+                            }
+                        }
+                    }
+                    if (index != -1){
+                        if (Integer.parseInt(array.getString(5)) >= 0){
+                            PersonalStat.getPersonalStatList().get(index).addScore();
+                            PersonalStat.getPersonalStatList().get(index).addGameCount();
+                        }else {
+                            PersonalStat.getPersonalStatList().get(index).addEnemyScore();
+                            PersonalStat.getPersonalStatList().get(index).addGameCount();
+                        }
+                    }else{
+                        PersonalStat personalStat = new PersonalStat(localName, localOrigin, enmUsrnm, enmNm, enmOrgn);
+                        if (Integer.parseInt(array.getString(5)) >= 0){
+                            personalStat.addScore();
+                            personalStat.addGameCount();
+                        }else {
+                            personalStat.addEnemyScore();
+                            personalStat.addGameCount();
+                        }
+                        PersonalStat.addPersonalStat(personalStat);
+                    }
                 }
-                Player.addPlayer(new Player(new String(array.getString(1).getBytes("UTF-8"), "UTF-8"),
-                        array.getString(2),
-                        Integer.parseInt(array.getString(3)),0, 0, 0, 0, 0,
-                        ""));
-                Log.i(Data.getLOG_TAG(), "specification: " + array.getString(1));
+                Log.i(Data.getLOG_TAG(), "personalStatSpecification: SIZE = " + PersonalStat.getPersonalStatList().size());
+//                Player.addPlayer(new Player(new String(array.getString(1).getBytes("UTF-8"), "UTF-8"),
+//                        array.getString(2),
+//                        Integer.parseInt(array.getString(3)),0, 0, 0, 0, 0,
+//                        ""));
+//                Log.i(Data.getLOG_TAG(), "specification: " + array.getString(1));
             }
         }catch (JSONException jex){
             Log.i(Data.getLOG_TAG(), "CREATE JSON OBJECT " + jex.toString());
         }
+        personalStatAdapter = new CRecyclerViewPersonalStatAdapter(PersonalStat.getPersonalStatList());
+        recyclerView.setAdapter(personalStatAdapter);
+        topTotalLayout.addView(recyclerView);
     }
 
     private void hideSystemUI(){
@@ -259,6 +307,7 @@ public class TotalTopActivity extends AppCompatActivity {
                 mainHandler.post(new Runnable() {
                     @Override
                     public void run() {
+                        personalStatSpecification(personalStatJSONString);
 //                        Intent totalTopIntent = new Intent(StartActivity.this, TotalTopActivity.class);
 //                        totalTopIntent.putExtra("total", jsonString);
 //                        startActivity(totalTopIntent);
@@ -283,6 +332,8 @@ public class TotalTopActivity extends AppCompatActivity {
 
     private String jsonString;
     private String personalStatJSONString;
+    private String localName;
+    private String localOrigin;
 
     private HttpClient httpClient;
     private OkHttpClient client;
@@ -292,6 +343,7 @@ public class TotalTopActivity extends AppCompatActivity {
     private LinearLayoutManager llm;
     private LinearLayout topTotalLayout;
     private CRecyclerViewAdapter adapter;
+    private CRecyclerViewPersonalStatAdapter personalStatAdapter;
     private Toolbar statisticToolbar;
     private ActionBar statisticActionBar;
     private Boolean snackbarFlag;
